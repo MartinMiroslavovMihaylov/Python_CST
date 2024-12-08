@@ -1,8 +1,13 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 import pandas as pandas
-from Curves_Functions import Curves
-from VBA_Test_Syntax import *
+# import sys
+# import os
+# # Add the directory containing 'Curves_Functions' to sys.path
+# module_dir = os.path.abspath("C:/Users/marti/Desktop/Git Docs/Python_CST")
+# sys.path.append(module_dir)
+# from Curves_Functions import Curves
+# from VBA_Test_Syntax import *
 
 
 

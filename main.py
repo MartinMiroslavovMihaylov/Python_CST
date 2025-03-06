@@ -1,13 +1,13 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 import pandas as pandas
-# import sys
-# import os
-# # Add the directory containing 'Curves_Functions' to sys.path
-# module_dir = os.path.abspath("C:/Users/marti/Desktop/Git Docs/Python_CST")
-# sys.path.append(module_dir)
-# from Curves_Functions import Curves
-# from VBA_Test_Syntax import *
+import sys
+import os
+# Add the directory containing 'Curves_Functions' to sys.path
+module_dir = os.path.abspath("C:/Users/Martin/Desktop/CST_Project")
+sys.path.append(module_dir)
+from Curves_Functions import Curves
+from VBA_Test_Syntax import *
 
 
 
@@ -29,6 +29,7 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 plt.figure()
 plt.plot(BezierCuve[:,0], BezierCuve[:,1], color = "red", label = "Bezier Curve")
 plt.plot(CosinusCurve[:,0], CosinusCurve[:,1], color = "blue", label = "Cosinus Curve")
+
 plt.xlabel("Length S-Bend/$\mu m$")
 plt.ylabel("Offset S-Bends/ $\mu m$")
 plt.legend(loc = "best")
@@ -40,21 +41,25 @@ plt.show()
 # Call CST as Object and Open existing Project 
 
 # Local path to CST project file --> Please adapt
-cst_path = r'/homes/lift/martinmi/Desktop/CST Python/Test_Object/' # path
-cst_project2 = 'BondWire2' # CST project
+cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
+cst_project2 = 'CST_ProgrammTest' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
 
-# Open CST as software
-mycst =cst.interface.DesignEnvironment()
 
+import sys
+sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
+import cst
+print(cst.__file__)
+# Open CST as software
+from cst.interface import DesignEnvironment
+
+mycst = DesignEnvironment.new()
+mycst.quiet_mode_enabled()
+# mycst =cst.interface.DesignEnvironment()
 
 # Create Project in Project directory and name it
-obj =cst.interface.DesignEnvironment.open_project(mycst,cst_project_path)
-
-# cst.interface.Project.project_type(obj)
-
-
+proj = mycst.open_project(cst_project_path)
 
 
 Parameters = {}
@@ -79,10 +84,10 @@ Points['Y'] = y
 
 # Set Units
 UnitParams = {}
-UnitParams['Dimensions'] = "mm"
-UnitParams['Frequency'] = "ghz"
-UnitParams['Time'] = "ms"
-UnitParams['TemperatureUnit'] = "kelvin"
+UnitParams['Dimensions'] = "um"
+UnitParams['Frequency'] = "GHz"
+UnitParams['Time'] = "ns"
+UnitParams['Temperature'] = "degC"
 # UnitParams['Voltage'] = "V"
 # UnitParams['Current'] = "A"
 # UnitParams['Resistance'] = "Ohm"
@@ -91,81 +96,137 @@ UnitParams['TemperatureUnit'] = "kelvin"
 # UnitParams['Inductance'] = "NanoH"
 #
 
-Units = SetUnits(UnitParams)
-obj.schematic.execute_vba_code(Units, timeout=None)
 
+# def SetUnits():
+#     Units = 'Sub Main () ' \
+#                     '\n With Units' + \
+#                         '\n.Frequency "GHz"' + \
+#                         '\n.Time "ms"' + \
+#                     '\n End With' + \
+#                 '\n End Sub'
+#     return Units
+
+Units = SetUnits(UnitParams)
+proj.schematic.execute_vba_code(Units, timeout=None)
 
 
 
 
 BondWire = BondWire(NameWire = "TestWire" ,Coordinates = Parameters, Height = 1, Radius = 0.5 , BondwireType = "Spline", Material = "Copper (annealed)",  NameFolder = "BondWire")
-obj.schematic.execute_vba_code(BondWire, timeout=None)
+proj.schematic.execute_vba_code(BondWire, timeout=None)
 ToSolid1 = ToSolid(SolidName = "TestSolid", CurveName = "TestWire", NameFolder = "BondWire", Material = "Copper (annealed)")
-obj.schematic.execute_vba_code(ToSolid1, timeout=None)
+proj.schematic.execute_vba_code(ToSolid1, timeout=None)
+
 
 # Curve = Curve(CurveName = "TestCurve", Points = Points)
-# obj.schematic.execute_vba_code(Curve, timeout=None)
+# proj.schematic.execute_vba_code(Curve, timeout=None)
 # DataCurveWire = CurveWire(NameWire = "CurveWire", Radius = 0.5 , Points = Points, Material = "Copper (annealed)", CurveFolderName = "TestCurve", CurveName = "TestCurve")
-# obj.schematic.execute_vba_code(DataCurveWire, timeout=None)
+# proj.schematic.execute_vba_code(DataCurveWire, timeout=None)
 # ToSolid2 = ToSolid(SolidName = "TestSolidCurve", CurveName = "CurveWire", NameFolder = "CurveWire", Material = "Copper (annealed)")
-# obj.schematic.execute_vba_code(ToSolid2, timeout=None)
+# proj.schematic.execute_vba_code(ToSolid2, timeout=None)
 
-# #
-# Parameters = {}
-# Parameters['X1'] = -5
-# Parameters['X2'] = 5
-# Parameters['Y1'] = -5
-# Parameters['Y2'] = 5
-# Parameters['Z1'] = 0
-# Parameters['Z2'] = 2
-# TestBrick = Brick('TestBrick', Parameters)
-# obj.schematic.execute_vba_code(TestBrick, timeout=None)
+
 #
-# # Add Global Parameters
-# GlobalParam = {}
-# GlobalParam['Length'] = 10
-# GlobalParam['Width'] = 5
-# GlobalParam['Hight'] = 2
-#
-# Globals  = AddGlobalParameter(GlobalParam)
-# obj.schematic.execute_vba_code(Globals, timeout=None)
-#
-# # Delete Global Parameters
-# GlobalParamDel = {}
-# GlobalParamDel['Length'] = 10
-# delete = DeleteGlobalParameter(GlobalParamDel)
-# obj.schematic.execute_vba_code(delete, timeout=None)
-#
-#
+Parameters = {}
+Parameters['X1'] = -5
+Parameters['X2'] = 5
+Parameters['Y1'] = -5
+Parameters['Y2'] = 5
+Parameters['Z1'] = 0
+Parameters['Z2'] = 2
+TestBrick = Brick('TestBrick', Parameters)
+proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+# Add Global Parameters
+GlobalParam = {}
+GlobalParam['Length'] = 23
+GlobalParam['Width'] = 5
+GlobalParam['Hight'] = 2
+
+Globals  = AddGlobalParameter(GlobalParam)
+proj.schematic.execute_vba_code(Globals, timeout=None)
+
+
+# Delete Global Parameters
+GlobalParamDel = {}
+GlobalParamDel['Length'] = 10
+delete = DeleteGlobalParameter(GlobalParamDel)
+proj.schematic.execute_vba_code(delete, timeout=None)
+
+
+
+
 
 # Define Background
 Params = {}
 Params["Xmin"] = 15
-Params["Xmax"] = 15
-Params["Ymin"] = 15
-Params["Ymax"] = 15
-Params["Zmin"] = 15
-Params["Zmax"] = 15
+Params["Xmax"] = 25
+Params["Ymin"] = 35
+Params["Ymax"] = 45
+Params["Zmin"] = 55
+Params["Zmax"] = 65
 
 BackObj = BackgroundSet(Params)
-obj.schematic.execute_vba_code(BackObj, timeout=None)
+proj.schematic.execute_vba_code(BackObj, timeout=None)
 
 
 
 # Set Boundary
 BoundarySet = SetBoundary()
-obj.schematic.execute_vba_code(BoundarySet, timeout=None)
+proj.schematic.execute_vba_code(BoundarySet, timeout=None)
 
-#
+
 # Port = WaveguidePort()
-# obj.schematic.execute_vba_code(Port, timeout=None)
+# proj.schematic.execute_vba_code(Port, timeout=None)
+
+
+# # save project into Patbh
+# proj.save(cst_project_path,allow_overwrite=  True)
 
 
 
-# save project into Patbh
-cst.interface.Project.save(obj, cst_project_path, False)
+
+
+# MZM Design
+
+Parameters = {}
+Parameters['X1'] = -25
+Parameters['X2'] = 25
+Parameters['Y1'] = -29
+Parameters['Y2'] = -19
+Parameters['Z1'] = 0
+Parameters['Z2'] = 2
+TestBrick = Brick('GND_Left_Electrode', Parameters)
+proj.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
 
-#Close CST
-cst.interface.Project.close(obj)
+Parameters = {}
+Parameters['X1'] = -25
+Parameters['X2'] = 25
+Parameters['Y1'] = -17
+Parameters['Y2'] = -12
+Parameters['Z1'] = 0
+Parameters['Z2'] = 2
+TestBrick = Brick('Signal_Electrode', Parameters)
+proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+
+Parameters = {}
+Parameters['X1'] = -25
+Parameters['X2'] = 25
+Parameters['Y1'] = -10
+Parameters['Y2'] = 0
+Parameters['Z1'] = 0
+Parameters['Z2'] = 2
+TestBrick = Brick('GND_right_Electrode', Parameters)
+proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+
+
+# #Close CST Project
+# proj.close()
+# # Close CST
+# mycst.close()

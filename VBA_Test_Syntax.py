@@ -312,66 +312,66 @@ def SetUnits(DictUnits):
 
     #Check Values
     Keys = list(DictUnits.keys())
-    # tmp = []
-    # tmp.append('Sub Main () ' + '\nWith Units'+"\n.Reset")
-    #
-    # if 'Dimensions' not in Keys:
-    #     DictUnits['Dimensions'] = ("mm")
-    #     tmp.append('\n.Geometry ("mm")')
-    # else:
-    #     tmp.append('\n.Geometry ' + '("' + str(DictUnits['Dimensions']) + '")')
-    # if 'Frequency' not in Keys:
-    #     DictUnits['Frequency'] = ("hz")
-    #     tmp.append('\n.Frequency ("hz")')
-    # else:
-    #     tmp.append('\n.Frequency ' + '("' + str(DictUnits['Frequency']) + '")')
-    # if 'Time' not in Keys:
-    #     DictUnits['Time'] = ("s")
-    #     tmp.append('\n.Time ("s")')
-    # else:
-    #     tmp.append('\n.Time ' + '("' + str(DictUnits['Time']) + '")')
-    # if 'TemperatureUnit' not in Keys:
-    #     DictUnits['TemperatureUnit'] = 'kelvin'
-    #     tmp.append('\n.TemperatureUnit ("kelvin")')
-    # else:
-    #     tmp.append('\n.TemperatureUnit ' + '("' + str(DictUnits['TemperatureUnit']) + '")')
-    # if 'Voltage' not in Keys:
-    #     pass
-    # else:
-    #     tmp.append('\n.Voltage ' + '("' + str(DictUnits['Voltage']) + '")')
-    # if 'Current' not in Keys:
-    #     pass
-    #     # DictUnits['Current'] = 'A'
-    # else:
-    #     tmp.append('\n.Current ' + '("' + str(DictUnits['Current']) + '")')
-    # if 'Resistance' not in Keys:
-    #     # DictUnits['Resistance'] = 'Ohm'
-    #     pass
-    # else:
-    #     tmp.append('\n.Resistance ' + '("' + str(DictUnits['Resistance']) + '")')
-    # if 'Conductance' not in Keys:
-    #     # DictUnits['Conductance'] = 'Siemens'
-    #     pass
-    # else:
-    #     tmp.append('\n.Conductance ' + '("' + str(DictUnits['Conductance']) + '")')
-    # if 'Capacitance' not in Keys:
-    #     # DictUnits['Capacitance'] =
-    #     pass
-    # else:
-    #     tmp.append('\n.Capacitance ' + '("' + str(DictUnits['Capacitance']) + '")')
-    # if 'Inductance' not in Keys:
-    #     # DictUnits['Inductance'] = 'NanoH'
-    #     pass
-    # else:
-    #     tmp.append('\n.Inductance ' + '("' + str(DictUnits['Inductance']) + '")')
-    Units = 'Sub Main () ' \
-                '\nWith Units' + \
-                    '\n.Geometry "mm"' + \
-                    '\n.TemperatureUnit "Kelvin"' + \
-                    '\n.Frequency "GHz"' + \
-                    '\n.Time "ns"' + \
-                 '\nEnd With' + \
-            '\nEnd Sub'
+    tmp = []
+    tmp.append('Sub Main () ' + '\nWith Units')
+    
+    if 'Dimensions' not in Keys:
+        DictUnits['Dimensions'] = ("mm")
+        tmp.append('\n.Geometry "mm"')
+    else:
+        tmp.append('\n.Geometry ' + '"' + str(DictUnits['Dimensions']) + '"')
+    if 'Frequency' not in Keys:
+        DictUnits['Frequency'] = ("hz")
+        tmp.append('\n.Frequency "hz"')
+    else:
+        tmp.append('\n.Frequency ' + '"' + str(DictUnits['Frequency']) + '"')
+    if 'Time' not in Keys:
+        DictUnits['Time'] = ("s")
+        tmp.append('\n.Time "s"')
+    else:
+        tmp.append('\n.Time ' + '"' + str(DictUnits['Time']) + '"')
+    if 'Temperature' not in Keys:
+        DictUnits['Temperature'] = 'degC'
+        tmp.append('\n.Temperature "degC"')
+    else:
+        tmp.append('\n.Temperature ' + '"' + str(DictUnits['Temperature']) + '"')
+    if 'Voltage' not in Keys:
+        pass
+    else:
+        tmp.append('\n.Voltage ' + '("' + str(DictUnits['Voltage']) + '")')
+    if 'Current' not in Keys:
+        pass
+        # DictUnits['Current'] = 'A'
+    else:
+        tmp.append('\n.Current ' + '("' + str(DictUnits['Current']) + '")')
+    if 'Resistance' not in Keys:
+        # DictUnits['Resistance'] = 'Ohm'
+        pass
+    else:
+        tmp.append('\n.Resistance ' + '("' + str(DictUnits['Resistance']) + '")')
+    if 'Conductance' not in Keys:
+        # DictUnits['Conductance'] = 'Siemens'
+        pass
+    else:
+        tmp.append('\n.Conductance ' + '("' + str(DictUnits['Conductance']) + '")')
+    if 'Capacitance' not in Keys:
+        # DictUnits['Capacitance'] =
+        pass
+    else:
+        tmp.append('\n.Capacitance ' + '("' + str(DictUnits['Capacitance']) + '")')
+    if 'Inductance' not in Keys:
+        # DictUnits['Inductance'] = 'NanoH'
+        pass
+    else:
+        tmp.append('\n.Inductance ' + '("' + str(DictUnits['Inductance']) + '")')
+    # Units = 'Sub Main () ' \
+    #             '\n With Units' + \
+    #                 '\n.Geometry "mm"' + \
+    #                 '\n.TemperatureUnit "Kelvin"' + \
+    #                 '\n.Frequency "MHz"' + \
+    #                 '\n.Time "ns"' + \
+    #              '\n End With' + \
+    #         '\n End Sub'
 
 
     # Units = 'Sub Main () ' \
@@ -382,8 +382,8 @@ def SetUnits(DictUnits):
     #                 '\n.TemperatureUnit ("kelvin")'+ \
     #             '\nEnd With' + \
     #         '\nEnd Sub'
-    # tmp.append('\nEnd With' + '\nEnd Sub')
-    # Units = ''.join(tmp)
+    tmp.append('\nEnd With' + '\nEnd Sub')
+    Units = ''.join(tmp)
     return Units
 
 

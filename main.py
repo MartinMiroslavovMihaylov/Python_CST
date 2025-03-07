@@ -4,11 +4,10 @@ import pandas as pandas
 import sys
 import os
 # Add the directory containing 'Curves_Functions' to sys.path
-module_dir = os.path.abspath("C:/Users/Martin/Desktop/CST_Project")
+module_dir = os.path.abspath("C:/Users/marti/Desktop/UPB Kursen/CST with Python")
 sys.path.append(module_dir)
 from Curves_Functions import Curves
 from VBA_Test_Syntax import *
-
 
 
 
@@ -41,7 +40,7 @@ plt.show()
 # Call CST as Object and Open existing Project 
 
 # Local path to CST project file --> Please adapt
-cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
+cst_path = r'C:/Users/marti/Desktop/UPB Kursen/CST with Python/' # path
 cst_project2 = 'CST_ProgrammTest' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
@@ -194,6 +193,68 @@ proj.schematic.execute_vba_code(Globals, timeout=None)
 
 # MZM Design
 
+
+def MZM(Prameters):
+    NamesElectrodes = "Electrode_Left", "Electrode_Right", "Signal"
+    Length_MZM = Parameters["Lenght_Electrodes"]
+    Length_WG = Parameters["Lenght_Electrodes"] + 10
+    Width_Electrodes = Parameters["Width_GND"]
+    Width_Signal = Parameters["Width_Signal"]
+    Width_WG = Parameters["WG_Width"]
+    Gap = Parameters["Gap"]
+    Height_Electrodes = Parameters["High_Electrodes"]
+    Height_WG = Parameters["High_WG"]
+    Heigh_Slab = Parameters["High_Slab"]
+    Height_Substrate = Parameters["High_Substrate"]
+
+
+    # Set optical Material Properties Eps X,Y,Z
+    Data = {}
+    Data["X"] = 27
+    Data["Y"] = 43
+    Data["Z"] = 43
+
+    MaterialDAta = Material("LiNbO3", Data)
+    proj.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    # Set Global Parameters
+    Parameters = {}
+    Parameters['X1'] = -GlobalParam['Length']/2
+    Parameters['X2'] = GlobalParam['Length']/2
+    Parameters['Y1'] = TotalWidth/2
+    Parameters['Y2'] = -TotalWidth/2 
+    Parameters['Z1'] = 0
+    Parameters['Z2'] = 1
+    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "LiNbO3")
+    proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+    
+
+
+
+
+# Material Definition
+Data = {}
+Data["X"] = 27
+Data["Y"] = 43
+Data["Z"] = 43
+
+MaterialDAta = Material("LiNbO3", Data)
+proj.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+Parameters = {}
+Parameters['X1'] = -GlobalParam['Length']/2
+Parameters['X2'] = GlobalParam['Length']/2
+Parameters['Y1'] = TotalWidth/2
+Parameters['Y2'] = -TotalWidth/2 
+Parameters['Z1'] = 0
+Parameters['Z2'] = 1
+TestBrick = Brick('LNOI_Substrate', Parameters, Material = "LiNbO3")
+proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+
 Parameters = {}
 Parameters['X1'] = -GlobalParam['Length']/2
 Parameters['X2'] = GlobalParam['Length']/2
@@ -235,49 +296,54 @@ Points["Y"] = [-TotalWidth/2 + GlobalParam['Width_GND'], -TotalWidth/2 + GlobalP
 Points["Z"] = [0,2]
 
 
+WGLeft_Edge = -TotalWidth/2 + GlobalParam['Width_GND']
+WGTopWidth = 4
 
-def RibWaveguide(WGName, Points):
-
-    WGName  = WGName
-    # Extract the first points as starting Points
-    Start_PointX = Points['X'][0]
-    Start_PointY = Points['Y'][0]
-    Start_PointZ = Points['Z'][0]
-    tmp = []
-    
-    tmp.append('Sub Main () ' + '\nWith Polygon3D' + '\n.Reset' + '\n.Name ' + '"' + WGName  + '"' + '\n.Curve ' + '"' + WGName  + '"' + '\n.Point ' + '"' + str(Start_PointX) + '"' + ',' + '"' + str(Start_PointY) + '"'',' + '"' + str(Start_PointZ) + '"')
-    for i in range(1, len(Points['X'])):
-        b = '\n.LineTo ' + '"' + str(Points['X'][i]) + '"' + ',' + '"' + str(Points['Y'][i]) + '"'',' + '"' + str(Points['Z'][i]) + '"'
-        tmp.append(b)
-    tmp.append('\n.Create' + '\nEnd With' + '\nEnd Sub')
-    CurveData = ''.join(tmp)
-
-    return CurveData
+Points = {}
+Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
+# Points['X'] = np.array([-10, -10, 10, 10, -10])
+Points["Y"] = [WGLeft_Edge + WGTopWidth/2 , WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth/2, WGLeft_Edge + WGTopWidth/2]
+# Points['Y'] = np.array([-5, 5, 5, -5, -5])
 
 
 
-Sub Main
-With Polygon3D
-.Reset
-.Name "WG"
-.Curve "WG"
-.Point "40.0","-7.5","0"
-.Point "40.0","-7.4","2"
-.Point "40.0","-6.5","2"
-.Point "40.0","-6.4","0"
-.Point "-40.0","-6.4","0"
-.Point "-40.0","-6.5","2"
-.Point "-40.0","-7.4","2"
-.Point "-40.0","-7.5","0"
-.Create
-End With
-End Sub
+# Waveguide and Waveguide to solid
+WG = RibWG(WGName = "Waveguide_Left", Points = Points)
+proj.schematic.execute_vba_code(WG, timeout=None)
+RibWG_Test = RibWaveguide_ToSolid("Waveguide_Left", WG_Hight = 2, Angle = 10, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
-RibWG = RibWaveguide("WG",Points)
-proj.schematic.execute_vba_code(RibWG, timeout=None)
 
-ToSolid2 = ToSolid(SolidName = "TestSolidWG", CurveName = "WG", NameFolder = "WG", Material = "Copper (annealed)")
+WGLeft_Edge = TotalWidth/2 - GlobalParam['Width_GND']
+WGTopWidth = 4
+
+
+
+Points = {}
+Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
+# Points['X'] = np.array([-10, -10, 10, 10, -10])
+Points["Y"] = [-WGLeft_Edge - WGTopWidth/2 , -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth/2, -WGLeft_Edge - WGTopWidth/2]
+# Points['Y'] = np.array([-5, 5, 5, -5, -5])
+
+
+
+
+WG = RibWG(WGName = "Waveguide_Right", Points = Points)
+proj.schematic.execute_vba_code(WG, timeout=None)
+RibWG_Test = RibWaveguide_ToSolid("Waveguide_Right", WG_Hight = -2, Angle = 10, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
+proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
+
+
+
+
+
+
+
+
+
+
+
 
 # # save project into Patbh
 # proj.save(cst_project_path,allow_overwrite=  True)

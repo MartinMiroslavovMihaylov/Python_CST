@@ -2,6 +2,31 @@ import numpy as np
 
 
 
+def Material(Name, Values):
+    # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
+    component = 'Sub Main () ' \
+                    '\nWith Material' + \
+                        '\n.Reset' + \
+                        '\n.Name ' + '"' + Name + '"' + \
+                        '\n.FrqType "All"' + \
+                        '\n.Type "Anisotropic"' + \
+                        '\n.SetMaterialUnit "GHz", "um"' + \
+                        '\n.MuX "1"' + \
+                        '\n.MuY "1"' + \
+                        '\n.MuZ "1"' + \
+                        '\n.EpsilonX '+ '"' + str(Values["X"]) + '"' + \
+                        '\n.EpsilonY '+ '"' + str(Values["Y"]) + '"' + \
+                        '\n.EpsilonZ '+ '"' + str(Values["Z"]) + '"' + \
+                        '\n.DispModelEps "None"' + \
+                        '\n.AddDispEpsPole1stOrderX "0","0"' + \
+                        '\n.Color "1","0", "0"' + \
+                        '\n.Create' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+
+    return component    
+
+
 def BondWire(NameWire, Coordinates, Height, Radius, BondwireType = "Spline", CenterPosition = 0.5, alpha = None, beta = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None):
 
     # Check the BondwireType
@@ -202,6 +227,79 @@ def ToSolid(SolidName, CurveName = "Polygon", NameFolder = None, Material = None
     return SolidWire
 
 
+
+
+def RibWG(WGName, Points):
+
+    WGName  = WGName
+    # Extract the first points as starting Points
+    Start_PointX = Points['X'][0]
+    Start_PointY = Points['Y'][0]
+    tmp = []
+    tmp.append('Sub Main () ' + '\nWith Polygon' + '\n.Reset' + '\n.Name ' + '"' + WGName  + '"' + '\n.Curve ' + '"' + WGName  + '"' + '\n.Point ' + '"' + str(Start_PointX) + '"' + ',' + '"' + str(Start_PointY) + '"')
+    for i in range(1, len(Points['X'])):
+        b = '\n.LineTo ' + '"' + str(Points['X'][i]) + '"' + ',' + '"' + str(Points['Y'][i]) + '"'
+        tmp.append(b)
+    tmp.append('\n.Create' + '\nEnd With' + '\nEnd Sub')
+    CurveData = ''.join(tmp)
+
+    return CurveData
+
+
+
+
+
+def RibWaveguide_ToSolid(SolidName, WaveguideName = "Rib_Waveguide", WG_Hight = None, Angle = None, NameFolder = None, Material = None, WGFolderName = None, WGName = None ):
+
+    #Check Curve Name
+    if WaveguideName != "Rib_Waveguide":
+        WaveguideName = WaveguideName
+    else:
+        pass
+
+    # Folder Name
+    if NameFolder != None:
+        NameFolder = NameFolder
+    else:
+        NameFolder = WaveguideName
+
+    # Material Def
+    if Material == None:
+        Material = "Copper (annealed)"
+    else:
+        Material = Material
+
+    # Angle and Height. Pre define Hight = 2 and Angle = 30
+    if WG_Hight == None:
+        WG_Hight = 2
+    else:
+        WG_Hight = WG_Hight
+
+    if Angle == None:
+        Angle = 30
+    else:
+        Angle = Angle
+
+    
+     # Check if Curve Name and Folder Name are given
+    if WGFolderName == None or WGName == None:
+        raise ValueError("To create an Rib Waveguide you need to give the Waveguide Folder Name (WGFolderName) and the Rib Waveguide Name (WGName) that you already gave!")
+
+
+    SolidWire = 'Sub Main () ' \
+                    '\nWith ExtrudeCurve' + \
+                        '\n.Reset' + \
+                        '\n.Name ' + '"' + WaveguideName + '"' + \
+                        '\n.Component ' + '"' + WaveguideName + '"' + \
+                        '\n.Material ' + '"' + Material + '"' + \
+                        '\n.Thickness ' + '"' + str(WG_Hight) +'"' + \
+                        '\n.Twistangle "0"' + \
+                        '\n.Taperangle ' + '"' + str(Angle) +'"' + \
+                        '\n.Curve ' + '"' + WGFolderName + ':' + WGName + '"' + \
+                        '\n.Create' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+    return SolidWire
 
 
 
@@ -443,7 +541,6 @@ def WaveguidePort():
 
 
 
-# def CreateMaterial():
 
 def RibWaveguide(WGName, Points):
 
@@ -462,50 +559,4 @@ def RibWaveguide(WGName, Points):
     CurveData = ''.join(tmp)
 
     return CurveData
-
-
-
-# Parameters = {}
-# Parameters['X1'] = -5
-# Parameters['X2'] = 5
-# Parameters['Y1'] = -5
-# Parameters['Y2'] = 5
-# Parameters['Z1'] = 0
-# Parameters['Z2'] = 2
-# Brick('TestBrick', Parameters)
-
-#
-#
-#
-#
-#
-#
-# Parameters = {}
-# Parameters['X1'] = 0
-# Parameters['Y1'] = 0
-# Parameters['Z1'] = 0
-# Parameters['X2'] = 10
-# Parameters['Y2'] = 0
-# Parameters['Z2'] = 0
-#
-# Points = {}
-# x = []
-# y = []
-# for i in range(0, 100):
-#     x.append(i)
-#     y.append(i*4)
-# x = np.array(x)
-# y = np.array(y)
-# Points['X'] = x
-# Points['Y'] = y
-#
-#
-#
-# obj = VBA
-# data = obj.BondWire(NameWire = "TestWire",Coordinates = Parameters, Height = 1, Radius = 0.5 , BondwireType = "JEDEC5",alpha = 75, beta = 35)
-# Curve = obj.Curve(CurveName = "TestCurve", Points = Points)
-# DataCurveWire = obj.CurveWire(NameWire = "TestWire", Radius = 0.5 , Points = Points)
-# ToSolid = obj.ToSolid(SolidName = "TestSolid")
-#
-
 

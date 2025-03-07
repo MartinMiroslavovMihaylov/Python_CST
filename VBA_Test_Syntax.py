@@ -224,7 +224,7 @@ def Brick(BrickName, Coordinates, NameComponent = None, Material = None ):
     SolidWire = 'Sub Main () ' \
                     '\nWith Brick' + \
                         '\n.Reset' + \
-                        '\n.Name ' + '"' + BrickName + '"' + \
+                        '\n.Name ' + '"' + BrickName + '1"' + \
 						'\n.Component ' + '"' + NameComponent + '"' + \
                         '\n.Material ' + '"' + Material + '"' + \
                         '\n.Xrange ' + '"' + str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["X2"]) + '"' + \
@@ -441,6 +441,27 @@ def WaveguidePort():
 
     return Port
 
+
+
+# def CreateMaterial():
+
+def RibWaveguide(WGName, Points):
+
+    WGName  = WGName
+    # Extract the first points as starting Points
+    Start_PointX = Points['X'][0]
+    Start_PointY = Points['Y'][0]
+    Start_PointZ = Points['Z'][0]
+    tmp = []
+    
+    tmp.append('Sub Main () ' + '\nWith Polygon3D' + '\n.Reset' + '\n.Name ' + '"' + WGName  + '"' + '\n.Curve ' + '"' + WGName  + '"' + '\n.Point ' + '"' + str(Start_PointX) + '"' + ',' + '"' + str(Start_PointY) + '"'',' + '"' + str(Start_PointZ) + '"')
+    for i in range(1, len(Points['X'])):
+        b = '\n.LineTo ' + '"' + str(Points['X'][i]) + '"' + ',' + '"' + str(Points['Y'][i]) + '"'',' + '"' + str(Points['Z'][i]) + '"'
+        tmp.append(b)
+    tmp.append('\n.Create' + '\nEnd With' + '\nEnd Sub')
+    CurveData = ''.join(tmp)
+
+    return CurveData
 
 
 

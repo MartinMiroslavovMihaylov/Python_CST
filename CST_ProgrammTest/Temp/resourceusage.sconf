@@ -1,2 +1,2 @@
-FeatureKeywords:string:modeler:hidfile:no_shape, modeler:load:fastloading, la:macromodel, la:macromodel:nmaxthreads:10, block:type:saved:MWSSCHEM, modeler:history:header_not_parsed, meshline:hex:check_after_loading:default, DELETERESULTS:M0P0, modeler:model:anchorpoints, modeler:hidfile:hidden_elements
+FeatureKeywords:string:modeler:hidfile:no_shape, modeler:load:fastloading, la:macromodel, la:macromodel:nmaxthreads:10, block:type:saved:MWSSCHEM, modeler:history:header_not_parsed, meshline:hex:check_after_loading:default, DELETERESULTS:M0P0, modeler:model:anchorpoints, modeler:hidfile:hidden_elements, modeler:variables:fastrebuild, modeler:variables:rebuild, modeler:variables:fullrebuild
 ---

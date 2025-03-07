@@ -5,7 +5,7 @@
         "acis": "34.0.1",
         "buildnumber": "20240830",
         "project_type": "MWS",
-        "length": "um",
+        "length": "mm",
         "frequency": {
             "unit": "GHz",
             "minimum": "1",
@@ -161,6 +161,261 @@
             "type": "vba",
             "code": [
                 "Component.Delete \"TestBrick\""
+            ]
+        },
+        {
+            "caption": "delete component: GND_Left_Electrode",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"GND_Left_Electrode\""
+            ]
+        },
+        {
+            "caption": "delete component: GND_right_Electrode",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"GND_right_Electrode\""
+            ]
+        },
+        {
+            "caption": "delete component: GND_Left_Electrode",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"GND_Left_Electrode\""
+            ]
+        },
+        {
+            "caption": "define brick: GND_Left_Electrode:solid1",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "With Brick",
+                "     .Reset ",
+                "     .Name \"solid1\" ",
+                "     .Component \"GND_Left_Electrode\" ",
+                "     .Material \"Copper (annealed)\" ",
+                "     .Xrange \"-Length/2\", \"Length/2\" ",
+                "     .Yrange \"-Width_GND/2\", \"Width_GND/2\" ",
+                "     .Zrange \"0\", \"Hight\" ",
+                "     .Create",
+                "End With"
+            ]
+        },
+        {
+            "caption": "delete component: component1",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"component1\""
+            ]
+        },
+        {
+            "caption": "delete component: default",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"default\""
+            ]
+        },
+        {
+            "caption": "delete component: GND_Left_Electrode",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"GND_Left_Electrode\""
+            ]
+        },
+        {
+            "caption": "delete component: Signal_Electrode",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Component.Delete \"Signal_Electrode\""
+            ]
+        },
+        {
+            "caption": "define material: Folder1/LiNbO3",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "With Material ",
+                "     .Reset ",
+                "     .Name \"LiNbO3\"",
+                "     .Folder \"Folder1\"",
+                "     .Rho \"0\"",
+                "     .ThermalType \"Normal\"",
+                "     .ThermalConductivity \"0\"",
+                "     .SpecificHeat \"0\", \"J/K/kg\"",
+                "     .DynamicViscosity \"0\"",
+                "     .UseEmissivity \"True\"",
+                "     .Emissivity \"0\"",
+                "     .MetabolicRate \"0.0\"",
+                "     .VoxelConvection \"0.0\"",
+                "     .BloodFlow \"0\"",
+                "     .MechanicsType \"Unused\"",
+                "     .SolarRadiationAbsorptionType \"Opaque\"",
+                "     .Absorptance \"0.0\"",
+                "     .UseSemiTransparencyCalculator \"False\"",
+                "     .SolarRadTransmittance \"0.0\"",
+                "     .SolarRadReflectance \"0.0\"",
+                "     .SolarRadSpecimenThickness \"0.0\"",
+                "     .SolarRadRefractiveIndex \"1.0\"",
+                "     .SolarRadAbsorptionCoefficient \"0.0\"",
+                "     .IntrinsicCarrierDensityModel \"none\"",
+                "     .FrqType \"all\"",
+                "     .Type \"Anisotropic\"",
+                "     .MaterialUnit \"Frequency\", \"GHz\"",
+                "     .MaterialUnit \"Geometry\", \"um\"",
+                "     .MaterialUnit \"Time\", \"ns\"",
+                "     .MaterialUnit \"Temperature\", \"degC\"",
+                "     .EpsilonX \"2.21\"",
+                "     .EpsilonY \"2.13\"",
+                "     .EpsilonZ \"2.21\"",
+                "     .MuX \"1\"",
+                "     .MuY \"1\"",
+                "     .MuZ \"1\"",
+                "     .SigmaX \"0\"",
+                "     .SigmaY \"0\"",
+                "     .SigmaZ \"0\"",
+                "     .TanDX \"0.0\"",
+                "     .TanDY \"0.0\"",
+                "     .TanDZ \"0.0\"",
+                "     .TanDFreq \"0.0\"",
+                "     .TanDGiven \"False\"",
+                "     .TanDModel \"ConstTanD\"",
+                "     .SetConstTanDStrategyEps \"AutomaticOrder\"",
+                "     .ConstTanDModelOrderEpsX \"3\"",
+                "     .ConstTanDModelOrderEpsY \"3\"",
+                "     .ConstTanDModelOrderEpsZ \"3\"",
+                "     .DjordjevicSarkarUpperFreqEps \"0\"",
+                "     .SetElParametricConductivity \"False\"",
+                "     .ReferenceCoordSystem \"Global\"",
+                "     .CoordSystemType \"Cartesian\"",
+                "     .SigmaMX \"0\"",
+                "     .SigmaMY \"0\"",
+                "     .SigmaMZ \"0\"",
+                "     .TanDMX \"0.0\"",
+                "     .TanDMY \"0.0\"",
+                "     .TanDMZ \"0.0\"",
+                "     .TanDMFreq \"0.0\"",
+                "     .TanDMGiven \"False\"",
+                "     .TanDMModel \"ConstTanD\"",
+                "     .SetConstTanDStrategyMu \"AutomaticOrder\"",
+                "     .ConstTanDModelOrderMuX \"3\"",
+                "     .ConstTanDModelOrderMuY \"3\"",
+                "     .ConstTanDModelOrderMuZ \"3\"",
+                "     .DjordjevicSarkarUpperFreqMu \"0\"",
+                "     .SetMagParametricConductivity \"False\"",
+                "     .DispModelEps \"None\"",
+                "     .DispModelMu \"None\"",
+                "     .DispersiveFittingSchemeEps \"Nth Order\"",
+                "     .MaximalOrderNthModelFitEps \"10\"",
+                "     .ErrorLimitNthModelFitEps \"0.1\"",
+                "     .UseOnlyDataInSimFreqRangeNthModelEps \"False\"",
+                "     .DispersiveFittingSchemeMu \"Nth Order\"",
+                "     .MaximalOrderNthModelFitMu \"10\"",
+                "     .ErrorLimitNthModelFitMu \"0.1\"",
+                "     .UseOnlyDataInSimFreqRangeNthModelMu \"False\"",
+                "     .UseGeneralDispersionEps \"False\"",
+                "     .UseGeneralDispersionMu \"False\"",
+                "     .NLAnisotropy \"False\"",
+                "     .NLAStackingFactor \"1\"",
+                "     .NLADirectionX \"1\"",
+                "     .NLADirectionY \"0\"",
+                "     .NLADirectionZ \"0\"",
+                "     .Colour \"0.839216\", \"0\", \"0\" ",
+                "     .Wireframe \"False\" ",
+                "     .Reflection \"False\" ",
+                "     .Allowoutline \"True\" ",
+                "     .Transparentoutline \"False\" ",
+                "     .Transparency \"0\" ",
+                "     .Create",
+                "End With"
+            ]
+        },
+        {
+            "caption": "rename material: Folder1/LiNbO3 to: LiNbO3",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Material.Rename \"Folder1/LiNbO3\", \"LiNbO3\""
+            ]
+        },
+        {
+            "caption": "delete material: Folder1",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Material.DeleteFolder \"Folder1\""
+            ]
+        },
+        {
+            "caption": "define material colour: LiNbO3",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "With Material ",
+                "     .Name \"LiNbO3\"",
+                "     .Folder \"\"",
+                "     .Colour \"0.839216\", \"0\", \"0\" ",
+                "     .Wireframe \"False\" ",
+                "     .Reflection \"False\" ",
+                "     .Allowoutline \"True\" ",
+                "     .Transparentoutline \"False\" ",
+                "     .Transparency \"0\" ",
+                "     .ChangeColour ",
+                "End With"
+            ]
+        },
+        {
+            "caption": "delete curve: WG",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Curve.DeleteCurve \"WG\""
+            ]
+        },
+        {
+            "caption": "delete curve: curve1",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Curve.DeleteCurve \"curve1\""
+            ]
+        },
+        {
+            "caption": "delete curve: WG",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Curve.DeleteCurve \"WG\""
+            ]
+        },
+        {
+            "caption": "delete wire folder: BondWire",
+            "version": "2025.0|34.0.1|20240830",
+            "hidden": false,
+            "type": "vba",
+            "code": [
+                "Wire.DeleteFolder \"BondWire\""
             ]
         }
     ]

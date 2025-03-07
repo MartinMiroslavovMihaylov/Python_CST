@@ -1,10 +1,10 @@
 20100312
 [start]hidden_objects
 [start]solids
-[start]default:import_1
-[end]default:import_1
-[start]component1:TestSolid
-[end]component1:TestSolid
+[start]GND_Left_Electrode:GND_Left_Electrode
+[end]GND_Left_Electrode:GND_Left_Electrode
+[start]GND_Left_Electrode:GND_Left_Electrode1
+[end]GND_Left_Electrode:GND_Left_Electrode1
 [end]solids
 [end]hidden_objects
 [start]draw_workplane
@@ -22,6 +22,22 @@ false
 [start]navigation_tree_text_files
 [end]navigation_tree_text_files
 [start]history_fast_undo
+[start]undo_item
+[start]block_index
+6
+[end]block_index
+[start]command
+[end]command
+[start]content
+Solid.Delete "GND_Left_Electrode:solid1"
+[end]content
+[start]recover_picks
+1
+[end]recover_picks
+[start]delete_solids
+1
+[end]delete_solids
+[end]undo_item
 [end]history_fast_undo
 [start]unique_ids
 [end]unique_ids

@@ -9,6 +9,31 @@
             "expr": "2",
             "name": "Hight",
             "value": "2"
+        },
+        {
+            "expr": "80",
+            "name": "Length",
+            "value": "80"
+        },
+        {
+            "expr": "10",
+            "name": "Width_GND",
+            "value": "10"
+        },
+        {
+            "expr": "5",
+            "name": "Width_Signal",
+            "value": "5"
+        },
+        {
+            "expr": "5",
+            "name": "Width_Gap",
+            "value": "5"
+        },
+        {
+            "expr": "10",
+            "name": "a",
+            "value": "10"
         }
     ],
     "version": 1

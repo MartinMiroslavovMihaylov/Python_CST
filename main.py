@@ -8,6 +8,7 @@ module_dir = os.path.abspath("C:/Users/marti/Desktop/UPB Kursen/CST with Python"
 sys.path.append(module_dir)
 from Curves_Functions import Curves
 from VBA_Test_Syntax import *
+from Components import *
 
 
 
@@ -191,42 +192,116 @@ proj.schematic.execute_vba_code(Globals, timeout=None)
 
 
 
-# MZM Design
+Parameters = {}
+Parameters["Lenght_Electrodes"] = 40
+Parameters["Lenght_Electrodes"] = 40
+Parameters["Width_GND"] = 5
+Parameters["Width_Signal"] = 2
+Parameters["WG_Width"] = 1
+Parameters["Gap"] = 0.5
+Parameters["angle"] = 30
+Parameters["High_Electrodes"] = 1
+Parameters["High_WG"] = 0.4
+Parameters["High_Slab"] = 0.2 
+Parameters["High_Substrate"] = 2
 
 
-def MZM(Prameters):
-    NamesElectrodes = "Electrode_Left", "Electrode_Right", "Signal"
-    Length_MZM = Parameters["Lenght_Electrodes"]
-    Length_WG = Parameters["Lenght_Electrodes"] + 10
-    Width_Electrodes = Parameters["Width_GND"]
-    Width_Signal = Parameters["Width_Signal"]
-    Width_WG = Parameters["WG_Width"]
-    Gap = Parameters["Gap"]
-    Height_Electrodes = Parameters["High_Electrodes"]
-    Height_WG = Parameters["High_WG"]
-    Heigh_Slab = Parameters["High_Slab"]
-    Height_Substrate = Parameters["High_Substrate"]
+
+MZM(Parameters, proj)
 
 
-    # Set optical Material Properties Eps X,Y,Z
-    Data = {}
-    Data["X"] = 27
-    Data["Y"] = 43
-    Data["Z"] = 43
 
-    MaterialDAta = Material("LiNbO3", Data)
-    proj.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-    # Set Global Parameters
-    Parameters = {}
-    Parameters['X1'] = -GlobalParam['Length']/2
-    Parameters['X2'] = GlobalParam['Length']/2
-    Parameters['Y1'] = TotalWidth/2
-    Parameters['Y2'] = -TotalWidth/2 
-    Parameters['Z1'] = 0
-    Parameters['Z2'] = 1
-    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "LiNbO3")
-    proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+# Set Boundary
+BoundaryParams = {}
+BoundaryParams["Xmin"] = 'electric'
+BoundaryParams["Xmax"] = 'electric'
+BoundaryParams["Ymin"] = 'electric'
+BoundaryParams["Ymax"] = 'electric'
+BoundaryParams["Zmin"] = 'electric'
+BoundaryParams["Zmax"] = 'electric' 
+BoundaryParams["Xsymmetry"] = 'none'
+BoundaryParams["Ysymmetry"] = 'none'
+BoundaryParams["Zsymmetry"] = 'none'
+
+
+
+BoundarySet = SetBoundary(BoundaryParams)
+proj.schematic.execute_vba_code(BoundarySet, timeout=None)
+
+
+
+# Set Waveguide Ports
+
+PicParams = {}
+PicParams["Option"] = "Face"
+PicParams["Object"] = "Electrode_Left:Electrode_Left1"
+PicParams["Face Number"] = 4
+
+PickFace = Pick(PicParams)
+proj.schematic.execute_vba_code(PickFace, timeout=None)
+
+
+
+
+def WaveguidePortTest(Parameters):
+
+    # Parameters to determin port position 
+    Orientation = Parameters["Orientation"]
+    Coordinates = Parameters["Coordinates"]
+    Xmin = Parameters["Xmin"]
+    Ymin = Parameters["Ymin"]
+    Zmin = Parameters["Zmin"]   
+
+
+
+    Port = 'Sub Main () ' \
+                '\nWith Port' + \
+                '\n.Reset' + \
+                '\n.PortNumber (1)' + \
+                '\n.NumberOfModes (2)' + \
+                '\n.AdjustPolarization (False)' + \
+                '\n.PolarizationAngle (0.0)' + \
+                '\n.ReferencePlaneDistance (0)' + \
+                '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
+                '\n.Orientation ' +  '"' + str(Orientation) + '"' + \
+                '\n.PortOnBound (False)' + \
+                '\n.ClipPickedPortToBound (False)' + \
+                '\n.Xrange ' + '"' + str(Xmin) + '"' + \
+                '\n.Yrange ' + '"' + str(Ymin) + '"' + \
+                '\n.Zrange ' + '"' + str(Zmin) + '"' + \
+                '\n.Create' + \
+            '\nEnd With'  + \
+            '\nEnd Sub'
+
+    return Port
+
+
+
+Parameters = {}
+Parameters["Orientation"] = "Positive"
+Parameters["Coordinates"] = "Use Picks"
+Parameters["Xmin"] = 5
+Parameters["Ymin"] = 5
+Parameters["Zmin"] = 5
+
+
+
+Port = WaveguidePortTest(Parameters)
+proj.schematic.execute_vba_code(Port, timeout=None)
+
+
+# .AdjustPolarization (False)
+# .PolarizationAngle (0.0)
+# .ReferencePlaneDistance (0)
+# .Orientation "Positive"
+# .PortOnBound (False)
+# .ClipPickedPortToBound (False)
+# .Xrange "0", "5"
+# .Yrange "0", "5"
+# .Zrange "0", "5"
+
 
 
     
@@ -234,105 +309,110 @@ def MZM(Prameters):
 
 
 
-# Material Definition
-Data = {}
-Data["X"] = 27
-Data["Y"] = 43
-Data["Z"] = 43
+# # Material Definition
+# Data = {}
+# Data["X"] = 27
+# Data["Y"] = 43
+# Data["Z"] = 43
 
-MaterialDAta = Material("LiNbO3", Data)
-proj.schematic.execute_vba_code(MaterialDAta, timeout=None)
+# # LiNbO3
+# MaterialDAta = Material("LiNbO3", Data)
+# proj.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-Parameters = {}
-Parameters['X1'] = -GlobalParam['Length']/2
-Parameters['X2'] = GlobalParam['Length']/2
-Parameters['Y1'] = TotalWidth/2
-Parameters['Y2'] = -TotalWidth/2 
-Parameters['Z1'] = 0
-Parameters['Z2'] = 1
-TestBrick = Brick('LNOI_Substrate', Parameters, Material = "LiNbO3")
-proj.schematic.execute_vba_code(TestBrick, timeout=None)
+# # Silicon
+# dat = Material_Silicon("Silicon (lossy)")
+# proj.schematic.execute_vba_code(dat, timeout=None)
 
-
-
-Parameters = {}
-Parameters['X1'] = -GlobalParam['Length']/2
-Parameters['X2'] = GlobalParam['Length']/2
-Parameters['Y1'] = -TotalWidth/2
-Parameters['Y2'] = -TotalWidth/2 + GlobalParam['Width_GND']
-Parameters['Z1'] = 0
-Parameters['Z2'] = 2
-TestBrick = Brick('GND_Left_Electrode', Parameters)
-proj.schematic.execute_vba_code(TestBrick, timeout=None)
+# Parameters = {}
+# Parameters['X1'] = -GlobalParam['Length']/2
+# Parameters['X2'] = GlobalParam['Length']/2
+# Parameters['Y1'] = TotalWidth/2
+# Parameters['Y2'] = -TotalWidth/2 
+# Parameters['Z1'] = 0
+# Parameters['Z2'] = 1
+# TestBrick = Brick('Substrate', Parameters, Material = "Silicon (lossy)")
+# proj.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
 
-Parameters = {}
-Parameters['X1'] = -GlobalParam['Length']/2
-Parameters['X2'] = GlobalParam['Length']/2
-Parameters['Y1'] = -TotalWidth/2 + GlobalParam['Width_GND'] + GlobalParam['Width_Gap']
-Parameters['Y2'] = -TotalWidth/2 + GlobalParam['Width_GND'] + GlobalParam['Width_Gap'] +  GlobalParam['Width_Signal']
-Parameters['Z1'] = 0
-Parameters['Z2'] = 2
-TestBrick = Brick('Signal_Electrode', Parameters)
-proj.schematic.execute_vba_code(TestBrick, timeout=None)
+# Parameters = {}
+# Parameters['X1'] = -GlobalParam['Length']/2
+# Parameters['X2'] = GlobalParam['Length']/2
+# Parameters['Y1'] = -TotalWidth/2
+# Parameters['Y2'] = -TotalWidth/2 + GlobalParam['Width_GND']
+# Parameters['Z1'] = 0
+# Parameters['Z2'] = 2
+# TestBrick = Brick('GND_Left_Electrode', Parameters)
+# proj.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
 
-Parameters = {}
-Parameters['X1'] = -GlobalParam['Length']/2
-Parameters['X2'] = GlobalParam['Length']/2
-Parameters['Y1'] = -TotalWidth/2 + GlobalParam['Width_GND'] + 2*GlobalParam['Width_Gap'] + GlobalParam['Width_Signal']
-Parameters['Y2'] = -TotalWidth/2 + 2*GlobalParam['Width_GND'] + 2*GlobalParam['Width_Gap'] + GlobalParam['Width_Signal']
-Parameters['Z1'] = 0
-Parameters['Z2'] = 2
-TestBrick = Brick('GND_right_Electrode', Parameters)
-proj.schematic.execute_vba_code(TestBrick, timeout=None)
-
-
-Points = {}
-Points["X"] = [GlobalParam['Length']/2, -GlobalParam['Length']/2]
-Points["Y"] = [-TotalWidth/2 + GlobalParam['Width_GND'], -TotalWidth/2 + GlobalParam['Width_GND'] + 1]
-Points["Z"] = [0,2]
-
-
-WGLeft_Edge = -TotalWidth/2 + GlobalParam['Width_GND']
-WGTopWidth = 4
-
-Points = {}
-Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
-# Points['X'] = np.array([-10, -10, 10, 10, -10])
-Points["Y"] = [WGLeft_Edge + WGTopWidth/2 , WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth/2, WGLeft_Edge + WGTopWidth/2]
-# Points['Y'] = np.array([-5, 5, 5, -5, -5])
+# Parameters = {}
+# Parameters['X1'] = -GlobalParam['Length']/2
+# Parameters['X2'] = GlobalParam['Length']/2
+# Parameters['Y1'] = -TotalWidth/2 + GlobalParam['Width_GND'] + GlobalParam['Width_Gap']
+# Parameters['Y2'] = -TotalWidth/2 + GlobalParam['Width_GND'] + GlobalParam['Width_Gap'] +  GlobalParam['Width_Signal']
+# Parameters['Z1'] = 0
+# Parameters['Z2'] = 2
+# TestBrick = Brick('Signal_Electrode', Parameters)
+# proj.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
 
-# Waveguide and Waveguide to solid
-WG = RibWG(WGName = "Waveguide_Left", Points = Points)
-proj.schematic.execute_vba_code(WG, timeout=None)
-RibWG_Test = RibWaveguide_ToSolid("Waveguide_Left", WG_Hight = 2, Angle = 10, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
-proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
+# Parameters = {}
+# Parameters['X1'] = -GlobalParam['Length']/2
+# Parameters['X2'] = GlobalParam['Length']/2
+# Parameters['Y1'] = -TotalWidth/2 + GlobalParam['Width_GND'] + 2*GlobalParam['Width_Gap'] + GlobalParam['Width_Signal']
+# Parameters['Y2'] = -TotalWidth/2 + 2*GlobalParam['Width_GND'] + 2*GlobalParam['Width_Gap'] + GlobalParam['Width_Signal']
+# Parameters['Z1'] = 0
+# Parameters['Z2'] = 2
+# TestBrick = Brick('GND_right_Electrode', Parameters)
+# proj.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+# Points = {}
+# Points["X"] = [GlobalParam['Length']/2, -GlobalParam['Length']/2]
+# Points["Y"] = [-TotalWidth/2 + GlobalParam['Width_GND'], -TotalWidth/2 + GlobalParam['Width_GND'] + 1]
+# Points["Z"] = [0,2]
+
+
+# WGLeft_Edge = -TotalWidth/2 + GlobalParam['Width_GND']
+# WGTopWidth = 4
+
+# Points = {}
+# Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
+# # Points['X'] = np.array([-10, -10, 10, 10, -10])
+# Points["Y"] = [WGLeft_Edge + WGTopWidth/2 , WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth/2, WGLeft_Edge + WGTopWidth/2]
+# # Points['Y'] = np.array([-5, 5, 5, -5, -5])
 
 
 
-WGLeft_Edge = TotalWidth/2 - GlobalParam['Width_GND']
-WGTopWidth = 4
+# # Waveguide and Waveguide to solid
+# WG = RibWG(WGName = "Waveguide_Left", Points = Points)
+# proj.schematic.execute_vba_code(WG, timeout=None)
+# RibWG_Test = RibWaveguide_ToSolid("Waveguide_Left", WG_Hight = 2, Angle = 10, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+# proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
 
-Points = {}
-Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
-# Points['X'] = np.array([-10, -10, 10, 10, -10])
-Points["Y"] = [-WGLeft_Edge - WGTopWidth/2 , -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth/2, -WGLeft_Edge - WGTopWidth/2]
-# Points['Y'] = np.array([-5, 5, 5, -5, -5])
+# WGLeft_Edge = TotalWidth/2 - GlobalParam['Width_GND']
+# WGTopWidth = 4
+
+
+
+# Points = {}
+# Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
+# # Points['X'] = np.array([-10, -10, 10, 10, -10])
+# Points["Y"] = [-WGLeft_Edge - WGTopWidth/2 , -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth/2, -WGLeft_Edge - WGTopWidth/2]
+# # Points['Y'] = np.array([-5, 5, 5, -5, -5])
 
 
 
 
-WG = RibWG(WGName = "Waveguide_Right", Points = Points)
-proj.schematic.execute_vba_code(WG, timeout=None)
-RibWG_Test = RibWaveguide_ToSolid("Waveguide_Right", WG_Hight = -2, Angle = 10, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
-proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
+# WG = RibWG(WGName = "Waveguide_Right", Points = Points)
+# proj.schematic.execute_vba_code(WG, timeout=None)
+# RibWG_Test = RibWaveguide_ToSolid("Waveguide_Right", WG_Hight = -2, Angle = 10, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
+# proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
 

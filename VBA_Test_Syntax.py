@@ -27,6 +27,64 @@ def Material(Name, Values):
     return component    
 
 
+
+
+
+def Material_Silicon(Name):
+    # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
+    component = 'Sub Main () ' \
+                    '\nWith Material' + \
+                        '\n.Reset' + \
+                        '\n.Name ' + '"' + Name + '"' + \
+                        '\n.FrqType "All"' + \
+                        '\n.Type "Normal"' + \
+                        '\n.SetMaterialUnit "GHz", "um"' + \
+                        '\n.Mu "1"' + \
+                        '\n.Epsilon "11.9"' + \
+                        '\n.Rho 2330' + \
+                        '\n.ThermalConductivity "148"' + \
+                        '\n.ThermalType "Normal"' + \
+                        '\n.MechanicsType "Normal"' + \
+                        '\n.SpecificHeat "700"' + \
+                        '\n.YoungsModulus "112"' + \
+                        '\n.PoissonsRatio "0.28"' + \
+                        '\n.Color "0.5","0.5", "0.5"' + \
+                        '\n.Create' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+
+    return component
+
+
+
+
+def Material_Au(Name):
+    # Add Meterial Gold.
+    component = 'Sub Main () ' \
+                    '\nWith Material' + \
+                        '\n.Reset' + \
+                        '\n.Name ' + '"' + Name + '"' + \
+                        '\n.FrqType "All"' + \
+                        '\n.Type "lossy metal"' + \
+                        '\n.SetMaterialUnit "GHz", "um"' + \
+                        '\n.Mu "1"' + \
+                        '\n.Sigma "4.561e+007"' + \
+                        '\n.Rho "19320"' + \
+                        '\n.ThermalConductivity "130"' + \
+                        '\n.ThermalType "Normal"' + \
+                        '\n.SpecificHeat "700"' + \
+                        '\n.YoungsModulus "78"' + \
+                        '\n.PoissonsRatio "42"' + \
+                        '\n.Color "1","0.84", "0"' + \
+                        '\n.Create' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+
+    return component
+
+
+
+
 def BondWire(NameWire, Coordinates, Height, Radius, BondwireType = "Spline", CenterPosition = 0.5, alpha = None, beta = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None):
 
     # Check the BondwireType
@@ -244,6 +302,30 @@ def RibWG(WGName, Points):
     CurveData = ''.join(tmp)
 
     return CurveData
+
+
+
+
+def RibWG_Z(WGName, Points):
+
+    WGName  = WGName
+    # Extract the first points as starting Points
+    Start_PointX = Points['X'][0]
+    Start_PointY = Points['Y'][0]
+    Start_PointZ = Points['Z'][0]
+
+    tmp = []
+    tmp.append('Sub Main () ' + '\nWith Polygon3D' + '\n.Reset' + '\n.Name ' + '"' + WGName  + '"' + '\n.Curve ' + '"' + WGName  + '"')
+    for i in range(len(Points['X'])):
+        b = '\n.Point ' + '"' + str(Points['X'][i]) + '"' + ',' + '"' + str(Points['Y'][i]) + '"'  + ',' + '"' + str(Points['Z'][i]) + '"'
+        tmp.append(b)
+    tmp.append('\n.Create' + '\nEnd With' + '\nEnd Sub')
+    CurveData = ''.join(tmp)
+
+    return CurveData
+
+
+
 
 
 
@@ -487,18 +569,31 @@ def SetUnits(DictUnits):
 
 
 
-def SetBoundary():
+def SetBoundary(Parameters):
+
+    # Boundary parameters
+    Xmin = Parameters["Xmin"] 
+    Xmax = Parameters["Xmax"] 
+    Ymin = Parameters["Ymin"] 
+    Ymax = Parameters["Ymax"] 
+    Zmin = Parameters["Zmin"] 
+    Zmax = Parameters["Zmax"] 
+    Xsym = Parameters["Xsymmetry"] 
+    Ysym = Parameters["Ysymmetry"] 
+    Zsym = Parameters["Zsymmetry"] 
+
+
     BoundaryData = 'Sub Main () ' \
                     '\nWith Boundary' + \
-                    '\n.Xmin "electric"' + \
-                    '\n.Xmax "electric"' + \
-                    '\n.Ymin "electric"' + \
-                    '\n.Ymax "electric"' + \
-                    '\n.Zmin "electric"' + \
-                    '\n.Zmax "electric"' + \
-                    '\n.Xsymmetry "none"' + \
-                    '\n.Ysymmetry "none"' + \
-                    '\n.Zsymmetry "none"' + \
+                    '\n.Xmin ' + '"'+ str(Xmin) + '"' + \
+                    '\n.Xmax ' + '"'+ str(Xmax) + '"' + \
+                    '\n.Ymin ' + '"'+ str(Ymin) + '"' + \
+                    '\n.Ymax ' + '"'+ str(Ymax) + '"' + \
+                    '\n.Zmin ' + '"'+ str(Zmin) + '"' + \
+                    '\n.Zmax ' + '"'+ str(Zmax) + '"' + \
+                    '\n.Xsymmetry ' + '"'+ str(Xsym) + '"' + \
+                    '\n.Ysymmetry ' + '"'+ str(Ysym) + '"' + \
+                    '\n.Zsymmetry ' + '"'+ str(Zsym) + '"' + \
                     '\n.ApplyInAllDirections "False"' + \
                     '\n.XPeriodicShift "45.0"' + \
                     '\n.YPeriodicShift "0.0"' + \
@@ -517,7 +612,17 @@ def SetBoundary():
 
 
 
-def WaveguidePort():
+def WaveguidePort(Parameters):
+
+    # Parameters to determin port position 
+    Orientation = Parameters["Orientation"]
+    Coordinates = Parameters["Coordinates"]
+    Xmin = Parameters["Xmin"]
+    Ymin = Parameters["Ymin"]
+    Zmin = Parameters["Zmin"]   
+
+
+
     Port = 'Sub Main () ' \
                 '\nWith Port' + \
                 '\n.Reset' + \
@@ -526,18 +631,31 @@ def WaveguidePort():
                 '\n.AdjustPolarization (False)' + \
                 '\n.PolarizationAngle (0.0)' + \
                 '\n.ReferencePlaneDistance (0)' + \
-                '\n.Coordinates ("Free")' + \
-                '\n.Orientation ("xmax")' + \
+                '\n.Coordinates ' + '"' str(Coordinates) + '"' + \
+                '\n.Orientation ' +  '"' + str(Orientation) + '"' + \
                 '\n.PortOnBound (False)' + \
                 '\n.ClipPickedPortToBound (False)' + \
-                '\n.Xrange (0, 0)' + \
-                '\n.Yrange (-5, 5.4)' + \
-                '\n.Zrange (-0.4, 0.4)' + \
+                '\n.Xrange ' + '"' str(Xmin) + '"' + \
+                '\n.Yrange ' + '"' str(Ymin) + '"' + \
+                '\n.Zrange ' + '"' str(Zmin) + '"' + \
                 '\n.Create' + \
             '\nEnd With'  + \
             '\nEnd Sub'
 
     return Port
+
+
+
+def Pick(Parameters):
+    # Parameters for Picking an object
+    FaceName = Parameters["Object"]
+    Number = Parameters["Face Number"]
+
+    if Parameters["Option"] == "Face":
+        data = 'Sub Main () ' \
+                    'Pick.PickFaceFromId ' + '"' + str(FaceName) + '"' + "," +  '"' + str(Number)+ '"' \
+                '\nEnd Sub'
+    return data
 
 
 

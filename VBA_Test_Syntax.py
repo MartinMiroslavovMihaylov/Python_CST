@@ -617,32 +617,103 @@ def WaveguidePort(Parameters):
     # Parameters to determin port position 
     Orientation = Parameters["Orientation"]
     Coordinates = Parameters["Coordinates"]
-    Xmin = Parameters["Xmin"]
-    Ymin = Parameters["Ymin"]
-    Zmin = Parameters["Zmin"]   
+    # Choose coordinates
+    Span11 = Parameters["Span"][0][0]
+    Span12 = Parameters["Span"][0][1]
+    Span21 = Parameters["Span"][1][0]
+    Span22 = Parameters["Span"][1][1]
+    Polarity = Parameters["Polarity"]
+    SolidName = Parameters["Solid Name"]
+    PickID = Parameters["Face ID"]
+    #Return Ports in Dictionary for one Object 2 Ports can be define 
+    Port = {}
+    Port["1"] = None
+    Port["2"] = None
+
+    # Ports Numbers
+    PortNum = Parameters["Port Number"]
+
+    # loop true mode sets
+    Potentials = Parameters["Potential"]
 
 
-
-    Port = 'Sub Main () ' \
-                '\nWith Port' + \
-                '\n.Reset' + \
-                '\n.PortNumber (1)' + \
-                '\n.NumberOfModes (2)' + \
-                '\n.AdjustPolarization (False)' + \
-                '\n.PolarizationAngle (0.0)' + \
-                '\n.ReferencePlaneDistance (0)' + \
-                '\n.Coordinates ' + '"' str(Coordinates) + '"' + \
-                '\n.Orientation ' +  '"' + str(Orientation) + '"' + \
-                '\n.PortOnBound (False)' + \
-                '\n.ClipPickedPortToBound (False)' + \
-                '\n.Xrange ' + '"' str(Xmin) + '"' + \
-                '\n.Yrange ' + '"' str(Ymin) + '"' + \
-                '\n.Zrange ' + '"' str(Zmin) + '"' + \
-                '\n.Create' + \
-            '\nEnd With'  + \
-            '\nEnd Sub'
+    #Start Loop for Ports
+    for index, i in enumerate(Potentials,start = 1):
+        data = 'Sub Main () ' \
+                    '\nWith Port' + \
+                    '\n.Reset' + \
+                    '\n.PortNumber ' + '"' + str(PortNum[index-1]) + '"' + \
+                    '\n.NumberOfModes (2)' + \
+                    '\n.AdjustPolarization (False)' + \
+                    '\n.PolarizationAngle (0.0)' + \
+                    '\n.ReferencePlaneDistance (0)' + \
+                    '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
+                    '\n.Orientation ' +  '"' + str(Orientation[index-1]) + '"' + \
+                    '\n.PortOnBound (False)' + \
+                    '\n.ClipPickedPortToBound (False)' + \
+                    '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
+                    '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
+                    '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
+                    '\n.Create' + \
+                '\nEnd With'  + \
+                '\nEnd Sub'
+        Port[str(index)] = ''.join(data)
 
     return Port
+
+
+
+
+
+def OpticalWaveguidePort(Parameters):
+
+    # Parameters to determin port position 
+    Orientation = Parameters["Orientation"]
+    Coordinates = Parameters["Coordinates"]
+    # Choose coordinates
+    Span11 = Parameters["Span"][0][0]
+    Span12 = Parameters["Span"][0][1]
+    Span21 = Parameters["Span"][1][0]
+    Span22 = Parameters["Span"][1][1]
+    Polarity = Parameters["Polarity"]
+    SolidName = Parameters["Solid Name"]
+    PickID = Parameters["Face ID"]
+    #Return Ports in Dictionary for one Object 2 Ports can be define 
+    Port = {}
+    Port["1"] = None
+    Port["2"] = None
+
+    # Ports Numbers
+    PortNum = Parameters["Port Number"]
+
+    # loop true mode sets
+    Potentials = Parameters["Potential"]
+
+
+    #Start Loop for Ports
+    for index, i in enumerate(Potentials,start = 1):
+        data = 'Sub Main () ' \
+                    '\nWith Port' + \
+                    '\n.Reset' + \
+                    '\n.PortNumber ' + '"' + str(PortNum[index-1]) + '"' + \
+                    '\n.NumberOfModes (2)' + \
+                    '\n.AdjustPolarization (False)' + \
+                    '\n.PolarizationAngle (0.0)' + \
+                    '\n.ReferencePlaneDistance (0)' + \
+                    '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
+                    '\n.Orientation ' +  '"' + str(Orientation[index-1]) + '"' + \
+                    '\n.PortOnBound (False)' + \
+                    '\n.ClipPickedPortToBound (False)' + \
+                    '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
+                    '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
+                    '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
+                    '\n.Create' + \
+                '\nEnd With'  + \
+                '\nEnd Sub'
+        Port[str(index)] = ''.join(data)
+
+    return Port
+
 
 
 
@@ -653,7 +724,7 @@ def Pick(Parameters):
 
     if Parameters["Option"] == "Face":
         data = 'Sub Main () ' \
-                    'Pick.PickFaceFromId ' + '"' + str(FaceName) + '"' + "," +  '"' + str(Number)+ '"' \
+                    '\nPick.PickFaceFromId ' + '"' + str(FaceName) + '"' + "," +  '"' + str(Number)+ '"' \
                 '\nEnd Sub'
     return data
 

@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import pandas as pandas
 import sys
 import os
-# Add the directory containing 'Curves_Functions' to sys.path
-module_dir = os.path.abspath("C:/Users/marti/Desktop/UPB Kursen/CST with Python")
-sys.path.append(module_dir)
+# Add the directory containing the project to sys.path
+current_path = os.path.dirname(os.path.abspath('__file__'))
+sys.path.append(current_path)
 from Curves_Functions import Curves
 from VBA_Test_Syntax import *
 from Components import *
@@ -41,7 +41,7 @@ plt.show()
 # Call CST as Object and Open existing Project 
 
 # Local path to CST project file --> Please adapt
-cst_path = r'C:/Users/marti/Desktop/UPB Kursen/CST with Python/' # path
+cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
 cst_project2 = 'CST_ProgrammTest' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
@@ -163,17 +163,17 @@ proj.schematic.execute_vba_code(Globals, timeout=None)
 
 
 
-# # Define Background
-# Params = {}
-# Params["Xmin"] = 15
-# Params["Xmax"] = 25
-# Params["Ymin"] = 35
-# Params["Ymax"] = 45
-# Params["Zmin"] = 55
-# Params["Zmax"] = 65
+# Define Background
+Params = {}
+Params["Xmin"] = 1
+Params["Xmax"] = 1
+Params["Ymin"] = 1
+Params["Ymax"] = 1
+Params["Zmin"] = 1
+Params["Zmax"] = 1
 
-# BackObj = BackgroundSet(Params)
-# proj.schematic.execute_vba_code(BackObj, timeout=None)
+BackObj = BackgroundSet(Params)
+proj.schematic.execute_vba_code(BackObj, timeout=None)
 
 
 
@@ -189,7 +189,32 @@ proj.schematic.execute_vba_code(Globals, timeout=None)
 
 
 
+# def Material_Au(Name):
+#     # Add Meterial Gold.
+#     component = 'Sub Main () ' \
+#                     '\nWith Material' + \
+#                         '\n.Reset' + \
+#                         '\n.Name ' + '"' + Name + '"' + \
+#                         '\n.FrqType "All"' + \
+#                         '\n.Type "lossy metal"' + \
+#                         '\n.SetMaterialUnit "GHz", "um"' + \
+#                         '\n.Mu "1"' + \
+#                         '\n.Sigma "4.561e+007"' + \
+#                         '\n.Rho "19320"' + \
+#                         '\n.ThermalConductivity "130"' + \
+#                         '\n.ThermalType "Normal"' + \
+#                         '\n.SpecificHeat "700"' + \
+#                         '\n.YoungsModulus "78"' + \
+#                         '\n.PoissonsRatio "42"' + \
+#                         '\n.Color "1","0.84", "0"' + \
+#                         '\n.Create' + \
+#                     '\nEnd With' + \
+#                 '\nEnd Sub'
+#     CurveData = ''.join(component)
+#     return CurveData
 
+# mat = Material_Au("Gold")
+# proj.schematic.execute_vba_code(mat, timeout=None)
 
 
 Parameters = {}
@@ -215,12 +240,12 @@ MZM(Parameters, proj)
 
 # Set Boundary
 BoundaryParams = {}
-BoundaryParams["Xmin"] = 'electric'
-BoundaryParams["Xmax"] = 'electric'
-BoundaryParams["Ymin"] = 'electric'
-BoundaryParams["Ymax"] = 'electric'
-BoundaryParams["Zmin"] = 'electric'
-BoundaryParams["Zmax"] = 'electric' 
+BoundaryParams["Xmin"] = 'open'
+BoundaryParams["Xmax"] = 'open'
+BoundaryParams["Ymin"] = 'open'
+BoundaryParams["Ymax"] = 'open'
+BoundaryParams["Zmin"] = 'open'
+BoundaryParams["Zmax"] = 'open' 
 BoundaryParams["Xsymmetry"] = 'none'
 BoundaryParams["Ysymmetry"] = 'none'
 BoundaryParams["Zsymmetry"] = 'none'
@@ -232,194 +257,98 @@ proj.schematic.execute_vba_code(BoundarySet, timeout=None)
 
 
 
-# Set Waveguide Ports
+# # Set Waveguide Ports
+# PicParams = {}
+# PicParams["Option"] = "Face"
+# PicParams["Object"] = "Waveguide_Left:Waveguide_Left"
+# PicParams["Face Number"] = 4
 
-PicParams = {}
-PicParams["Option"] = "Face"
-PicParams["Object"] = "Electrode_Left:Electrode_Left1"
-PicParams["Face Number"] = 4
-
-PickFace = Pick(PicParams)
-proj.schematic.execute_vba_code(PickFace, timeout=None)
-
+# PickFace = Pick(PicParams)
+# proj.schematic.execute_vba_code(PickFace, timeout=None)
 
 
+# # Set Ports
+# Parameters = {}
+# Parameters["Orientation"] = ["Positive", "Negative"]
+# Parameters["Coordinates"] = "Picks"
+# Parameters["Span"] = [[[5,5],[5,5]], [[6,6],[7,7]]]
+# Parameters["Potential"] = [1,2]
+# Parameters["Polarity"] = ["Positive", "Negative"]
+# Parameters["Solid Name"] = "Electrode_Left:Electrode_Left1"
+# Parameters["Face ID"] = [4,6]
+# Parameters["Port Number"] = [4,6]
 
-def WaveguidePortTest(Parameters):
 
-    # Parameters to determin port position 
-    Orientation = Parameters["Orientation"]
-    Coordinates = Parameters["Coordinates"]
-    Xmin = Parameters["Xmin"]
-    Ymin = Parameters["Ymin"]
-    Zmin = Parameters["Zmin"]   
-
-
-
-    Port = 'Sub Main () ' \
-                '\nWith Port' + \
-                '\n.Reset' + \
-                '\n.PortNumber (1)' + \
-                '\n.NumberOfModes (2)' + \
-                '\n.AdjustPolarization (False)' + \
-                '\n.PolarizationAngle (0.0)' + \
-                '\n.ReferencePlaneDistance (0)' + \
-                '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
-                '\n.Orientation ' +  '"' + str(Orientation) + '"' + \
-                '\n.PortOnBound (False)' + \
-                '\n.ClipPickedPortToBound (False)' + \
-                '\n.Xrange ' + '"' + str(Xmin) + '"' + \
-                '\n.Yrange ' + '"' + str(Ymin) + '"' + \
-                '\n.Zrange ' + '"' + str(Zmin) + '"' + \
-                '\n.Create' + \
-            '\nEnd With'  + \
-            '\nEnd Sub'
-
-    return Port
+# Port = WaveguidePort(Parameters)
+# proj.schematic.execute_vba_code(Port['2'], timeout=None)
 
 
 
-Parameters = {}
-Parameters["Orientation"] = "Positive"
-Parameters["Coordinates"] = "Use Picks"
-Parameters["Xmin"] = 5
-Parameters["Ymin"] = 5
-Parameters["Zmin"] = 5
 
 
+# Loop for go thrue electrodes and set ports
+Names = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
+Ports = [[1,2], [3,4], [5,6]]
+for index, j in enumerate(Names, start=1):
+    # print(Names[index-1])
+    Parameters = {}
+    Parameters["Orientation"] = ["Positive", "Negative"]
+    Parameters["Coordinates"] = "Picks"
+    Parameters["Span"] = [[[1,1],[0.5,0.5]], [[1,1],[1,1]]]
+    Parameters["Potential"] = [1,2]
+    Parameters["Port Number"] = Ports[index-1]
+    Parameters["Polarity"] = ["Positive", "Negative"]
+    Parameters["Solid Name"] = Names[index-1]
+    Parameters["Face ID"] = [4,6]
+    PortNum = [1,2]
 
-Port = WaveguidePortTest(Parameters)
-proj.schematic.execute_vba_code(Port, timeout=None)
-
-
-# .AdjustPolarization (False)
-# .PolarizationAngle (0.0)
-# .ReferencePlaneDistance (0)
-# .Orientation "Positive"
-# .PortOnBound (False)
-# .ClipPickedPortToBound (False)
-# .Xrange "0", "5"
-# .Yrange "0", "5"
-# .Zrange "0", "5"
-
-
-
+    PicParams = {}
+    PicParams["Option"] = "Face"
+    PicParams["Object"] = Names[index-1]
+    Port = WaveguidePort(Parameters)
     
-
-
-
-
-# # Material Definition
-# Data = {}
-# Data["X"] = 27
-# Data["Y"] = 43
-# Data["Z"] = 43
-
-# # LiNbO3
-# MaterialDAta = Material("LiNbO3", Data)
-# proj.schematic.execute_vba_code(MaterialDAta, timeout=None)
-
-# # Silicon
-# dat = Material_Silicon("Silicon (lossy)")
-# proj.schematic.execute_vba_code(dat, timeout=None)
-
-# Parameters = {}
-# Parameters['X1'] = -GlobalParam['Length']/2
-# Parameters['X2'] = GlobalParam['Length']/2
-# Parameters['Y1'] = TotalWidth/2
-# Parameters['Y2'] = -TotalWidth/2 
-# Parameters['Z1'] = 0
-# Parameters['Z2'] = 1
-# TestBrick = Brick('Substrate', Parameters, Material = "Silicon (lossy)")
-# proj.schematic.execute_vba_code(TestBrick, timeout=None)
-
-
-
-# Parameters = {}
-# Parameters['X1'] = -GlobalParam['Length']/2
-# Parameters['X2'] = GlobalParam['Length']/2
-# Parameters['Y1'] = -TotalWidth/2
-# Parameters['Y2'] = -TotalWidth/2 + GlobalParam['Width_GND']
-# Parameters['Z1'] = 0
-# Parameters['Z2'] = 2
-# TestBrick = Brick('GND_Left_Electrode', Parameters)
-# proj.schematic.execute_vba_code(TestBrick, timeout=None)
-
-
-
-# Parameters = {}
-# Parameters['X1'] = -GlobalParam['Length']/2
-# Parameters['X2'] = GlobalParam['Length']/2
-# Parameters['Y1'] = -TotalWidth/2 + GlobalParam['Width_GND'] + GlobalParam['Width_Gap']
-# Parameters['Y2'] = -TotalWidth/2 + GlobalParam['Width_GND'] + GlobalParam['Width_Gap'] +  GlobalParam['Width_Signal']
-# Parameters['Z1'] = 0
-# Parameters['Z2'] = 2
-# TestBrick = Brick('Signal_Electrode', Parameters)
-# proj.schematic.execute_vba_code(TestBrick, timeout=None)
-
-
-
-# Parameters = {}
-# Parameters['X1'] = -GlobalParam['Length']/2
-# Parameters['X2'] = GlobalParam['Length']/2
-# Parameters['Y1'] = -TotalWidth/2 + GlobalParam['Width_GND'] + 2*GlobalParam['Width_Gap'] + GlobalParam['Width_Signal']
-# Parameters['Y2'] = -TotalWidth/2 + 2*GlobalParam['Width_GND'] + 2*GlobalParam['Width_Gap'] + GlobalParam['Width_Signal']
-# Parameters['Z1'] = 0
-# Parameters['Z2'] = 2
-# TestBrick = Brick('GND_right_Electrode', Parameters)
-# proj.schematic.execute_vba_code(TestBrick, timeout=None)
-
-
-# Points = {}
-# Points["X"] = [GlobalParam['Length']/2, -GlobalParam['Length']/2]
-# Points["Y"] = [-TotalWidth/2 + GlobalParam['Width_GND'], -TotalWidth/2 + GlobalParam['Width_GND'] + 1]
-# Points["Z"] = [0,2]
-
-
-# WGLeft_Edge = -TotalWidth/2 + GlobalParam['Width_GND']
-# WGTopWidth = 4
-
-# Points = {}
-# Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
-# # Points['X'] = np.array([-10, -10, 10, 10, -10])
-# Points["Y"] = [WGLeft_Edge + WGTopWidth/2 , WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth, WGLeft_Edge + WGTopWidth/2, WGLeft_Edge + WGTopWidth/2]
-# # Points['Y'] = np.array([-5, 5, 5, -5, -5])
-
-
-
-# # Waveguide and Waveguide to solid
-# WG = RibWG(WGName = "Waveguide_Left", Points = Points)
-# proj.schematic.execute_vba_code(WG, timeout=None)
-# RibWG_Test = RibWaveguide_ToSolid("Waveguide_Left", WG_Hight = 2, Angle = 10, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
-# proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
-
-
-
-# WGLeft_Edge = TotalWidth/2 - GlobalParam['Width_GND']
-# WGTopWidth = 4
-
-
-
-# Points = {}
-# Points["X"] = [-GlobalParam['Length']/2, -GlobalParam['Length']/2, GlobalParam['Length']/2, GlobalParam['Length']/2, -GlobalParam['Length']/2]
-# # Points['X'] = np.array([-10, -10, 10, 10, -10])
-# Points["Y"] = [-WGLeft_Edge - WGTopWidth/2 , -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth, -WGLeft_Edge - WGTopWidth/2, -WGLeft_Edge - WGTopWidth/2]
-# # Points['Y'] = np.array([-5, 5, 5, -5, -5])
-
-
-
-
-# WG = RibWG(WGName = "Waveguide_Right", Points = Points)
-# proj.schematic.execute_vba_code(WG, timeout=None)
-# RibWG_Test = RibWaveguide_ToSolid("Waveguide_Right", WG_Hight = -2, Angle = 10, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
-# proj.schematic.execute_vba_code(RibWG_Test, timeout=None)
+    for i in range(len(Parameters["Face ID"])):
+        PicParams["Face Number"] = Parameters["Face ID"][i]
+        PickFace = Pick(PicParams)
+        proj.schematic.execute_vba_code(PickFace, timeout=None)
+        proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
 
 
 
 
 
+# Optical Waveguide Ports
 
 
+
+
+# Loop for go thrue electrodes and set ports
+Names = ["Waveguide_Left:Waveguide_Left", "Waveguide_Right:Waveguide_Right"]
+Ports = [[7, 8], [9, 10]]
+for index, j in enumerate(Names, start=1):
+    # print(Names[index-1])
+    Parameters = {}
+    Parameters["Orientation"] = ["Positive", "Negative"]
+    Parameters["Coordinates"] = "Picks"
+    Parameters["Span"] = [[[0.3, 0.3],[0.3, 0.3]], [[0.3, 0.3],[0.3, 0.3]]]
+    Parameters["Potential"] = [1,2]
+    Parameters["Port Number"] = Ports[index-1]
+    Parameters["Polarity"] = ["Positive", "Negative"]
+    Parameters["Solid Name"] = Names[index-1]
+    Parameters["Face ID"] = [4,6]
+    PortNum = [1,2]
+
+    PicParams = {}
+    PicParams["Option"] = "Face"
+    PicParams["Object"] = Names[index-1]
+    Port = WaveguidePort(Parameters)
+    
+    for i in range(len(Parameters["Face ID"])):
+        PicParams["Face Number"] = Parameters["Face ID"][i]
+        PickFace = Pick(PicParams)
+        print(PortNum[i])
+        proj.schematic.execute_vba_code(PickFace, timeout=None)
+        proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
 
 
 

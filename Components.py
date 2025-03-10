@@ -16,7 +16,7 @@ from VBA_Test_Syntax import *
 def MZM(Parameters, CST):
     
     Length_MZM = Parameters["Lenght_Electrodes"]
-    Length_WG = Parameters["Lenght_Electrodes"] + 10
+    Length_WG = Parameters["Lenght_Electrodes"] # + 10
     Width_Electrodes = Parameters["Width_GND"]
     Width_Signal = Parameters["Width_Signal"]
     Width_WG = Parameters["WG_Width"]

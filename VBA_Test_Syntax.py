@@ -706,12 +706,11 @@ def OpticalWaveguidePort(Parameters):
                     '\n.ClipPickedPortToBound (False)' + \
                     '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
                     '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
-                    '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
                     '\n.Create' + \
                 '\nEnd With'  + \
                 '\nEnd Sub'
         Port[str(index)] = ''.join(data)
-
+    #'\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
     return Port
 
 

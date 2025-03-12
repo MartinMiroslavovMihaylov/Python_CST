@@ -165,5 +165,72 @@ def MZM(Parameters, CST):
 
 
 # # Ports and Solvers and Background
-# def MZM_Solver():
+def Squere_Waveguide(Parameters, CST):
+    Length_WG = Parameters["Lenght WG"]
+    Hight_WG = Parameters["Hight WG"]
+    Width_WG = Parameters["Width WG"]
+    Height_Substrate = Parameters["Substrate Height"]
+    Heigh_Slab = Parameters["Slab Heigh"]
+    # Material = Parameters["Materials"]
 
+
+
+    # Set optical Material Properties Eps X,Y,Z
+    Data = {}
+    Data["X"] = 27
+    Data["Y"] = 43
+    Data["Z"] = 43
+
+    MaterialDAta = Material("LiNbO3", Data)
+    CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    MaterialDAta = Material_Silicon("Silicon (lossy)")
+    CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    
+
+    # Global Parameters for the WG
+    WidthObject = 4*Width_WG 
+ 
+
+    # Substrate Definition 
+    Parameters = {}
+    Parameters['X1'] = -Length_WG/2
+    Parameters['X2'] = Length_WG/2
+    Parameters['Y1'] = -WidthObject/2
+    Parameters['Y2'] = WidthObject/2 
+    Parameters['Z1'] = -Height_Substrate/2
+    Parameters['Z2'] = Height_Substrate/2
+    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "Silicon (lossy)")
+    CST.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+    # Slab definition
+    if Heigh_Slab == 0:
+        HeightZ = Height_Substrate/2
+    else:
+        Parameters = {}
+        Parameters['X1'] = -Length_WG/2
+        Parameters['X2'] = Length_WG/2
+        Parameters['Y1'] = -WidthObject/2
+        Parameters['Y2'] = WidthObject/2 
+        Parameters['Z1'] = Height_Substrate/2
+        Parameters['Z2'] = Height_Substrate/2 + Heigh_Slab
+        TestBrick = Brick('LNOI_Slab', Parameters, Material = "LiNbO3")
+        CST.schematic.execute_vba_code(TestBrick, timeout=None)
+        HeightZ = Height_Substrate/2 + Heigh_Slab
+    
+    # Create squere Waveguide
+    Parameters = {}
+    Parameters['X1'] = -Length_WG/2
+    Parameters['X2'] = Length_WG/2
+    Parameters['Y1'] = -Width_WG/2 
+    Parameters['Y2'] = Width_WG/2  
+    Parameters['Z1'] = HeightZ
+    Parameters['Z2'] = HeightZ + Hight_WG
+    TestBrick = Brick("WG", Parameters, Material = "LiNbO3")
+    CST.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+
+    

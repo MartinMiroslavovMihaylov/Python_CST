@@ -177,9 +177,9 @@ def Squere_Waveguide(Parameters, CST):
 
     # Set optical Material Properties Eps X,Y,Z
     Data = {}
-    Data["X"] = 27
-    Data["Y"] = 43
-    Data["Z"] = 43
+    Data["X"] = 44.3
+    Data["Y"] = 27.9
+    Data["Z"] = 44.3
 
     MaterialDAta = Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)

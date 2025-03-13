@@ -110,6 +110,13 @@ Units = SetUnits(UnitParams)
 proj.schematic.execute_vba_code(Units, timeout=None)
 
 
+# Set Freqeuency of operation
+Parameters = {}
+Parameters["Min Frequency"] = 1
+Parameters["Max Frequency"] = 200
+
+data = SetSimFreqeuncy(Parameters)
+proj.schematic.execute_vba_code(data, timeout=None)
 
 
 # BondWire = BondWire(NameWire = "TestWire" ,Coordinates = Parameters, Height = 1, Radius = 0.5 , BondwireType = "Spline", Material = "Copper (annealed)",  NameFolder = "BondWire")
@@ -207,22 +214,22 @@ proj.schematic.execute_vba_code(BackObj, timeout=None)
 
 
 
-# # Set Boundary
-# BoundaryParams = {}
-# BoundaryParams["Xmin"] = 'open'
-# BoundaryParams["Xmax"] = 'open'
-# BoundaryParams["Ymin"] = 'open'
-# BoundaryParams["Ymax"] = 'open'
-# BoundaryParams["Zmin"] = 'open'
-# BoundaryParams["Zmax"] = 'open' 
-# BoundaryParams["Xsymmetry"] = 'none'
-# BoundaryParams["Ysymmetry"] = 'none'
-# BoundaryParams["Zsymmetry"] = 'none'
+# Set Boundary
+BoundaryParams = {}
+BoundaryParams["Xmin"] = 'open'
+BoundaryParams["Xmax"] = 'open'
+BoundaryParams["Ymin"] = 'open'
+BoundaryParams["Ymax"] = 'open'
+BoundaryParams["Zmin"] = 'open'
+BoundaryParams["Zmax"] = 'open' 
+BoundaryParams["Xsymmetry"] = 'none'
+BoundaryParams["Ysymmetry"] = 'none'
+BoundaryParams["Zsymmetry"] = 'none'
 
 
 
-# BoundarySet = SetBoundary(BoundaryParams)
-# proj.schematic.execute_vba_code(BoundarySet, timeout=None)
+BoundarySet = SetBoundary(BoundaryParams)
+proj.schematic.execute_vba_code(BoundarySet, timeout=None)
 
 
 
@@ -300,61 +307,142 @@ Parameters["Slab Heigh"] = 0
 WG = Squere_Waveguide(Parameters, proj)
 
 
-PicParams = {}
-PicParams["Option"] = "Face"
-PicParams["Object"] = "WG:WG1"
-PicParams["Face Number"] = "6"
-PickFace = Pick(PicParams)
-proj.schematic.execute_vba_code(PickFace, timeout=None)
+FaceID = [4,6]
+for index, i in enumerate(FaceID):
+    PicParams = {}
+    PicParams["Option"] = "Face"
+    PicParams["Object"] = "WG:WG1"
+    PicParams["Face Number"] = i
+    PickFace = Pick(PicParams)
+    proj.schematic.execute_vba_code(PickFace, timeout=None)
 
 
 
 
-Parameters = {}
-Parameters["Orientation"] = ["Positive", "Negative"]
-Parameters["Coordinates"] = "Picks"
-Parameters["Span"] = [[[0.5, 0.5],[0.5, 0.5]], [[0.5, 0.5],[0.5, 0.5]]]
-Parameters["Potential"] = [1,2]
-Parameters["Port Number"] = [1,2]
-Parameters["Polarity"] = ["Positive", "Positive"]
-Parameters["Solid Name"] = "WG:WG1"
-Parameters["Face ID"] = [2,4]
+    Parameters = {}
+    Parameters["Orientation"] = ["Positive", "Positive"]
+    Parameters["Coordinates"] = "Picks"
+    Parameters["Span"] = [[[0.3, 0.3],[0.3, 0.3]], [[0.3, 0.3],[0.3, 0.3]]]
+    Parameters["Potential"] = [1,2]
+    Parameters["Port Number"] = [1,2]
+    Parameters["Polarity"] = ["Positive", "Positive"]
+    Parameters["Solid Name"] = "WG:WG1"
+    Parameters["Face ID"] = [2,4]
 
-Port = OpticalWaveguidePort(Parameters)
-proj.schematic.execute_vba_code(Port['2'], timeout=None)
-
-
+    Port = OpticalWaveguidePort(Parameters)
+    proj.schematic.execute_vba_code(Port[str(index + 1)], timeout=None)
 
 
 
 
 
-def Port_Data(Parameters):
 
-    PortNumber = Parameters["Port Number"]
-    ModeNumber = Parameters["Mode Number"]
+# Set Time Solver
+Parameters= {}
+Parameters["Accuracy"] = 35
+Parameters["Caclculate Modes Only"] = True
+Parameters["Auto Impedance"] = False
+Parameters["Impedance"] = 50
 
-    Port = 'Sub Main () ' \
-        '\n.GetFcutoff ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetFrequency ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetModeType ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetBeta ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetAlpha ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetWaveImpedance ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetLineImpedance ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-        '\n.GetNumberOfModes ' + '"' + str(PortNumber) + \
-    '\nEnd Sub'
-    data = ''.join(Port)
-    return Port
+
+Solver = SetTimeSolver(Parameters)
+proj.schematic.execute_vba_code(Solver, timeout=None)
+
+
+
+# # Start Time Solver
+# Start = StartTimeSolver()
+# proj.schematic.execute_vba_code(Start, timeout=None)
+
+
+
+# # Set Mesh
+# def SetMesh(Parameters):
+#     '''
+#     Sets the type of the mesh.
+
+#     PBA - Hexahedral mesh with Perfect Boundary Approximation
+#     HexahedralTLM
+#     CFD
+#     CFDNew
+#     Staircase - Hexahedral mesh with staircase cells
+#     Tetrahedral - Tetrahedral mesh
+#     Surface - Surface mesh
+#     SurfaceMLS - urface multi layer mesh
+#     Planar - Planar 2D mesh
+#     '''
+
+#     MeshType = Parameters["Mesh Type"]
+
+
+#     data = 'Sub Main () ' \
+#         '\nWith Mesh' + \
+#         '\n.MeshType ' + '"' + str(MeshType) + '"' + \
+#         '\nEnd With' +\
+#         '\nEnd Sub'
+#     Port = ''.join(data)
+#     return Port
+        
+
+
+
+# Parameters = {}
+# Parameters["Mesh Type"] = "PBA"
+
+
+# Mesh = SetMesh(Parameters)
+# proj.schematic.execute_vba_code(Mesh, timeout=None)
+
+
+
+
+
+
+# # Set Time Solver
+# Parameters= {}
+# Parameters["Accuracy"] = 30
+# Parameters["Caclculate Modes Only"] = False
+# Parameters["Auto Impedance"] = True
+# Parameters["Impedance"] = 34
+
+
+# Solver = SetTimeSolver(Parameters)
+# proj.schematic.execute_vba_code(Solver, timeout=None)
+
+
+
+# # Start Time Solver
+# Start = StartTimeSolver()
+# proj.schematic.execute_vba_code(Start, timeout=None)
+
+
+
+# def Port_Data(Parameters):
+
+#     PortNumber = Parameters["Port Number"]
+#     ModeNumber = Parameters["Mode Number"]
+
+#     Port = 'Sub Main () ' \
+#         '\n.GetFcutoff ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetFrequency ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetModeType ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetBeta ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetAlpha ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetWaveImpedance ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetLineImpedance ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
+#         '\n.GetNumberOfModes ' + '"' + str(PortNumber) + \
+#     '\nEnd Sub'
+#     data = ''.join(Port)
+#     return Port
     
 
 
-Parameters = {}
-Parameters["Port Number"] = 1
-Parameters["Mode Number"] = 1
+# Parameters = {}
+# Parameters["Port Number"] = 1
+# Parameters["Mode Number"] = 1
 
-Data = Port_Data(Parameters)
-proj.schematic.execute_vba_code(Data, timeout=None)
+# Data = Port_Data(Parameters)
+# proj.schematic.execute_vba_code(Data, timeout=None)
 
 
 

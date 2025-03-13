@@ -729,6 +729,14 @@ def Pick(Parameters):
 
 
 
+def ClearAllPicks():
+    data = 'Sub Main () ' \
+        '\nPick.ClearAllPicks ' +\
+        '\nEnd Sub'
+    return data
+
+
+
 
 def RibWaveguide(WGName, Points):
 
@@ -748,3 +756,54 @@ def RibWaveguide(WGName, Points):
 
     return CurveData
 
+
+
+def SetSimFreqeuncy(Parameters):
+    FreqMin = Parameters["Min Frequency"]
+    FreqMax = Parameters["Max Frequency"]
+    
+    data = 'Sub Main () ' \
+        '\nWith Solver' + \
+        '\n.Reset' + \
+        '\n.FrequencyRange ' + '"' + str(FreqMin) + '"' + ',' + '"' + str(FreqMax) + '"' + \
+        '\nEnd With' +\
+        '\nEnd Sub'
+    Port = ''.join(data)
+    return Port
+
+
+
+def SetTimeSolver(Parameters):
+    Accuracy = Parameters["Accuracy"]
+    ModesOnly = Parameters["Caclculate Modes Only"]
+    AutoImpedance = Parameters["Auto Impedance"]
+    Impedance = Parameters["Impedance"]
+
+    data = 'Sub Main () ' \
+        '\nWith Solver' + \
+        '\n.Reset' + \
+        '\n.Method "Hexahedral"' + \
+        '\n.SteadyStateLimit ' + '"-' + str(Accuracy) + '"' + \
+        '\n.CalculateModesOnly ' + '"' + str(ModesOnly) + '"' + \
+        '\n.StimulationPort "All"' + \
+        '\n.StimulationMode "All"' + \
+        '\n.MeshAdaption "False"' + \
+        '\n.SParaSymmetry "False"' +\
+        '\n.AutoNormImpedance  ' + '"' + str(AutoImpedance) + '"' + \
+        '\n.NormingImpedance ' + '"' + str(Impedance) + '"' + \
+        '\nEnd With' + \
+        '\nEnd Sub'
+    Port = ''.join(data)
+    return Port
+        
+
+
+
+def StartTimeSolver():
+    data = 'Sub Main () ' \
+        '\nWith Solver' + \
+        '\n.Start' + \
+        '\nEnd With' + \
+        '\nEnd Sub'
+    Port = ''.join(data)
+    return Port

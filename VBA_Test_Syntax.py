@@ -1,8 +1,23 @@
 import numpy as np
+import scipy.cluster
+import scipy.constants
+from Components import *
 
 
 
 def Material(Name, Values):
+    """Add Anisotropic material to Material Libs
+
+    Args:
+        Name (str): Name of the Material
+        Values (Dict): Dictionary with the material Values:
+                        Values["X"] : X Epsilon Value
+                        Values["Y"] : Y Epsilon Value
+                        Values["Z"] : Z Epsilon Value
+    Returns:
+        str: String with the VBA code
+    """
+
     # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
     component = 'Sub Main () ' \
                     '\nWith Material' + \
@@ -31,6 +46,14 @@ def Material(Name, Values):
 
 
 def Material_Silicon(Name):
+    """Add silicon to the Material Library
+
+    Args:
+        Name (str): Name of the Material
+
+    Returns:
+        str: String with the VBA code
+    """
     # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
     component = 'Sub Main () ' \
                     '\nWith Material' + \
@@ -59,6 +82,13 @@ def Material_Silicon(Name):
 
 
 def Material_Au(Name):
+    """Add gold to the Material Library
+    Args:
+        Name (str): Name of the Material
+
+    Returns:
+        str: String with the VBA code
+    """
     # Add Meterial Gold.
     component = 'Sub Main () ' \
                     '\nWith Material' + \
@@ -85,94 +115,6 @@ def Material_Au(Name):
 
 
 
-def BondWire(NameWire, Coordinates, Height, Radius, BondwireType = "Spline", CenterPosition = 0.5, alpha = None, beta = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None):
-
-    # Check the BondwireType
-    if BondwireType in ["Spline", "JEDEC4", "JEDEC5"]:
-        BondwireType = BondwireType
-        if BondwireType == "JEDEC5":
-            if alpha == None or beta == None:
-                raise ValueError(
-                    'When using "JEDEC5" an alpha and betta parameters need to be defined. See CST documentation!! ')
-            else:
-                pass
-    else:
-        raise ValueError("BondwireType can be on of ['Spline', 'JEDEC4', 'JEDEC5']")
-
-
-    # Material Def
-    if Material == None:
-        Material = "PCE"
-    else:
-        Materila = Material
-
-
-    # Check Termination
-    if Termination != None:
-        if Termination in ["natural" , "rounded" , "extended"]:
-            Termination = Termination
-        else:
-            raise ValueError('Termination can be only one of ["natural" , "rounded" , "extended"]')
-    else:
-        Termination = "natural"
-
-    # Folder Name
-    if NameFolder == None:
-        NameFolder = NameWire
-    else:
-        NameFolder = NameFolder
-
-
-    if BondwireType in ["Spline", "JEDEC4"]:
-        component = 'Sub Main () ' \
-                        '\nWith Wire' + \
-                            '\n.Reset' + \
-                            '\n.Folder ' + '"' + NameFolder + '"' + \
-                            '\n.Type "Bondwire"' + \
-                            '\n.Name ' + '"' + NameWire + '"' + \
-                            '\n.BondWireType ' + '"' + BondwireType + '"' + \
-                            '\n.Point1 ' + '"'+ str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["Y1"]) + '"' + ',' + '"' + str(Coordinates["Z1"])  + '"' + ', "False"' + \
-                            '\n.Point2 ' + '"'+ str(Coordinates["X2"]) + '"' + ',' + '"' + str(Coordinates["Y2"]) + '"' + ',' + '"' + str(Coordinates["Z2"])  + '"' + ', "False"' + \
-                            '\n.Height ' + '"' + str(Height) + '"' + \
-                            '\n.Radius ' + '"' + str(Radius) + '"' + \
-                            '\n.RelativeCenterPosition ' + '"' + str(CenterPosition) + '"' + \
-                            '\n.Material ' + '"' + Material + '"' + \
-                            '\n.SolidWireModel ' + '"' + str(SolidWireModel) + '"' + \
-                            '\n.Termination ' + '"' + Termination + '"' +\
-                            '\n.Add' + \
-                        '\nEnd With' + \
-                    '\nEnd Sub'
-        return component
-    # '\n.Folder ' + '"' + NameFolder + '"' + \
-
-    else:
-        component = 'Sub Main () ' \
-                        '\nWith Wire' + \
-                            '\n.Reset' + \
-                            '\n.Folder ' + '"' + NameFolder + '"' + \
-                            '\n.Type "Bondwire"' + \
-                            '\n.Name ' + '"' + NameWire + '"' + \
-                            '\n.BondWireType ' + '"' + BondwireType + '"' + \
-                            '\n.Point1 ' + '"' + str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["Y1"]) + '"' + ',' + '"' + str(Coordinates["Z1"]) + '"' + ', "False"' + \
-                            '\n.Point2 ' + '"' + str(Coordinates["X2"]) + '"' + ',' + '"' + str(Coordinates["Y2"]) + '"' + ',' + '"' + str(Coordinates["Z2"]) + '"' + ', "False"' + \
-                            '\n.Height ' + '"' + str(Height) + '"' + \
-                            '\n.Radius ' + '"' + str(Radius) + '"' + \
-                            '\n.alpha ' + '"' + str(alpha) + '"' + \
-                            '\n.beta ' + '"' + str(beta) + '"' + \
-                            '\n.Material ' + '"' + Material + '"' + \
-                            '\n.SolidWireModel ' + '"' + str(SolidWireModel) + '"' + \
-                            '\n.Termination ' + '"' + Termination + '"' + \
-                            '\n.Add' + \
-                        '\nEnd With' + \
-                    '\nEnd Sub'
-
-
-
-        return component
-
-
-
-
 def Curve(CurveName, Points):
 
     CurveName  = CurveName
@@ -192,64 +134,20 @@ def Curve(CurveName, Points):
 
 
 
-
-def CurveWire(NameWire, Radius, Points = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None, CurveFolderName = None, CurveName = None):
-
-    # Check of Dict of Points for X and Y are given
-    if Points == None:
-        raise ValueError('To create an Curve you need an Dictionary with two Variable "X" and "Y". The Values for Dict["X"] can be an array of points')
-    else:
-        pass
-
-
-    # Folder Name
-    if NameFolder == None:
-        NameFolder = NameWire
-    else:
-        NameFolder = NameFolder
-
-
-    # Check Termination
-    if Termination != None:
-        if Termination in ["natural", "rounded", "extended"]:
-            Termination = Termination
-        else:
-            raise ValueError('Termination can be only one of ["natural" , "rounded" , "extended"]')
-    else:
-        Termination = "natural"
-
-    # Material Def
-    if Material == None:
-        Material = "PCE"
-    else:
-        Materila = Material
-
-    # Check if Curve Name and Folder Name are given
-    if CurveFolderName == None or CurveName == None:
-        raise ValueError("To create an Curve Wire you need to give the Curve Folder Name (CurveFolderName) and the Curve Name (CurveName) that you already gave!")
-
-
-    component = 'Sub Main () ' \
-                    '\nWith Wire' + \
-                        '\n.Reset' + \
-                        '\n.Folder ' + '"' + NameFolder + '"' + \
-                        '\n.Type "Curvewire"' + \
-                        '\n.Name ' + '"' + NameWire + '"' + \
-                        '\n.Curve ' + '"' + CurveFolderName + ':' + CurveName + '"' + \
-                        '\n.Radius ' + '"' + str(Radius) + '"' + \
-                        '\n.SolidWireModel ' + '"' + str(SolidWireModel) + '"' + \
-                        '\n.Material ' + '"' + Material + '"' + \
-                        '\n.Termination ' + '"' + Termination + '"' + \
-                        '\n.Add' + \
-                    '\nEnd With' + \
-                '\nEnd Sub'
-    return component
-
-
-
-
-
 def ToSolid(SolidName, CurveName = "Polygon", NameFolder = None, Material = None ):
+    """This function transfer an function or polynom to solid object.
+
+    Args:
+        SolidName (str): Name of the solid object
+        CurveName (str, optional): Name of the curve. Defaults to "Polygon".
+        NameFolder (str, optional): Name of the folder. Defaults to Curve name.
+        Material (str, optional): Material for of the Bond wire. For now you need to load the material 
+                                  in your simulation and then use this function. Otherwise the material 
+                                  will not be found. Defaults to Aluminum.
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     #Check Curve Name
     if CurveName != "Polygon":
@@ -287,7 +185,18 @@ def ToSolid(SolidName, CurveName = "Polygon", NameFolder = None, Material = None
 
 
 
-def RibWG(WGName, Points):
+def Poligon_2D(WGName, Points):
+    """Create the 2D poligon for tRib waveguide
+
+    Args:
+        WGName (str): Name of the poligon
+        Points (dict): Dictionary with the Points:
+                        Points['X'] = []
+                        Points['Y'] = []
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     WGName  = WGName
     # Extract the first points as starting Points
@@ -306,7 +215,19 @@ def RibWG(WGName, Points):
 
 
 
-def RibWG_Z(WGName, Points):
+def Poligon_3D(WGName, Points):
+    """Create the 2D poligon for tRib waveguide
+
+    Args:
+        WGName (str): Name of the poligon
+        Points (dict): Dictionary with the Points:
+                        Points['X'] = []
+                        Points['Y'] = []
+                        Points['Z'] = []   
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     WGName  = WGName
     # Extract the first points as starting Points
@@ -332,6 +253,27 @@ def RibWG_Z(WGName, Points):
 
 
 def RibWaveguide_ToSolid(SolidName, WaveguideName = "Rib_Waveguide", WG_Hight = None, Angle = None, NameFolder = None, Material = None, WGFolderName = None, WGName = None ):
+    """This is ToSolid function that will allow the use to create the RibWaveguide. 
+       TODO: Murrge the TOSolid and RibWaveguideToSolid functions later on. 
+
+    Args:
+        SolidName (str): Solid name
+        WaveguideName (str, optional): Waveguide Name. Defaults to "Rib_Waveguide".
+        WG_Hight (int/float, optional): Hight of the waveguide. Defaults to None.
+        Angle (int/float, optional): Side angle of the waveguide. Defaults to None.
+        NameFolder (str, optional): Folder name. Defaults to None.
+        Material (str, optional): Material for of the Bond wire. For now you need to load the material 
+                                  in your simulation and then use this function. Otherwise the material 
+                                  will not be found. Defaults to None.
+        WGFolderName (str, optional): Name of the folder where the poligon 3D or 2D is created. Defaults to None.
+        WGName (str, optional): Name of the Poligon 3D or 2D. Defaults to None.
+
+    Raises:
+        ValueError: Error massage
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     #Check Curve Name
     if WaveguideName != "Rib_Waveguide":
@@ -386,39 +328,16 @@ def RibWaveguide_ToSolid(SolidName, WaveguideName = "Rib_Waveguide", WG_Hight = 
 
 
 
-def Brick(BrickName, Coordinates, NameComponent = None, Material = None ):
-
-    # Folder Name
-    if NameComponent != None:
-        NameComponent = NameComponent
-    else:
-        NameComponent = BrickName
-
-    # Material Def
-    if Material == None:
-        Material = "Copper (annealed)"
-    else:
-        Material = Material
-
-
-    SolidWire = 'Sub Main () ' \
-                    '\nWith Brick' + \
-                        '\n.Reset' + \
-                        '\n.Name ' + '"' + BrickName + '1"' + \
-						'\n.Component ' + '"' + NameComponent + '"' + \
-                        '\n.Material ' + '"' + Material + '"' + \
-                        '\n.Xrange ' + '"' + str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["X2"]) + '"' + \
-						'\n.Yrange ' + '"' + str(Coordinates["Y1"]) + '"' + ',' + '"' + str(Coordinates["Y2"]) + '"' + \
-						'\n.Zrange ' + '"' + str(Coordinates["Z1"]) + '"' + ',' + '"' + str(Coordinates["Z2"]) + '"' + \
-						'\n.Create' + \
-                    '\nEnd With' + \
-                '\nEnd Sub'
-    return SolidWire
-
-
-
 
 def AddGlobalParameter(Parameters):
+    """Add Global parameters to the working enviroment
+
+    Args:
+        Parameters (dict): Dictionary with the name and value of the parameter.
+                           GlobalParam['Length']
+    Returns:
+        str: String with VBA Code 
+    """
 
     # Parameters Values and Keys
     Param = list(Parameters.keys())
@@ -438,6 +357,15 @@ def AddGlobalParameter(Parameters):
 
 
 def DeleteGlobalParameter(Parameters):
+    """Delete an Global parameter from the enviroment.
+
+    Args:
+        Parameters (dict): Dictionary with the name and value of the parameter.
+                           GlobalParam['Length']
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     # Parameters Values and Keys
     Param = list(Parameters.keys())
@@ -457,6 +385,21 @@ def DeleteGlobalParameter(Parameters):
 
 
 def BackgroundSet(Coordinates, Type = None):
+    """Set the Simulation background.
+
+    Args:
+        Coordinates (dic): Dictionary with coordinates for the background. 
+                            Coordinates["Xmin"] = int/float
+                            Coordinates["Xmax"] = int/float
+                            Coordinates["Ymin"] = int/float
+                            Coordinates["Ymax"] = int/float
+                            Coordinates["Zmin"] = int/float
+                            Coordinates["Zmax"] = int/float
+        Type (str, optional): Type of background material. Cehck CST for more information. Defaults to Normal.
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     #Check Background Type
     if Type == None:
@@ -489,6 +432,24 @@ def BackgroundSet(Coordinates, Type = None):
 
 
 def SetUnits(DictUnits):
+    """Set the Simulation Global Units
+
+    Args:
+        DictUnits (dict): Dictionary with Units:
+                          DictUnits['Dimensions'] - Length
+                          DictUnits['Frequency'] - Frequency
+                          DictUnits['Time'] - time
+                          DictUnits['Temperature'] - Temperature
+                          Not nessesery. Can be left out
+                          DictUnits['Voltage'] - Voltage
+                          DictUnits['Current'] - Current
+                          DictUnits['Resistance'] - Resistance
+                          DictUnits['Conductance'] - Conductance
+                          DictUnits['Capacitance'] - Capacitance
+                          DictUnits['Inductance'] - Inductance
+    Returns:
+        str: String with VBA Code 
+    """
 
     #Check Values
     Keys = list(DictUnits.keys())
@@ -570,7 +531,24 @@ def SetUnits(DictUnits):
 
 
 def SetBoundary(Parameters):
+    """Set Boundary box Parameters
 
+    Args:
+        Parameters (dict): Dictionary with Boundary Parameters 
+                            Parameters["Xmin"] = str
+                            Parameters["Xmax"] = str
+                            Parameters["Ymin"] = str
+                            Parameters["Ymax"] = str
+                            Parameters["Zmin"] = str
+                            Parameters["Zmax"] = str 
+                            Parameters["Xsymmetry"] = str
+                            Parameters["Ysymmetry"] = str
+                            Parameters["Zsymmetry"] = str
+
+
+    Returns:
+        str: String with VBA Code 
+    """
     # Boundary parameters
     Xmin = Parameters["Xmin"] 
     Xmax = Parameters["Xmax"] 
@@ -613,6 +591,26 @@ def SetBoundary(Parameters):
 
 
 def WaveguidePort(Parameters):
+    """Set the Waveguide Port for  
+
+    Args:
+        Parameters (dict): Dictionary with Port Parameters
+                            Parameters["Orientation"] = Str with Port Orientation can be "Positive" or "Negative". For 
+                                                        this function an 2 ports will be defined so please give an array with two Oriantations
+                                                        like  Parameters["Orientation"] = ["Positive", "Positive"]
+                            Parameters["Coordinates"] = Str witch Coordinates type, "Picks" is the best one!
+                            Parameters["Span"] = Array with Array of port span [[Ymin, Ymax],[Zmin, Zmax]]
+                            Parameters["Potential"] = Array with port Potential . For example [1,2]
+                            Parameters["Port Number"] = Array with Port number [1,2]
+                            Parameters["Polarity"] = Port Polarity can be be "Positive" or "Negative". For 
+                                                    this function an 2 ports will be defined so please give an 
+                                                    array with two Polaritys. For example Parameters["Polarity"] = ["Positive", "Positive"]
+                            Parameters["Solid Name"] = Name of the Object on witch the Waveguide port will be created. For example "WG:WG1"
+                            Parameters["Face ID"] = Array with the ID of the two picked faces. For example Parameters["Face ID"] = [2,4]
+
+    Returns:
+        str: String with VBA Code 
+    """
 
     # Parameters to determin port position 
     Orientation = Parameters["Orientation"]
@@ -643,80 +641,36 @@ def WaveguidePort(Parameters):
                     '\nWith Port' + \
                     '\n.Reset' + \
                     '\n.PortNumber ' + '"' + str(PortNum[index-1]) + '"' + \
-                    '\n.NumberOfModes (2)' + \
-                    '\n.AdjustPolarization (False)' + \
-                    '\n.PolarizationAngle (0.0)' + \
-                    '\n.ReferencePlaneDistance (0)' + \
+                    '\n.NumberOfModes "5"' + \
+                    '\n.ReferencePlaneDistance "0"' + \
                     '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
                     '\n.Orientation ' +  '"' + str(Orientation[index-1]) + '"' + \
-                    '\n.PortOnBound (False)' + \
-                    '\n.ClipPickedPortToBound (False)' + \
+                    '\n.PortOnBound "False"' + \
+                    '\n.ClipPickedPortToBound "False"' + \
                     '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
                     '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
-                    '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
+                    '\n.AdjustPolarization "True"' +\
+                    '\n.PolarizationAngle "0"' +\
                     '\n.Create' + \
                 '\nEnd With'  + \
                 '\nEnd Sub'
+        #  '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
         Port[str(index)] = ''.join(data)
 
     return Port
-
-
-
-
-
-def OpticalWaveguidePort(Parameters):
-
-    # Parameters to determin port position 
-    Orientation = Parameters["Orientation"]
-    Coordinates = Parameters["Coordinates"]
-    # Choose coordinates
-    Span11 = Parameters["Span"][0][0]
-    Span12 = Parameters["Span"][0][1]
-    Span21 = Parameters["Span"][1][0]
-    Span22 = Parameters["Span"][1][1]
-    Polarity = Parameters["Polarity"]
-    SolidName = Parameters["Solid Name"]
-    PickID = Parameters["Face ID"]
-    #Return Ports in Dictionary for one Object 2 Ports can be define 
-    Port = {}
-    Port["1"] = None
-    Port["2"] = None
-
-    # Ports Numbers
-    PortNum = Parameters["Port Number"]
-
-    # loop true mode sets
-    Potentials = Parameters["Potential"]
-
-
-    #Start Loop for Ports
-    for index, i in enumerate(Potentials,start = 1):
-        data = 'Sub Main () ' \
-                    '\nWith Port' + \
-                    '\n.Reset' + \
-                    '\n.PortNumber ' + '"' + str(PortNum[index-1]) + '"' + \
-                    '\n.NumberOfModes (2)' + \
-                    '\n.AdjustPolarization (False)' + \
-                    '\n.PolarizationAngle (0.0)' + \
-                    '\n.ReferencePlaneDistance (0)' + \
-                    '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
-                    '\n.Orientation ' +  '"' + str(Orientation[index-1]) + '"' + \
-                    '\n.PortOnBound (False)' + \
-                    '\n.ClipPickedPortToBound (False)' + \
-                    '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
-                    '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
-                    '\n.Create' + \
-                '\nEnd With'  + \
-                '\nEnd Sub'
-        Port[str(index)] = ''.join(data)
-    #'\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
-    return Port
-
-
 
 
 def Pick(Parameters):
+    """Pick function
+
+    Args:
+        Parameters (dict): Dictionary with Parameters   
+                        PicParams["Option"] : Pcik option. For example "Face"
+                        PicParams["Object"] : Name of the object on witch the pick will be executed.
+                        PicParams["Face Number"] = int with the ID of the picked Face for example.
+    Returns:
+        str: String with VBA Code 
+    """
     # Parameters for Picking an object
     FaceName = Parameters["Object"]
     Number = Parameters["Face Number"]
@@ -730,6 +684,11 @@ def Pick(Parameters):
 
 
 def ClearAllPicks():
+    """Clear all pciks
+
+    Returns:
+        str: String with VBA Code 
+    """
     data = 'Sub Main () ' \
         '\nPick.ClearAllPicks ' +\
         '\nEnd Sub'
@@ -738,27 +697,17 @@ def ClearAllPicks():
 
 
 
-def RibWaveguide(WGName, Points):
-
-    WGName  = WGName
-    # Extract the first points as starting Points
-    Start_PointX = Points['X'][0]
-    Start_PointY = Points['Y'][0]
-    Start_PointZ = Points['Z'][0]
-    tmp = []
-    
-    tmp.append('Sub Main () ' + '\nWith Polygon3D' + '\n.Reset' + '\n.Name ' + '"' + WGName  + '"' + '\n.Curve ' + '"' + WGName  + '"' + '\n.Point ' + '"' + str(Start_PointX) + '"' + ',' + '"' + str(Start_PointY) + '"'',' + '"' + str(Start_PointZ) + '"')
-    for i in range(1, len(Points['X'])):
-        b = '\n.LineTo ' + '"' + str(Points['X'][i]) + '"' + ',' + '"' + str(Points['Y'][i]) + '"'',' + '"' + str(Points['Z'][i]) + '"'
-        tmp.append(b)
-    tmp.append('\n.Create' + '\nEnd With' + '\nEnd Sub')
-    CurveData = ''.join(tmp)
-
-    return CurveData
-
-
-
 def SetSimFreqeuncy(Parameters):
+    """Set Simulation Frequency
+
+    Args:
+        Parameters (dict): Dictionary with Parameters
+                            Parameters["Min Frequency"] : Min Frequency of Simulation
+                            Parameters["Max Frequency"] : Max Frequency of Simulation
+
+    Returns:
+        str: String with VBA Code 
+    """
     FreqMin = Parameters["Min Frequency"]
     FreqMax = Parameters["Max Frequency"]
     
@@ -773,11 +722,50 @@ def SetSimFreqeuncy(Parameters):
 
 
 
+def SetSimWavelength(Parameters):
+    """Set Simulation SetSimWavelength
+
+    Args:
+        Parameters (dict): Dictionary with Parameters
+                            Parameters["Min Wavelength"] : Min Wavelength
+                            Parameters["Max Wavelength"] : Max Wavelength
+    Returns:
+        str: String with VBA Code 
+    """
+    WavelengthMin = Parameters["Min Wavelength"]
+    WavelengtMax = Parameters["Max Wavelength"]
+    
+    data = 'Sub Main () ' \
+        '\nWith Solver' + \
+        '\n.Reset' + \
+        '\n.WavelengthRange ' + '"' + str(WavelengthMin) + '"' + ',' + '"' + str(WavelengtMax) + '"' + \
+        '\nEnd With' +\
+        '\nEnd Sub'
+    Port = ''.join(data)
+    return Port
+
+
+
 def SetTimeSolver(Parameters):
+    """Set Time solver Parameters
+
+    Args:
+        Parameters (dict): Dictionary with Parameters
+                            Parameters["Accuracy"] : int from 10,15,20,25,30,35,40. Simulation accuracy. For example 20.    
+                            Parameters["Caclculate Modes Only"] : Boolen. True if you want to calculate 
+                            only the Ports modes. False to calculate the hole structure. 
+                            Parameters["Auto Impedance"] : Booled. Set Port Impedance. True if you want to set manually
+                            False otherwise.
+                            Parameters["Impedance"] : int/float Port Impedance. 
+                            Parameters["Source Port"] : Int. Set the Source Port. For example 1 or 2
+    Returns:
+        str: String with VBA Code 
+    """
     Accuracy = Parameters["Accuracy"]
     ModesOnly = Parameters["Caclculate Modes Only"]
     AutoImpedance = Parameters["Auto Impedance"]
     Impedance = Parameters["Impedance"]
+    Source = Parameters["Source Port"]
 
     data = 'Sub Main () ' \
         '\nWith Solver' + \
@@ -785,12 +773,13 @@ def SetTimeSolver(Parameters):
         '\n.Method "Hexahedral"' + \
         '\n.SteadyStateLimit ' + '"-' + str(Accuracy) + '"' + \
         '\n.CalculateModesOnly ' + '"' + str(ModesOnly) + '"' + \
-        '\n.StimulationPort "All"' + \
+        '\n.StimulationPort ' + '"' + str(Source) + '"' + \
         '\n.StimulationMode "All"' + \
         '\n.MeshAdaption "False"' + \
         '\n.SParaSymmetry "False"' +\
         '\n.AutoNormImpedance  ' + '"' + str(AutoImpedance) + '"' + \
         '\n.NormingImpedance ' + '"' + str(Impedance) + '"' + \
+        '\n.SParaSymmetry "False"' +\
         '\nEnd With' + \
         '\nEnd Sub'
     Port = ''.join(data)
@@ -800,6 +789,11 @@ def SetTimeSolver(Parameters):
 
 
 def StartTimeSolver():
+    """Start Time Simulation
+
+    Returns:
+        str: String with VBA Code 
+    """
     data = 'Sub Main () ' \
         '\nWith Solver' + \
         '\n.Start' + \
@@ -807,3 +801,50 @@ def StartTimeSolver():
         '\nEnd Sub'
     Port = ''.join(data)
     return Port
+
+
+
+
+def CreateEfieldMonitor(Parameters):
+    """Set Monitor
+
+    Args:
+        Parameters (dict): Dictionary with Parameters
+                            Parameters["Wavelength"] : Int/float. This will set the wavelength. For this function
+                            and only for this function you need to give the exact number. So 1.55 um will be Parameters["Wavelength"]  = 1.55e-6
+                            Parameters["Monitor Type"] : str with monitor Type. Can be one of :
+                                "Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current",
+                                "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", 
+                                "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" 
+                            
+    Raises:
+        ValueError: Error massage
+
+    Returns:
+        str: String with VBA Code 
+    """
+    Wavelength = Parameters["Wavelength"]
+    MonitorType = Parameters["Monitor Type"]
+    Types = ["Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current", "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" ]
+    Speed_of_light = scipy.constants.c * 1e-6
+    freq = Speed_of_light / Parameters["Wavelength"]
+
+    if MonitorType in Types:
+        Name = MonitorType + '_' + str(Wavelength)
+        data = 'Sub Main ()' \
+            '\nWith Monitor' + \
+            '\n.Reset' + \
+            '\n.Name ' + '"' + str(Name) + '"' + \
+            '\n.Domain "Frequency"' + \
+            '\n.FieldType ' + '"' + str(MonitorType) + '"' + \
+            '\n.Frequency ' + '"' + str(freq) + '"' + \
+            '\n.Create' + \
+            '\nEnd With' + \
+            '\nEnd Sub'
+        Data = ''.join(data)
+        return Data
+    else:   
+        raise ValueError("Parameters['Monitor Type'] is not in allowed types. Please choose one of the following types: ['Efield', 'Hfield', 'Surfacecurrent', 'Powerflow', 'Current', 'Powerloss', 'Eenergy', 'Elossdens', 'Lossdens', 'Henergy', 'Farfield', 'Fieldsource', 'Spacecharge', 'ParticleCurrentDensity', 'Electrondensity']")
+
+
+

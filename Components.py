@@ -14,25 +14,44 @@ from VBA_Test_Syntax import *
 
 # MZM Design
 def MZM(Parameters, CST):
-    
-    Length_MZM = Parameters["Lenght_Electrodes"]
-    Length_WG = Parameters["Lenght_Electrodes"] # + 10
-    Width_Electrodes = Parameters["Width_GND"]
-    Width_Signal = Parameters["Width_Signal"]
-    Width_WG = Parameters["WG_Width"]
+    """Create an MZM Modulator. Materials used:
+                                            Gold - For the electrodes
+                                            LiNbO3 - For Optical Waveguides
+                                            SiO2 - For Substrate
+    Args:
+        Parameters (dict): Dictionary with all the needed values
+                Parameters["Lenght_Electrodes"] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
+                Parameters["Width GND"] : Width of the GND electrodes
+                Parameters["Width Signal"] : Width of the Signal Electrode
+                Parameters["Width WG"] : Top wWidth of the optical waveguide. It is an Rib waveguide
+                Parameters["Gap"] : Gap between Signal and optical Waveguide
+                Parameters["angle"] : Angle of the side wall of the optical waveguide
+                Parameters["High Electrodes"] : Hight of the Electodes
+                Parameters["High WG"] : Hight of the optical Waveguide
+                Parameters["High Slab"] : Hight of the Slab. When choosen "0" no Slab will be implemented. 
+                Parameters["High Substrate"] : Hight of the substrate
+
+        CST (Object): The CST Obejct that you use to load your project. 
+    """
+
+    Length_MZM = Parameters["Electrodes Lenght"]
+    Length_WG = Parameters["Electrodes Lenght"] + 2
+    Width_Electrodes = Parameters["Width GND"]
+    Width_Signal = Parameters["Width Signal"]
+    Width_WG = Parameters["Width WG"]
     Gap = Parameters["Gap"]
     Angle = Parameters["angle"]
-    Height_Electrodes = Parameters["High_Electrodes"]
-    Height_WG = Parameters["High_WG"]
-    Heigh_Slab = Parameters["High_Slab"]
-    Height_Substrate = Parameters["High_Substrate"]
+    Height_Electrodes = Parameters["High Electrodes"]
+    Height_WG = Parameters["High WG"]
+    Heigh_Slab = Parameters["High Slab"]
+    Height_Substrate = Parameters["High Substrate"]
 
 
     # Set optical Material Properties Eps X,Y,Z
     Data = {}
-    Data["X"] = 27
-    Data["Y"] = 43
-    Data["Z"] = 43
+    Data["X"] = 4.906
+    Data["Y"] = 4.584095
+    Data["Z"] = 4.906
 
     MaterialDAta = Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
@@ -141,7 +160,7 @@ def MZM(Parameters, CST):
     PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
 
     # Waveguide and Waveguide to solid
-    WG = RibWG_Z(WGName = "Waveguide_Left", Points = PointsLeft)
+    WG = Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
     CST.schematic.execute_vba_code(WG, timeout=None)
     RibWG_Test = RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
@@ -154,8 +173,7 @@ def MZM(Parameters, CST):
     PointsRight["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
 
     # Waveguide and Waveguide to solid
-    # WG = RibWG(WGName = "Waveguide_Right", Points = PointsRight)
-    WG = RibWG_Z(WGName = "Waveguide_Right", Points = PointsRight)
+    WG = Poligon_3D(WGName = "Waveguide_Right", Points = PointsRight)
     CST.schematic.execute_vba_code(WG, timeout=None)
     RibWG_Test = RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
@@ -166,6 +184,20 @@ def MZM(Parameters, CST):
 
 # # Ports and Solvers and Background
 def Squere_Waveguide(Parameters, CST):
+    """This function generate and simple straight waveguide. Materials used:
+                                            Gold - For the electrodes
+                                            LiNbO3 - For Optical Waveguides
+                                            SiO2 - For Substrate
+
+    Args:
+        Parameters (dict): Dictionary with all the needed values
+                Parameters["Lenght WG"] : Length of the Waveguide.
+                Parameters["High_WG"] : Hight of the optical Waveguide
+                Parameters["Width WG"] : : Top Width of the optical waveguide. It is an Rib waveguide.
+                Parameters["Substrate Height"] : Hight of the substrate.
+                Parameters["Slab Heigh"] : Hight of the Slab. When choosen "0" no Slab will be implemented. 
+      
+    """
     Length_WG = Parameters["Lenght WG"]
     Hight_WG = Parameters["Hight WG"]
     Width_WG = Parameters["Width WG"]
@@ -177,9 +209,9 @@ def Squere_Waveguide(Parameters, CST):
 
     # Set optical Material Properties Eps X,Y,Z
     Data = {}
-    Data["X"] = 44.3
-    Data["Y"] = 27.9
-    Data["Z"] = 44.3
+    Data["X"] = 4.906
+    Data["Y"] = 4.584095
+    Data["Z"] = 4.906
 
     MaterialDAta = Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
@@ -234,3 +266,257 @@ def Squere_Waveguide(Parameters, CST):
 
 
     
+
+
+
+def BondWire(NameWire, Coordinates, Height, Radius, BondwireType = "Spline", CenterPosition = 0.5, alpha = None, beta = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None):
+    """Create Bond Wire
+
+    Args:
+        NameWire (str): Name of the Bondwire
+        Coordinates (dict): Dictionary with Coordinates in X,Y,Z plane to create the Bondwire:  
+                            For Example 
+                                Parameters = {}
+                                Parameters['X1'] = 0
+                                Parameters['Y1'] = 0
+                                Parameters['Z1'] = 0
+                                Parameters['X2'] = 5
+                                Parameters['Y2'] = 5
+                                Parameters['Z2'] = 0
+        Height (int/float): Hight of the middle point of the Bondwire
+        Radius (int/float): Radius of the bond wire. Bond wire is an cylinder type of object.
+        BondwireType (str, optional): The type of bond wire. Defaults to "Spline".
+        CenterPosition (float, optional): The center Position of the Height. This can be moved to make 
+                                           an object that dont have the top height in the middle. Defaults to 0.5.
+        alpha (_type_, optional): _description_. Defaults to None.
+        beta (_type_, optional): _description_. Defaults to None.
+        Material (str, optional): Material for of the Bond wire. For now you need to load the material 
+                                  in your simulation and then use this function. Otherwise the material 
+                                  will not be found. Defaults to "PCE".
+        SolidWireModel (bool, optional): _description_. Defaults to True.
+        Termination (_type_, optional): _description_. Defaults to None.
+        NameFolder (str, optional): The name of the folder. Defaults to name of the wire.
+
+    Raises:
+        ValueError: Error massage
+        ValueError: Error massage
+        ValueError: Error massage
+
+    Returns:
+        str: String with VBA Code 
+    """
+    # Check the BondwireType
+    if BondwireType in ["Spline", "JEDEC4", "JEDEC5"]:
+        BondwireType = BondwireType
+        if BondwireType == "JEDEC5":
+            if alpha == None or beta == None:
+                raise ValueError(
+                    'When using "JEDEC5" an alpha and betta parameters need to be defined. See CST documentation!! ')
+            else:
+                pass
+    else:
+        raise ValueError("BondwireType can be on of ['Spline', 'JEDEC4', 'JEDEC5']")
+
+
+    # Material Def
+    if Material == None:
+        Material = "PCE"
+    else:
+        Materila = Material
+
+
+    # Check Termination
+    if Termination != None:
+        if Termination in ["natural" , "rounded" , "extended"]:
+            Termination = Termination
+        else:
+            raise ValueError('Termination can be only one of ["natural" , "rounded" , "extended"]')
+    else:
+        Termination = "natural"
+
+    # Folder Name
+    if NameFolder == None:
+        NameFolder = NameWire
+    else:
+        NameFolder = NameFolder
+
+
+    if BondwireType in ["Spline", "JEDEC4"]:
+        component = 'Sub Main () ' \
+                        '\nWith Wire' + \
+                            '\n.Reset' + \
+                            '\n.Folder ' + '"' + NameFolder + '"' + \
+                            '\n.Type "Bondwire"' + \
+                            '\n.Name ' + '"' + NameWire + '"' + \
+                            '\n.BondWireType ' + '"' + BondwireType + '"' + \
+                            '\n.Point1 ' + '"'+ str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["Y1"]) + '"' + ',' + '"' + str(Coordinates["Z1"])  + '"' + ', "False"' + \
+                            '\n.Point2 ' + '"'+ str(Coordinates["X2"]) + '"' + ',' + '"' + str(Coordinates["Y2"]) + '"' + ',' + '"' + str(Coordinates["Z2"])  + '"' + ', "False"' + \
+                            '\n.Height ' + '"' + str(Height) + '"' + \
+                            '\n.Radius ' + '"' + str(Radius) + '"' + \
+                            '\n.RelativeCenterPosition ' + '"' + str(CenterPosition) + '"' + \
+                            '\n.Material ' + '"' + Material + '"' + \
+                            '\n.SolidWireModel ' + '"' + str(SolidWireModel) + '"' + \
+                            '\n.Termination ' + '"' + Termination + '"' +\
+                            '\n.Add' + \
+                        '\nEnd With' + \
+                    '\nEnd Sub'
+        return component
+    # '\n.Folder ' + '"' + NameFolder + '"' + \
+
+    else:
+        component = 'Sub Main () ' \
+                        '\nWith Wire' + \
+                            '\n.Reset' + \
+                            '\n.Folder ' + '"' + NameFolder + '"' + \
+                            '\n.Type "Bondwire"' + \
+                            '\n.Name ' + '"' + NameWire + '"' + \
+                            '\n.BondWireType ' + '"' + BondwireType + '"' + \
+                            '\n.Point1 ' + '"' + str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["Y1"]) + '"' + ',' + '"' + str(Coordinates["Z1"]) + '"' + ', "False"' + \
+                            '\n.Point2 ' + '"' + str(Coordinates["X2"]) + '"' + ',' + '"' + str(Coordinates["Y2"]) + '"' + ',' + '"' + str(Coordinates["Z2"]) + '"' + ', "False"' + \
+                            '\n.Height ' + '"' + str(Height) + '"' + \
+                            '\n.Radius ' + '"' + str(Radius) + '"' + \
+                            '\n.alpha ' + '"' + str(alpha) + '"' + \
+                            '\n.beta ' + '"' + str(beta) + '"' + \
+                            '\n.Material ' + '"' + Material + '"' + \
+                            '\n.SolidWireModel ' + '"' + str(SolidWireModel) + '"' + \
+                            '\n.Termination ' + '"' + Termination + '"' + \
+                            '\n.Add' + \
+                        '\nEnd With' + \
+                    '\nEnd Sub'
+
+
+
+        return component
+    
+
+
+
+
+def CurveWire(NameWire, Radius, Points = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None, CurveFolderName = None, CurveName = None):
+    """_summary_
+
+    Args:
+        NameWire (str): Name of the wire
+        Radius (int/float): Radius of the curve
+        Points (dict, optional): Dictionary of X and  Y points for the curve. Defaults to None.
+        Material (str, optional): Material for of the Bond wire. For now you need to load the material 
+                                  in your simulation and then use this function. Otherwise the material 
+                                  will not be found. Defaults to "PCE".
+        SolidWireModel (bool, optional): _description_. Defaults to True.
+        Termination (_type_, optional): _description_. Defaults to None.
+        NameFolder (str, optional): Name of the Folder. Defaults to None.
+        CurveFolderName (str, optional): Curve folder name. Defaults to None.
+        CurveName (str, optional): Curve name. Defaults to None.
+
+    Raises:
+        ValueError: Error massage
+        ValueError: Error massage
+        ValueError: Error massage
+
+    Returns:
+        str: String with VBA Code 
+    """
+    # Check of Dict of Points for X and Y are given
+    if Points == None:
+        raise ValueError('To create an Curve you need an Dictionary with two Variable "X" and "Y". The Values for Dict["X"] can be an array of points')
+    else:
+        pass
+
+
+    # Folder Name
+    if NameFolder == None:
+        NameFolder = NameWire
+    else:
+        NameFolder = NameFolder
+
+
+    # Check Termination
+    if Termination != None:
+        if Termination in ["natural", "rounded", "extended"]:
+            Termination = Termination
+        else:
+            raise ValueError('Termination can be only one of ["natural" , "rounded" , "extended"]')
+    else:
+        Termination = "natural"
+
+    # Material Def
+    if Material == None:
+        Material = "PCE"
+    else:
+        Materila = Material
+
+    # Check if Curve Name and Folder Name are given
+    if CurveFolderName == None or CurveName == None:
+        raise ValueError("To create an Curve Wire you need to give the Curve Folder Name (CurveFolderName) and the Curve Name (CurveName) that you already gave!")
+
+
+    component = 'Sub Main () ' \
+                    '\nWith Wire' + \
+                        '\n.Reset' + \
+                        '\n.Folder ' + '"' + NameFolder + '"' + \
+                        '\n.Type "Curvewire"' + \
+                        '\n.Name ' + '"' + NameWire + '"' + \
+                        '\n.Curve ' + '"' + CurveFolderName + ':' + CurveName + '"' + \
+                        '\n.Radius ' + '"' + str(Radius) + '"' + \
+                        '\n.SolidWireModel ' + '"' + str(SolidWireModel) + '"' + \
+                        '\n.Material ' + '"' + Material + '"' + \
+                        '\n.Termination ' + '"' + Termination + '"' + \
+                        '\n.Add' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+    return component
+
+
+
+
+def Brick(BrickName, Coordinates, NameComponent = None, Material = None ):
+    """Create an squere Brick object.
+
+    Args:
+        BrickName (str): Name of thr brick object
+        Coordinates (dict): Dictionary with Min/max Values for the coordinates of the brick in the room.
+                            Coordinates["X1"] - X min
+                            Coordinates["X2"] - X max
+                            Coordinates["Y1"] - Y min
+                            Coordinates["Y2"] - Y max
+                            Coordinates["Z1"] - Z min 
+                            Coordinates["Z2"] - Z max
+        NameComponent (str, optional): Name fo the Component. Defaults to None.
+        Material (str, optional): Material for of the Bond wire. For now you need to load the material 
+                                  in your simulation and then use this function. Otherwise the material 
+                                  will not be found. Defaults to None.
+
+    Returns:
+        str: String with VBA Code 
+    """
+
+    # Folder Name
+    if NameComponent != None:
+        NameComponent = NameComponent
+    else:
+        NameComponent = BrickName
+
+    # Material Def
+    if Material == None:
+        Material = "Copper (annealed)"
+    else:
+        Material = Material
+
+
+    SolidWire = 'Sub Main () ' \
+                    '\nWith Brick' + \
+                        '\n.Reset' + \
+                        '\n.Name ' + '"' + BrickName + '1"' + \
+						'\n.Component ' + '"' + NameComponent + '"' + \
+                        '\n.Material ' + '"' + Material + '"' + \
+                        '\n.Xrange ' + '"' + str(Coordinates["X1"]) + '"' + ',' + '"' + str(Coordinates["X2"]) + '"' + \
+						'\n.Yrange ' + '"' + str(Coordinates["Y1"]) + '"' + ',' + '"' + str(Coordinates["Y2"]) + '"' + \
+						'\n.Zrange ' + '"' + str(Coordinates["Z1"]) + '"' + ',' + '"' + str(Coordinates["Z2"]) + '"' + \
+						'\n.Create' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+    return SolidWire
+
+
+
+

@@ -7,8 +7,8 @@ import os
 current_path = os.path.dirname(os.path.abspath('__file__'))
 sys.path.append(current_path)
 from Curves_Functions import Curves
-from VBA_Test_Syntax import *
-from Components import *
+import Functions as VBA
+import Components as Components
 
 
 
@@ -40,7 +40,9 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 # Call CST as Object and Open existing Project 
 
 # Local path to CST project file --> Please adapt
-cst_path = r'C:/Users/marti/Desktop/UPB Kursen/CST with Python/' # path
+#C:/Users/Martin/Desktop/CST_Project/
+#C:/Users/marti/Desktop/UPB Kursen/CST with Python/
+cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
 cst_project2 = 'Optical_Sim' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
@@ -100,7 +102,7 @@ UnitParams['Temperature'] = "degC"
 # UnitParams['Capacitance'] = "PikoF"
 # UnitParams['Inductance'] = "NanoH"
 
-Units = SetUnits(UnitParams)
+Units = VBA.SetUnits(UnitParams)
 proj.schematic.execute_vba_code(Units, timeout=None)
 
 
@@ -110,7 +112,7 @@ Parameters = {}
 Parameters["Min Wavelength"] = 1.5
 Parameters["Max Wavelength"] = 1.6
 
-data = SetSimWavelength(Parameters)
+data = VBA.SetSimWavelength(Parameters)
 proj.schematic.execute_vba_code(data, timeout=None)
 
 
@@ -157,7 +159,7 @@ Params["Ymax"] = 5
 Params["Zmin"] = 5
 Params["Zmax"] = 5
 
-BackObj = BackgroundSet(Params)
+BackObj = VBA.BackgroundSet(Params)
 proj.schematic.execute_vba_code(BackObj, timeout=None)
 
 
@@ -178,132 +180,104 @@ BoundaryParams["Zsymmetry"] = 'none'
 
 
 
-BoundarySet = SetBoundary(BoundaryParams)
+BoundarySet = VBA.SetBoundary(BoundaryParams)
 proj.schematic.execute_vba_code(BoundarySet, timeout=None)
 
 
 
 
-# Create MZM Object
-Parameters = {}
-Parameters["Electrodes Lenght"] = 40
-Parameters["Width GND"] = 5
-Parameters["Width Signal"] = 2
-Parameters["Width WG"] = 1
-Parameters["Gap"] = 0.5
-Parameters["angle"] = 30
-Parameters["High Electrodes"] = 1
-Parameters["High WG"] = 0.4
-Parameters["High Slab"] = 0.2 
-Parameters["High Substrate"] = 2
+# # Create MZM Object
+# Parameters = {}
+# Parameters["Electrodes Lenght"] = 40
+# Parameters["Width GND"] = 5
+# Parameters["Width Signal"] = 2
+# Parameters["Width WG"] = 1
+# Parameters["Gap"] = 0.5
+# Parameters["angle"] = 30
+# Parameters["High Electrodes"] = 1
+# Parameters["High WG"] = 0.4
+# Parameters["High Slab"] = 0.2 
+# Parameters["High Substrate"] = 2
 
 
-MZM(Parameters, proj)
-
-
+# Components.MZM(Parameters, proj)
 
 
 
 
-# Loop for go thrue electrodes and set ports
-Names = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
-# Ports = [[1,2], [3,4], [5,6]]
-PortNum = [1,2]
-# Pick Face
-for i in range(len(PortNum)):
-    Parameters = {}
-    Parameters["Orientation"] = ["Positive", "Positive"]
-    Parameters["Coordinates"] = "Picks"
-    Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
-    Parameters["Potential"] = [1,2]
-    Parameters["Port Number"] = PortNum
-    Parameters["Polarity"] = ["Positive", "Negative"]
-    Parameters["Face ID"] = [4,6]
-    
-    for j in range(len(Names)):
-        PicParams = {}
-        PicParams["Option"] = "Face"
-        PicParams["Object"] = Names[j]
-        PicParams["Face Number"] = Parameters["Face ID"][i]
-        PickFace = Pick(PicParams)
-        Parameters["Solid Name"] = Names[j]
-        proj.schematic.execute_vba_code(PickFace, timeout=None)
-
-    Port = WaveguidePort(Parameters)
-    proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
-
-
-
-# Clear Picks
-ClearPick = ClearAllPicks()
-proj.schematic.execute_vba_code(ClearPick, timeout=None)
 
 
 # # Loop for go thrue electrodes and set ports
-# Names = ["Waveguide_Left:Waveguide_Left", "Waveguide_Right:Waveguide_Right"]
-# Ports = [[7, 8], [9, 10]]
-# for index, j in enumerate(Names, start=1):
-#     # print(Names[index-1])
-#     Parameters = {}
-#     Parameters["Orientation"] = ["Positive", "Negative"]
-#     Parameters["Coordinates"] = "Picks"
-#     Parameters["Span"] = [[[0.3, 0.3],[0.3, 0.3]], [[0.3, 0.3],[0.3, 0.3]]]
-#     Parameters["Potential"] = [1,2]
-#     Parameters["Port Number"] = Ports[index-1]
-#     Parameters["Polarity"] = ["Positive", "Negative"]
-#     Parameters["Solid Name"] = Names[index-1]
-#     Parameters["Face ID"] = [2,4]
-#     PortNum = [1,2]
-
-#     PicParams = {}
-#     PicParams["Option"] = "Face"
-#     PicParams["Object"] = Names[index-1]
-#     Port = WaveguidePort(Parameters)
-    
-#     for i in range(len(Parameters["Face ID"])):
-#         PicParams["Face Number"] = Parameters["Face ID"][i]
-#         PickFace = Pick(PicParams)
-#         print(PortNum[i])
-#         proj.schematic.execute_vba_code(PickFace, timeout=None)
-#         proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
-
-
-
-# #Create Waveguide with Ports 
-# Parameters = {}
-# Parameters["Lenght WG"] = 5
-# Parameters["Hight WG"] = 0.3
-# Parameters["Width WG"] = 1
-# Parameters["Substrate Height"] = 1
-# Parameters["Slab Heigh"] = 0
-
-# WG = Squere_Waveguide(Parameters, proj)
-
-
-# FaceID = [4,6]
-# for index, i in enumerate(FaceID):
-#     PicParams = {}
-#     PicParams["Option"] = "Face"
-#     PicParams["Object"] = "WG:WG1"
-#     PicParams["Face Number"] = i
-#     PickFace = Pick(PicParams)
-#     proj.schematic.execute_vba_code(PickFace, timeout=None)
-
-
-
-
+# Names = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
+# # Ports = [[1,2], [3,4], [5,6]]
+# PortNum = [1,2]
+# # Pick Face
+# for i in range(len(PortNum)):
 #     Parameters = {}
 #     Parameters["Orientation"] = ["Positive", "Positive"]
 #     Parameters["Coordinates"] = "Picks"
-#     Parameters["Span"] = [[[3, 3],[3, 3]], [[3, 3],[3, 3]]]
+#     Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
 #     Parameters["Potential"] = [1,2]
-#     Parameters["Port Number"] = [1,2]
-#     Parameters["Polarity"] = ["Positive", "Positive"]
-#     Parameters["Solid Name"] = "WG:WG1"
-#     Parameters["Face ID"] = [2,4]
+#     Parameters["Port Number"] = PortNum
+#     Parameters["Polarity"] = ["Positive", "Negative"]
+#     Parameters["Face ID"] = [4,6]
+    
+#     for j in range(len(Names)):
+#         PicParams = {}
+#         PicParams["Option"] = "Face"
+#         PicParams["Object"] = Names[j]
+#         PicParams["Face Number"] = Parameters["Face ID"][i]
+#         PickFace = VBA.Pick(PicParams)
+#         Parameters["Solid Name"] = Names[j]
+#         proj.schematic.execute_vba_code(PickFace, timeout=None)
 
-#     Port = WaveguidePort(Parameters)
-#     proj.schematic.execute_vba_code(Port[str(index + 1)], timeout=None)
+#     Port = VBA.WaveguidePort(Parameters)
+#     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
+
+
+# # Clear Picks
+# ClearPick = VBA.ClearAllPicks()
+# proj.schematic.execute_vba_code(ClearPick, timeout=None)
+
+
+
+
+#Create Waveguide with Ports 
+Parameters = {}
+Parameters["Lenght WG"] = 5
+Parameters["Hight WG"] = 0.3
+Parameters["Width WG"] = 1
+Parameters["Substrate Height"] = 1
+Parameters["Slab Heigh"] = 0
+
+WG = Components.Squere_Waveguide(Parameters, proj)
+
+
+FaceID = [4,6]
+for index, i in enumerate(FaceID):
+    PicParams = {}
+    PicParams["Option"] = "Face"
+    PicParams["Object"] = "WG:WG1"
+    PicParams["Face Number"] = i
+    PickFace = VBA.Pick(PicParams)
+    proj.schematic.execute_vba_code(PickFace, timeout=None)
+
+
+
+
+    Parameters = {}
+    Parameters["Orientation"] = ["Positive", "Positive"]
+    Parameters["Coordinates"] = "Picks"
+    Parameters["Span"] = [[[3, 3],[3, 3]], [[3, 3],[3, 3]]]
+    Parameters["Potential"] = [1,2]
+    Parameters["Port Number"] = [1,2]
+    Parameters["Polarity"] = ["Positive", "Positive"]
+    Parameters["Solid Name"] = "WG:WG1"
+    Parameters["Face ID"] = [2,4]
+
+    Port = VBA.WaveguidePort(Parameters)
+    proj.schematic.execute_vba_code(Port[str(index + 1)], timeout=None)
 
 
 
@@ -319,7 +293,7 @@ Parameters["Impedance"] = 50
 Parameters["Source Port"] = 1
 
 
-Solver = SetTimeSolver(Parameters)
+Solver = VBA.SetTimeSolver(Parameters)
 proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
@@ -331,26 +305,15 @@ proj.schematic.execute_vba_code(Solver, timeout=None)
 Parameters = {}
 Parameters["Wavelength"] = 1.55e-6
 Parameters["Monitor Type"] = "Efield"
-Monitor = CreateEfieldMonitor(Parameters)
+Monitor = VBA.CreateEfieldMonitor(Parameters)
 proj.schematic.execute_vba_code(Monitor, timeout=None)
 
 
 Parameters = {}
 Parameters["Wavelength"] = 1.55e-6
 Parameters["Monitor Type"] = "Powerflow"
-Monitor = CreateEfieldMonitor(Parameters)
+Monitor = VBA.CreateEfieldMonitor(Parameters)
 proj.schematic.execute_vba_code(Monitor, timeout=None)
-
-
-
-# Mesh 
-
-
-
-# Start Time Solver
-Start = StartTimeSolver()
-proj.schematic.execute_vba_code(Start, timeout=None)
-
 
 
 
@@ -358,12 +321,20 @@ proj.schematic.execute_vba_code(Start, timeout=None)
 # Set Mesh 
 Parameters = {}
 Parameters["Mesh Type"] = "PBA"
-Parameters["Mesh Cells Near Object"] = 8
-Parameters["Mesh Cells far Object"] = 5
+Parameters["Mesh Cells Near Object"] = 4
+Parameters["Mesh Cells far Object"] = 2
 
 
-Mesh = SetMesh(Parameters)
+Mesh = VBA.SetMesh(Parameters)
 proj.schematic.execute_vba_code(Mesh, timeout=None)
+
+
+
+# # Start Time Solver
+# Start = VB.StartTimeSolver()
+# proj.schematic.execute_vba_code(Start, timeout=None)
+
+
 
 
 

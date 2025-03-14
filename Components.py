@@ -1,12 +1,11 @@
-# Components Main Builder
 
 import numpy as np 
-import sys 
-import os 
+import sys
+import os
 # Add the directory containing the project to sys.path
 current_path = os.path.dirname(os.path.abspath('__file__'))
 sys.path.append(current_path)
-from VBA_Test_Syntax import *
+import Functions as VBA
 
 
 
@@ -53,13 +52,13 @@ def MZM(Parameters, CST):
     Data["Y"] = 4.584095
     Data["Z"] = 4.906
 
-    MaterialDAta = Material("LiNbO3", Data)
+    MaterialDAta = VBA.Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-    MaterialDAta = Material_Silicon("Silicon (lossy)")
+    MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-    MaterialDAta = Material_Au("Au")
+    MaterialDAta = VBA.Material_Au("Au")
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
 
@@ -160,9 +159,9 @@ def MZM(Parameters, CST):
     PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
 
     # Waveguide and Waveguide to solid
-    WG = Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
+    WG = VBA.Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
     CST.schematic.execute_vba_code(WG, timeout=None)
-    RibWG_Test = RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
@@ -173,9 +172,9 @@ def MZM(Parameters, CST):
     PointsRight["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
 
     # Waveguide and Waveguide to solid
-    WG = Poligon_3D(WGName = "Waveguide_Right", Points = PointsRight)
+    WG = VBA.Poligon_3D(WGName = "Waveguide_Right", Points = PointsRight)
     CST.schematic.execute_vba_code(WG, timeout=None)
-    RibWG_Test = RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
+    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
@@ -213,10 +212,10 @@ def Squere_Waveguide(Parameters, CST):
     Data["Y"] = 4.584095
     Data["Z"] = 4.906
 
-    MaterialDAta = Material("LiNbO3", Data)
+    MaterialDAta = VBA.Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-    MaterialDAta = Material_Silicon("Silicon (lossy)")
+    MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
     

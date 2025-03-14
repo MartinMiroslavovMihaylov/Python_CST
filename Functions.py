@@ -1,12 +1,11 @@
 import numpy as np
 import scipy.cluster
 import scipy.constants
+import sys
+import os
 # Add the directory containing the project to sys.path
 current_path = os.path.dirname(os.path.abspath('__file__'))
 sys.path.append(current_path)
-from Components import *
-
-
 
 
 

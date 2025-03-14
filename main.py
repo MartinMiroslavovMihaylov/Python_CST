@@ -347,48 +347,23 @@ proj.schematic.execute_vba_code(Monitor, timeout=None)
 
 
 
-# # Start Time Solver
-# Start = StartTimeSolver()
-# proj.schematic.execute_vba_code(Start, timeout=None)
+# Start Time Solver
+Start = StartTimeSolver()
+proj.schematic.execute_vba_code(Start, timeout=None)
 
 
 
-# # Set Mesh
-# def SetMesh(Parameters):
-#     '''
-#     Sets the type of the mesh.
-
-#     PBA - Hexahedral mesh with Perfect Boundary Approximation
-#     HexahedralTLM
-#     CFD
-#     CFDNew
-#     Staircase - Hexahedral mesh with staircase cells
-#     Tetrahedral - Tetrahedral mesh
-#     Surface - Surface mesh
-#     SurfaceMLS - urface multi layer mesh
-#     Planar - Planar 2D mesh
-#     '''
-
-#     MeshType = Parameters["Mesh Type"]
 
 
-#     data = 'Sub Main () ' \
-#         '\nWith Mesh' + \
-#         '\n.MeshType ' + '"' + str(MeshType) + '"' + \
-#         '\nEnd With' +\
-#         '\nEnd Sub'
-#     Port = ''.join(data)
-#     return Port
-        
+# Set Mesh 
+Parameters = {}
+Parameters["Mesh Type"] = "PBA"
+Parameters["Mesh Cells Near Object"] = 8
+Parameters["Mesh Cells far Object"] = 5
 
 
-
-# Parameters = {}
-# Parameters["Mesh Type"] = "PBA"
-
-
-# Mesh = SetMesh(Parameters)
-# # proj.schematic.execute_vba_code(Mesh, timeout=None)
+Mesh = SetMesh(Parameters)
+proj.schematic.execute_vba_code(Mesh, timeout=None)
 
 
 

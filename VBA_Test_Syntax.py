@@ -1,7 +1,13 @@
 import numpy as np
 import scipy.cluster
 import scipy.constants
+# Add the directory containing the project to sys.path
+current_path = os.path.dirname(os.path.abspath('__file__'))
+sys.path.append(current_path)
 from Components import *
+
+
+
 
 
 
@@ -848,3 +854,53 @@ def CreateEfieldMonitor(Parameters):
 
 
 
+
+# Set Mesh
+def SetMesh(Parameters):
+    """Sets the type of the mesh. The user can define the mesh cells per wavelength near and far
+        from the simulations object.
+
+        
+
+
+
+    Args:
+        Parameters (dict): Dictionarty with Parameters
+                            Parameters["Mesh Type"] : str Type of the Mesh. You can choose between:  
+                                                    PBA - Hexahedral mesh with Perfect Boundary Approximation
+                                                    HexahedralTLM
+                                                    CFD
+                                                    CFDNew
+                                                    Staircase - Hexahedral mesh with staircase cells
+                                                    Tetrahedral - Tetrahedral mesh
+                                                    Surface - Surface mesh
+                                                    SurfaceMLS - urface multi layer mesh
+                                                    Planar - Planar 2D mesh
+                            Parameters["Mesh Cells Near Object"] : int Cells per Wavelength near the simulation object
+                            Parameters["Mesh Cells far Object"] : int Cells per Wavelength far from the simulation object
+    Returns:
+        str: String with VBA Code 
+    """
+    
+
+    MeshType = Parameters["Mesh Type"]
+    CellNear = Parameters["Mesh Cells Near Object"]
+    CellFar = Parameters["Mesh Cells far Object"]
+
+
+    data = 'Sub Main () ' \
+        '\nWith Mesh' + \
+        '\n.MeshType ' + '"' + str(MeshType) + '"' + \
+        '\n.SetCreator "High Frequency"'+ \
+        '\nEnd With' +\
+        '\nWith MeshSettings' +\
+        '\n.SetMeshType "Hex"' + \
+        '\n.Set "Version", 1%' + \
+        '\n.Set "StepsPerWaveNear", ' + '"' + str(CellNear) + '"' + \
+        '\n.Set "StepsPerWaveFar", ' + '"' + str(CellFar) + '"' + \
+        '\n.Set "WavelengthRefinementSameAsNear", "0" ' + \
+        '\nEnd With' + \
+        '\nEnd Sub'
+    Port = ''.join(data)
+    return Port
+        

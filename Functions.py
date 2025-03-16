@@ -389,17 +389,18 @@ def DeleteGlobalParameter(Parameters):
 
 
 
-def BackgroundSet(Coordinates, Type = None):
+def BackgroundSet(Parameters):
     """Set the Simulation background.
 
     Args:
-        Coordinates (dic): Dictionary with coordinates for the background. 
-                            Coordinates["Xmin"] = int/float
-                            Coordinates["Xmax"] = int/float
-                            Coordinates["Ymin"] = int/float
-                            Coordinates["Ymax"] = int/float
-                            Coordinates["Zmin"] = int/float
-                            Coordinates["Zmax"] = int/float
+        Parameters (dic): Dictionary with coordinates for the background. 
+                            Parameters["Type Background"] = str, Type of the Background. Defoult is "Normal"
+                            Parameters["Xmin Background"] = int/float
+                            Parameters["Xmin Background"] = int/float
+                            Parameters["Xmin Background"] = int/float
+                            Parameters["Xmin Background"] = int/float
+                            Parameters["Xmin Background"] = int/float
+                            Parameters["Xmin Background"] = int/float
         Type (str, optional): Type of background material. Cehck CST for more information. Defaults to Normal.
 
     Returns:
@@ -407,10 +408,10 @@ def BackgroundSet(Coordinates, Type = None):
     """
 
     #Check Background Type
-    if Type == None:
+    if Parameters["Type Background"] == None:
         Type = "Normal"
     else:
-        Type = Type
+        Type = Parameters["Type Background"]
 
     BackgroundObj = 'Sub Main () '  \
                         '\nWith Background' + \
@@ -423,12 +424,12 @@ def BackgroundSet(Coordinates, Type = None):
                             '\n.ThermalConductivity "0"' + \
                             '\n.SpecificHeat "1005"' + \
                             '\n.ApplyInAllDirections "False"' + \
-                            '\n.XminSpace ' + '"' + str(Coordinates["Xmin"]) + '"' + \
-                            '\n.XmaxSpace ' + '"' + str(Coordinates["Xmax"]) + '"' + \
-                            '\n.YminSpace ' + '"' + str(Coordinates["Ymin"]) + '"' + \
-                            '\n.YmaxSpace ' + '"' + str(Coordinates["Xmax"]) + '"' + \
-                            '\n.ZminSpace ' + '"' + str(Coordinates["Zmin"]) + '"' + \
-                            '\n.ZmaxSpace ' + '"' + str(Coordinates["Xmax"]) + '"' + \
+                            '\n.XminSpace ' + '"' + str(Parameters["Xmin Background"]) + '"' + \
+                            '\n.XmaxSpace ' + '"' + str(Parameters["Xmax Background"]) + '"' + \
+                            '\n.YminSpace ' + '"' + str(Parameters["Ymin Background"]) + '"' + \
+                            '\n.YmaxSpace ' + '"' + str(Parameters["Ymax Background"]) + '"' + \
+                            '\n.ZminSpace ' + '"' + str(Parameters["Zmin Background"]) + '"' + \
+                            '\n.ZmaxSpace ' + '"' + str(Parameters["Zmax Background"]) + '"' + \
                         '\nEnd With' + \
                         '\nEnd Sub'
     return BackgroundObj
@@ -540,30 +541,30 @@ def SetBoundary(Parameters):
 
     Args:
         Parameters (dict): Dictionary with Boundary Parameters 
-                            Parameters["Xmin"] = str
-                            Parameters["Xmax"] = str
-                            Parameters["Ymin"] = str
-                            Parameters["Ymax"] = str
-                            Parameters["Zmin"] = str
-                            Parameters["Zmax"] = str 
-                            Parameters["Xsymmetry"] = str
-                            Parameters["Ysymmetry"] = str
-                            Parameters["Zsymmetry"] = str
+                            Parameters["Xmin Boundary"] = str
+                            Parameters["Xmax Boundary"] = str
+                            Parameters["Ymin Boundary"] = str
+                            Parameters["Ymax Boundary"] = str
+                            Parameters["Zmin Boundary"] = str
+                            Parameters["Zmax Boundary"] = str 
+                            Parameters["Xsymmetry Boundary"] = str
+                            Parameters["Ysymmetry Boundary"] = str
+                            Parameters["Zsymmetry Boundary"] = str
 
 
     Returns:
         str: String with VBA Code 
     """
     # Boundary parameters
-    Xmin = Parameters["Xmin"] 
-    Xmax = Parameters["Xmax"] 
-    Ymin = Parameters["Ymin"] 
-    Ymax = Parameters["Ymax"] 
-    Zmin = Parameters["Zmin"] 
-    Zmax = Parameters["Zmax"] 
-    Xsym = Parameters["Xsymmetry"] 
-    Ysym = Parameters["Ysymmetry"] 
-    Zsym = Parameters["Zsymmetry"] 
+    Xmin = Parameters["Xmin Boundary"]
+    Xmax = Parameters["Xmax Boundary"]
+    Ymin = Parameters["Ymin Boundary"]
+    Ymax = Parameters["Ymax Boundary"]
+    Zmin = Parameters["Zmin Boundary"]
+    Zmax = Parameters["Zmax Boundary"]
+    Xsym = Parameters["Xsymmetry Boundary"]
+    Ysym = Parameters["Ysymmetry Boundary"] 
+    Zsym = Parameters["Zsymmetry Boundary"]
 
 
     BoundaryData = 'Sub Main () ' \
@@ -853,7 +854,6 @@ def CreateEfieldMonitor(Parameters):
 
 
 
-
 # Set Mesh
 def SetMesh(Parameters):
     """Sets the type of the mesh. The user can define the mesh cells per wavelength near and far
@@ -898,8 +898,150 @@ def SetMesh(Parameters):
         '\n.Set "StepsPerWaveNear", ' + '"' + str(CellNear) + '"' + \
         '\n.Set "StepsPerWaveFar", ' + '"' + str(CellFar) + '"' + \
         '\n.Set "WavelengthRefinementSameAsNear", "0" ' + \
+        '\n.Set "StepsPerBoxNear", ' + '"' + str(CellNear) + '"' + \
+        '\n.Set "StepsPerBoxFar", ' + '"' + str(CellFar) + '"' + \
+        '\n.Set "MaxStepNear", "0"' + \
+        '\n.Set "MaxStepFar", "0"'  + \
+        '\n.Set "ModelBoxDescrNear", "maxedge"' + \
+        '\n.Set "ModelBoxDescrFar", "maxedge"' + \
+        '\n.Set "UseMaxStepAbsolute", "0"' + \
+        '\n.Set "GeometryRefinementSameAsNear", "0"' + \
         '\nEnd With' + \
         '\nEnd Sub'
     Port = ''.join(data)
-    return Port
+    return data
         
+
+
+
+
+# Set Optical Simulation Domain 
+def SetOpticalSimulationProperties(Parameters):
+    # Units Properties
+    Length = Parameters['Dimensions'] 
+    Frequency = Parameters['Frequency'] 
+    Time = Parameters['Time'] 
+    Temperature = Parameters['Temperature'] 
+
+    # Set Background
+    Type = Parameters["Type Background"]
+    Xmin = Parameters["Xmin Background"] 
+    Xmax = Parameters["Xmax Background"]
+    Ymin = Parameters["Ymin Background"] 
+    Ymax = Parameters["Ymax Background"]
+    Zmin = Parameters["Zmin Background"] 
+    Zmax = Parameters["Zmax Background"]
+
+    # Operational Wavelength
+    WavelengthMin = Parameters["Min Wavelength"]
+    WavelengtMax = Parameters["Max Wavelength"]
+
+    # Set Boundary
+    XminBound = Parameters["Xmin Boundary"] 
+    XmaxBound = Parameters["Xmax Boundary"] 
+    YminBound = Parameters["Ymin Boundary"] 
+    YmaxBound = Parameters["Ymax Boundary"] 
+    ZminBound = Parameters["Zmin Boundary"] 
+    ZmaxBound = Parameters["Zmax Boundary"] 
+    XSimetryBound = Parameters["Xsymmetry Boundary"] 
+    YSimetryBound = Parameters["Ysymmetry Boundary"] 
+    ZSimetryBound = Parameters["Zsymmetry Boundary"] 
+
+    # Mesh Settings
+    MeshType = Parameters["Mesh Type"] 
+    CellNear = Parameters["Mesh Cells Near Object"] 
+    CellFar = Parameters["Mesh Cells far Object"] 
+
+
+    # VBA Code
+    data = 'Sub Main () ' \
+                '\nWith Units' + \
+                    '\n.SetUnit "Length", ' + '"' + str(Length) + '"' + \
+                    '\n.SetUnit "Frequency", ' + '"' + str(Frequency) + '"' + \
+                    '\n.SetUnit "Voltage", "V"' + \
+                    '\n.SetUnit "Resistance", "Ohm"' + \
+                    '\n.SetUnit "Inductance", "nH"' + \
+                    '\n.SetUnit "Temperature",  ' + '"' + str(Temperature) + '"' + \
+                    '\n.SetUnit "Time", ' + '"' + str(Time) + '"' + \
+                    '\n.SetUnit "Current", "A"' + \
+                    '\n.SetUnit "Conductance", "S"' + \
+                    '\n.SetUnit "Capacitance", "pF"' + \
+                '\nEnd With' +\
+            '\nThermalSolver.AmbientTemperature "0"' + \
+            '\nPlot.DrawBox "True"' + \
+                '\nWith Background' + \
+                    '\n.Type ' + '"' + str(Type) + '"' + \
+                    '\n.Epsilon "1.0"'  + \
+                    '\n.Mu "1.0"'  + \
+                    '\n.Rho "1.204"'  + \
+                    '\n.ThermalType "Normal"'  + \
+                    '\n.ThermalConductivity "0.026"'  + \
+                    '\n.SpecificHeat "1005", "J/K/kg"'  + \
+                    '\n.XminSpace ' + '"' + str(Xmin) + '"'  + \
+                    '\n.XmaxSpace ' + '"' + str(Xmax) + '"' + \
+                    '\n.YminSpace ' + '"' + str(Ymin) + '"' + \
+                    '\n.YmaxSpace ' + '"' + str(Ymax) + '"' + \
+                    '\n.ZminSpace ' + '"' + str(Zmin) + '"' + \
+                    '\n.ZmaxSpace ' + '"' + str(Zmax) + '"' + \
+                '\nEnd With'  + \
+                '\nWith Boundary' + \
+                    '\n.Xmin ' + '"' + str(XminBound) + '"' + \
+                    '\n.Xmax ' + '"' + str(XmaxBound) + '"' + \
+                    '\n.Ymin ' + '"' + str(YminBound) + '"' + \
+                    '\n.Ymax ' + '"' + str(YmaxBound) + '"' + \
+                    '\n.Zmin ' + '"' + str(ZminBound) + '"' + \
+                    '\n.Zmax ' + '"' + str(ZmaxBound) + '"' + \
+                    '\n.Xsymmetry ' + '"' + str(XSimetryBound) + '"' + \
+                    '\n.Ysymmetry ' + '"' + str(YSimetryBound) + '"' + \
+                    '\n.Zsymmetry ' + '"' + str(ZSimetryBound) + '"' + \
+                '\nEnd With' + \
+                '\nWith Solver' + \
+                    '\n.Reset' + \
+                    '\n.WavelengthRange ' + '"' + str(WavelengthMin) + '"' + ',' + '"' + str(WavelengtMax) + '"' + \
+                '\nEnd With' +\
+                '\nWith Mesh' + \
+                    '\n.MergeThinPECLayerFixpoints "True"' + \
+                    '\n.RatioLimit "20"' + \
+                    '\n.AutomeshRefineAtPecLines "True", "6"' +\
+                    '\n.FPBAAvoidNonRegUnite "True"' + \
+                    '\n.ConsiderSpaceForLowerMeshLimit "False"' + \
+                    '\n.MinimumStepNumber "5"' + \
+                    '\n.AnisotropicCurvatureRefinement "True"' + \
+                    '\n.AnisotropicCurvatureRefinementFSM "True"' + \
+                '\nEnd With' + \
+                '\nWith MeshSettings' + \
+                    '\n.SetMeshType "Hex"' + \
+                    '\n.Set "RatioLimitGeometry", "20"' + \
+                    '\n.Set "EdgeRefinementOn", "1"'+ \
+                    '\n.Set "EdgeRefinementRatio", "6"' + \
+                '\nEnd With' + \
+                '\nWith MeshSettings' + \
+                    '\n.SetMeshType "Tet"' + \
+                    '\n.Set "VolMeshGradation", "1.5"' + \
+                    '\n.Set "SrfMeshGradation", "1.5"' + \
+                '\nEnd With' + \
+                '\nWith MeshSettings' + \
+                    '\n.SetMeshType "HexTLM"' + \
+                    '\n.Set "RatioLimitGeometry", "20"' + \
+                '\nEnd With' + \
+            '\nMeshAdaption3D.SetAdaptionStrategy "Energy"' + \
+            '\nChangeProblemType "Optical"' + \
+                '\nWith MeshSettings' + \
+                    '\n.SetMeshType "Hex"' + \
+                    '\n.Set "Version", 1%' + \
+                    '\n.Set "StepsPerWaveNear", ' + '"' + str(CellNear) + '"' + \
+                    '\n.Set "StepsPerWaveFar", ' + '"' + str(CellFar) + '"' + \
+                    '\n.Set "WavelengthRefinementSameAsNear", "0" ' + \
+                    '\n.Set "StepsPerBoxNear", ' + '"' + str(CellNear) + '"' + \
+                    '\n.Set "StepsPerBoxFar", ' + '"' + str(CellFar) + '"' + \
+                '\nEnd With' + \
+                '\nWith Mesh' + \
+                    '\n.MeshType ' +'"' + str(MeshType) + '"' + \
+                '\nEnd With' + \
+            '\nChangeSolverType("HF Time Domain")' + \
+            '\nEnd Sub'
+    Port = ''.join(data)
+    return data
+
+
+

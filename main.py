@@ -89,31 +89,31 @@ Points['Y'] = y
 
 
 
-# Set Units
-UnitParams = {}
-UnitParams['Dimensions'] = "um"
-UnitParams['Frequency'] = "THz"
-UnitParams['Time'] = "ns"
-UnitParams['Temperature'] = "degC"
-# UnitParams['Voltage'] = "V"
-# UnitParams['Current'] = "A"
-# UnitParams['Resistance'] = "Ohm"
-# UnitParams['Conductance'] = "Siemens"
-# UnitParams['Capacitance'] = "PikoF"
-# UnitParams['Inductance'] = "NanoH"
+# # Set Units
+# UnitParams = {}
+# UnitParams['Dimensions'] = "um"
+# UnitParams['Frequency'] = "THz"
+# UnitParams['Time'] = "ns"
+# UnitParams['Temperature'] = "degC"
+# # UnitParams['Voltage'] = "V"
+# # UnitParams['Current'] = "A"
+# # UnitParams['Resistance'] = "Ohm"
+# # UnitParams['Conductance'] = "Siemens"
+# # UnitParams['Capacitance'] = "PikoF"
+# # UnitParams['Inductance'] = "NanoH"
 
-Units = VBA.SetUnits(UnitParams)
-proj.schematic.execute_vba_code(Units, timeout=None)
+# Units = VBA.SetUnits(UnitParams)
+# proj.schematic.execute_vba_code(Units, timeout=None)
 
 
 
-# Set Freqeuency of operation
-Parameters = {}
-Parameters["Min Wavelength"] = 1.5
-Parameters["Max Wavelength"] = 1.6
+# # Set Freqeuency of operation
+# Parameters = {}
+# Parameters["Min Wavelength"] = 1.5
+# Parameters["Max Wavelength"] = 1.6
 
-data = VBA.SetSimWavelength(Parameters)
-proj.schematic.execute_vba_code(data, timeout=None)
+# data = VBA.SetSimWavelength(Parameters)
+# proj.schematic.execute_vba_code(data, timeout=None)
 
 
 # BondWire = BondWire(NameWire = "TestWire" ,Coordinates = Parameters, Height = 1, Radius = 0.5 , BondwireType = "Spline", Material = "Copper (annealed)",  NameFolder = "BondWire")
@@ -150,38 +150,40 @@ proj.schematic.execute_vba_code(data, timeout=None)
 # proj.schematic.execute_vba_code(delete, timeout=None)
 
 
-# Define Background
-Params = {}
-Params["Xmin"] = 5
-Params["Xmax"] = 5
-Params["Ymin"] = 5
-Params["Ymax"] = 5
-Params["Zmin"] = 5
-Params["Zmax"] = 5
+# # Define Background
+# Params = {}
+# Params["Type Background"] = "Normal"
+# Params["Xmin Background"] = 5
+# Params["Xmax Background"] = 5
+# Params["Ymin Background"] = 5
+# Params["Ymax Background"] = 5
+# Params["Zmin Background"] = 5
+# Params["Zmax Background"] = 5
 
-BackObj = VBA.BackgroundSet(Params)
-proj.schematic.execute_vba_code(BackObj, timeout=None)
-
-
-
-
-
-# Set Boundary
-BoundaryParams = {}
-BoundaryParams["Xmin"] = 'open'
-BoundaryParams["Xmax"] = 'open'
-BoundaryParams["Ymin"] = 'open'
-BoundaryParams["Ymax"] = 'open'
-BoundaryParams["Zmin"] = 'open'
-BoundaryParams["Zmax"] = 'open' 
-BoundaryParams["Xsymmetry"] = 'none'
-BoundaryParams["Ysymmetry"] = 'none'
-BoundaryParams["Zsymmetry"] = 'none'
+# BackObj = VBA.BackgroundSet(Params)
+# proj.schematic.execute_vba_code(BackObj, timeout=None)
 
 
 
-BoundarySet = VBA.SetBoundary(BoundaryParams)
-proj.schematic.execute_vba_code(BoundarySet, timeout=None)
+
+
+# # Set Boundary
+# BoundaryParams = {}
+# BoundaryParams["Xmin Boundary"] = 'open'
+# BoundaryParams["Xmax Boundary"] = 'open'
+# BoundaryParams["Ymin Boundary"] = 'open'
+# BoundaryParams["Ymax Boundary"] = 'open'
+# BoundaryParams["Zmin Boundary"] = 'open'
+# BoundaryParams["Zmax Boundary"] = 'open'
+# BoundaryParams["Xsymmetry Boundary"] = 'none'
+# BoundaryParams["Ysymmetry Boundary"] = 'none'
+# BoundaryParams["Zsymmetry Boundary"] = 'none'
+
+
+
+
+# BoundarySet = VBA.SetBoundary(BoundaryParams)
+# proj.schematic.execute_vba_code(BoundarySet, timeout=None)
 
 
 
@@ -284,58 +286,100 @@ for index, i in enumerate(FaceID):
 
 
 
-# Set Time Solver
-Parameters= {}
-Parameters["Accuracy"] = 35
-Parameters["Caclculate Modes Only"] = False
-Parameters["Auto Impedance"] = False
-Parameters["Impedance"] = 50
-Parameters["Source Port"] = 1
+# # Set Time Solver
+# Parameters= {}
+# Parameters["Accuracy"] = 35
+# Parameters["Caclculate Modes Only"] = False
+# Parameters["Auto Impedance"] = False
+# Parameters["Impedance"] = 50
+# Parameters["Source Port"] = 1
 
 
-Solver = VBA.SetTimeSolver(Parameters)
-proj.schematic.execute_vba_code(Solver, timeout=None)
-
-
-
+# Solver = VBA.SetTimeSolver(Parameters)
+# proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 
-# Set Monitors
+
+
+
+# # Set Monitors
+# Parameters = {}
+# Parameters["Wavelength"] = 1.55e-6
+# Parameters["Monitor Type"] = "Efield"
+# Monitor = VBA.CreateEfieldMonitor(Parameters)
+# proj.schematic.execute_vba_code(Monitor, timeout=None)
+
+
+# Parameters = {}
+# Parameters["Wavelength"] = 1.55e-6
+# Parameters["Monitor Type"] = "Powerflow"
+# Monitor = VBA.CreateEfieldMonitor(Parameters)
+# proj.schematic.execute_vba_code(Monitor, timeout=None)
+
+
+
+
+
+
+# # Set Mesh 
+# Parameters = {}
+# Parameters["Mesh Type"] = "PBA"
+# Parameters["Mesh Cells Near Object"] = 8
+# Parameters["Mesh Cells far Object"] = 2
+
+
+# Mesh = VBA.SetMesh(Parameters)
+# proj.schematic.execute_vba_code(Mesh, timeout=None)
+
+
+
+
+
+
+
+
+# Set optical solver enviroment
 Parameters = {}
-Parameters["Wavelength"] = 1.55e-6
-Parameters["Monitor Type"] = "Efield"
-Monitor = VBA.CreateEfieldMonitor(Parameters)
-proj.schematic.execute_vba_code(Monitor, timeout=None)
+# Units Properties
+Parameters['Dimensions'] = "um"
+Parameters['Frequency']  = "THz"
+Parameters['Time'] = "ns"
+Parameters['Temperature'] = "degC"
 
+# Set Background
+Parameters["Type Background"] = "Normal"
+Parameters["Xmin Background"] = 5
+Parameters["Xmax Background"] = 5
+Parameters["Ymin Background"] = 5
+Parameters["Ymax Background"] = 5
+Parameters["Zmin Background"] = 5
+Parameters["Zmax Background"] = 5
 
-Parameters = {}
-Parameters["Wavelength"] = 1.55e-6
-Parameters["Monitor Type"] = "Powerflow"
-Monitor = VBA.CreateEfieldMonitor(Parameters)
-proj.schematic.execute_vba_code(Monitor, timeout=None)
+# Set Boundary
+Parameters["Xmin Boundary"] = 'open'
+Parameters["Xmax Boundary"] = 'open'
+Parameters["Ymin Boundary"] = 'open'
+Parameters["Ymax Boundary"] = 'open'
+Parameters["Zmin Boundary"] = 'open'
+Parameters["Zmax Boundary"] = 'open'
+Parameters["Xsymmetry Boundary"] = 'none'
+Parameters["Ysymmetry Boundary"] = 'none'
+Parameters["Zsymmetry Boundary"] = 'none'
 
-
-
-
-# Set Mesh 
-Parameters = {}
+# Mesh Settings
 Parameters["Mesh Type"] = "PBA"
-Parameters["Mesh Cells Near Object"] = 4
+Parameters["Mesh Cells Near Object"] = 8
 Parameters["Mesh Cells far Object"] = 2
 
 
-Mesh = VBA.SetMesh(Parameters)
-proj.schematic.execute_vba_code(Mesh, timeout=None)
+Env = VBA.SetOpticalSimulationProperties(Parameters)
+proj.schematic.execute_vba_code(Env, timeout=None)
 
 
-
-# # Start Time Solver
-# Start = VB.StartTimeSolver()
-# proj.schematic.execute_vba_code(Start, timeout=None)
-
-
-
+# Start Time Solver
+Start = VBA.StartTimeSolver()
+proj.schematic.execute_vba_code(Start, timeout=None)
 
 
 # Sub Main ()

@@ -42,14 +42,18 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 # Local path to CST project file --> Please adapt
 #C:/Users/Martin/Desktop/CST_Project/
 #C:/Users/marti/Desktop/UPB Kursen/CST with Python/
-cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
+#/homes/lift/martinmi/Desktop/CST_Python/
+cst_path = r'/homes/lift/martinmi/Desktop/CST_Python/' # path
 cst_project2 = 'Optical_Sim' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
 
 
 import sys
-sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
+# Server
+sys.path.append(r"/opt/sct/eda/cst/2025/LinuxAMD64/python_cst_libraries")
+# # Windows
+# sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
 import cst
 print(cst.__file__)
 # Open CST as software
@@ -67,25 +71,25 @@ mycst.in_quiet_mode()
 # Open Existing Project
 proj = mycst.open_project(cst_project_path)
 
-
-Parameters = {}
-Parameters['X1'] = 0
-Parameters['Y1'] = 0
-Parameters['Z1'] = 0
-Parameters['X2'] = 5
-Parameters['Y2'] = 5
-Parameters['Z2'] = 0
-
-Points = {}
-x = []
-y = []
-for i in range(0, 100):
-    x.append(i)
-    y.append(i*4)
-x = np.array(x)
-y = np.array(y)
-Points['X'] = x
-Points['Y'] = y
+#
+# Parameters = {}
+# Parameters['X1'] = 0
+# Parameters['Y1'] = 0
+# Parameters['Z1'] = 0
+# Parameters['X2'] = 5
+# Parameters['Y2'] = 5
+# Parameters['Z2'] = 0
+#
+# Points = {}
+# x = []
+# y = []
+# for i in range(0, 100):
+#     x.append(i)
+#     y.append(i*4)
+# x = np.array(x)
+# y = np.array(y)
+# Points['X'] = x
+# Points['Y'] = y
 
 
 
@@ -355,6 +359,7 @@ Parameters["Ymin Background"] = 5
 Parameters["Ymax Background"] = 5
 Parameters["Zmin Background"] = 5
 Parameters["Zmax Background"] = 5
+
 
 # Set Boundary
 Parameters["Xmin Boundary"] = 'open'

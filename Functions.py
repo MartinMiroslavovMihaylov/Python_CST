@@ -81,6 +81,35 @@ def Material_Silicon(Name):
                     '\nEnd With' + \
                 '\nEnd Sub'
 
+    return 
+
+
+
+
+def Material_SiO2(Name):
+    """Add silicon dioxide to the Material Library
+
+    Args:
+        Name (str): Name of the Material
+
+    Returns:
+        str: String with the VBA code
+    """
+    # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
+    component = 'Sub Main () ' \
+                    '\nWith Material' + \
+                        '\n.Reset' + \
+                        '\n.Name ' + '"' + Name + '"' + \
+                        '\n.FrqType "All"' + \
+                        '\n.Type "Normal"' + \
+                        '\n.SetMaterialUnit "GHz", "um"' + \
+                        '\n.Mu "1"' + \
+                        '\n.Epsilon "2.0851"' + \
+                        '\n.Color "0.529", "0.808", "0.922"' + \
+                        '\n.Create' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+
     return component
 
 
@@ -836,14 +865,19 @@ def CreateEfieldMonitor(Parameters):
     freq = Speed_of_light / Parameters["Wavelength"]
 
     if MonitorType in Types:
-        Name = MonitorType + '_' + str(Wavelength)
+        Name = MonitorType + ' (wl=' + str(Wavelength) + ')'
         data = 'Sub Main ()' \
             '\nWith Monitor' + \
             '\n.Reset' + \
             '\n.Name ' + '"' + str(Name) + '"' + \
-            '\n.Domain "Frequency"' + \
+            '\n.Domain "Wavelength"' + \
             '\n.FieldType ' + '"' + str(MonitorType) + '"' + \
-            '\n.Frequency ' + '"' + str(freq) + '"' + \
+            '\n.MonitorValue "' + str(Wavelength) + '"' + \
+            '\n.UseSubvolume "False"' + \
+            '\n.Coordinates "Structure"' + \
+            '\n.SetSubvolume "-5.5", "2.5", "-3.5", "3.5", "-2.5", "3.8"' + \
+            '\n.SetSubvolumeOffset "0.0", "0.0", "0.0", "0.0", "0.0", "0.0"' + \
+            '\n.SetSubvolumeInflateWithOffset "False"' + \
             '\n.Create' + \
             '\nEnd With' + \
             '\nEnd Sub'
@@ -852,6 +886,7 @@ def CreateEfieldMonitor(Parameters):
     else:   
         raise ValueError("Parameters['Monitor Type'] is not in allowed types. Please choose one of the following types: ['Efield', 'Hfield', 'Surfacecurrent', 'Powerflow', 'Current', 'Powerloss', 'Eenergy', 'Elossdens', 'Lossdens', 'Henergy', 'Farfield', 'Fieldsource', 'Spacecharge', 'ParticleCurrentDensity', 'Electrondensity']")
 
+#'\n.Frequency ' + '"' + str(freq) + '"' + \
 
 
 # Set Mesh
@@ -916,7 +951,7 @@ def SetMesh(Parameters):
 
 
 # Set Optical Simulation Domain 
-def SetOpticalSimulationProperties(Parameters):
+def SetElectricalSimulationProperties(Parameters):
     # Units Properties
     Length = Parameters['Dimensions'] 
     Frequency = Parameters['Frequency'] 
@@ -932,9 +967,11 @@ def SetOpticalSimulationProperties(Parameters):
     Zmin = Parameters["Zmin Background"] 
     Zmax = Parameters["Zmax Background"]
 
-    # Operational Wavelength
-    WavelengthMin = Parameters["Min Wavelength"]
-    WavelengtMax = Parameters["Max Wavelength"]
+
+    # Operational Frequency 
+    FreqMin = Parameters["Min Frequency"]
+    FreqMax = Parameters["Max Frequency"]
+
 
     # Set Boundary
     XminBound = Parameters["Xmin Boundary"] 
@@ -995,20 +1032,22 @@ def SetOpticalSimulationProperties(Parameters):
                     '\n.Ysymmetry ' + '"' + str(YSimetryBound) + '"' + \
                     '\n.Zsymmetry ' + '"' + str(ZSimetryBound) + '"' + \
                 '\nEnd With' + \
-                '\nWith Solver' + \
+                '\nWith Material' + \
                     '\n.Reset' + \
-                    '\n.WavelengthRange ' + '"' + str(WavelengthMin) + '"' + ',' + '"' + str(WavelengtMax) + '"' + \
-                '\nEnd With' +\
-                '\nWith Mesh' + \
-                    '\n.MergeThinPECLayerFixpoints "True"' + \
-                    '\n.RatioLimit "20"' + \
-                    '\n.AutomeshRefineAtPecLines "True", "6"' +\
-                    '\n.FPBAAvoidNonRegUnite "True"' + \
-                    '\n.ConsiderSpaceForLowerMeshLimit "False"' + \
-                    '\n.MinimumStepNumber "5"' + \
-                    '\n.AnisotropicCurvatureRefinement "True"' + \
-                    '\n.AnisotropicCurvatureRefinementFSM "True"' + \
+                    '\n.FrqType "all"' + \
+                    '\n.Type "Pec"' + \
+                    '\n.ChangeBackgroundMaterial' + \
                 '\nEnd With' + \
+                '\nWith Mesh' + \
+                    '\n.MeshType ' +'"' + str(MeshType) + '"' + \
+                   '\n.SetCreator "High Frequency"' + \
+                    \n.AutomeshRefineAtPecLines "True", "2"
+                    \n.UseRatioLimit "True"
+                    \n.RatioLimit "10"
+                    \n.LinesPerWavelength "20"
+                    \n.MinimumStepNumber "10"
+                    \n.Automesh "True"
+                \nEnd With
                 '\nWith MeshSettings' + \
                     '\n.SetMeshType "Hex"' + \
                     '\n.Set "RatioLimitGeometry", "20"' + \
@@ -1041,7 +1080,79 @@ def SetOpticalSimulationProperties(Parameters):
             '\nChangeSolverType("HF Time Domain")' + \
             '\nEnd Sub'
     Port = ''.join(data)
-    return data
+    Port = ''.join(data)
+    return Port, Port2
 
 
 
+
+
+
+
+With Mesh
+     .MeshType "PBA"
+     .SetCreator "High Frequency"
+     .AutomeshRefineAtPecLines "True", "2"
+     .UseRatioLimit "True"
+     .RatioLimit "10"
+     .LinesPerWavelength "20"
+     .MinimumStepNumber "10"
+     .Automesh "True"
+End With
+
+With MeshSettings
+     .SetMeshType "Hex"
+     .Set "StepsPerWaveNear", "13"
+End With
+
+' solver - FD settings
+With FDSolver
+     .Reset
+     .Method "Tetrahedral Mesh" ' i.e. general purpose
+
+     .AccuracyHex "1e-6"
+     .AccuracyTet "1e-5"
+     .AccuracySrf "1e-3"
+
+     .SetUseFastResonantForSweepTet "False"
+
+     .Type "Direct"
+     .MeshAdaptionHex "False"
+     .MeshAdaptionTet "True"
+
+     .InterpolationSamples "5001"
+End With
+
+With MeshAdaption3D
+    .SetType "HighFrequencyTet"
+    .SetAdaptionStrategy "Energy"
+    .MinPasses "3"
+    .MaxPasses "10"
+End With
+
+With FDSolver
+     .Method "Tetrahedral Mesh (MOR)"
+     .HexMORSettings "", "5001"
+End With
+
+FDSolver.Method "Tetrahedral Mesh" ' i.e. general purpose
+
+'----------------------------------------------------------------------------
+
+With FDSolver
+     .SetMethod "Tetrahedral", "Fast reduced order model"
+End With
+
+With MeshSettings
+     .SetMeshType "Tet"
+     .Set "Version", 1%
+End With
+
+With Mesh
+     .MeshType "Tetrahedral"
+End With
+
+'set the solver type
+ChangeSolverType("HF Frequency Domain")
+
+'----------------------------------------------------------------------------

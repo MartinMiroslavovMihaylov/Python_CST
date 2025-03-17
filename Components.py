@@ -55,7 +55,10 @@ def MZM(Parameters, CST):
     MaterialDAta = VBA.Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-    MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
+    # MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
+    # CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    MaterialDAta = VBA.Material_SiO2("SiO2")
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
     MaterialDAta = VBA.Material_Au("Au")
@@ -80,7 +83,7 @@ def MZM(Parameters, CST):
     Parameters['Y2'] = -WidthObject/2 
     Parameters['Z1'] = Height_Substrate/2
     Parameters['Z2'] = -Height_Substrate/2
-    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "Silicon (lossy)")
+    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "SiO2")
     CST.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
@@ -215,7 +218,11 @@ def Squere_Waveguide(Parameters, CST):
     MaterialDAta = VBA.Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
-    MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
+    # MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
+    # CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    
+    MaterialDAta = VBA.Material_SiO2("SiO2")
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
 
     
@@ -232,7 +239,7 @@ def Squere_Waveguide(Parameters, CST):
     Parameters['Y2'] = WidthObject/2 
     Parameters['Z1'] = -Height_Substrate/2
     Parameters['Z2'] = Height_Substrate/2
-    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "Silicon (lossy)")
+    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "SiO2")
     CST.schematic.execute_vba_code(TestBrick, timeout=None)
 
 

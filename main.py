@@ -43,9 +43,9 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 #C:/Users/Martin/Desktop/CST_Project/
 #C:/Users/marti/Desktop/UPB Kursen/CST with Python/
 #/homes/lift/martinmi/Desktop/CST_Python/
-cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
-cst_project2 = 'MZM_TestSim' # CST project
-# cst_project2 = 'Optical_Sim' # CST project
+cst_path = r'C:/Users/marti/Desktop/UPB Kursen/CST with Python/' # path
+# cst_project2 = 'MZM_TestSim' # CST project
+cst_project2 = 'Optical_Sim' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
 
@@ -220,7 +220,6 @@ Names = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , 
 PortNum = [1,2]
 # Pick Face
 for i in range(len(PortNum)):
-    Parameters = {}
     Parameters["Orientation"] = ["Positive", "Positive"]
     Parameters["Coordinates"] = "Picks"
     Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
@@ -242,10 +241,64 @@ for i in range(len(PortNum)):
     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
 
 
+for i in range(len(PortNum)):
+    Parameters["Distance"] = Parameters["Electrodes Lenght"] 
+    WidthObject = (2*Parameters["Width WG"] + Parameters["Width Signal"] + 2*Parameters["Width GND"] + 4*Parameters["Gap"])/2
+    Hight = (Parameters["High Slab"] + Parameters["High Slab"] + Parameters["High Electrodes"]) / 2
+    Parameters["Span"] = [[[-WidthObject - 3, -WidthObject - 3],[WidthObject + 3, WidthObject + 3]], [[-1.2, -1.2],[4.2,4.2]]]
+    Parameters["Port Number"] = PortNum
+
+    Port = VBA.MoveWaveguidePorts(Parameters)
+    proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
 
 # # Clear Picks
 # ClearPick = VBA.ClearAllPicks()
 # proj.schematic.execute_vba_code(ClearPick, timeout=None)
+
+
+
+# Set discrete Ports 
+Parameters["Discrete Port Number"] = 3
+PortNum = [3,4,5,6]
+Parameters["Discrete Port Type"] = "Voltage"
+Parameters["Port Impedance"] = 50
+Parameters["Port Voltage"] = 2
+Parameters["Port Current"] = 1
+Parameters["Port Radius"] = 0
+Coordinates = {}
+# Coordinates["X1"] = Parameters["Electrodes Lenght"] / 2
+# Coordinates["X2"] = Parameters["Electrodes Lenght"] / 2
+# Coordinates["Y1"] = 0
+# Coordinates["Y2"] = Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2
+# Coordinates["Z1"] = Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)
+# Coordinates["Z2"] = Parameters["High Substrate"]/2 + Parameters["High Slab"] + Parameters["High Electrodes"] / 2
+# Parameters["Discrete Port Coordinates"] = Coordinates
+
+
+Cor = {}
+Cor["X1"] = [Parameters["Electrodes Lenght"] / 2, Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2]
+Cor["X2"] = [Parameters["Electrodes Lenght"] / 2, Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2]
+Cor["Y1"] = [0, 0, 0, 0]
+Cor["Y2"] = [(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), -(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), (Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), -(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2)]
+Cor["Z1"] = [(Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2))]
+Cor["Z2"] = [(Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2))]
+
+
+
+for i in range(len(PortNum)):
+    Parameters["Discrete Port Number"] = PortNum[i]
+    Coordinates["X1"] = Cor["X1"][i]
+    Coordinates["X2"] = Cor["X2"][i]
+    Coordinates["Y1"] = Cor["Y1"][i]
+    Coordinates["Y2"] = Cor["Y2"][i]
+    Coordinates["Z1"] = Cor["Z1"][i]
+    Coordinates["Z2"] = Cor["Z2"][i]
+    Parameters["Discrete Port Coordinates"] = Coordinates
+
+    DiscretePort = VBA.SetDiscretePort(Parameters)
+    proj.schematic.execute_vba_code(DiscretePort, timeout=None)
+
 
 
 
@@ -345,18 +398,17 @@ for i in range(len(PortNum)):
 
 
 # Set optical solver enviroment
-Parameters = {}
 # Units Properties
 Parameters['Dimensions'] = "um"
-Parameters['Frequency']  = "GHz"
+Parameters['Frequency']  = "THz"
 Parameters['Time'] = "ns"
 Parameters['Temperature'] = "degC"
 
 # Set FreqeueWavelength Range 
-# Parameters["Min Wavelength"] = 1.5
-# Parameters["Max Wavelength"] = 1.6
-Parameters["Min Frequency"] = 1
-Parameters["Max Frequency"] = 100
+Parameters["Min Wavelength"] = 1.5
+Parameters["Max Wavelength"] = 1.6
+# Parameters["Min Frequency"] = 1
+# Parameters["Max Frequency"] = 100
 
 # Set Background
 Parameters["Type Background"] = "Normal"
@@ -385,42 +437,41 @@ Parameters["Mesh Cells Near Object"] = 4
 Parameters["Mesh Cells far Object"] = 1
 
 
-Env, Env2 = VBA.SetOpticalSimulationProperties(Parameters)
+Env = VBA.SetOpticalSimulationProperties(Parameters)
 proj.schematic.execute_vba_code(Env, timeout=None)
-proj.schematic.execute_vba_code(Env2, timeout=None)
-
-
-
-
-# # Set Time Solver
-# Parameters= {}
-# Parameters["Accuracy"] = 40
-# Parameters["Caclculate Modes Only"] = False
-# Parameters["Auto Impedance"] = True
-# Parameters["Impedance"] = 34
-# Parameters["Source Port"]  = 1
-
-
-# Solver = VBA.SetTimeSolver(Parameters)
-# proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 
 
 
-# # Set Monitors
-# Parameters = {}
-# Parameters["Wavelength"] = 1.55
-# Parameters["Monitor Type"] = "Efield"
-# Monitor = VBA.CreateEfieldMonitor(Parameters)
-# proj.schematic.execute_vba_code(Monitor, timeout=None)
+
+# Set Time Solver
+Parameters= {}
+Parameters["Accuracy"] = 40
+Parameters["Caclculate Modes Only"] = False
+Parameters["Auto Impedance"] = True
+Parameters["Impedance"] = 34
+Parameters["Source Port"]  = 1
 
 
-# Parameters = {}
-# Parameters["Wavelength"] = 1.55
-# Parameters["Monitor Type"] = "Powerflow"
-# Monitor = VBA.CreateEfieldMonitor(Parameters)
-# proj.schematic.execute_vba_code(Monitor, timeout=None)
+Solver = VBA.SetTimeSolver(Parameters)
+proj.schematic.execute_vba_code(Solver, timeout=None)
+
+
+
+# Set Monitors
+Parameters = {}
+Parameters["Wavelength"] = 1.55
+Parameters["Monitor Type"] = "Efield"
+Monitor = VBA.CreateEfieldMonitor(Parameters)
+proj.schematic.execute_vba_code(Monitor, timeout=None)
+
+
+Parameters = {}
+Parameters["Wavelength"] = 1.55
+Parameters["Monitor Type"] = "Powerflow"
+Monitor = VBA.CreateEfieldMonitor(Parameters)
+proj.schematic.execute_vba_code(Monitor, timeout=None)
 
 
 

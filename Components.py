@@ -183,6 +183,153 @@ def MZM(Parameters, CST):
 
 
 
+# MZM Design
+def PhaseModulator(Parameters, CST):
+    """Create an Phase Modulator. Materials used:
+                                            Gold - For the electrodes
+                                            LiNbO3 - For Optical Waveguides
+                                            SiO2 - For Substrate
+    Args:
+        Parameters (dict): Dictionary with all the needed values
+                Parameters["Lenght_Electrodes"] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
+                Parameters["Width GND"] : Width of the GND electrodes
+                Parameters["Width Signal"] : Width of the Signal Electrode
+                Parameters["Width WG"] : Top wWidth of the optical waveguide. It is an Rib waveguide
+                Parameters["Gap"] : Gap between Signal and optical Waveguide
+                Parameters["angle"] : Angle of the side wall of the optical waveguide
+                Parameters["High Electrodes"] : Hight of the Electodes
+                Parameters["High WG"] : Hight of the optical Waveguide
+                Parameters["High Slab"] : Hight of the Slab. When choosen "0" no Slab will be implemented. 
+                Parameters["High Substrate"] : Hight of the substrate
+
+        CST (Object): The CST Obejct that you use to load your project. 
+    """
+
+    Length_MZM = Parameters["Electrodes Lenght"]
+    Length_WG = Parameters["Electrodes Lenght"] + 2
+    Width_Electrodes = Parameters["Width GND"]
+    Width_Signal = Parameters["Width Signal"]
+    Width_WG = Parameters["Width WG"]
+    Gap = Parameters["Gap"]
+    Angle = Parameters["angle"]
+    Height_Electrodes = Parameters["High Electrodes"]
+    Height_WG = Parameters["High WG"]
+    Heigh_Slab = Parameters["High Slab"]
+    Height_Substrate = Parameters["High Substrate"]
+
+
+    # Set optical Material Properties Eps X,Y,Z
+    Data = {}
+    Data["X"] = 4.906
+    Data["Y"] = 4.584095
+    Data["Z"] = 4.906
+
+    MaterialDAta = VBA.Material("LiNbO3", Data)
+    CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    # MaterialDAta = VBA.Material_Silicon("Silicon (lossy)")
+    # CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    MaterialDAta = VBA.Material_SiO2("SiO2")
+    CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+    MaterialDAta = VBA.Material_Au("Au")
+    CST.schematic.execute_vba_code(MaterialDAta, timeout=None)
+
+
+
+    # Calculate Top and Bottom Widths of the Waveguide
+    x = abs(Height_WG / (np.cos((Angle) * np.pi / 180)))  # in Radians
+    extention = np.sqrt(x ** 2 - Height_WG ** 2)
+    Width_WG_New = Width_WG + 2 * extention 
+
+    # Global Parameters
+    WidthObject = 2*Width_WG_New + Width_Signal + Width_Electrodes + 2*Gap
+
+
+    # Substrate Definition 
+    Parameters = {}
+    Parameters['X1'] = Length_WG/2
+    Parameters['X2'] = -Length_WG/2
+    Parameters['Y1'] = (WidthObject+2)/2
+    Parameters['Y2'] = -(WidthObject+2)/2 
+    Parameters['Z1'] = Height_Substrate/2
+    Parameters['Z2'] = -Height_Substrate/2
+    TestBrick = Brick('LNOI_Substrate', Parameters, Material = "SiO2")
+    CST.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+
+    # Slab definition
+    if Heigh_Slab == 0:
+        HeightZ = Height_Substrate/2
+    else:
+        Parameters = {}
+        Parameters['X1'] = Length_WG/2
+        Parameters['X2'] = -Length_WG/2
+        Parameters['Y1'] = (WidthObject+2)/2
+        Parameters['Y2'] = -(WidthObject+2)/2 
+        Parameters['Z1'] = Height_Substrate/2
+        Parameters['Z2'] = Height_Substrate/2 + Heigh_Slab
+        TestBrick = Brick('LNOI_Slab', Parameters, Material = "LiNbO3")
+        CST.schematic.execute_vba_code(TestBrick, timeout=None)
+        HeightZ = Height_Substrate/2 + Heigh_Slab
+
+        
+    # Calculate Top and Bottom Widths of the Waveguide
+    x = abs(Height_WG / (np.cos((Angle) * np.pi / 180)))  # in Radians
+    extention = np.sqrt(x ** 2 - Height_WG ** 2)
+    Width_WG_New = Width_WG + 2 * extention 
+
+    #  Electrodes 
+    NamesElectrodes = "Electrode", "Signal"
+
+    # Plase Electrodes
+    Parameters = {}
+    Parameters['X1'] = Length_MZM/2
+    Parameters['X2'] = -Length_MZM/2
+    Parameters['Y1'] = -WidthObject/2
+    Parameters['Y2'] = -WidthObject/2 + Width_Electrodes
+    Parameters['Z1'] = HeightZ
+    Parameters['Z2'] = HeightZ + Height_Electrodes
+    TestBrick = Brick(NamesElectrodes[0], Parameters, Material = "Au")
+    CST.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+    Parameters = {}
+    Parameters['X1'] = Length_MZM/2
+    Parameters['X2'] = -Length_MZM/2
+    Parameters['Y1'] = -WidthObject/2 + Width_Electrodes + Width_WG_New + Gap*2
+    Parameters['Y2'] = -WidthObject/2 + Width_Electrodes + Width_WG_New + Gap*2 + Width_Signal
+    Parameters['Z1'] = HeightZ
+    Parameters['Z2'] = HeightZ + Height_Electrodes
+    TestBrick = Brick(NamesElectrodes[1], Parameters, Material = "Au")
+    CST.schematic.execute_vba_code(TestBrick, timeout=None)
+
+
+
+
+    # Plase Waveguides
+    GND_Left_Corner = (-WidthObject/2 + Width_Electrodes) + Gap + Width_WG_New/2
+    
+    PosLeft = [round((GND_Left_Corner  + Width_WG_New/2),2), round((GND_Left_Corner  - Width_WG_New/2),2)] 
+  
+
+    PointsLeft = {}
+    PointsLeft["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
+    PointsLeft["Y"] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]
+    PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+
+    # Waveguide and Waveguide to solid
+    WG = VBA.Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
+    CST.schematic.execute_vba_code(WG, timeout=None)
+    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+    CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
+
+
+
+
+
 
 # # Ports and Solvers and Background
 def Squere_Waveguide(Parameters, CST):

@@ -22,6 +22,9 @@ def Material(Name, Values):
     Returns:
         str: String with the VBA code
     """
+    Chix = round((Values["X"] - 1), 2)
+    Chiy = round((Values["Y"] - 1), 2)
+    Chiz = round((Values["Z"] - 1), 2 )
 
     # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
     component = 'Sub Main () ' \
@@ -37,7 +40,11 @@ def Material(Name, Values):
                         '\n.EpsilonX '+ '"' + str(Values["X"]) + '"' + \
                         '\n.EpsilonY '+ '"' + str(Values["Y"]) + '"' + \
                         '\n.EpsilonZ '+ '"' + str(Values["Z"]) + '"' + \
-                        '\n.DispModelEps "None"' + \
+                        '\n.DispModelEps "nonlinear3rd"' + \
+                        '\n.DispCoeff0EpsX "' + str(Chix) + '"' + \
+                        '\n.DispCoeff0EpsY "' + str(Chiy) + '"' + \
+                        '\n.DispCoeff0EpsZ "' + str(Chiz) + '"' + \
+                        '\n.DispModelMu "None"' + \
                         '\n.AddDispEpsPole1stOrderX "0","0"' + \
                         '\n.Color "1","0", "0"' + \
                         '\n.Create' + \

@@ -43,7 +43,7 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 #C:/Users/Martin/Desktop/CST_Project/
 #C:/Users/marti/Desktop/UPB Kursen/CST with Python/
 #/homes/lift/martinmi/Desktop/CST_Python/
-cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
+cst_path = r'/homes/lift/martinmi/Desktop/CST_Python/' # path
 # cst_project2 = 'MZM_TestSim' # CST project
 cst_project2 = 'Optical_Sim' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
@@ -52,9 +52,9 @@ cst_project_path = cst_path + cst_project2 + '.cst'
 
 import sys
 # # Server
-# sys.path.append(r"/opt/sct/eda/cst/2025/LinuxAMD64/python_cst_libraries")
+sys.path.append(r"/opt/sct/eda/cst/2025/LinuxAMD64/python_cst_libraries")
 # Windows
-sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
+# sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
 import cst
 print(cst.__file__)
 # Open CST as software
@@ -277,6 +277,7 @@ for i in range(len(PortNum)):
         Parameters["Solid Name"] = Names[j]
         proj.schematic.execute_vba_code(PickFace, timeout=None)
 
+
     Port = VBA.WaveguidePort(Parameters)
     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
 
@@ -299,15 +300,16 @@ for i in range(len(PortNum)):
 
 
 
-# # Set discrete Ports 
-# Parameters["Discrete Port Number"] = 3
+# Set discrete Ports
+Parameters["Discrete Port Number"] = 3
 # PortNum = [3,4,5,6]
-# Parameters["Discrete Port Type"] = "Voltage"
-# Parameters["Port Impedance"] = 50
-# Parameters["Port Voltage"] = 2
-# Parameters["Port Current"] = 1
-# Parameters["Port Radius"] = 0
-# Coordinates = {}
+PortNum = [3,4]
+Parameters["Discrete Port Type"] = "Voltage"
+Parameters["Port Impedance"] = 50
+Parameters["Port Voltage"] = 2
+Parameters["Port Current"] = 1
+Parameters["Port Radius"] = 0
+Coordinates = {}
 # # Coordinates["X1"] = Parameters["Electrodes Lenght"] / 2
 # # Coordinates["X2"] = Parameters["Electrodes Lenght"] / 2
 # # Coordinates["Y1"] = 0
@@ -317,6 +319,7 @@ for i in range(len(PortNum)):
 # # Parameters["Discrete Port Coordinates"] = Coordinates
 
 
+
 # Cor = {}
 # Cor["X1"] = [Parameters["Electrodes Lenght"] / 2, Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2]
 # Cor["X2"] = [Parameters["Electrodes Lenght"] / 2, Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2]
@@ -324,9 +327,63 @@ for i in range(len(PortNum)):
 # Cor["Y2"] = [(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), -(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), (Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), -(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2)]
 # Cor["Z1"] = [(Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2))]
 # Cor["Z2"] = [(Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2))]
+#
 
 
+# Loop for go thrue electrodes and set ports
+Names = ["Electrode:Electrode1", "Signal:Signal1"]
+# Ports = [[1,2], [3,4], [5,6]]
+PortNum = [3,4]
+# Pick Face
+for i in range(len(PortNum)):
+    Parameters["Face ID"] = [4,6]
+    Parameters["Discrete Port Type"] = "Voltage"
+    Parameters["Port Impedance"] = 50
+    Parameters["Port Voltage"] = 2
+    Parameters["Port Current"] = 1
+    Parameters["Port Radius"] = 0
+    Parameters["Discrete Port Number"] = PortNum[i]
 
+
+    for p in range(len(Names)):
+        PicParams = {}
+        PicParams["Option"] = "Centerpoint"
+        PicParams["Object"] = Names[p]
+        PicParams["Face Number"] = Parameters["Face ID"][i]
+        PickFace = VBA.Pick(PicParams)
+        Parameters["Solid Name"] = Names[p]
+        proj.schematic.execute_vba_code(PickFace, timeout=None)
+
+    DiscretePort = VBA.SetDiscretePort(Parameters)
+    proj.schematic.execute_vba_code(DiscretePort, timeout=None)
+
+#
+#
+# # Calculate Top and Bottom Widths of the Waveguide
+# x = abs(Parameters["High WG"]  / (np.cos((Parameters["angle"]) * np.pi / 180)))  # in Radians
+# extention = np.sqrt(x ** 2 - Parameters["High WG"] ** 2)
+# Width_WG_New = Parameters["Width WG"] + 2 * extention
+#
+# WidthObject = 2*Width_WG_New + Parameters["Width Signal"] + Parameters["Width GND"] + 2*Parameters["Gap"]
+#
+#
+# y1 = (-WidthObject/2 + Parameters["Width Signal"]  + Width_WG_New + Parameters["Gap"] *2)
+# y2 = (-WidthObject/2 + Parameters["Width GND"]  + Width_WG_New + Parameters["Gap"] *2 + Parameters["Width Signal"] )
+#
+# y_sig = (y2 + y1)/2
+#
+# Cor = {}
+#
+#
+# Cor["X1"] = [Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2]
+# Cor["X2"] = [Parameters["Electrodes Lenght"] / 2, -Parameters["Electrodes Lenght"] / 2]
+# Cor["Y1"] = [0, 0]
+# Cor["Y2"] = [ (Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2), -(Parameters["Width Signal"]/2 + 2*Parameters["Gap"] + Parameters["Width WG"] + Parameters["Width GND"]/2)]
+# Cor["Z1"] = [(Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2))]
+# Cor["Z2"] = [(Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2)), (Parameters["High Substrate"]/2 + Parameters["High Slab"] + (Parameters["High Electrodes"] / 2))]
+#
+#
+#
 # for i in range(len(PortNum)):
 #     Parameters["Discrete Port Number"] = PortNum[i]
 #     Coordinates["X1"] = Cor["X1"][i]
@@ -336,7 +393,7 @@ for i in range(len(PortNum)):
 #     Coordinates["Z1"] = Cor["Z1"][i]
 #     Coordinates["Z2"] = Cor["Z2"][i]
 #     Parameters["Discrete Port Coordinates"] = Coordinates
-
+#
 #     DiscretePort = VBA.SetDiscretePort(Parameters)
 #     proj.schematic.execute_vba_code(DiscretePort, timeout=None)
 

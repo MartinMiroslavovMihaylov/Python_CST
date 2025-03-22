@@ -252,7 +252,7 @@ def PhaseModulator(Parameters, CST):
     Parameters['X1'] = Length_WG/2
     Parameters['X2'] = -Length_WG/2
     Parameters['Y1'] = (WidthObject+2)/2
-    Parameters['Y2'] = -(WidthObject+2)/2 
+    Parameters['Y2'] = -(WidthObject+2)/2
     Parameters['Z1'] = Height_Substrate/2
     Parameters['Z2'] = -Height_Substrate/2
     TestBrick = Brick('LNOI_Substrate', Parameters, Material = "SiO2")
@@ -268,7 +268,7 @@ def PhaseModulator(Parameters, CST):
         Parameters['X1'] = Length_WG/2
         Parameters['X2'] = -Length_WG/2
         Parameters['Y1'] = (WidthObject+2)/2
-        Parameters['Y2'] = -(WidthObject+2)/2 
+        Parameters['Y2'] = -(WidthObject+2)/2
         Parameters['Z1'] = Height_Substrate/2
         Parameters['Z2'] = Height_Substrate/2 + Heigh_Slab
         TestBrick = Brick('LNOI_Slab', Parameters, Material = "LiNbO3")

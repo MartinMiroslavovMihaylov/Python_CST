@@ -174,6 +174,58 @@ def Curve(CurveName, Points):
 
 
 
+def RotationTranslation(Parameters):
+
+
+    Name = Parameters["Name Object"]
+    AngleX = Parameters["Angle X"]
+    AngleY = Parameters["Angle Y"]
+    AngleZ = Parameters["Angle Z"]
+
+    Translate = 'Sub Main ()' \
+                    '\nWith Transform' + \
+                        '\n.Reset' + \
+                        '\n.Name "' + str(Name) + '"' + \
+                        '\n.Origin "ShapeCenter"'  + \
+                        '\n.Center "0", "0", "0"' + \
+                        '\n.Angle ' + '"' + str(AngleX) + '"' + ',' + '"' + str(AngleY) + '"' + ',' + '"' + str(AngleZ) + '"' + \
+                        '\n.MultipleObjects "False"' + \
+                        '\n.GroupObjects "False"' + \
+                        '\n.Repetitions "1"' + \
+                        '\n.MultipleSelection "False"' + \
+                        '\n.Transform "Curve", "Rotate"' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+    return Translate
+
+
+
+def Translation(Parameters):
+
+    Name = Parameters["Name Object"]
+    PosX = Parameters["Position X"]
+    PosY = Parameters["Position Y"]
+    PosZ = Parameters["Position Z"]
+
+    Translate = 'Sub Main ()' \
+                    '\nWith Transform' + \
+                        '\n.Reset' + \
+                        '\n.Name "' + str(Name) + '"' + \
+                        '\n.Vector '+ '"' + str(PosX) + '"' + ',' + '"' + str(PosY) + '"' + ',' + '"' + str(PosZ) + '"' + \
+                        '\n.UsePickedPoints "False"' + \
+                        '\n.InvertPickedPoints "False"' + \
+                        '\n.MultipleObjects "False"' + \
+                        '\n.GroupObjects "False"' + \
+                        '\n.Repetitions "1"' + \
+                        '\n.MultipleSelection "False"' + \
+                        '\n.Transform "Curve", "Translate"' + \
+                    '\nEnd With' + \
+                '\nEnd Sub'
+    return Translate
+
+
+
+
 
 def ToSolid(SolidName, CurveName = "Polygon", NameFolder = None, Material = None ):
     """This function transfer an function or polynom to solid object.
@@ -722,6 +774,8 @@ def Pick(Parameters):
                     '\nPick.PickFaceFromId ' + '"' + str(FaceName) + '"' + "," +  '"' + str(Number)+ '"' \
                 '\nEnd Sub'
     return data
+
+
 
 
 

@@ -45,6 +45,8 @@ def MZM(Parameters, CST):
     Heigh_Slab = Parameters["High Slab"]
     Height_Substrate = Parameters["High Substrate"]
 
+   
+
 
     # Set optical Material Properties Eps X,Y,Z
     Data = {}
@@ -147,6 +149,10 @@ def MZM(Parameters, CST):
     CST.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
+
+    
+    
+
     # Plase Waveguides
     GND_Left_Corner = (-WidthObject/2 + Width_Electrodes) + Gap + Width_WG_New/2
     GND_Right_Corner = (WidthObject/2 - Width_Electrodes) - Gap - Width_WG_New/2
@@ -154,31 +160,74 @@ def MZM(Parameters, CST):
     PosLeft = [round((GND_Left_Corner  + Width_WG_New/2),2), round((GND_Left_Corner  - Width_WG_New/2),2)] 
     PosRight = [round((GND_Right_Corner - Width_WG_New/2),2), round((GND_Right_Corner + Width_WG_New/2),2)] 
 
-
-
+    # New Waveguide Placement with 2D Polygon and Translation 
     PointsLeft = {}
-    PointsLeft["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
-    PointsLeft["Y"] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]
-    PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+    PointsLeft["X"] = [Length_WG/2, Length_WG/2, Length_WG/2 - Height_WG, Length_WG/2 - Height_WG, Length_WG/2]
+    PointsLeft["Y"] = [PosLeft[0], PosLeft[1], round((PosLeft[1] + extention),2) , round((PosLeft[0] - extention),2), PosLeft[0]]
 
-    # Waveguide and Waveguide to solid
-    WG = VBA.Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
+    # Waveguide and Waveguide to 
+    # Translation Parameters
+    Trans = {}
+    Trans["Angle X"] = 0
+    Trans["Angle Y"] = 90
+    Trans["Angle Z"] = 0
+    Trans["Position X"] = Height_WG/2
+    Trans["Position Y"] = 0 
+    Trans["Position Z"] = HeightZ + Height_WG/2
+
+    WG = VBA.Poligon_2D(WGName = "Waveguide_Left", Points = PointsLeft)
     CST.schematic.execute_vba_code(WG, timeout=None)
-    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+    Trans["Name Object"] = "Waveguide_Left"
+    WG_Translate = VBA.RotationTranslation(Trans)
+    CST.schematic.execute_vba_code(WG_Translate, timeout=None)
+    WG_Translate = VBA.Translation(Trans)
+    CST.schematic.execute_vba_code(WG_Translate, timeout=None)
+    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Length_WG, Angle = 0, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
 
     PointsRight = {}
-    PointsRight["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
-    PointsRight["Y"] = [PosRight[0], PosRight[1], PosRight[1], PosRight[0], PosRight[0]]
-    PointsRight["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+    PointsRight["X"] = [Length_WG/2, Length_WG/2, Length_WG/2 - Height_WG, Length_WG/2 - Height_WG, Length_WG/2]
+    PointsRight["Y"] = [PosRight[0], PosRight[1], round((PosRight[1] - extention),2) , round((PosRight[0] + extention),2), PosRight[0]]
+
 
     # Waveguide and Waveguide to solid
-    WG = VBA.Poligon_3D(WGName = "Waveguide_Right", Points = PointsRight)
+    WG = VBA.Poligon_2D(WGName = "Waveguide_Right", Points = PointsRight)
     CST.schematic.execute_vba_code(WG, timeout=None)
-    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
+    Trans["Name Object"] = "Waveguide_Right"
+    WG_Translate = VBA.RotationTranslation(Trans)
+    CST.schematic.execute_vba_code(WG_Translate, timeout=None)
+    WG_Translate = VBA.Translation(Trans)
+    CST.schematic.execute_vba_code(WG_Translate, timeout=None)
+    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Length_WG, Angle = 0, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
+
+
+    # # Old Points of 3D Polygon Waveguide
+    # PointsLeft = {}
+    # PointsLeft["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
+    # PointsLeft["Y"] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]
+    # PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+
+    # # Waveguide and Waveguide to solid
+    # WG = VBA.Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
+    # CST.schematic.execute_vba_code(WG, timeout=None)
+    # RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+    # CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
+
+
+
+    # PointsRight = {}
+    # PointsRight["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
+    # PointsRight["Y"] = [PosRight[0], PosRight[1], PosRight[1], PosRight[0], PosRight[0]]
+    # PointsRight["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+
+    # # Waveguide and Waveguide to solid
+    # WG = VBA.Poligon_3D(WGName = "Waveguide_Right", Points = PointsRight)
+    # CST.schematic.execute_vba_code(WG, timeout=None)
+    # RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
+    # CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
 
@@ -307,24 +356,49 @@ def PhaseModulator(Parameters, CST):
     CST.schematic.execute_vba_code(TestBrick, timeout=None)
 
 
-
-
     # Plase Waveguides
     GND_Left_Corner = (-WidthObject/2 + Width_Electrodes) + Gap + Width_WG_New/2
     
     PosLeft = [round((GND_Left_Corner  + Width_WG_New/2),2), round((GND_Left_Corner  - Width_WG_New/2),2)] 
   
 
+    # New Waveguide Placement with 2D Polygon and Translation 
     PointsLeft = {}
-    PointsLeft["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
-    PointsLeft["Y"] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]
-    PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+    PointsLeft["X"] = [Length_WG/2, Length_WG/2, Length_WG/2 - Height_WG, Length_WG/2 - Height_WG, Length_WG/2]
+    PointsLeft["Y"] = [PosLeft[0], PosLeft[1], round((PosLeft[1] + extention),2) , round((PosLeft[0] - extention),2), PosLeft[0]]
 
-    # Waveguide and Waveguide to solid
-    WG = VBA.Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
+    # Waveguide and Waveguide to 
+    # Translation Parameters
+    Trans = {}
+    Trans["Angle X"] = 0
+    Trans["Angle Y"] = 90
+    Trans["Angle Z"] = 0
+    Trans["Position X"] = Height_WG/2
+    Trans["Position Y"] = 0 
+    Trans["Position Z"] = HeightZ + Height_WG/2
+
+    WG = VBA.Poligon_2D(WGName = "Waveguide_Left", Points = PointsLeft)
     CST.schematic.execute_vba_code(WG, timeout=None)
-    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+    Trans["Name Object"] = "Waveguide_Left"
+    WG_Translate = VBA.RotationTranslation(Trans)
+    CST.schematic.execute_vba_code(WG_Translate, timeout=None)
+    WG_Translate = VBA.Translation(Trans)
+    CST.schematic.execute_vba_code(WG_Translate, timeout=None)
+    RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Length_WG, Angle = 0, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
     CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
+
+
+
+    # PointsLeft = {}
+    # PointsLeft["X"] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]
+    # PointsLeft["Y"] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]
+    # PointsLeft["Z"] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]
+
+    # # Waveguide and Waveguide to solid
+    # WG = VBA.Poligon_3D(WGName = "Waveguide_Left", Points = PointsLeft)
+    # CST.schematic.execute_vba_code(WG, timeout=None)
+    # RibWG_Test = VBA.RibWaveguide_ToSolid("Waveguide_Left", WaveguideName = "Waveguide_Left", WG_Hight = Height_WG, Angle = -Angle, WGFolderName = "Waveguide_Left", WGName = "Waveguide_Left", Material="LiNbO3")
+    # CST.schematic.execute_vba_code(RibWG_Test, timeout=None)
 
 
 

@@ -43,7 +43,7 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 #C:/Users/Martin/Desktop/CST_Project/
 #C:/Users/marti/Desktop/UPB Kursen/CST with Python/
 #/homes/lift/martinmi/Desktop/CST_Python/
-cst_path = r'/homes/lift/martinmi/Desktop/CST_Python/' # path
+cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
 # cst_project2 = 'MZM_TestSim' # CST project
 cst_project2 = 'Optical_Sim' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
@@ -52,9 +52,9 @@ cst_project_path = cst_path + cst_project2 + '.cst'
 
 import sys
 # # Server
-sys.path.append(r"/opt/sct/eda/cst/2025/LinuxAMD64/python_cst_libraries")
+# sys.path.append(r"/opt/sct/eda/cst/2025/LinuxAMD64/python_cst_libraries")
 # Windows
-# sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
+sys.path.append(r"C:/Program Files (x86)/CST Studio Suite 2025/AMD64/python_cst_libraries")
 import cst
 print(cst.__file__)
 # Open CST as software
@@ -205,6 +205,10 @@ Parameters["High Electrodes"] = 1
 Parameters["High WG"] = 0.4
 Parameters["High Slab"] = 0.2 
 Parameters["High Substrate"] = 2
+Parameters["Angle X"] = 0
+Parameters["Angle Y"] = 90
+Parameters["Angle Z"] = 0 
+
 
 
 # Components.MZM(Parameters, proj)
@@ -213,12 +217,40 @@ Components.PhaseModulator(Parameters, proj)
 
 
 
+# # Loop for go thrue electrodes and set ports
+# Names = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
+# Names = ["Waveguide_Left:Waveguide_Left", "Waveguide_Right:Waveguide_Right"]
+# # Ports = [[1,2], [3,4], [5,6]]
+# PortNum = [1,2]
+# # Pick Face
+# for i in range(len(PortNum)):
+#     Parameters["Orientation"] = ["Positive", "Positive"]
+#     Parameters["Coordinates"] = "Picks"
+#     Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
+#     Parameters["Potential"] = [1,2]
+#     Parameters["Port Number"] = PortNum
+#     Parameters["Polarity"] = ["Positive", "Negative"]
+#     Parameters["Face ID"] = [5,6]
+    
+#     for j in range(len(Names)):
+#         PicParams = {}
+#         PicParams["Option"] = "Face"
+#         PicParams["Object"] = Names[j]
+#         PicParams["Face Number"] = Parameters["Face ID"][i]
+#         PickFace = VBA.Pick(PicParams)
+#         Parameters["Solid Name"] = Names[j]
+#         proj.schematic.execute_vba_code(PickFace, timeout=None)
 
+#     Port = VBA.WaveguidePort(Parameters)
+#     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
+
+# # # Pick electrodes and move the Port to the Waveguide start when using 3d Polygon to create the waveguide, becouse 
+# # # when using 3D Polygon Taper face is on all sides of the Waveguide not only on the left and right site. 
 # # Loop for go thrue electrodes and set ports
 # Names = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
 # # Ports = [[1,2], [3,4], [5,6]]
 # PortNum = [1,2]
-# # Pick Face
 # for i in range(len(PortNum)):
 #     Parameters["Orientation"] = ["Positive", "Positive"]
 #     Parameters["Coordinates"] = "Picks"
@@ -255,10 +287,10 @@ Components.PhaseModulator(Parameters, proj)
 
 
 # Loop for go thrue electrodes and set ports
-Names = ["Electrode:Electrode1", "Signal:Signal1"]
+Names = ["Waveguide_Left:Waveguide_Left"]
 # Ports = [[1,2], [3,4], [5,6]]
 PortNum = [1,2]
-# Pick Face
+# Pick 
 for i in range(len(PortNum)):
     Parameters["Orientation"] = ["Positive", "Positive"]
     Parameters["Coordinates"] = "Picks"
@@ -266,7 +298,7 @@ for i in range(len(PortNum)):
     Parameters["Potential"] = [1,2]
     Parameters["Port Number"] = PortNum
     Parameters["Polarity"] = ["Positive", "Negative"]
-    Parameters["Face ID"] = [4,6]
+    Parameters["Face ID"] = [5,6]
     
     for j in range(len(Names)):
         PicParams = {}
@@ -282,15 +314,44 @@ for i in range(len(PortNum)):
     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
 
 
-for i in range(len(PortNum)):
-    Parameters["Distance"] = Parameters["Electrodes Lenght"] 
-    WidthObject = (2*Parameters["Width WG"] + Parameters["Width Signal"] + 2*Parameters["Width GND"] + 4*Parameters["Gap"])/2
-    Hight = (Parameters["High Slab"] + Parameters["High Slab"] + Parameters["High Electrodes"]) / 2
-    Parameters["Span"] = [[[-WidthObject - 3, -WidthObject - 3],[WidthObject + 3, WidthObject + 3]], [[-1.2, -1.2],[4.2,4.2]]]
-    Parameters["Port Number"] = PortNum
+# # Pick electrodes and move the Port to the Waveguide start when using 3d Polygon to create the waveguide, becouse 
+# # when using 3D Polygon Taper face is on all sides of the Waveguide not only on the left and right site. 
+# Loop for go thrue electrodes and set ports
+# Names = ["Electrode:Electrode1", "Signal:Signal1"]
+# # Ports = [[1,2], [3,4], [5,6]]
+# PortNum = [1,2]
+# for i in range(len(PortNum)):
+#     Parameters["Orientation"] = ["Positive", "Positive"]
+#     Parameters["Coordinates"] = "Picks"
+#     Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
+#     Parameters["Potential"] = [1,2]
+#     Parameters["Port Number"] = PortNum
+#     Parameters["Polarity"] = ["Positive", "Negative"]
+#     Parameters["Face ID"] = [4,6]
+    
+#     for j in range(len(Names)):
+#         PicParams = {}
+#         PicParams["Option"] = "Face"
+#         PicParams["Object"] = Names[j]
+#         PicParams["Face Number"] = Parameters["Face ID"][i]
+#         PickFace = VBA.Pick(PicParams)
+#         Parameters["Solid Name"] = Names[j]
+#         proj.schematic.execute_vba_code(PickFace, timeout=None)
 
-    Port = VBA.MoveWaveguidePorts(Parameters)
-    proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
+#     Port = VBA.WaveguidePort(Parameters)
+#     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
+
+# for i in range(len(PortNum)):
+#     Parameters["Distance"] = Parameters["Electrodes Lenght"] 
+#     WidthObject = (2*Parameters["Width WG"] + Parameters["Width Signal"] + 2*Parameters["Width GND"] + 4*Parameters["Gap"])/2
+#     Hight = (Parameters["High Slab"] + Parameters["High Slab"] + Parameters["High Electrodes"]) / 2
+#     Parameters["Span"] = [[[-WidthObject - 3, -WidthObject - 3],[WidthObject + 3, WidthObject + 3]], [[-1.2, -1.2],[4.2,4.2]]]
+#     Parameters["Port Number"] = PortNum
+
+#     Port = VBA.MoveWaveguidePorts(Parameters)
+#     proj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
 
 
 
@@ -487,10 +548,6 @@ for i in range(len(PortNum)):
 
 # Mesh = VBA.SetMesh(Parameters)
 # proj.schematic.execute_vba_code(Mesh, timeout=None)
-
-
-# '
-
 
 
 

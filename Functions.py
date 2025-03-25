@@ -773,8 +773,14 @@ def Pick(Parameters):
         data = 'Sub Main () ' \
                     '\nPick.PickFaceFromId ' + '"' + str(FaceName) + '"' + "," +  '"' + str(Number)+ '"' \
                 '\nEnd Sub'
-    return data
-
+        return data
+    elif Parameters["Option"] == "Centerpoint":
+        data = 'Sub Main () ' \
+                    '\nPick.PickCenterpointFromId ' + '"' + str(FaceName) + '"' + "," +  '"' + str(Number)+ '"' \
+                '\nEnd Sub'
+        return data
+    else:
+        raise ValueError("Wrong Object, can be choose from 'Face' and 'Centerpoint' for the moment!")
 
 
 
@@ -1049,6 +1055,7 @@ def MoveWaveguidePorts(Parameters):
     
 
 def SetDiscretePort(Parameters):
+
     PortNumber = Parameters["Discrete Port Number"]
     if Parameters["Discrete Port Type"] in ["Voltage", "S-Parameters", "Current"]:
         PortType = Parameters["Discrete Port Type"]
@@ -1058,38 +1065,64 @@ def SetDiscretePort(Parameters):
     Voltage = Parameters["Port Voltage"]
     Current = Parameters["Port Current"]
     PortRadius = Parameters["Port Radius"]
-    Coordinates = Parameters["Discrete Port Coordinates"]
+
 
     # Port = {}
     # Port["1"] = None
     # Port["2"] = None
 
+    if "Discrete Port Coordinates" in list(Parameters.keys()):
+        Coordinates = Parameters["Discrete Port Coordinates"]
+        data = 'Sub Main ()' \
+                '\nWith DiscretePort' + \
+                    '\n.Reset' + \
+                    '\n.PortNumber "' + str(PortNumber) + '"' + \
+                    '\n.Type "' + str(PortType) + '"' +\
+                    '\n.Label ""' + \
+                    '\n.Folder ""' + \
+                    '\n.Impedance "' + str(PortImpedance) + '"' + \
+                    '\n.Voltage "' +str(Voltage) + '"' + \
+                    '\n.Current "' +str(Current) + '"' + \
+                    '\n.Monitor "True"' + \
+                    '\n.Radius "' + str(PortRadius) + '"' + \
+                    '\n.SetP1 "False", "' + str(Coordinates["X1"]) + '", "' + str(Coordinates["Y1"]) + '", "' + str(Coordinates["Z1"]) + '"' + \
+                    '\n.SetP2 "False", "' + str(Coordinates["X2"]) + '", "' + str(Coordinates["Y2"]) + '", "' + str(Coordinates["Z2"]) + '"' + \
+                    '\n.InvertDirection "False"' + \
+                    '\n.LocalCoordinates "False"' + \
+                    '\n.Wire ""' + \
+                    '\n.Position "end1"' + \
+                    '\n.Create ' + \
+                '\nEnd With' + \
+            '\nEnd Sub'
 
-    # for i in range(len(PortNumber)):
-    data = 'Sub Main ()' \
-            '\nWith DiscretePort' + \
-                '\n.Reset' + \
-                '\n.PortNumber "' + str(PortNumber) + '"' + \
-                '\n.Type "' + str(PortType) + '"' +\
-                '\n.Label ""' + \
-                '\n.Folder ""' + \
-                '\n.Impedance "' + str(PortImpedance) + '"' + \
-                '\n.Voltage "' +str(Voltage) + '"' + \
-                '\n.Current "' +str(Current) + '"' + \
-                '\n.Monitor "True"' + \
-                '\n.Radius "' + str(PortRadius) + '"' + \
-                '\n.SetP1 "False", "' + str(Coordinates["X1"]) + '", "' + str(Coordinates["Y1"]) + '", "' + str(Coordinates["Z1"]) + '"' + \
-                '\n.SetP2 "False", "' + str(Coordinates["X2"]) + '", "' + str(Coordinates["Y2"]) + '", "' + str(Coordinates["Z2"]) + '"' + \
-                '\n.InvertDirection "False"' + \
-                '\n.LocalCoordinates "False"' + \
-                '\n.Wire ""' + \
-                '\n.Position "end1"' + \
-                '\n.Create ' + \
+        Port = ''.join(data)
+        return Port
+
+    else:
+        data = 'Sub Main ()' \
+               '\nWith DiscretePort' + \
+               '\n.Reset' + \
+               '\n.PortNumber "' + str(PortNumber) + '"' + \
+               '\n.Type "' + str(PortType) + '"' + \
+               '\n.Label ""' + \
+               '\n.Folder ""' + \
+               '\n.Impedance "' + str(PortImpedance) + '"' + \
+               '\n.Impedance "' + str(PortImpedance) + '"' + \
+               '\n.Voltage "' + str(Voltage) + '"' + \
+               '\n.Current "' + str(Current) + '"' + \
+               '\n.Monitor "True"' + \
+               '\n.Radius "' + str(PortRadius) + '"' + \
+                '\n.SetP1 "True", "-23", "-2.9618802153517", "1.7"' + \
+                '\n.SetP2 "True", "-23", "3", "1.7"' + \
+               '\n.InvertDirection "False"' + \
+               '\n.LocalCoordinates "False"' + \
+               '\n.Wire ""' + \
+               '\n.Position "end1"' + \
+               '\n.Create ' + \
             '\nEnd With' + \
         '\nEnd Sub'
-        # Port[str(i+1)] = ''.join(data)
-    Port = ''.join(data)
-    return Port
+        Port = ''.join(data)
+        return Port
 
                     
                 

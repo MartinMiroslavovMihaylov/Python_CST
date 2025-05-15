@@ -22,9 +22,13 @@ def Material(Name, Values):
     Returns:
         str: String with the VBA code
     """
-    Chix = round((Values["X"] - 1), 2)
-    Chiy = round((Values["Y"] - 1), 2)
-    Chiz = round((Values["Z"] - 1), 2 )
+    # Chix = round((Values["X"] - 1), 2)
+    # Chiy = round((Values["Y"] - 1), 2)
+    # Chiz = round((Values["Z"] - 1), 2 )
+    Chix = Values["X"] 
+    Chiy = Values["Y"] 
+    Chiz = Values["Z"]
+
 
     # Add Meterial . Values is array with X, Y and Z Values for the Anisotropic Material Permittivity
     component = 'Sub Main () ' \
@@ -40,7 +44,7 @@ def Material(Name, Values):
                         '\n.EpsilonX '+ '"' + str(Values["X"]) + '"' + \
                         '\n.EpsilonY '+ '"' + str(Values["Y"]) + '"' + \
                         '\n.EpsilonZ '+ '"' + str(Values["Z"]) + '"' + \
-                        '\n.DispModelEps "nonlinear3rd"' + \
+                        '\n.DispModelEps "nonlinear2nd"' + \
                         '\n.DispCoeff0EpsX "' + str(Chix) + '"' + \
                         '\n.DispCoeff0EpsY "' + str(Chiy) + '"' + \
                         '\n.DispCoeff0EpsZ "' + str(Chiz) + '"' + \
@@ -754,6 +758,141 @@ def WaveguidePort(Parameters):
     return Port
 
 
+
+
+def WaveguidePortWithPins(Parameters, PicParams):
+    """Set the Waveguide Port for  
+
+    Args:
+        Parameters (dict): Dictionary with Port Parameters
+                            Parameters["Orientation"] = Str with Port Orientation can be "Positive" or "Negative". For 
+                                                        this function an 2 ports will be defined so please give an array with two Oriantations
+                                                        like  Parameters["Orientation"] = ["Positive", "Positive"]
+                            Parameters["Coordinates"] = Str witch Coordinates type, "Picks" is the best one!
+                            Parameters["Span"] = Array with Array of port span [[Ymin, Ymax],[Zmin, Zmax]]
+                            Parameters["Potential"] = Array with port Potential . For example [1,2]
+                            Parameters["Port Number"] = Array with Port number [1,2]
+                            Parameters["Polarity"] = Port Polarity can be be "Positive" or "Negative". For 
+                                                    this function an 2 ports will be defined so please give an 
+                                                    array with two Polaritys. For example Parameters["Polarity"] = ["Positive", "Positive"]
+                            Parameters["Solid Name"] = Name of the Object on witch the Waveguide port will be created. For example "WG:WG1"
+                            Parameters["Face ID"] = Array with the ID of the two picked faces. For example Parameters["Face ID"] = [2,4]
+        PicParams (dict): Dictionary with Pick Faces Parameters
+                            PickParams["Face Number"] = Integer with the number of the picked face of the structure
+
+    Returns:
+        str: String with VBA Code 
+    """
+
+    # Parameters to determin port position 
+    Orientation = Parameters["Orientation"]
+    Coordinates = Parameters["Coordinates"]
+    # Choose coordinates
+    Span11 = Parameters["Span"][0][0]
+    Span12 = Parameters["Span"][0][1]
+    Span21 = Parameters["Span"][1][0]
+    Span22 = Parameters["Span"][1][1]
+    Polarity = Parameters["Polarity"]
+    SolidName = Parameters["Electrodes_Names"]
+    PickID = PicParams["Face Number"]
+
+    if len(SolidName) == 1:
+        #Return Ports in Dictionary for one Object 2 Ports can be define 
+        Port = {}
+        Port["1"] = None
+        Port["2"] = None
+
+        # Ports Numbers
+        PortNum = Parameters["Port Number"]
+
+        # loop true mode sets
+        Potentials = Parameters["Potential"]
+
+
+        #Start Loop for Ports
+        for index, i in enumerate(Potentials,start = 1):
+            data = 'Sub Main () ' \
+                        '\nWith Port' + \
+                        '\n.Reset' + \
+                        '\n.PortNumber ' + '"' + str(PortNum[index-1]) + '"' + \
+                        '\n.NumberOfModes "5"' + \
+                        '\n.ReferencePlaneDistance "0"' + \
+                        '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
+                        '\n.Orientation ' +  '"' + str(Orientation[index-1]) + '"' + \
+                        '\n.PortOnBound "False"' + \
+                        '\n.ClipPickedPortToBound "False"' + \
+                        '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
+                        '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
+                        '\n.AdjustPolarization "True"' +\
+                        '\n.PolarizationAngle "0"' +\
+                        '\n.SingleEnded "False" ' + \
+                        '\n.AddPotentialPicked "1", "positive", "' + str(SignalName) + '", "' + str(PickID) + '" ' + \
+                        '\n.Create' + \
+                    '\nEnd With'  + \
+                    '\nEnd Sub'
+            #  '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
+            Port[str(index)] = ''.join(data)
+    else:
+        # Check names
+        if "Signal" in SolidName[0].split(":"):
+            SignalName = SolidName[0]
+            GNDName1 = SolidName[1]
+            GNDName2 = SolidName[2]
+        elif "Signal" in SolidName[1].split(":"):
+            SignalName = SolidName[1]
+            GNDName1 = SolidName[0]
+            GNDName2 = SolidName[2]
+        else:
+            SignalName = SolidName[2]
+            GNDName1 = SolidName[0]
+            GNDName2 = SolidName[1]
+
+        
+
+        #Return Ports in Dictionary for one Object 2 Ports can be define 
+        Port = {}
+        Port["1"] = None
+        Port["2"] = None
+
+        # Ports Numbers
+        PortNum = Parameters["Port Number"]
+
+        # loop true mode sets
+        Potentials = Parameters["Potential"]
+
+
+        #Start Loop for Ports
+        for index, i in enumerate(Potentials,start = 1):
+            data = 'Sub Main () ' \
+                        '\nWith Port' + \
+                        '\n.Reset' + \
+                        '\n.PortNumber ' + '"' + str(PortNum[index-1]) + '"' + \
+                        '\n.NumberOfModes "5"' + \
+                        '\n.ReferencePlaneDistance "0"' + \
+                        '\n.Coordinates ' + '"' + str(Coordinates) + '"' + \
+                        '\n.Orientation ' +  '"' + str(Orientation[index-1]) + '"' + \
+                        '\n.PortOnBound "False"' + \
+                        '\n.ClipPickedPortToBound "False"' + \
+                        '\n.YrangeAdd  ' + '"' + str(Span11[index-1]) + '"' + ',' + '"' + str(Span12[index-1]) + '"' + \
+                        '\n.ZrangeAdd  ' + '"' + str(Span21[index-1]) + '"' + ',' + '"' + str(Span22[index-1]) + '"' + \
+                        '\n.AdjustPolarization "True"' +\
+                        '\n.PolarizationAngle "0"' +\
+                        '\n.SingleEnded "False" ' + \
+                        '\n.AddPotentialPicked "1", "positive", "' + str(SignalName) + '", "' + str(PickID) + '" ' + \
+                        '\n.AddPotentialPicked "1", "negative", "' + str(GNDName1)+ '", "' + str(PickID) + '" ' + \
+                        '\n.AddPotentialPicked "1", "negative", "' + str(GNDName2)+ '", "' + str(PickID) + '" ' + \
+                        '\n.Create' + \
+                    '\nEnd With'  + \
+                    '\nEnd Sub'
+            #  '\n.AddPotentialPicked  ' + '"' + str(index) + '"' + ',' + '"' + str(Polarity[index-1]) + '"' + ',' + '"' + str(SolidName) + '"'+ ',' + '"' + str(PickID[index-1]) + '"' + \
+            Port[str(index)] = ''.join(data)
+
+    return Port
+
+
+
+
+
 def Pick(Parameters):
     """Pick function
 
@@ -868,25 +1007,204 @@ def SetTimeSolver(Parameters):
     AutoImpedance = Parameters["Auto Impedance"]
     Impedance = Parameters["Impedance"]
     Source = Parameters["Source Port"]
+    MeshType = Parameters["Solver Mesh Type"]
+
+    if MeshType == "FIT":
+        data = 'Sub Main () ' \
+            '\nWith Solver' + \
+            '\n.Reset' + \
+            '\n.Method "Hexahedral"' + \
+            '\n.SteadyStateLimit ' + '"-' + str(Accuracy) + '"' + \
+            '\n.CalculateModesOnly ' + '"' + str(ModesOnly) + '"' + \
+            '\n.StimulationPort ' + '"' + str(Source) + '"' + \
+            '\n.StimulationMode "All"' + \
+            '\n.MeshAdaption "False"' + \
+            '\n.SParaSymmetry "True"' +\
+            '\n.AutoNormImpedance  ' + '"' + str(AutoImpedance) + '"' + \
+            '\n.NormingImpedance ' + '"' + str(Impedance) + '"' + \
+            '\nEnd With' + \
+            '\nEnd Sub'
+        Port = ''.join(data)
+
+    else:
+        data = 'Sub Main () ' \
+            '\nMesh.SetCreator "High Frequency" ' + \
+            '\nWith Solver' + \
+            '\n.Reset' + \
+            '\n.Method "Hexahedral TLM"' + \
+            '\n.SteadyStateLimit ' + '"-' + str(Accuracy) + '"' + \
+            '\n.StimulationPort "All"' + \
+            '\n.StimulationMode "All"' + \
+            '\n.MeshAdaption "False"' + \
+            '\n.SParaSymmetry "True"' +\
+            '\n.AutoNormImpedance "True"' + \
+            '\n.NormingImpedance ' + '"' + str(Impedance) + '"' + \
+            '\n.StoreTDResultsInCache  "False"' + \
+            '\n.RunDiscretizerOnly "False"' + \
+            '\n.SuperimposePLWExcitation "False"' + \
+            '\nEnd With' + \
+            '\nEnd Sub'
+        Port = ''.join(data)
+
+    return Port
+
+
+
+    
+     
+     
+     
+
+
+
+
+
+
+def SetFreqSolver(Parameters):
+    """Set Frequency solver Parameters
+
+    Args:
+        Parameters (dict): Dictionary with Parameters
+                            Parameters["Accuracy"] : int from 10,15,20,25,30,35,40. Simulation accuracy. For example 20.    
+                            Parameters["Caclculate Modes Only"] : Boolen. True if you want to calculate 
+                            only the Ports modes. False to calculate the hole structure. 
+                            Parameters["Auto Impedance"] : Booled. Set Port Impedance. True if you want to set manually
+                            False otherwise.
+                            Parameters["Impedance"] : int/float Port Impedance. 
+                            Parameters["Source Port"] : Int. Set the Source Port. For example 1 or 2
+    Returns:
+        str: String with VBA Code 
+    """
+    Accuracy = Parameters["Accuracy"]
+    ModesOnly = Parameters["Caclculate Modes Only"]
+    AutoImpedance = Parameters["Auto Impedance"]
+    Impedance = Parameters["Impedance"]
+    Source = Parameters["Source Port"]
 
     data = 'Sub Main () ' \
-        '\nWith Solver' + \
+        '\nMesh.SetCreator "High Frequency" ' + \
+        '\nWith FDSolver' + \
         '\n.Reset' + \
-        '\n.Method "Hexahedral"' + \
-        '\n.SteadyStateLimit ' + '"-' + str(Accuracy) + '"' + \
-        '\n.CalculateModesOnly ' + '"' + str(ModesOnly) + '"' + \
-        '\n.StimulationPort ' + '"' + str(Source) + '"' + \
-        '\n.StimulationMode "All"' + \
-        '\n.MeshAdaption "False"' + \
-        '\n.SParaSymmetry "False"' +\
-        '\n.AutoNormImpedance  ' + '"' + str(AutoImpedance) + '"' + \
-        '\n.NormingImpedance ' + '"' + str(Impedance) + '"' + \
-        '\n.SParaSymmetry "False"' +\
+        '\n.SetMethod "Tetrahedral", "General purpose"' + \
+        '\n.OrderTet "Second" ' + \
+        '\n.OrderSrf "First" ' + \
+        '\n.Stimulation "All", "All" ' + \
+        '\n.ResetExcitationList ' + \
+        '\n.AutoNormImpedance "False" ' + \
+        '\n.NormingImpedance "50" ' + \
+        '\n.ModesOnly "False" ' + \
+        '\n.ConsiderPortLossesTet "True" ' + \
+        '\n.SetShieldAllPorts "False" ' + \
+        '\n.AccuracyHex "1e-6" ' + \
+        '\n.AccuracyTet "1e-5" ' + \
+        '\n.AccuracySrf "1e-3" ' + \
+        '\n.LimitIterations "False" ' + \
+        '\n.MaxIterations "0" ' + \
+        '\n.SetCalcBlockExcitationsInParallel "True", "True", "" ' + \
+        '\n.StoreAllResults "False" ' + \
+        '\n.StoreResultsInCache "False" ' + \
+        '\n.UseHelmholtzEquation "True" ' + \
+        '\n.LowFrequencyStabilization "True" ' + \
+        '\n.Type "Direct" ' + \
+        '\n.MeshAdaptionHex "False" ' + \
+        '\n.MeshAdaptionTet "True" ' + \
+        '\n.AcceleratedRestart "True" ' + \
+        '\n.FreqDistAdaptMode "Distributed" ' + \
+        '\n.NewIterativeSolver "True" ' + \
+        '\n.TDCompatibleMaterials "False" ' + \
+        '\n.ExtrudeOpenBC "False" ' + \
+        '\n.SetOpenBCTypeHex "Default" ' + \
+        '\n.SetOpenBCTypeTet "Default" ' + \
+        '\n.AddMonitorSamples "True" ' + \
+        '\n.CalcPowerLoss "True" ' + \
+        '\n.CalcPowerLossPerComponent "False" ' + \
+        '\n.SetKeepSolutionCoefficients "MonitorsAndMeshAdaptation" ' + \
+        '\n.UseDoublePrecision "False" ' + \
+        '\n.UseDoublePrecision_ML "True" ' + \
+        '\n.MixedOrderSrf "False" ' + \
+        '\n.MixedOrderTet "False" ' + \
+        '\n.PreconditionerAccuracyIntEq "0.15" ' + \
+        '\n.MLFMMAccuracy "Default" ' + \
+        '\n.MinMLFMMBoxSize "0.3" ' + \
+        '\n.UseCFIEForCPECIntEq "True" ' + \
+        '\n.UseEnhancedCFIE2 "True" ' + \
+        '\n.UseFastRCSSweepIntEq "false" ' + \
+        '\n.UseSensitivityAnalysis "False" ' + \
+        '\n.UseEnhancedNFSImprint "True" ' + \
+        '\n.UseFastDirectFFCalc "True" ' + \
+        '\n.RemoveAllStopCriteria "Hex"' + \
+        '\n.AddStopCriterion "All S-Parameters", "0.01", "2", "Hex", "True" ' + \
+        '\n.AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Hex", "False" ' + \
+        '\n.AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Hex", "False" ' + \
+        '\n.RemoveAllStopCriteria "Tet" ' + \
+        '\n.AddStopCriterion "All S-Parameters", "0.01", "2", "Tet", "True" ' + \
+        '\n.AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Tet", "False" ' + \
+        '\n.AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Tet", "False" ' + \
+        '\n.AddStopCriterion "All Probes", "0.05", "2", "Tet", "True" ' + \
+        '\n.RemoveAllStopCriteria "Srf" ' + \
+        '\n.AddStopCriterion "All S-Parameters", "0.01", "2", "Srf", "True" ' + \
+        '\n.AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Srf", "False" ' + \
+        '\n.AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Srf", "False" ' + \
+        '\n.SweepMinimumSamples "3"  ' + \
+        '\n.SetNumberOfResultDataSamples "5001"  ' + \
+        '\n.SetResultDataSamplingMode "Automatic"  ' + \
+        '\n.SweepWeightEvanescent "1.0"  ' + \
+        '\n.AccuracyROM "1e-4"  ' + \
+        '\n.AddSampleInterval "", "", "5", "Automatic", "True"  ' + \
+        '\n.AddSampleInterval "", "", "", "Automatic", "False"  ' + \
+        '\n.MPIParallelization "False" ' + \
+        '\n.UseDistributedComputing "False" ' + \
+        '\n.NetworkComputingStrategy "RunRemote" ' + \
+        '\n.NetworkComputingJobCount "3" ' + \
+        '\n.UseParallelization "True" ' + \
+        '\n.MaxCPUs "1024" ' + \
+        '\n.MaximumNumberOfCPUDevices "2" ' + \
+        '\n.HardwareAcceleration "False" ' + \
+        '\n.MaximumNumberOfGPUs "1" ' + \
         '\nEnd With' + \
-        '\nEnd Sub'
+        '\nWith IESolver ' + \
+            '\n.Reset ' + \
+            '\n.UseFastFrequencySweep "True" ' + \
+            '\n.UseIEGroundPlane "False" ' + \
+            '\n.SetRealGroundMaterialName "" ' + \
+            '\n.CalcFarFieldInRealGround "False" '+ \
+            '\n.RealGroundModelType "Auto" '+ \
+            '\n.PreconditionerType "Auto" ' + \
+            '\n.ExtendThinWireModelByWireNubs "False" ' + \
+            '\n.ExtraPreconditioning "False" ' + \
+        '\nEnd With' + \
+        '\nWith IESolver ' + \
+            '\n.SetFMMFFCalcStopLevel "0" ' + \
+            '\n.SetFMMFFCalcNumInterpPoints "6" ' + \
+            '\n.UseFMMFarfieldCalc "True" ' + \
+            '\n.SetCFIEAlpha "0.500000" ' + \
+            '\n.LowFrequencyStabilization "False" ' + \
+            '\n.LowFrequencyStabilizationML "True" ' + \
+            '\n.Multilayer "False" ' + \
+            '\n.SetiMoMACC_I "0.0001" ' + \
+            '\n.SetiMoMACC_M "0.0001" ' + \
+            '\n.DeembedExternalPorts "True"' + \
+            '\n.SetOpenBC_XY "True" ' + \
+            '\n.OldRCSSweepDefintion "False"' + \
+            '\n.SetRCSOptimizationProperties "True", "100", "0.00001" ' + \
+            '\n.SetAccuracySetting "Medium" ' + \
+            '\n.CalculateSParaforFieldsources "True"' + \
+            '\n.ModeTrackingCMA "True"' + \
+            '\n.NumberOfModesCMA "3"' + \
+            '\n.StartFrequencyCMA "-1.0" ' + \
+            '\n.SetAccuracySettingCMA "Default"' + \
+            '\n.FrequencySamplesCMA "0"' + \
+            '\n.SetMemSettingCMA "Auto" ' + \
+            '\n.CalculateModalWeightingCoefficientsCMA "True" ' + \
+            '\n.DetectThinDielectrics "True" ' + \
+            '\n.UseLegacyRadiatedPowerCalc "False" ' + \
+        '\nEnd With' + \
+    '\nEnd Sub'
     Port = ''.join(data)
+
     return Port
         
+
 
 
 
@@ -1299,6 +1617,8 @@ def SetElectricalSimulationProperties(Parameters):
     CellFar = Parameters["Mesh Cells far Object"] 
 
 
+
+
     # VBA Code
     data = 'Sub Main () ' \
                 '\nWith Units' + \
@@ -1341,60 +1661,144 @@ def SetElectricalSimulationProperties(Parameters):
                     '\n.Ysymmetry ' + '"' + str(YSimetryBound) + '"' + \
                     '\n.Zsymmetry ' + '"' + str(ZSimetryBound) + '"' + \
                 '\nEnd With' + \
-                '\nWith Material' + \
-                    '\n.Reset' + \
-                    '\n.FrqType "all"' + \
-                    '\n.Type "Pec"' + \
-                    '\n.ChangeBackgroundMaterial' + \
-                '\nEnd With' + \
-                '\nWith Mesh' + \
-                    '\n.MeshType ' +'"' + str(MeshType) + '"' + \
-                    '\n.SetCreator "High Frequency"' + \
-                    '\n.AutomeshRefineAtPecLines "True", "2"' + \
-                    '\n.UseRatioLimit "True"' + \
-                    '\n.RatioLimit "10"' + \
-                    '\n.LinesPerWavelength "20"' + \
-                    '\n.MinimumStepNumber "10"' + \
-                    '\n.Automesh "True"' + \
-                '\nEnd With' + \
-                '\nWith MeshSettings' + \
-                    '\n.SetMeshType "Hex"' + \
-                    '\n.Set "RatioLimitGeometry", "20"' + \
-                    '\n.Set "EdgeRefinementOn", "1"'+ \
-                    '\n.Set "EdgeRefinementRatio", "6"' + \
-                '\nEnd With' + \
-                '\nWith MeshSettings' + \
-                    '\n.SetMeshType "Tet"' + \
-                    '\n.Set "VolMeshGradation", "1.5"' + \
-                    '\n.Set "SrfMeshGradation", "1.5"' + \
-                '\nEnd With' + \
-                '\nWith MeshSettings' + \
-                    '\n.SetMeshType "HexTLM"' + \
-                    '\n.Set "RatioLimitGeometry", "20"' + \
-                '\nEnd With' + \
-            '\nMeshAdaption3D.SetAdaptionStrategy "Energy"' + \
-            '\nChangeProblemType "Optical"' + \
-                '\nWith MeshSettings' + \
-                    '\n.SetMeshType "Hex"' + \
-                    '\n.Set "Version", 1%' + \
-                    '\n.Set "StepsPerWaveNear", ' + '"' + str(CellNear) + '"' + \
-                    '\n.Set "StepsPerWaveFar", ' + '"' + str(CellFar) + '"' + \
-                    '\n.Set "WavelengthRefinementSameAsNear", "0" ' + \
-                    '\n.Set "StepsPerBoxNear", ' + '"' + str(CellNear) + '"' + \
-                    '\n.Set "StepsPerBoxFar", ' + '"' + str(CellFar) + '"' + \
-                '\nEnd With' + \
-                '\nWith Mesh' + \
-                    '\n.MeshType ' +'"' + str(MeshType) + '"' + \
-                '\nEnd With' + \
-            '\nChangeSolverType("HF Time Domain")' + \
+                '\nWith Solver' + \
+                     '\n.Reset' + \
+                     '\n.FrequencyRange ' + '"' + str(FreqMin) + '"' + ',' + '"' + str(FreqMax) + '"' + \
+                 '\nEnd With' +\
+                    '\nMesh.MinimumCurvatureRefinement "150"' +\
+                    '\nWith MeshSettings' +\
+                        '\n.SetMeshType "HexTLM"' +\
+                        '\n.Set "StepsPerWaveNear", ' + '"' + str(CellNear) + '"' + \
+                     '\n.Set "StepsPerWaveFar", ' + '"' + str(CellFar) + '"' + \
+                        '\n.Set "StepsPerBoxNear", ' + '"' + str(CellNear) + '"' + \
+                     '\n.Set "StepsPerBoxFar", ' + '"' + str(CellFar) + '"' + \
+                        '\n.Set "RatioLimitGeometry", "15"' +\
+                    '\nEnd With' +\
+                    '\nWith MeshSettings' +\
+                        '\n.SetMeshType "Hex"' +\
+                        '\n.Set "Version", 1%' +\
+                    '\nEnd With' +\
+                    '\nWith Mesh' +\
+                        '\n.MeshType "PBA"' +\
+                    '\nEnd With' +\
+                    '\nChangeSolverType("HF Time Domain")' +\
             '\nEnd Sub'
     Port = ''.join(data)
+    # '\n.SetMeshType "Hex"' + \
+    # '\n.Set "Version", 1%' + \
+    # '\n.Set "StepsPerWaveNear", ' + '"' + str(CellNear) + '"' + \
+    # '\n.Set "StepsPerWaveFar", ' + '"' + str(CellFar) + '"' + \
+    # '\n.Set "WavelengthRefinementSameAsNear", "0" ' + \
+    # '\n.Set "StepsPerBoxNear", ' + '"' + str(CellNear) + '"' + \
+    # '\n.Set "StepsPerBoxFar", ' + '"' + str(CellFar) + '"' + \
+    return Port
+
+
+
+def ChangeSolverType(Type):
+    time = ["TIME", "time", "Time", "t", "T"]
+    if Type in time:
+        data = 'Sub Main () ' \
+                '\nChangeSolverType "HF Time Domain"' + \
+                '\nEnd Sub'
+    else: 
+        pass
+
     Port = ''.join(data)
-    return Port, Port2
+    return Port
 
 
 
 
+def ExportResults(Path, Name, Result):
+    data = 'Sub Main ' \
+        '\nSelectTreeItem ("' + str(Result)+ '")' +\
+        '\nWith ASCIIExport' + \
+            '\n.Reset' + \
+            '\n.FileName ("' + str(Path) + '\\' + str(Name) + '.csv")' + \
+            '\n.SetFileType ("csv")' + \
+            '\n.SetCsvSeparator (",")' + \
+            '\n.Mode ("FixedWidth")' + \
+            '\n.Execute' + \
+        '\nEnd With' + \
+        '\nEnd Sub'
+    Port = ''.join(data)
+    return Port
+
+
+
+
+
+
+
+def WaveguidePorts_on_Electrodes_MZM(Parameters, Obj):
+    for i in range(len(Parameters["Port Number"])):
+        for j in range(len(Parameters["Electrodes_Names"])):
+            PicParams = {}
+            PicParams["Option"] = "Face"
+            PicParams["Object"] = Parameters["Electrodes_Names"][j]
+            PicParams["Face Number"] = Parameters["Face ID"][i]
+            PickFace = Pick(PicParams)
+            Parameters["Solid Name"] = Parameters["Electrodes_Names"][j]
+            Obj.schematic.execute_vba_code(PickFace, timeout=None)
+        
+        Port = WaveguidePortWithPins(Parameters, PicParams)
+        Obj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
+
+
+
+
+def Optical_WaveguidePorts_MZM(Parameters, Obj):
+    for i in range(len(Parameters["Port Number"])):
+        for j in range(len(Parameters["Electrodes_Names"])):
+            PicParams = {}
+            PicParams["Option"] = "Face"
+            PicParams["Object"] = Parameters["Electrodes_Names"][j]
+            PicParams["Face Number"] = Parameters["Face ID"][i]
+            PickFace = Pick(PicParams)
+            Parameters["Solid Name"] = Parameters["Electrodes_Names"][j]
+            Obj.schematic.execute_vba_code(PickFace, timeout=None)
+        
+        Port = WaveguidePort(Parameters)
+        Obj.schematic.execute_vba_code(Port[str(i+1)], timeout=None)
+
+
+
+
+
+
+def Discrete_Port(Parameters, Obj):
+    for i in range(len(Parameters["Port Number"])):
+        Parameters["Discrete Port Number"] = Parameters["Port Number"][i]
+        for j in range(len(Parameters["Port Number"])):
+            PicParams = {}
+            PicParams["Option"] = "Centerpoint"
+            PicParams["Object"] = Parameters["Electrodes_Names"][j]
+            PicParams["Face Number"] = Parameters["Face ID"][i]
+            PickFace = Pick(PicParams)
+            Parameters["Solid Name"] = Parameters["Electrodes_Names"][j]
+            Obj.schematic.execute_vba_code(PickFace, timeout=None)
+
+        DiscretePort = SetDiscretePort(Parameters)
+        Obj.schematic.execute_vba_code(DiscretePort, timeout=None)
+
+
+
+
+
+# Sub Main
+# 	SelectTreeItem ("1D Results\S-Parameters\S1(1),1(1)")
+
+# With ASCIIExport
+#     .Reset
+#     .FileName ("C:\Users\Martin\Desktop\CST_Project\example2.csv")
+#     .SetFileType ("csv")
+#     .SetCsvSeparator(",")
+#     .Mode ("FixedWidth")
+#     .Execute
+# End With
+# End Sub
 
 
 

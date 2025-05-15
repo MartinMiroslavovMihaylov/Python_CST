@@ -53,6 +53,7 @@ def MZM(Parameters, CST):
     Data["X"] = 4.906
     Data["Y"] = 4.584095
     Data["Z"] = 4.906
+    
 
     MaterialDAta = VBA.Material("LiNbO3", Data)
     CST.schematic.execute_vba_code(MaterialDAta, timeout=None)

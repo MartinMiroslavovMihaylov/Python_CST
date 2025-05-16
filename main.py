@@ -67,11 +67,59 @@ mycst = DesignEnvironment.new()
 mycst.quiet_mode_enabled()
 mycst.in_quiet_mode()
 # mycst =cst.interface.DesignEnvironment()
+proj = mycst.new_mws()
+
+
+# # Open Existing Project
+# proj = mycst.open_project(cst_project_path)
 
 
 
-# Open Existing Project
-proj = mycst.open_project(cst_project_path)
+# Set Optical or Electrical Temptlates for the project 
+# Units Properties
+Parameters = {}
+Parameters['Dimensions'] = "um"
+# Parameters['Frequency']  = "THz"
+Parameters['Frequency']  = "GHz"
+Parameters['Time'] = "ns"
+Parameters['Temperature'] = "degC"
+
+# Set FreqeueWavelength Range 
+# Parameters["Min Wavelength"] = 1.5
+# Parameters["Max Wavelength"] = 1.6
+Parameters["Min Frequency"] = 1
+Parameters["Max Frequency"] = 150
+
+# Set Background
+Parameters["Type Background"] = "Normal"
+Parameters["Xmin Background"] = 0
+Parameters["Xmax Background"] = 0
+Parameters["Ymin Background"] = 0
+Parameters["Ymax Background"] = 0
+Parameters["Zmin Background"] = 0
+Parameters["Zmax Background"] = 0
+
+
+# Set Boundary
+Parameters["Xmin Boundary"] = 'open'
+Parameters["Xmax Boundary"] = 'open'
+Parameters["Ymin Boundary"] = 'open'
+Parameters["Ymax Boundary"] = 'open'
+Parameters["Zmin Boundary"] = 'open'
+Parameters["Zmax Boundary"] = 'open'
+Parameters["Xsymmetry Boundary"] = 'none'
+Parameters["Ysymmetry Boundary"] = 'none'
+Parameters["Zsymmetry Boundary"] = 'none'
+
+# Mesh Settings
+Parameters["Mesh Type"] = "PBA"
+Parameters["Mesh Cells Near Object"] = 4
+Parameters["Mesh Cells far Object"] = 4
+
+
+# Env = VBA.SetOpticalSimulationProperties(Parameters)
+Env = VBA.SetElectricalSimulationProperties(Parameters)
+proj.schematic.execute_vba_code(Env, timeout=None)
 
 
 
@@ -202,25 +250,25 @@ proj = mycst.open_project(cst_project_path)
 
 
 
-# Create MZM Object
-Parameters = {}
-Parameters["Electrodes Lenght"] = 15
-Parameters["Width GND"] = 5
-Parameters["Width Signal"] = 2
-Parameters["Width WG"] = 1
-Parameters["Gap"] = 0.5
-Parameters["angle"] = 30
-Parameters["High Electrodes"] = 1
-Parameters["High WG"] = 0.4
-Parameters["High Slab"] = 0.2 
-Parameters["High Substrate"] = 2
-Parameters["Angle X"] = 0
-Parameters["Angle Y"] = 90
-Parameters["Angle Z"] = 0 
+# # Create MZM Object
+# Parameters = {}
+# Parameters["Electrodes Lenght"] = 15
+# Parameters["Width GND"] = 5
+# Parameters["Width Signal"] = 2
+# Parameters["Width WG"] = 1
+# Parameters["Gap"] = 0.5
+# Parameters["angle"] = 30
+# Parameters["High Electrodes"] = 1
+# Parameters["High WG"] = 0.4
+# Parameters["High Slab"] = 0.2 
+# Parameters["High Substrate"] = 2
+# Parameters["Angle X"] = 0
+# Parameters["Angle Y"] = 90
+# Parameters["Angle Z"] = 0 
 
 
-# Ganze Mach-Zehnder Modulator
-Components.MZM(Parameters, proj)
+# # Ganze Mach-Zehnder Modulator
+# Components.MZM(Parameters, proj)
 
 
 # # Simple EO Phase Modulator
@@ -245,17 +293,17 @@ Components.MZM(Parameters, proj)
 
 
 
-# Ports on Electrodes for MZM Modulator
-Parameters["Electrodes_Names"] = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
-Parameters["Orientation"] = ["Positive", "Positive"]
-Parameters["Coordinates"] = "Picks"
-Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
-Parameters["Potential"] = [1,2]
-Parameters["Port Number"] = [1,2]
-Parameters["Polarity"] = ["Positive", "Negative"]
-Parameters["Face ID"] = [4,6]
+# # Ports on Electrodes for MZM Modulator
+# Parameters["Electrodes_Names"] = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
+# Parameters["Orientation"] = ["Positive", "Positive"]
+# Parameters["Coordinates"] = "Picks"
+# Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
+# Parameters["Potential"] = [1,2]
+# Parameters["Port Number"] = [1,2]
+# Parameters["Polarity"] = ["Positive", "Negative"]
+# Parameters["Face ID"] = [4,6]
 
-VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
+# VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
 
 
 
@@ -389,82 +437,38 @@ VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
 
 
 
-# Set Mesh 
-Parameters = {}
-Parameters["Mesh Type"] = "PBA"
-Parameters["Mesh Cells Near Object"] = 2
-Parameters["Mesh Cells far Object"] = 2
+# # Set Mesh 
+# Parameters = {}
+# Parameters["Mesh Type"] = "PBA"
+# Parameters["Mesh Cells Near Object"] = 2
+# Parameters["Mesh Cells far Object"] = 2
 
 
-Mesh = VBA.SetMesh(Parameters)
-proj.schematic.execute_vba_code(Mesh, timeout=None)
+# Mesh = VBA.SetMesh(Parameters)
+# proj.schematic.execute_vba_code(Mesh, timeout=None)
 
     
 
 
 
-# Set optical solver enviroment
-# Units Properties
-Parameters['Dimensions'] = "um"
-# Parameters['Frequency']  = "THz"
-Parameters['Frequency']  = "GHz"
-Parameters['Time'] = "ns"
-Parameters['Temperature'] = "degC"
-
-# Set FreqeueWavelength Range 
-# Parameters["Min Wavelength"] = 1.5
-# Parameters["Max Wavelength"] = 1.6
-Parameters["Min Frequency"] = 1
-Parameters["Max Frequency"] = 150
-
-# Set Background
-Parameters["Type Background"] = "Normal"
-Parameters["Xmin Background"] = 0
-Parameters["Xmax Background"] = 0
-Parameters["Ymin Background"] = 0
-Parameters["Ymax Background"] = 0
-Parameters["Zmin Background"] = 0
-Parameters["Zmax Background"] = 0
-
-
-# Set Boundary
-Parameters["Xmin Boundary"] = 'open'
-Parameters["Xmax Boundary"] = 'open'
-Parameters["Ymin Boundary"] = 'open'
-Parameters["Ymax Boundary"] = 'open'
-Parameters["Zmin Boundary"] = 'open'
-Parameters["Zmax Boundary"] = 'open'
-Parameters["Xsymmetry Boundary"] = 'none'
-Parameters["Ysymmetry Boundary"] = 'none'
-Parameters["Zsymmetry Boundary"] = 'none'
-
-# Mesh Settings
-Parameters["Mesh Type"] = "PBA"
-Parameters["Mesh Cells Near Object"] = 4
-Parameters["Mesh Cells far Object"] = 4
-
-
-# Env = VBA.SetOpticalSimulationProperties(Parameters)
-Env = VBA.SetElectricalSimulationProperties(Parameters)
-proj.schematic.execute_vba_code(Env, timeout=None)
 
 # Solver = VBA.ChangeSolverType("Time")
 # proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 
-# Set Time Solver
-Parameters= {}
-Parameters["Accuracy"] = 20
-Parameters["Caclculate Modes Only"] = False
-Parameters["Auto Impedance"] = True
-Parameters["Impedance"] = 50
-Parameters["Source Port"]  = 1
-Parameters["Solver Mesh Type"] = "TLM"
+# # Set Time Solver
+# Parameters= {}
+# Parameters["Accuracy"] = 20
+# Parameters["Caclculate Modes Only"] = False
+# Parameters["Auto Impedance"] = True
+# Parameters["Impedance"] = 50
+# Parameters["Source Port"]  = 1
+# Parameters["Solver Mesh Type"] = "TLM"
 
 
-Solver = VBA.SetTimeSolver(Parameters)
-proj.schematic.execute_vba_code(Solver, timeout=None)
+# Solver = VBA.SetTimeSolver(Parameters)
+# proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 # # Set Freq Solver
@@ -503,9 +507,9 @@ proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 
-# Start Time Solver
-Start = VBA.StartTimeSolver()
-proj.schematic.execute_vba_code(Start, timeout=None)
+# # Start Time Solver
+# Start = VBA.StartTimeSolver()
+# proj.schematic.execute_vba_code(Start, timeout=None)
 
 
 
@@ -535,27 +539,7 @@ proj.schematic.execute_vba_code(Start, timeout=None)
 # # Debug.Print G
 # # End Sub
 
-
-
-# # def Port_Data(Parameters):
-
-# #     PortNumber = Parameters["Port Number"]
-# #     ModeNumber = Parameters["Mode Number"]
-
-# #     Port = 'Sub Main () ' \
-# #         '\n.GetFcutoff ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetFrequency ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetModeType ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetBeta ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetAlpha ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetWaveImpedance ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetLineImpedance ' + '"' + str(PortNumber) + '"' + ',' + '"' +str(ModeNumber) + '"' + \
-# #         '\n.GetNumberOfModes ' + '"' + str(PortNumber) + \
-# #     '\nEnd Sub'
-# #     data = ''.join(Port)
-# #     return Port
     
-
 
 # # Parameters = {}
 # # Parameters["Port Number"] = 1
@@ -568,8 +552,10 @@ proj.schematic.execute_vba_code(Start, timeout=None)
 
 
 
-# # # save project into Patbh
-# # proj.save(cst_project_path,allow_overwrite=  True)
+# # save project into Patbh
+# Path = 'C:\Users\Martin\Desktop\CST_Project'
+# Name = 'Test_Ssave'
+# proj.save(os.path.join(Path, Name), allow_overwrite=  True)
 
 # # #Close CST Project
 # # proj.close()
@@ -578,55 +564,4 @@ proj.schematic.execute_vba_code(Start, timeout=None)
 
 
 
-# # Sub Main
-# # 	Pick.PickFaceFromId "Waveguide_Left:Waveguide_Left" "4"
-# # End Sub'
 
-
-
-
-# import numpy as np
-# from scipy.special import fresnel
-# import matplotlib.pyplot as plt
-
-
-# def proper_euler_s_bend(Span_X, Span_Y, num_pts=1000):
-#     """
-#     Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)
-#     using Fresnel integrals and linear curvature.
-#     """
-#     # Arc length parameter
-#     s = np.arange(-1, 1, 2/num_pts)
-    
-#     # Fresnel integrals (Euler spiral)
-#     S, C = fresnel(s)
-
-#     # Normalize to range [-1, 1]
-#     C = C - C[0]
-#     S = S - S[0]
-#     C = C / (C[-1] - C[0])
-#     S = S / (S[-1] - S[0])
-
-#     # Euler spiral from -90° to +90° → makes an S-bend
-#     x = C * Span_X
-#     y = S * Span_Y
-
-#     curve = np.vstack((y, x)).T
-
-#     return curve
-
-
-
-# # Example usage
-# curve = proper_euler_s_bend(Span_X=100, Span_Y=20)
-
-# plt.figure(figsize=(6, 3))
-# plt.plot(curve[:, 0], curve[:, 1], label="Euler S-Bend")
-# plt.axis("equal")
-# plt.grid(True)
-# plt.title("Proper Smooth Euler S-Bend")
-# plt.xlabel("X (µm)")
-# plt.ylabel("Y (µm)")
-# plt.legend()
-# plt.tight_layout()
-# plt.show()

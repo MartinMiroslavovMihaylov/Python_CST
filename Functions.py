@@ -1784,21 +1784,65 @@ def Discrete_Port(Parameters, Obj):
         Obj.schematic.execute_vba_code(DiscretePort, timeout=None)
 
 
+def SetElectricalTemplate(Parameters): 
+    data = 'Sub Main' \
+           '\nWith Unit' + \
+            '\n.SetUnit "Length", "um"' + \
+            '\n.SetUnit "Frequency", "GHz"' + \
+            '\n.SetUnit "Voltage", "V"' + \
+            '\n.SetUnit "Resistance", "Ohm"' + \
+            '\n.SetUnit "Inductance", "nH"' + \
+            '\n.SetUnit "Temperature",  "degC"' + \
+            '\n.SetUnit "Time", "ns"' + \
+            '\n.SetUnit "Current", "A"' + \
+            '\n.SetUnit "Conductance", "S"' + \
+            '\n.SetUnit "Capacitance", "pF"' + \
+            '\nEnd With' + \
+            '\nThermalSolver.AmbientTemperature "0"' + \
+            '\nSolver.FrequencyRange "1", "150"' + \
+            '\nWith Background' + \
+                '\n.Type "pec"' + \
+                '\n.XminSpace "0.0"' + \
+                '\n.XmaxSpace "0.0"' + \
+                '\n.YminSpace "0.0"' + \
+                '\n.YmaxSpace "0.0"' + \
+                '\n.ZminSpace "0.0"' + \
+                '\n.ZmaxSpace "0.0"' + \
+            '\nEnd With' + \
+            '\nWith Boundary' + \
+                '\n.Xmin "electric"' + \
+                '\n.Xmax "electric"' + \
+                '\n.Ymin "electric"' + \
+                '\n.Ymax "electric"' + \
+                '\n.Zmin "electric"' + \
+                '\n.Zmax "electric"' + \
+                '\n.Xsymmetry "none"' + \
+                '\n.Ysymmetry "none"' + \
+                '\n.Zsymmetry "none"' + \
+            '\nEnd With' + \
+            '\nMesh.MinimumCurvatureRefinement "150"' + \
+            '\nWith MeshSettings' + \
+                '\n.SetMeshType "HexTLM"' + \
+                '\n.Set "StepsPerWaveNear", "20"' + \
+                '\n.Set "StepsPerBoxNear", "10"' + \
+                '\n.Set "StepsPerWaveFar", "20"' + \
+                '\n.Set "StepsPerBoxFar", "10"' + \
+                '\n.Set "RatioLimitGeometry", "15"' + \
+            '\nEnd With' + \
+            '\nWith MeshSettings' + \
+                '\n.SetMeshType "Hex"' + \
+                '\n.Set "Version", 1%' + \
+            '\nEnd With' + \
+            '\nWith Mesh' + \
+                '\n.MeshType "PBA"' + \
+            '\nEnd With' + \
+            '\nEnd Sub'
+    Port = ''.join(data)
+    return Port
+                        
+                                        
 
 
-
-# Sub Main
-# 	SelectTreeItem ("1D Results\S-Parameters\S1(1),1(1)")
-
-# With ASCIIExport
-#     .Reset
-#     .FileName ("C:\Users\Martin\Desktop\CST_Project\example2.csv")
-#     .SetFileType ("csv")
-#     .SetCsvSeparator(",")
-#     .Mode ("FixedWidth")
-#     .Execute
-# End With
-# End Sub
 
 
 
@@ -1869,3 +1913,5 @@ def Discrete_Port(Parameters, Obj):
 # ChangeSolverType("HF Frequency Domain")
 
 # '----------------------------------------------------------------------------
+
+

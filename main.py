@@ -15,7 +15,7 @@ import Components as Components
 # Define Curves Parameters and Data
 Lenght = 100
 Offset = 40
-points = 1000
+points = 100
 
 
 
@@ -23,12 +23,13 @@ points = 1000
 ObjCurves = Curves(Lenght, Offset, points)
 BezierCuve = ObjCurves.Bezier_Curve()
 CosinusCurve = ObjCurves.Cosinus_Curve()
-
+EulerCurve = ObjCurves.Euler_Curve()
 
 
 # plt.figure()
 # plt.plot(BezierCuve[:,0], BezierCuve[:,1], color = "red", label = "Bezier Curve")
 # plt.plot(CosinusCurve[:,0], CosinusCurve[:,1], color = "blue", label = "Cosinus Curve")
+# plt.plot(EulerCurve[:,0], EulerCurve[:,1], color = "green", label = "Euler Curve")
 # plt.xlabel("Length S-Bend/$\mu m$")
 # plt.ylabel("Offset S-Bends/ $\mu m$")
 # plt.legend(loc = "best")
@@ -44,8 +45,8 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 #C:/Users/marti/Desktop/UPB Kursen/CST with Python/
 #/homes/lift/martinmi/Desktop/CST_Python/
 cst_path = r'C:/Users/Martin/Desktop/CST_Project/' # path
-# cst_project2 = 'MZM_TestSim' # CST project
-cst_project2 = 'Optical_Sim' # CST project
+cst_project2 = 'MZM_TestSim' # CST project
+# cst_project2 = 'Optical_Sim' # CST project
 cst_project_path = cst_path + cst_project2 + '.cst'
 
 
@@ -178,6 +179,10 @@ proj = mycst.open_project(cst_project_path)
 # Points['X'] = x
 # Points['Y'] = y
 
+# Points['X'] = CosinusCurve[:,0]
+# Points['Y'] = CosinusCurve[:,1]
+
+
 
 
 # BondWire = Components.BondWire(NameWire = "TestWire" ,Coordinates = Parameters, Height = 1, Radius = 0.5 , BondwireType = "Spline", Material = "Copper (annealed)",  NameFolder = "BondWire")
@@ -186,38 +191,36 @@ proj = mycst.open_project(cst_project_path)
 # proj.schematic.execute_vba_code(ToSolid1, timeout=None)
 
 
-# Curve = Components.Curve(CurveName = "TestCurve", Points = Points)
+# Curve = VBA.Curve(CurveName = "TestCurve", Points = Points)
 # proj.schematic.execute_vba_code(Curve, timeout=None)
-# DataCurveWire = Components.CurveWire(NameWire = "CurveWire", Radius = 0.5 , Points = Points, Material = "Copper (annealed)", CurveFolderName = "TestCurve", CurveName = "TestCurve")
+# DataCurveWire = Components.CurveWire(NameWire = "CurveWire2", Radius = 0.5 , Points = Points, Material = "PEC", CurveFolderName = "TestCurve", CurveName = "TestCurve")
 # proj.schematic.execute_vba_code(DataCurveWire, timeout=None)
-# ToSolid2 = ToSolid(SolidName = "TestSolidCurve", CurveName = "CurveWire", NameFolder = "CurveWire", Material = "Copper (annealed)")
+# ToSolid2 = VBA.ToSolid(SolidName = "TestSolidCurve2", CurveName = "CurveWire2", NameFolder = "CurveWire2", Material = "Copper (annealed)")
 # proj.schematic.execute_vba_code(ToSolid2, timeout=None)
 
 
 
 
 
+# Create MZM Object
+Parameters = {}
+Parameters["Electrodes Lenght"] = 15
+Parameters["Width GND"] = 5
+Parameters["Width Signal"] = 2
+Parameters["Width WG"] = 1
+Parameters["Gap"] = 0.5
+Parameters["angle"] = 30
+Parameters["High Electrodes"] = 1
+Parameters["High WG"] = 0.4
+Parameters["High Slab"] = 0.2 
+Parameters["High Substrate"] = 2
+Parameters["Angle X"] = 0
+Parameters["Angle Y"] = 90
+Parameters["Angle Z"] = 0 
 
 
-# # Create MZM Object
-# Parameters = {}
-# Parameters["Electrodes Lenght"] = 15
-# Parameters["Width GND"] = 5
-# Parameters["Width Signal"] = 2
-# Parameters["Width WG"] = 1
-# Parameters["Gap"] = 0.5
-# Parameters["angle"] = 30
-# Parameters["High Electrodes"] = 1
-# Parameters["High WG"] = 0.4
-# Parameters["High Slab"] = 0.2 
-# Parameters["High Substrate"] = 2
-# Parameters["Angle X"] = 0
-# Parameters["Angle Y"] = 90
-# Parameters["Angle Z"] = 0 
-
-
-# # Ganze Mach-Zehnder Modulator
-# Components.MZM(Parameters, proj)
+# Ganze Mach-Zehnder Modulator
+Components.MZM(Parameters, proj)
 
 
 # # Simple EO Phase Modulator
@@ -242,17 +245,17 @@ proj = mycst.open_project(cst_project_path)
 
 
 
-# # Ports on Electrodes for MZM Modulator
-# Parameters["Electrodes_Names"] = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
-# Parameters["Orientation"] = ["Positive", "Positive"]
-# Parameters["Coordinates"] = "Picks"
-# Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
-# Parameters["Potential"] = [1,2]
-# Parameters["Port Number"] = [1,2]
-# Parameters["Polarity"] = ["Positive", "Negative"]
-# Parameters["Face ID"] = [4,6]
+# Ports on Electrodes for MZM Modulator
+Parameters["Electrodes_Names"] = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
+Parameters["Orientation"] = ["Positive", "Positive"]
+Parameters["Coordinates"] = "Picks"
+Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
+Parameters["Potential"] = [1,2]
+Parameters["Port Number"] = [1,2]
+Parameters["Polarity"] = ["Positive", "Negative"]
+Parameters["Face ID"] = [4,6]
 
-# VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
+VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
 
 
 
@@ -403,16 +406,16 @@ proj.schematic.execute_vba_code(Mesh, timeout=None)
 # Set optical solver enviroment
 # Units Properties
 Parameters['Dimensions'] = "um"
-Parameters['Frequency']  = "THz"
-# Parameters['Frequency']  = "GHz"
+# Parameters['Frequency']  = "THz"
+Parameters['Frequency']  = "GHz"
 Parameters['Time'] = "ns"
 Parameters['Temperature'] = "degC"
 
 # Set FreqeueWavelength Range 
-Parameters["Min Wavelength"] = 1.5
-Parameters["Max Wavelength"] = 1.6
-# Parameters["Min Frequency"] = 1
-# Parameters["Max Frequency"] = 150
+# Parameters["Min Wavelength"] = 1.5
+# Parameters["Max Wavelength"] = 1.6
+Parameters["Min Frequency"] = 1
+Parameters["Max Frequency"] = 150
 
 # Set Background
 Parameters["Type Background"] = "Normal"
@@ -441,8 +444,8 @@ Parameters["Mesh Cells Near Object"] = 4
 Parameters["Mesh Cells far Object"] = 4
 
 
-Env = VBA.SetOpticalSimulationProperties(Parameters)
-# Env = VBA.SetElectricalSimulationProperties(Parameters)
+# Env = VBA.SetOpticalSimulationProperties(Parameters)
+Env = VBA.SetElectricalSimulationProperties(Parameters)
 proj.schematic.execute_vba_code(Env, timeout=None)
 
 # Solver = VBA.ChangeSolverType("Time")
@@ -500,9 +503,9 @@ proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 
-# # Start Time Solver
-# Start = VBA.StartTimeSolver()
-# proj.schematic.execute_vba_code(Start, timeout=None)
+# Start Time Solver
+Start = VBA.StartTimeSolver()
+proj.schematic.execute_vba_code(Start, timeout=None)
 
 
 
@@ -578,3 +581,52 @@ proj.schematic.execute_vba_code(Solver, timeout=None)
 # # Sub Main
 # # 	Pick.PickFaceFromId "Waveguide_Left:Waveguide_Left" "4"
 # # End Sub'
+
+
+
+
+# import numpy as np
+# from scipy.special import fresnel
+# import matplotlib.pyplot as plt
+
+
+# def proper_euler_s_bend(Span_X, Span_Y, num_pts=1000):
+#     """
+#     Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)
+#     using Fresnel integrals and linear curvature.
+#     """
+#     # Arc length parameter
+#     s = np.arange(-1, 1, 2/num_pts)
+    
+#     # Fresnel integrals (Euler spiral)
+#     S, C = fresnel(s)
+
+#     # Normalize to range [-1, 1]
+#     C = C - C[0]
+#     S = S - S[0]
+#     C = C / (C[-1] - C[0])
+#     S = S / (S[-1] - S[0])
+
+#     # Euler spiral from -90° to +90° → makes an S-bend
+#     x = C * Span_X
+#     y = S * Span_Y
+
+#     curve = np.vstack((y, x)).T
+
+#     return curve
+
+
+
+# # Example usage
+# curve = proper_euler_s_bend(Span_X=100, Span_Y=20)
+
+# plt.figure(figsize=(6, 3))
+# plt.plot(curve[:, 0], curve[:, 1], label="Euler S-Bend")
+# plt.axis("equal")
+# plt.grid(True)
+# plt.title("Proper Smooth Euler S-Bend")
+# plt.xlabel("X (µm)")
+# plt.ylabel("Y (µm)")
+# plt.legend()
+# plt.tight_layout()
+# plt.show()

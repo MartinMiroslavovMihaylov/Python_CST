@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import scipy.integrate as integrate
 from scipy.optimize import fsolve
+from scipy.special import fresnel
 plt.rcParams.update({"font.size":22})
 
 
@@ -72,31 +73,38 @@ class Curves:
     
     
     def Euler_Curve(self):
+        """ 
+        Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)
+        using Fresnel integrals and linear curvature.
+        """
+        Span_X = self.Span_X
+        Span_Y = self.Span_Y
+        num_pts = self.Length
         
-        def IntegralY(A,R):
-            return np.sin( (sigma**2/2) + (A*Sigma/R) )
-            
-        def IntegralX(A,R):
-            return np.sin( (sigma**2/2) + (A*Sigma/R) )
-            
-            
-        L = 50
+        # Arc length parameter
+        # s = np.arange(-1, 1, 2/num_pts)
+        s = np.linspace(-1, 1, num_pts)
+        
+        # Fresnel integrals (Euler spiral)
+        S, C = fresnel(s)
 
-        A = np.sqrt(L/( (1/Rmin) - (1/Rmax)))
-        Ylen = self.Span_Y
-        R_eff = 4
-        sigma = 90
-        x = []
-        y = []
-        for i in range(len(self.t)):
-            x.append(quad(A*IntegralX(sigma), 0, L/A))
-            y.append(quad(A*IntegralY(SIGMA), 0, L/A))
-            
-            
-        x = np.array(x,dtype=float)
-        y = np.array(y,dtype=float)  
-        curve =  np.vstack((x, y)).T
+        # Normalize to range [-1, 1]
+        C = C - C[0]
+        S = S - S[0]
+        C = C / (C[-1] - C[0])
+        S = S / (S[-1] - S[0])
+
+        # Euler spiral from -90° to +90° → makes an S-bend
+        x = S * Span_X
+        y = C * Span_Y
+        
+
+        curve = np.vstack((x, y)).T
     
+        return curve
+
+
+
     
     
 

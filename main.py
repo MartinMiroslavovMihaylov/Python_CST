@@ -67,11 +67,11 @@ mycst = DesignEnvironment.new()
 mycst.quiet_mode_enabled()
 mycst.in_quiet_mode()
 # mycst =cst.interface.DesignEnvironment()
-proj = mycst.new_mws()
+# proj = mycst.new_mws()
 
 
 # # Open Existing Project
-# proj = mycst.open_project(cst_project_path)
+proj = mycst.open_project(cst_project_path)
 
 
 
@@ -113,8 +113,8 @@ Parameters["Zsymmetry Boundary"] = 'none'
 
 # Mesh Settings
 Parameters["Mesh Type"] = "PBA"
-Parameters["Mesh Cells Near Object"] = 4
-Parameters["Mesh Cells far Object"] = 4
+Parameters["Mesh Cells Near Object"] = 30
+Parameters["Mesh Cells far Object"] = 30
 
 
 # Env = VBA.SetOpticalSimulationProperties(Parameters)
@@ -250,25 +250,25 @@ proj.schematic.execute_vba_code(Env, timeout=None)
 
 
 
-# # Create MZM Object
-# Parameters = {}
-# Parameters["Electrodes Lenght"] = 15
-# Parameters["Width GND"] = 5
-# Parameters["Width Signal"] = 2
-# Parameters["Width WG"] = 1
-# Parameters["Gap"] = 0.5
-# Parameters["angle"] = 30
-# Parameters["High Electrodes"] = 1
-# Parameters["High WG"] = 0.4
-# Parameters["High Slab"] = 0.2 
-# Parameters["High Substrate"] = 2
-# Parameters["Angle X"] = 0
-# Parameters["Angle Y"] = 90
-# Parameters["Angle Z"] = 0 
+# Create MZM Object
+Parameters = {}
+Parameters["Electrodes Lenght"] = 50
+Parameters["Width GND"] = 40    
+Parameters["Width Signal"] = 10 #50
+Parameters["Width WG"] = 0.8
+Parameters["Gap"] = 1.565
+Parameters["angle"] = 35
+Parameters["High Electrodes"] = 0.8
+Parameters["High WG"] = 0.4
+Parameters["High Slab"] = 0.2 
+Parameters["High Substrate"] = 2
+Parameters["Angle X"] = 0
+Parameters["Angle Y"] = 90
+Parameters["Angle Z"] = 0 
 
 
-# # Ganze Mach-Zehnder Modulator
-# Components.MZM(Parameters, proj)
+# Ganze Mach-Zehnder Modulator
+Components.MZM(Parameters, proj)
 
 
 # # Simple EO Phase Modulator
@@ -293,17 +293,17 @@ proj.schematic.execute_vba_code(Env, timeout=None)
 
 
 
-# # Ports on Electrodes for MZM Modulator
-# Parameters["Electrodes_Names"] = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
-# Parameters["Orientation"] = ["Positive", "Positive"]
-# Parameters["Coordinates"] = "Picks"
-# Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
-# Parameters["Potential"] = [1,2]
-# Parameters["Port Number"] = [1,2]
-# Parameters["Polarity"] = ["Positive", "Negative"]
-# Parameters["Face ID"] = [4,6]
+# Ports on Electrodes for MZM Modulator
+Parameters["Electrodes_Names"] = ["Electrode_Left:Electrode_Left1", "Electrode_Right:Electrode_Right1" , "Signal:Signal1"]
+Parameters["Orientation"] = ["Positive", "Positive"]
+Parameters["Coordinates"] = "Picks"
+Parameters["Span"] = [[[3,3],[3,3]], [[3,3],[3,3]]]
+Parameters["Potential"] = [1,2]
+Parameters["Port Number"] = [1,2]
+Parameters["Polarity"] = ["Positive", "Negative"]
+Parameters["Face ID"] = [4,6]
 
-# VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
+VBA.WaveguidePorts_on_Electrodes_MZM(Parameters, proj)
 
 
 
@@ -437,38 +437,38 @@ proj.schematic.execute_vba_code(Env, timeout=None)
 
 
 
-# # Set Mesh 
-# Parameters = {}
-# Parameters["Mesh Type"] = "PBA"
-# Parameters["Mesh Cells Near Object"] = 2
-# Parameters["Mesh Cells far Object"] = 2
+# Set Mesh 
+Parameters = {}
+Parameters["Mesh Type"] = "PBA"
+Parameters["Mesh Cells Near Object"] = 30
+Parameters["Mesh Cells far Object"] = 30
 
 
-# Mesh = VBA.SetMesh(Parameters)
-# proj.schematic.execute_vba_code(Mesh, timeout=None)
+Mesh = VBA.SetMesh(Parameters)
+proj.schematic.execute_vba_code(Mesh, timeout=None)
 
     
 
 
 
 
-# Solver = VBA.ChangeSolverType("Time")
-# proj.schematic.execute_vba_code(Solver, timeout=None)
+Solver = VBA.ChangeSolverType("Time")
+proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 
-# # Set Time Solver
-# Parameters= {}
-# Parameters["Accuracy"] = 20
-# Parameters["Caclculate Modes Only"] = False
-# Parameters["Auto Impedance"] = True
-# Parameters["Impedance"] = 50
-# Parameters["Source Port"]  = 1
-# Parameters["Solver Mesh Type"] = "TLM"
+# Set Time Solver
+Parameters= {}
+Parameters["Accuracy"] = 30
+Parameters["Caclculate Modes Only"] = False
+Parameters["Auto Impedance"] = True
+Parameters["Impedance"] = 50
+Parameters["Source Port"]  = 1
+Parameters["Solver Mesh Type"] = "TLM"
 
 
-# Solver = VBA.SetTimeSolver(Parameters)
-# proj.schematic.execute_vba_code(Solver, timeout=None)
+Solver = VBA.SetTimeSolver(Parameters)
+proj.schematic.execute_vba_code(Solver, timeout=None)
 
 
 # # Set Freq Solver
@@ -513,9 +513,11 @@ proj.schematic.execute_vba_code(Env, timeout=None)
 
 
 
-# # Extract Results 
-# Data = VBA.ExportResults("C:\\Users\\Martin\\Desktop\\CST_Project", "S21", "1D Results\\S-Parameters\\S1(1),2(1)")
-# proj.schematic.execute_vba_code(Data, timeout=None)
+# Extract Results 
+#  "1D Results\\S-Parameters\\S2,1"
+# "Tables\\1D Results\\TL Parameters\\Characteristic Impedance Zc"
+Data = VBA.ExportResults("C:\\Users\\Martin\\Desktop\\CST_Project", "S21", "1D Results\\S-Parameters\\S2,1")
+proj.schematic.execute_vba_code(Data, timeout=None)
 
 
 
@@ -565,3 +567,89 @@ proj.schematic.execute_vba_code(Env, timeout=None)
 
 
 
+
+#########################################################################
+# Open and Plot S-Params and Zc if CST Tamplate to cal Zc Present
+#########################################################################
+
+import tkinter as tk 
+from tkinter import filedialog
+import pandas as pd
+plt.rcParams.update({"font.size":22})
+
+
+
+#Open and Plot S-Param
+root = tk.Tk()
+file = filedialog.askopenfilename(parent = root, title = "Open S-PAram File", multiple = True)
+root.destroy()
+
+
+data_S11 = pd.read_csv(file[0], sep = ';')
+data_S21 = pd.read_csv(file[1], sep = ';')
+
+keys_S11 = list(data_S11.columns)
+keys_S21 = list(data_S21.columns)
+
+
+
+plt.figure()
+plt.plot(data_S11[keys_S11[0]], data_S11[keys_S11[1]], label = "S11")
+plt.plot(data_S21[keys_S21[0]], data_S21[keys_S21[1]], label = "S21")
+plt.xlabel("Frequency / GHz")
+plt.ylabel("S11,S21 / dB")
+plt.legend(loc = "best")
+plt.grid()
+plt.show()
+
+delta_S = data_S11[keys_S11[1]] * data_S11[keys_S11[1]] - data_S21[keys_S21[1]] * data_S21[keys_S21[1]]
+Z0 = 50
+
+B = ( 1 + data_S11[keys_S11[1]]  + data_S11[keys_S11[1]]  + delta_S)*Z0 / (2*data_S21[keys_S21[1]])
+C = ( 1 - data_S11[keys_S11[1]] - data_S11[keys_S11[1]] + delta_S) / (2*data_S21[keys_S21[1]]*Z0)
+Zcal = np.sqrt(B/C)
+
+
+
+Zcal2 = Z0 * np.sqrt( ((1+data_S11[keys_S11[1]])**2  -  data_S21[keys_S21[1]] **2) /  ((1-data_S11[keys_S11[1]])**2 - data_S21[keys_S21[1]]**2) )
+
+
+Z0_vec = np.ones(len(Zcal2))*40
+
+plt.figure()
+plt.plot(data_S21[keys_S21[0]], Zcal, label = "Zc")
+# plt.plot(data_S21[keys_S21[0]], Zcal2, label = "Zcalculate classic")
+plt.plot(data_S21[keys_S21[0]], Z0_vec, linestyle = "--", color = "black", label = "40 $\Omega$")
+plt.xlabel("Frequency / GHz")
+plt.ylabel("Zc / $\Omega$")
+plt.ylim(0, 100)
+plt.legend(loc = "best")
+plt.grid()
+plt.show()
+
+
+
+
+
+# Open and Plot Zc
+root = tk.Tk()
+file = filedialog.askopenfilename(parent = root, title = "Zc", multiple = False)
+root.destroy()
+
+
+data = pd.read_csv(file, sep = ';')
+
+keys = list(data.columns)
+
+
+
+
+plt.figure()
+# plt.plot(data[keys[0]], data[keys[1]], label = "Zc")
+plt.plot(data[keys[0]], Zcal, label = "Zcalculate")
+# plt.plot(data[keys[0]], Zcal2, label = "Zcalculate classic")
+plt.xlabel("Frequency / GHz")
+plt.ylabel("Zc / $\Omega$")
+plt.legend(loc = "best")
+plt.grid()
+plt.show()

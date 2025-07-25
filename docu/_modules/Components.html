@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Components &mdash; Python CST Script 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Python CST Script
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python CST Script</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Components</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Components</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># Add the directory containing the project to sys.path</span>
+<span class="n">current_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;__file__&#39;</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_path</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">Functions</span> <span class="k">as</span> <span class="nn">VBA</span>
+
+
+
+
+
+<span class="c1"># MZM Design</span>
+<div class="viewcode-block" id="MZM">
+<a class="viewcode-back" href="../rst/Components.html#Components.MZM">[docs]</a>
+<span class="k">def</span> <span class="nf">MZM</span><span class="p">(</span><span class="n">Parameters</span><span class="p">,</span> <span class="n">CST</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an MZM Modulator. Materials used:</span>
+<span class="sd">                                            Gold - For the electrodes</span>
+<span class="sd">                                            LiNbO3 - For Optical Waveguides</span>
+<span class="sd">                                            SiO2 - For Substrate</span>
+<span class="sd">    Args:</span>
+<span class="sd">        Parameters (dict): Dictionary with all the needed values</span>
+<span class="sd">                Parameters[&quot;Lenght_Electrodes&quot;] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.</span>
+<span class="sd">                Parameters[&quot;Width GND&quot;] : Width of the GND electrodes</span>
+<span class="sd">                Parameters[&quot;Width Signal&quot;] : Width of the Signal Electrode</span>
+<span class="sd">                Parameters[&quot;Width WG&quot;] : Top wWidth of the optical waveguide. It is an Rib waveguide</span>
+<span class="sd">                Parameters[&quot;Gap&quot;] : Gap between Signal and optical Waveguide</span>
+<span class="sd">                Parameters[&quot;angle&quot;] : Angle of the side wall of the optical waveguide</span>
+<span class="sd">                Parameters[&quot;High Electrodes&quot;] : Hight of the Electodes</span>
+<span class="sd">                Parameters[&quot;High WG&quot;] : Hight of the optical Waveguide</span>
+<span class="sd">                Parameters[&quot;High Slab&quot;] : Hight of the Slab. When choosen &quot;0&quot; no Slab will be implemented. </span>
+<span class="sd">                Parameters[&quot;High Substrate&quot;] : Hight of the substrate</span>
+
+<span class="sd">        CST (Object): The CST Obejct that you use to load your project. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Length_MZM</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Electrodes Lenght&quot;</span><span class="p">]</span>
+    <span class="n">Length_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Electrodes Lenght&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="n">Width_Electrodes</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width GND&quot;</span><span class="p">]</span>
+    <span class="n">Width_Signal</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width Signal&quot;</span><span class="p">]</span>
+    <span class="n">Width_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width WG&quot;</span><span class="p">]</span>
+    <span class="n">Gap</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Gap&quot;</span><span class="p">]</span>
+    <span class="n">Angle</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;angle&quot;</span><span class="p">]</span>
+    <span class="n">Height_Electrodes</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High Electrodes&quot;</span><span class="p">]</span>
+    <span class="n">Height_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High WG&quot;</span><span class="p">]</span>
+    <span class="n">Heigh_Slab</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High Slab&quot;</span><span class="p">]</span>
+    <span class="n">Height_Substrate</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High Substrate&quot;</span><span class="p">]</span>
+
+   
+
+
+    <span class="c1"># Set optical Material Properties Eps X,Y,Z</span>
+    <span class="n">Data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.906</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.584095</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.906</span>
+    
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material</span><span class="p">(</span><span class="s2">&quot;LiNbO3&quot;</span><span class="p">,</span> <span class="n">Data</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># MaterialDAta = VBA.Material_Silicon(&quot;Silicon (lossy)&quot;)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(MaterialDAta, timeout=None)</span>
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material_SiO2</span><span class="p">(</span><span class="s2">&quot;SiO2&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material_Au</span><span class="p">(</span><span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    <span class="c1"># Calculate Top and Bottom Widths of the Waveguide</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Height_WG</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">Angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)))</span>  <span class="c1"># in Radians</span>
+    <span class="n">extention</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">Width_WG_New</span> <span class="o">=</span> <span class="n">Width_WG</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">extention</span> 
+
+    <span class="c1"># Global Parameters</span>
+    <span class="n">WidthObject</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Width_WG_New</span> <span class="o">+</span> <span class="n">Width_Signal</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Width_Electrodes</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">Gap</span>
+
+
+    <span class="c1"># Substrate Definition </span>
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> 
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s1">&#39;LNOI_Substrate&#39;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;SiO2&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    <span class="c1"># Slab definition</span>
+    <span class="k">if</span> <span class="n">Heigh_Slab</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">HeightZ</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> 
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Heigh_Slab</span>
+        <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s1">&#39;LNOI_Slab&#39;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+        <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">HeightZ</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Heigh_Slab</span>
+
+        
+    <span class="c1"># Calculate Top and Bottom Widths of the Waveguide</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Height_WG</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">Angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)))</span>  <span class="c1"># in Radians</span>
+    <span class="n">extention</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">Width_WG_New</span> <span class="o">=</span> <span class="n">Width_WG</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">extention</span> 
+
+    <span class="c1">#  Electrodes </span>
+    <span class="n">NamesElectrodes</span> <span class="o">=</span> <span class="s2">&quot;Electrode_Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Electrode_Right&quot;</span><span class="p">,</span> <span class="s2">&quot;Signal&quot;</span>
+
+    <span class="c1"># Plase Electrodes</span>
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Height_Electrodes</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="n">NamesElectrodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span> <span class="o">+</span> <span class="n">Width_WG_New</span> <span class="o">+</span> <span class="n">Gap</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span> <span class="o">+</span> <span class="n">Width_WG_New</span> <span class="o">+</span> <span class="n">Gap</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Signal</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Height_Electrodes</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="n">NamesElectrodes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> 
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Width_Electrodes</span> 
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span><span class="o">+</span><span class="n">Height_Electrodes</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="n">NamesElectrodes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    
+    
+
+    <span class="c1"># Plase Waveguides</span>
+    <span class="n">GND_Left_Corner</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span><span class="p">)</span> <span class="o">+</span> <span class="n">Gap</span> <span class="o">+</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">GND_Right_Corner</span> <span class="o">=</span> <span class="p">(</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Width_Electrodes</span><span class="p">)</span> <span class="o">-</span> <span class="n">Gap</span> <span class="o">-</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">PosLeft</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">((</span><span class="n">GND_Left_Corner</span>  <span class="o">+</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">((</span><span class="n">GND_Left_Corner</span>  <span class="o">-</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">)]</span> 
+    <span class="n">PosRight</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">((</span><span class="n">GND_Right_Corner</span> <span class="o">-</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">((</span><span class="n">GND_Right_Corner</span> <span class="o">+</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">)]</span> 
+
+    <span class="c1"># New Waveguide Placement with 2D Polygon and Translation </span>
+    <span class="n">PointsLeft</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">PointsLeft</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">PointsLeft</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">PosLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PosLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">round</span><span class="p">((</span><span class="n">PosLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">extention</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">PosLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">extention</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="n">PosLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="c1"># Waveguide and Waveguide to </span>
+    <span class="c1"># Translation Parameters</span>
+    <span class="n">Trans</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Angle X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Angle Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Angle Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Position X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Position Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Position Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Height_WG</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">WG</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Poligon_2D</span><span class="p">(</span><span class="n">WGName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">Points</span> <span class="o">=</span> <span class="n">PointsLeft</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Name Object&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span>
+    <span class="n">WG_Translate</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">RotationTranslation</span><span class="p">(</span><span class="n">Trans</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG_Translate</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">WG_Translate</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Translation</span><span class="p">(</span><span class="n">Trans</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG_Translate</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">RibWG_Test</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">RibWaveguide_ToSolid</span><span class="p">(</span><span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">WaveguideName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">WG_Hight</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="p">,</span> <span class="n">Angle</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">WGFolderName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">WGName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">Material</span><span class="o">=</span><span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">RibWG_Test</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    <span class="n">PointsRight</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">PointsRight</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">PointsRight</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">PosRight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PosRight</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">round</span><span class="p">((</span><span class="n">PosRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">extention</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">PosRight</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">extention</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="n">PosRight</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+
+    <span class="c1"># Waveguide and Waveguide to solid</span>
+    <span class="n">WG</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Poligon_2D</span><span class="p">(</span><span class="n">WGName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Right&quot;</span><span class="p">,</span> <span class="n">Points</span> <span class="o">=</span> <span class="n">PointsRight</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Name Object&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Right&quot;</span>
+    <span class="n">WG_Translate</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">RotationTranslation</span><span class="p">(</span><span class="n">Trans</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG_Translate</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">WG_Translate</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Translation</span><span class="p">(</span><span class="n">Trans</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG_Translate</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">RibWG_Test</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">RibWaveguide_ToSolid</span><span class="p">(</span><span class="s2">&quot;Waveguide_Right&quot;</span><span class="p">,</span> <span class="n">WaveguideName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Right&quot;</span><span class="p">,</span> <span class="n">WG_Hight</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="p">,</span> <span class="n">Angle</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">WGFolderName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Right&quot;</span><span class="p">,</span> <span class="n">WGName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Right&quot;</span><span class="p">,</span> <span class="n">Material</span><span class="o">=</span><span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">RibWG_Test</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+
+    <span class="c1"># # Old Points of 3D Polygon Waveguide</span>
+    <span class="c1"># PointsLeft = {}</span>
+    <span class="c1"># PointsLeft[&quot;X&quot;] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]</span>
+    <span class="c1"># PointsLeft[&quot;Y&quot;] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]</span>
+    <span class="c1"># PointsLeft[&quot;Z&quot;] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]</span>
+
+    <span class="c1"># # Waveguide and Waveguide to solid</span>
+    <span class="c1"># WG = VBA.Poligon_3D(WGName = &quot;Waveguide_Left&quot;, Points = PointsLeft)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(WG, timeout=None)</span>
+    <span class="c1"># RibWG_Test = VBA.RibWaveguide_ToSolid(&quot;Waveguide_Left&quot;, WaveguideName = &quot;Waveguide_Left&quot;, WG_Hight = Height_WG, Angle = -Angle, WGFolderName = &quot;Waveguide_Left&quot;, WGName = &quot;Waveguide_Left&quot;, Material=&quot;LiNbO3&quot;)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(RibWG_Test, timeout=None)</span>
+
+
+
+    <span class="c1"># PointsRight = {}</span>
+    <span class="c1"># PointsRight[&quot;X&quot;] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]</span>
+    <span class="c1"># PointsRight[&quot;Y&quot;] = [PosRight[0], PosRight[1], PosRight[1], PosRight[0], PosRight[0]]</span>
+    <span class="c1"># PointsRight[&quot;Z&quot;] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]</span>
+
+    <span class="c1"># # Waveguide and Waveguide to solid</span>
+    <span class="c1"># WG = VBA.Poligon_3D(WGName = &quot;Waveguide_Right&quot;, Points = PointsRight)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(WG, timeout=None)</span>
+    <span class="c1"># RibWG_Test = VBA.RibWaveguide_ToSolid(&quot;Waveguide_Right&quot;, WaveguideName = &quot;Waveguide_Right&quot;, WG_Hight = -Height_WG, Angle = -Angle, WGFolderName = &quot;Waveguide_Right&quot;, WGName = &quot;Waveguide_Right&quot;, Material=&quot;LiNbO3&quot;)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(RibWG_Test, timeout=None)</span>
+
+
+
+
+<span class="c1"># MZM Design</span>
+<div class="viewcode-block" id="PhaseModulator">
+<a class="viewcode-back" href="../rst/Components.html#Components.PhaseModulator">[docs]</a>
+<span class="k">def</span> <span class="nf">PhaseModulator</span><span class="p">(</span><span class="n">Parameters</span><span class="p">,</span> <span class="n">CST</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an Phase Modulator. Materials used:</span>
+<span class="sd">                                            Gold - For the electrodes</span>
+<span class="sd">                                            LiNbO3 - For Optical Waveguides</span>
+<span class="sd">                                            SiO2 - For Substrate</span>
+<span class="sd">    Args:</span>
+<span class="sd">        Parameters (dict): Dictionary with all the needed values</span>
+<span class="sd">                Parameters[&quot;Lenght_Electrodes&quot;] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.</span>
+<span class="sd">                Parameters[&quot;Width GND&quot;] : Width of the GND electrodes</span>
+<span class="sd">                Parameters[&quot;Width Signal&quot;] : Width of the Signal Electrode</span>
+<span class="sd">                Parameters[&quot;Width WG&quot;] : Top wWidth of the optical waveguide. It is an Rib waveguide</span>
+<span class="sd">                Parameters[&quot;Gap&quot;] : Gap between Signal and optical Waveguide</span>
+<span class="sd">                Parameters[&quot;angle&quot;] : Angle of the side wall of the optical waveguide</span>
+<span class="sd">                Parameters[&quot;High Electrodes&quot;] : Hight of the Electodes</span>
+<span class="sd">                Parameters[&quot;High WG&quot;] : Hight of the optical Waveguide</span>
+<span class="sd">                Parameters[&quot;High Slab&quot;] : Hight of the Slab. When choosen &quot;0&quot; no Slab will be implemented. </span>
+<span class="sd">                Parameters[&quot;High Substrate&quot;] : Hight of the substrate</span>
+
+<span class="sd">        CST (Object): The CST Obejct that you use to load your project. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Length_MZM</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Electrodes Lenght&quot;</span><span class="p">]</span>
+    <span class="n">Length_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Electrodes Lenght&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="n">Width_Electrodes</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width GND&quot;</span><span class="p">]</span>
+    <span class="n">Width_Signal</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width Signal&quot;</span><span class="p">]</span>
+    <span class="n">Width_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width WG&quot;</span><span class="p">]</span>
+    <span class="n">Gap</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Gap&quot;</span><span class="p">]</span>
+    <span class="n">Angle</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;angle&quot;</span><span class="p">]</span>
+    <span class="n">Height_Electrodes</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High Electrodes&quot;</span><span class="p">]</span>
+    <span class="n">Height_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High WG&quot;</span><span class="p">]</span>
+    <span class="n">Heigh_Slab</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High Slab&quot;</span><span class="p">]</span>
+    <span class="n">Height_Substrate</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;High Substrate&quot;</span><span class="p">]</span>
+
+
+    <span class="c1"># Set optical Material Properties Eps X,Y,Z</span>
+    <span class="n">Data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.906</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.584095</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.906</span>
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material</span><span class="p">(</span><span class="s2">&quot;LiNbO3&quot;</span><span class="p">,</span> <span class="n">Data</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># MaterialDAta = VBA.Material_Silicon(&quot;Silicon (lossy)&quot;)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(MaterialDAta, timeout=None)</span>
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material_SiO2</span><span class="p">(</span><span class="s2">&quot;SiO2&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material_Au</span><span class="p">(</span><span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    <span class="c1"># Calculate Top and Bottom Widths of the Waveguide</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Height_WG</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">Angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)))</span>  <span class="c1"># in Radians</span>
+    <span class="n">extention</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">Width_WG_New</span> <span class="o">=</span> <span class="n">Width_WG</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">extention</span> 
+
+    <span class="c1"># Global Parameters</span>
+    <span class="n">WidthObject</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">Width_WG_New</span> <span class="o">+</span> <span class="n">Width_Signal</span> <span class="o">+</span> <span class="n">Width_Electrodes</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Gap</span>
+
+
+    <span class="c1"># Substrate Definition </span>
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">WidthObject</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">WidthObject</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s1">&#39;LNOI_Substrate&#39;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;SiO2&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+
+    <span class="c1"># Slab definition</span>
+    <span class="k">if</span> <span class="n">Heigh_Slab</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">HeightZ</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">WidthObject</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">WidthObject</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Heigh_Slab</span>
+        <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s1">&#39;LNOI_Slab&#39;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+        <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">HeightZ</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Heigh_Slab</span>
+
+        
+    <span class="c1"># Calculate Top and Bottom Widths of the Waveguide</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Height_WG</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">Angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)))</span>  <span class="c1"># in Radians</span>
+    <span class="n">extention</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">Width_WG_New</span> <span class="o">=</span> <span class="n">Width_WG</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">extention</span> 
+
+    <span class="c1">#  Electrodes </span>
+    <span class="n">NamesElectrodes</span> <span class="o">=</span> <span class="s2">&quot;Electrode&quot;</span><span class="p">,</span> <span class="s2">&quot;Signal&quot;</span>
+
+    <span class="c1"># Plase Electrodes</span>
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Height_Electrodes</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="n">NamesElectrodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_MZM</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span> <span class="o">+</span> <span class="n">Width_WG_New</span> <span class="o">+</span> <span class="n">Gap</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span> <span class="o">+</span> <span class="n">Width_WG_New</span> <span class="o">+</span> <span class="n">Gap</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Signal</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Height_Electrodes</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="n">NamesElectrodes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;Au&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+    <span class="c1"># Plase Waveguides</span>
+    <span class="n">GND_Left_Corner</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Width_Electrodes</span><span class="p">)</span> <span class="o">+</span> <span class="n">Gap</span> <span class="o">+</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span>
+    
+    <span class="n">PosLeft</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">((</span><span class="n">GND_Left_Corner</span>  <span class="o">+</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">((</span><span class="n">GND_Left_Corner</span>  <span class="o">-</span> <span class="n">Width_WG_New</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">)]</span> 
+  
+
+    <span class="c1"># New Waveguide Placement with 2D Polygon and Translation </span>
+    <span class="n">PointsLeft</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">PointsLeft</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Height_WG</span><span class="p">,</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">PointsLeft</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">PosLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PosLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">round</span><span class="p">((</span><span class="n">PosLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">extention</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">PosLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">extention</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span> <span class="n">PosLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="c1"># Waveguide and Waveguide to </span>
+    <span class="c1"># Translation Parameters</span>
+    <span class="n">Trans</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Angle X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Angle Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Angle Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Position X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Position Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Position Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Height_WG</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">WG</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Poligon_2D</span><span class="p">(</span><span class="n">WGName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">Points</span> <span class="o">=</span> <span class="n">PointsLeft</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">Trans</span><span class="p">[</span><span class="s2">&quot;Name Object&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span>
+    <span class="n">WG_Translate</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">RotationTranslation</span><span class="p">(</span><span class="n">Trans</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG_Translate</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">WG_Translate</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Translation</span><span class="p">(</span><span class="n">Trans</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">WG_Translate</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">RibWG_Test</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">RibWaveguide_ToSolid</span><span class="p">(</span><span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">WaveguideName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">WG_Hight</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="p">,</span> <span class="n">Angle</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">WGFolderName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">WGName</span> <span class="o">=</span> <span class="s2">&quot;Waveguide_Left&quot;</span><span class="p">,</span> <span class="n">Material</span><span class="o">=</span><span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">RibWG_Test</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+
+
+    <span class="c1"># PointsLeft = {}</span>
+    <span class="c1"># PointsLeft[&quot;X&quot;] = [-Length_WG/2, -Length_WG/2, Length_WG/2, Length_WG/2, -Length_WG/2]</span>
+    <span class="c1"># PointsLeft[&quot;Y&quot;] = [PosLeft[0], PosLeft[1], PosLeft[1], PosLeft[0], PosLeft[0]]</span>
+    <span class="c1"># PointsLeft[&quot;Z&quot;] = [HeightZ, HeightZ, HeightZ, HeightZ, HeightZ]</span>
+
+    <span class="c1"># # Waveguide and Waveguide to solid</span>
+    <span class="c1"># WG = VBA.Poligon_3D(WGName = &quot;Waveguide_Left&quot;, Points = PointsLeft)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(WG, timeout=None)</span>
+    <span class="c1"># RibWG_Test = VBA.RibWaveguide_ToSolid(&quot;Waveguide_Left&quot;, WaveguideName = &quot;Waveguide_Left&quot;, WG_Hight = Height_WG, Angle = -Angle, WGFolderName = &quot;Waveguide_Left&quot;, WGName = &quot;Waveguide_Left&quot;, Material=&quot;LiNbO3&quot;)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(RibWG_Test, timeout=None)</span>
+
+
+
+
+
+
+<span class="c1"># # Ports and Solvers and Background</span>
+<div class="viewcode-block" id="Squere_Waveguide">
+<a class="viewcode-back" href="../rst/Components.html#Components.Squere_Waveguide">[docs]</a>
+<span class="k">def</span> <span class="nf">Squere_Waveguide</span><span class="p">(</span><span class="n">Parameters</span><span class="p">,</span> <span class="n">CST</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function generate and simple straight waveguide. Materials used:</span>
+<span class="sd">                                            Gold - For the electrodes</span>
+<span class="sd">                                            LiNbO3 - For Optical Waveguides</span>
+<span class="sd">                                            SiO2 - For Substrate</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        Parameters (dict): Dictionary with all the needed values</span>
+<span class="sd">                Parameters[&quot;Lenght WG&quot;] : Length of the Waveguide.</span>
+<span class="sd">                Parameters[&quot;High_WG&quot;] : Hight of the optical Waveguide</span>
+<span class="sd">                Parameters[&quot;Width WG&quot;] : : Top Width of the optical waveguide. It is an Rib waveguide.</span>
+<span class="sd">                Parameters[&quot;Substrate Height&quot;] : Hight of the substrate.</span>
+<span class="sd">                Parameters[&quot;Slab Heigh&quot;] : Hight of the Slab. When choosen &quot;0&quot; no Slab will be implemented. </span>
+<span class="sd">      </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Length_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Lenght WG&quot;</span><span class="p">]</span>
+    <span class="n">Hight_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Hight WG&quot;</span><span class="p">]</span>
+    <span class="n">Width_WG</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Width WG&quot;</span><span class="p">]</span>
+    <span class="n">Height_Substrate</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Substrate Height&quot;</span><span class="p">]</span>
+    <span class="n">Heigh_Slab</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">[</span><span class="s2">&quot;Slab Heigh&quot;</span><span class="p">]</span>
+    <span class="c1"># Material = Parameters[&quot;Materials&quot;]</span>
+
+
+
+    <span class="c1"># Set optical Material Properties Eps X,Y,Z</span>
+    <span class="n">Data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.906</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.584095</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.906</span>
+
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material</span><span class="p">(</span><span class="s2">&quot;LiNbO3&quot;</span><span class="p">,</span> <span class="n">Data</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># MaterialDAta = VBA.Material_Silicon(&quot;Silicon (lossy)&quot;)</span>
+    <span class="c1"># CST.schematic.execute_vba_code(MaterialDAta, timeout=None)</span>
+
+    
+    <span class="n">MaterialDAta</span> <span class="o">=</span> <span class="n">VBA</span><span class="o">.</span><span class="n">Material_SiO2</span><span class="p">(</span><span class="s2">&quot;SiO2&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">MaterialDAta</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    
+
+    <span class="c1"># Global Parameters for the WG</span>
+    <span class="n">WidthObject</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">Width_WG</span> 
+ 
+
+    <span class="c1"># Substrate Definition </span>
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> 
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s1">&#39;LNOI_Substrate&#39;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;SiO2&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+    <span class="c1"># Slab definition</span>
+    <span class="k">if</span> <span class="n">Heigh_Slab</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">HeightZ</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WidthObject</span><span class="o">/</span><span class="mi">2</span> 
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Heigh_Slab</span>
+        <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s1">&#39;LNOI_Slab&#39;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+        <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">HeightZ</span> <span class="o">=</span> <span class="n">Height_Substrate</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Heigh_Slab</span>
+    
+    <span class="c1"># Create squere Waveguide</span>
+    <span class="n">Parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Length_WG</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Width_WG</span><span class="o">/</span><span class="mi">2</span> 
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Width_WG</span><span class="o">/</span><span class="mi">2</span>  
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span>
+    <span class="n">Parameters</span><span class="p">[</span><span class="s1">&#39;Z2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HeightZ</span> <span class="o">+</span> <span class="n">Hight_WG</span>
+    <span class="n">TestBrick</span> <span class="o">=</span> <span class="n">Brick</span><span class="p">(</span><span class="s2">&quot;WG&quot;</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;LiNbO3&quot;</span><span class="p">)</span>
+    <span class="n">CST</span><span class="o">.</span><span class="n">schematic</span><span class="o">.</span><span class="n">execute_vba_code</span><span class="p">(</span><span class="n">TestBrick</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+
+
+    
+
+
+
+<div class="viewcode-block" id="BondWire">
+<a class="viewcode-back" href="../rst/Components.html#Components.BondWire">[docs]</a>
+<span class="k">def</span> <span class="nf">BondWire</span><span class="p">(</span><span class="n">NameWire</span><span class="p">,</span> <span class="n">Coordinates</span><span class="p">,</span> <span class="n">Height</span><span class="p">,</span> <span class="n">Radius</span><span class="p">,</span> <span class="n">BondwireType</span> <span class="o">=</span> <span class="s2">&quot;Spline&quot;</span><span class="p">,</span> <span class="n">CenterPosition</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">SolidWireModel</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">Termination</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">NameFolder</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create Bond Wire</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        NameWire (str): Name of the Bondwire</span>
+<span class="sd">        Coordinates (dict): Dictionary with Coordinates in X,Y,Z plane to create the Bondwire:  </span>
+<span class="sd">                            For Example </span>
+<span class="sd">                                Parameters = {}</span>
+<span class="sd">                                Parameters[&#39;X1&#39;] = 0</span>
+<span class="sd">                                Parameters[&#39;Y1&#39;] = 0</span>
+<span class="sd">                                Parameters[&#39;Z1&#39;] = 0</span>
+<span class="sd">                                Parameters[&#39;X2&#39;] = 5</span>
+<span class="sd">                                Parameters[&#39;Y2&#39;] = 5</span>
+<span class="sd">                                Parameters[&#39;Z2&#39;] = 0</span>
+<span class="sd">        Height (int/float): Hight of the middle point of the Bondwire</span>
+<span class="sd">        Radius (int/float): Radius of the bond wire. Bond wire is an cylinder type of object.</span>
+<span class="sd">        BondwireType (str, optional): The type of bond wire. Defaults to &quot;Spline&quot;.</span>
+<span class="sd">        CenterPosition (float, optional): The center Position of the Height. This can be moved to make </span>
+<span class="sd">                                           an object that dont have the top height in the middle. Defaults to 0.5.</span>
+<span class="sd">        alpha (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">        beta (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">        Material (str, optional): Material for of the Bond wire. For now you need to load the material </span>
+<span class="sd">                                  in your simulation and then use this function. Otherwise the material </span>
+<span class="sd">                                  will not be found. Defaults to &quot;PCE&quot;.</span>
+<span class="sd">        SolidWireModel (bool, optional): _description_. Defaults to True.</span>
+<span class="sd">        Termination (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">        NameFolder (str, optional): The name of the folder. Defaults to name of the wire.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Error massage</span>
+<span class="sd">        ValueError: Error massage</span>
+<span class="sd">        ValueError: Error massage</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: String with VBA Code </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check the BondwireType</span>
+    <span class="k">if</span> <span class="n">BondwireType</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Spline&quot;</span><span class="p">,</span> <span class="s2">&quot;JEDEC4&quot;</span><span class="p">,</span> <span class="s2">&quot;JEDEC5&quot;</span><span class="p">]:</span>
+        <span class="n">BondwireType</span> <span class="o">=</span> <span class="n">BondwireType</span>
+        <span class="k">if</span> <span class="n">BondwireType</span> <span class="o">==</span> <span class="s2">&quot;JEDEC5&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">beta</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;When using &quot;JEDEC5&quot; an alpha and betta parameters need to be defined. See CST documentation!! &#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;BondwireType can be on of [&#39;Spline&#39;, &#39;JEDEC4&#39;, &#39;JEDEC5&#39;]&quot;</span><span class="p">)</span>
+
+
+    <span class="c1"># Material Def</span>
+    <span class="k">if</span> <span class="n">Material</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;PCE&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Materila</span> <span class="o">=</span> <span class="n">Material</span>
+
+
+    <span class="c1"># Check Termination</span>
+    <span class="k">if</span> <span class="n">Termination</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Termination</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;natural&quot;</span> <span class="p">,</span> <span class="s2">&quot;rounded&quot;</span> <span class="p">,</span> <span class="s2">&quot;extended&quot;</span><span class="p">]:</span>
+            <span class="n">Termination</span> <span class="o">=</span> <span class="n">Termination</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Termination can be only one of [&quot;natural&quot; , &quot;rounded&quot; , &quot;extended&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Termination</span> <span class="o">=</span> <span class="s2">&quot;natural&quot;</span>
+
+    <span class="c1"># Folder Name</span>
+    <span class="k">if</span> <span class="n">NameFolder</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">NameFolder</span> <span class="o">=</span> <span class="n">NameWire</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">NameFolder</span> <span class="o">=</span> <span class="n">NameFolder</span>
+
+
+    <span class="k">if</span> <span class="n">BondwireType</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Spline&quot;</span><span class="p">,</span> <span class="s2">&quot;JEDEC4&quot;</span><span class="p">]:</span>
+        <span class="n">component</span> <span class="o">=</span> <span class="s1">&#39;Sub Main () &#39;</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">With Wire&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Reset&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Folder &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameFolder</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Type &quot;Bondwire&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Name &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameWire</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.BondWireType &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">BondwireType</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Point1 &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;X1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Y1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Z1&quot;</span><span class="p">])</span>  <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &quot;False&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Point2 &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;X2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Y2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Z2&quot;</span><span class="p">])</span>  <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &quot;False&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Height &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Height</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Radius &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.RelativeCenterPosition &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">CenterPosition</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Material &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Material</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.SolidWireModel &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">SolidWireModel</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Termination &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Termination</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span>\
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Add&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End With&#39;</span> <span class="o">+</span> \
+                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End Sub&#39;</span>
+        <span class="k">return</span> <span class="n">component</span>
+    <span class="c1"># &#39;\n.Folder &#39; + &#39;&quot;&#39; + NameFolder + &#39;&quot;&#39; + \</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">component</span> <span class="o">=</span> <span class="s1">&#39;Sub Main () &#39;</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">With Wire&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Reset&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Folder &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameFolder</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Type &quot;Bondwire&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Name &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameWire</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.BondWireType &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">BondwireType</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Point1 &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;X1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Y1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Z1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &quot;False&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Point2 &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;X2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Y2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Z2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &quot;False&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Height &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Height</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Radius &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.alpha &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.beta &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Material &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Material</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.SolidWireModel &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">SolidWireModel</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Termination &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Termination</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Add&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End With&#39;</span> <span class="o">+</span> \
+                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End Sub&#39;</span>
+
+
+
+        <span class="k">return</span> <span class="n">component</span></div>
+
+    
+
+
+
+
+<div class="viewcode-block" id="CurveWire">
+<a class="viewcode-back" href="../rst/Components.html#Components.CurveWire">[docs]</a>
+<span class="k">def</span> <span class="nf">CurveWire</span><span class="p">(</span><span class="n">NameWire</span><span class="p">,</span> <span class="n">Radius</span><span class="p">,</span> <span class="n">Points</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">SolidWireModel</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">Termination</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">NameFolder</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">CurveFolderName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">CurveName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        NameWire (str): Name of the wire</span>
+<span class="sd">        Radius (int/float): Radius of the curve</span>
+<span class="sd">        Points (dict, optional): Dictionary of X and  Y points for the curve. Defaults to None.</span>
+<span class="sd">        Material (str, optional): Material for of the Bond wire. For now you need to load the material </span>
+<span class="sd">                                  in your simulation and then use this function. Otherwise the material </span>
+<span class="sd">                                  will not be found. Defaults to &quot;PCE&quot;.</span>
+<span class="sd">        SolidWireModel (bool, optional): _description_. Defaults to True.</span>
+<span class="sd">        Termination (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">        NameFolder (str, optional): Name of the Folder. Defaults to None.</span>
+<span class="sd">        CurveFolderName (str, optional): Curve folder name. Defaults to None.</span>
+<span class="sd">        CurveName (str, optional): Curve name. Defaults to None.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Error massage</span>
+<span class="sd">        ValueError: Error massage</span>
+<span class="sd">        ValueError: Error massage</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: String with VBA Code </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check of Dict of Points for X and Y are given</span>
+    <span class="k">if</span> <span class="n">Points</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;To create an Curve you need an Dictionary with two Variable &quot;X&quot; and &quot;Y&quot;. The Values for Dict[&quot;X&quot;] can be an array of points&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+    <span class="c1"># Folder Name</span>
+    <span class="k">if</span> <span class="n">NameFolder</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">NameFolder</span> <span class="o">=</span> <span class="n">NameWire</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">NameFolder</span> <span class="o">=</span> <span class="n">NameFolder</span>
+
+
+    <span class="c1"># Check Termination</span>
+    <span class="k">if</span> <span class="n">Termination</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Termination</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;natural&quot;</span><span class="p">,</span> <span class="s2">&quot;rounded&quot;</span><span class="p">,</span> <span class="s2">&quot;extended&quot;</span><span class="p">]:</span>
+            <span class="n">Termination</span> <span class="o">=</span> <span class="n">Termination</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Termination can be only one of [&quot;natural&quot; , &quot;rounded&quot; , &quot;extended&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Termination</span> <span class="o">=</span> <span class="s2">&quot;natural&quot;</span>
+
+    <span class="c1"># Material Def</span>
+    <span class="k">if</span> <span class="n">Material</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;PCE&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Materila</span> <span class="o">=</span> <span class="n">Material</span>
+
+    <span class="c1"># Check if Curve Name and Folder Name are given</span>
+    <span class="k">if</span> <span class="n">CurveFolderName</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">CurveName</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;To create an Curve Wire you need to give the Curve Folder Name (CurveFolderName) and the Curve Name (CurveName) that you already gave!&quot;</span><span class="p">)</span>
+
+
+    <span class="n">component</span> <span class="o">=</span> <span class="s1">&#39;Sub Main () &#39;</span> \
+                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">With Wire&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Reset&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Folder &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameFolder</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Type &quot;Curvewire&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Name &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameWire</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Curve &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">CurveFolderName</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">CurveName</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Radius &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Radius</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.SolidWireModel &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">SolidWireModel</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Material &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Material</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Termination &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Termination</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Add&#39;</span> <span class="o">+</span> \
+                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End With&#39;</span> <span class="o">+</span> \
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End Sub&#39;</span>
+    <span class="k">return</span> <span class="n">component</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="Brick">
+<a class="viewcode-back" href="../rst/Components.html#Components.Brick">[docs]</a>
+<span class="k">def</span> <span class="nf">Brick</span><span class="p">(</span><span class="n">BrickName</span><span class="p">,</span> <span class="n">Coordinates</span><span class="p">,</span> <span class="n">NameComponent</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Material</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an squere Brick object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        BrickName (str): Name of thr brick object</span>
+<span class="sd">        Coordinates (dict): Dictionary with Min/max Values for the coordinates of the brick in the room.</span>
+<span class="sd">                            Coordinates[&quot;X1&quot;] - X min</span>
+<span class="sd">                            Coordinates[&quot;X2&quot;] - X max</span>
+<span class="sd">                            Coordinates[&quot;Y1&quot;] - Y min</span>
+<span class="sd">                            Coordinates[&quot;Y2&quot;] - Y max</span>
+<span class="sd">                            Coordinates[&quot;Z1&quot;] - Z min </span>
+<span class="sd">                            Coordinates[&quot;Z2&quot;] - Z max</span>
+<span class="sd">        NameComponent (str, optional): Name fo the Component. Defaults to None.</span>
+<span class="sd">        Material (str, optional): Material for of the Bond wire. For now you need to load the material </span>
+<span class="sd">                                  in your simulation and then use this function. Otherwise the material </span>
+<span class="sd">                                  will not be found. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: String with VBA Code </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Folder Name</span>
+    <span class="k">if</span> <span class="n">NameComponent</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">NameComponent</span> <span class="o">=</span> <span class="n">NameComponent</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">NameComponent</span> <span class="o">=</span> <span class="n">BrickName</span>
+
+    <span class="c1"># Material Def</span>
+    <span class="k">if</span> <span class="n">Material</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Material</span> <span class="o">=</span> <span class="s2">&quot;Copper (annealed)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Material</span> <span class="o">=</span> <span class="n">Material</span>
+
+
+    <span class="n">SolidWire</span> <span class="o">=</span> <span class="s1">&#39;Sub Main () &#39;</span> \
+                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">With Brick&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Reset&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Name &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">BrickName</span> <span class="o">+</span> <span class="s1">&#39;1&quot;&#39;</span> <span class="o">+</span> \
+						<span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Component &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">NameComponent</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Material &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">Material</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Xrange &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;X1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;X2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+						<span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Yrange &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Y1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Y2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+						<span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Zrange &#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Z1&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">[</span><span class="s2">&quot;Z2&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> \
+						<span class="s1">&#39;</span><span class="se">\n</span><span class="s1">.Create&#39;</span> <span class="o">+</span> \
+                    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End With&#39;</span> <span class="o">+</span> \
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">End Sub&#39;</span>
+    <span class="k">return</span> <span class="n">SolidWire</span></div>
+
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Martin Mihaylov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

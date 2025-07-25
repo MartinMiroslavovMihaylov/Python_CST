@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curves_Functions &mdash; Python CST Script 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Python CST Script
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python CST Script</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Curves_Functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Curves_Functions</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Jan 24 15:49:14 2024</span>
+
+<span class="sd">@author: marti</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">integrate</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">fresnel</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;font.size&quot;</span><span class="p">:</span><span class="mi">22</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="Curves">
+<a class="viewcode-back" href="../rst/Curves_Functions.html#Curves_Functions.Curves">[docs]</a>
+<span class="k">class</span> <span class="nc">Curves</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Span_X</span><span class="p">,</span> <span class="n">Span_Y</span><span class="p">,</span> <span class="n">Length</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Span_X</span> <span class="o">=</span> <span class="n">Span_X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Span_Y</span> <span class="o">=</span> <span class="n">Span_Y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Length</span> <span class="o">=</span> <span class="n">Length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_Points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_Points</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        
+<div class="viewcode-block" id="Curves.Bezier_Curve">
+<a class="viewcode-back" href="../rst/Curves_Functions.html#Curves_Functions.Curves.Bezier_Curve">[docs]</a>
+    <span class="k">def</span> <span class="nf">Bezier_Curve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The Cubic Bezier Polynoms are taken from Wikipedia!</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        curve : 2 dimentional np array</span>
+<span class="sd">            curve[:,0] - X Param of the Bezier Curve</span>
+<span class="sd">            curve[:,1] - Y Param of the Bezier Curve</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_Points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Span_X</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Span_X</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Span_X</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y_Points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(((</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Span_Y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Span_Y</span><span class="p">)))</span>
+            
+        <span class="n">x_Points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_Points</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">y_Points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_Points</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>  
+        <span class="n">curve</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">x_Points</span><span class="p">,</span> <span class="n">y_Points</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        
+        <span class="k">return</span> <span class="n">curve</span></div>
+
+    
+    
+    
+<div class="viewcode-block" id="Curves.Cosinus_Curve">
+<a class="viewcode-back" href="../rst/Curves_Functions.html#Curves_Functions.Curves.Cosinus_Curve">[docs]</a>
+    <span class="k">def</span> <span class="nf">Cosinus_Curve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The cosinus function is SpanY*(cos((pi/(2*SpanX))*t)^2)  ----&gt;&gt; t in the range of 0 to SpanY</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        curve : 2 dimentional np array</span>
+<span class="sd">            curve[:,0] - X Param of the Bezier Curve</span>
+<span class="sd">            curve[:,1] - Y Param of the Bezier Curve</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Span_Y</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Span_X</span>
+        <span class="n">stepSize</span> <span class="o">=</span> <span class="n">L</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">L</span><span class="p">,</span> <span class="n">stepSize</span><span class="p">)</span> 
+        <span class="n">Func</span> <span class="o">=</span> <span class="n">P</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">L</span><span class="p">))</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  
+        <span class="n">curve</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">Func</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
+        
+        <span class="k">return</span> <span class="n">curve</span></div>
+
+    
+    
+    
+    
+<div class="viewcode-block" id="Curves.Euler_Curve">
+<a class="viewcode-back" href="../rst/Curves_Functions.html#Curves_Functions.Curves.Euler_Curve">[docs]</a>
+    <span class="k">def</span> <span class="nf">Euler_Curve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)</span>
+<span class="sd">        using Fresnel integrals and linear curvature.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Span_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Span_X</span>
+        <span class="n">Span_Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Span_Y</span>
+        <span class="n">num_pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Length</span>
+        
+        <span class="c1"># Arc length parameter</span>
+        <span class="c1"># s = np.arange(-1, 1, 2/num_pts)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_pts</span><span class="p">)</span>
+        
+        <span class="c1"># Fresnel integrals (Euler spiral)</span>
+        <span class="n">S</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">fresnel</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="c1"># Normalize to range [-1, 1]</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">C</span> <span class="o">-</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span> <span class="o">-</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">C</span> <span class="o">/</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span> <span class="o">/</span> <span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Euler spiral from -90° to +90° → makes an S-bend</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">Span_X</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">Span_Y</span>
+        
+
+        <span class="n">curve</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    
+        <span class="k">return</span> <span class="n">curve</span></div>
+</div>
+
+
+
+
+    
+    
+
+<span class="c1"># obj = Curves(50,20,100)</span>
+<span class="c1"># curve = obj.Bezier_Curve()</span>
+<span class="c1"># curve2 = obj.Cosinus_Curve()</span>
+
+
+<span class="c1"># plt.figure()</span>
+<span class="c1"># plt.plot(curve[:,0], curve[:,1], label = &quot;Bezier&quot;)</span>
+<span class="c1"># plt.plot(curve2[:,0], curve2[:,1], label = &quot;Cosinus&quot;)</span>
+<span class="c1"># plt.xlabel(&quot;L/ $\mu m$&quot;)</span>
+<span class="c1"># plt.ylabel(&quot;P/ $\mu m$&quot;)</span>
+<span class="c1"># plt.legend(loc = &quot;best&quot;)</span>
+<span class="c1"># plt.grid()</span>
+<span class="c1"># plt.show()</span>
+
+
+<span class="c1"># import matplotlib.pyplot as plt</span>
+
+<span class="c1"># def euler_method(func, y0, t0, tn, h):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Approximate the solution of the ODE using Euler&#39;s method.</span>
+
+<span class="c1">#     Parameters:</span>
+<span class="c1">#         func: The differential equation function, f(t, y).</span>
+<span class="c1">#         y0: Initial value of the dependent variable.</span>
+<span class="c1">#         t0: Initial value of the independent variable.</span>
+<span class="c1">#         tn: Final value of the independent variable.</span>
+<span class="c1">#         h: Step size.</span>
+
+<span class="c1">#     Returns:</span>
+<span class="c1">#         Two lists containing the values of t and y at each step.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     t_values = [t0]</span>
+<span class="c1">#     y_values = [y0]</span>
+
+<span class="c1">#     while t_values[-1] &lt; tn:</span>
+<span class="c1">#         t = t_values[-1]</span>
+<span class="c1">#         y = y_values[-1]</span>
+<span class="c1">#         y_next = y + h * func(t, y)</span>
+<span class="c1">#         t_values.append(t + h)</span>
+<span class="c1">#         y_values.append(y_next)</span>
+
+<span class="c1">#     return t_values, y_values</span>
+
+<span class="c1"># # Example: Solve the ODE dy/dt = -2 * y with y(0) = 1</span>
+<span class="c1"># def differential_equation(t, y):</span>
+<span class="c1">#     return -2 * y</span>
+
+<span class="c1"># t0, tn = 0, 4</span>
+<span class="c1"># y0 = 20</span>
+<span class="c1"># h = 0.1</span>
+
+<span class="c1"># t_values, y_values = euler_method(differential_equation, y0, t0, tn, h)</span>
+
+<span class="c1"># # Plot the solution</span>
+<span class="c1"># plt.plot(t_values, y_values, label=&#39;Euler Method&#39;)</span>
+<span class="c1"># plt.title(&quot;Euler&#39;s Method for dy/dt = -2y&quot;)</span>
+<span class="c1"># plt.xlabel(&#39;t&#39;)</span>
+<span class="c1"># plt.ylabel(&#39;y(t)&#39;)</span>
+<span class="c1"># plt.legend()</span>
+<span class="c1"># plt.show()</span>
+
+
+
+
+
+
+
+
+<span class="c1"># import scipy.integrate as integrate</span>
+<span class="c1"># from scipy.optimize import fsolve</span>
+
+
+
+
+<span class="c1"># R_eff = 6  # effective radius of the bend</span>
+<span class="c1"># A = 1.3  # clothoid parameter</span>
+
+
+<span class="c1"># L_max = 0  # starting point of L_max</span>
+<span class="c1"># precision = 0.05  # increasement of L_max at each iteration</span>
+<span class="c1"># tolerance = 0.01  # difference tolerance of the derivatives</span>
+
+<span class="c1"># # determine L_max</span>
+<span class="c1"># while True:</span>
+<span class="c1">#     L_max = L_max + precision  # update L_max</span>
+<span class="c1">#     Ls = np.linspace(0, L_max, 50)  # L at (x1,y1)</span>
+<span class="c1">#     x1 = np.zeros(len(Ls))  # x coordinate of the clothoid curve</span>
+<span class="c1">#     y1 = np.zeros(len(Ls))  # y coordinate of the clothoid curve</span>
+
+<span class="c1">#     # compute x1 and y1 using the above integral equations</span>
+<span class="c1">#     for i, L in enumerate(Ls):</span>
+<span class="c1">#         y1[i], err = integrate.quad(lambda theta: A * np.sin(theta**2 / 2), 0, L / A)</span>
+<span class="c1">#         x1[i], err = integrate.quad(lambda theta: A * np.cos(theta**2 / 2), 0, L / A)</span>
+
+<span class="c1">#     # compute the derivative at L_max</span>
+<span class="c1">#     k = -(x1[-1] - x1[-2]) / (y1[-1] - y1[-2])</span>
+<span class="c1">#     xp = x1[-1]</span>
+<span class="c1">#     yp = y1[-1]</span>
+<span class="c1">#     # check if the derivative is continuous at L_max</span>
+<span class="c1">#     R = np.sqrt(</span>
+<span class="c1">#         ((R_eff + k * xp - yp) / (k + 1) - xp) ** 2</span>
+<span class="c1">#         + (-(R_eff + k * xp - yp) / (k + 1) + R_eff - yp) ** 2</span>
+<span class="c1">#     )</span>
+<span class="c1">#     if np.abs(R - A**2 / L_max) &lt; tolerance:</span>
+<span class="c1">#         break</span>
+
+<span class="c1"># # after L_max is determined, R_min is also determined</span>
+<span class="c1"># R_min = A**2 / L_max</span>
+
+<span class="c1"># # getting the coordinates of the second clothoid curve by mirroring the first curve with respect to y=-x+R_eff</span>
+<span class="c1"># x3 = np.flipud(R_eff - y1)</span>
+<span class="c1"># y3 = np.flipud(R_eff - x1)</span>
+
+
+<span class="c1"># # solve for the parameters of the circular curve</span>
+<span class="c1"># def circle(var):</span>
+<span class="c1">#     a = var[0]</span>
+<span class="c1">#     b = var[1]</span>
+<span class="c1">#     Func = np.empty((2))</span>
+<span class="c1">#     Func[0] = (xp - a) ** 2 + (yp - b) ** 2 - R_min**2</span>
+<span class="c1">#     Func[1] = (R_eff - yp - a) ** 2 + (R_eff - xp - b) ** 2 - R_min**2</span>
+<span class="c1">#     return Func</span>
+
+
+<span class="c1"># a, b = fsolve(circle, (0, R_eff))</span>
+
+<span class="c1"># # calculate the coordinates of the circular curve</span>
+<span class="c1"># x2 = np.linspace(xp + 0.01, R_eff - yp - 0.01, 50)</span>
+<span class="c1"># y2 = -np.sqrt(R_min**2 - (x2 - a) ** 2) + b</span>
+
+
+<span class="c1"># # obtain the coordinates of the whole Euler bend by concatenating three pieces together</span>
+<span class="c1"># x_euler = np.concatenate((x1, x2, x3))</span>
+<span class="c1"># y_euler = np.concatenate((y1, y2, y3))</span>
+
+<span class="c1"># # the conventional circular bend is simply given by a circle</span>
+<span class="c1"># x_circle = np.linspace(0, R_eff, 100)</span>
+<span class="c1"># y_circle = -np.sqrt(R_eff**2 - (x_circle) ** 2) + R_eff</span>
+
+<span class="c1"># # plotting the shapes of the Euler bend and the circular bend</span>
+<span class="c1"># plt.plot(x_euler, y_euler, label=&quot;Euler bend&quot;)</span>
+<span class="c1"># plt.plot(x_circle, y_circle, &quot;--&quot;, label=&quot;Circular bend&quot;)</span>
+<span class="c1"># plt.axis(&quot;equal&quot;)</span>
+<span class="c1"># plt.ylim(-1, R_eff + 1)</span>
+<span class="c1"># plt.legend()</span>
+<span class="c1"># plt.show()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Martin Mihaylov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

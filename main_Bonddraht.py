@@ -6,11 +6,8 @@ import os
 # Add the directory containing the project to sys.path
 current_path = os.path.dirname(os.path.abspath('__file__'))
 sys.path.append(current_path)
-from Curves_Functions import Curves
-import Functions as VBA
-import Components as Components
 import numpy as np
-
+from CST_Python_Wrapper import CST_Commands, Curves
 
 
 # Define Curves Parameters and Data
@@ -42,7 +39,7 @@ EulerCurve = ObjCurves.Euler_Curve()
 
 
 
-from CST_Python_Wrapper import CST_Commands
+
 
 obj = CST_Commands()
 obj.New_Project("MWS")
@@ -123,12 +120,12 @@ obj.add_material("Si")
 
 Params = {}
 Params["Type Background"] = "Normal"
-Params["Xmin Background"] = 6
-Params["Xmax Background"] = 5
-Params["Ymin Background"] = 7
-Params["Ymax Background"] = 8
-Params["Zmin Background"] = 9
-Params["Zmax Background"] = 11
+Params["Xmin Background"] = 0
+Params["Xmax Background"] = 0
+Params["Ymin Background"] = 0
+Params["Ymax Background"] = 0
+Params["Zmin Background"] = 0
+Params["Zmax Background"] = 0
 
 obj.setBackground(Params)
 
@@ -156,6 +153,10 @@ Parameters["Max Frequency"] = 200
 obj.setSimFreqeuncy(Parameters)
 
 
+# Set Frequency Solver
+Parameters = {}
+
+obj.setFreqSolver(Parameters)
 
 
 # # Set Time Solver
@@ -314,141 +315,340 @@ obj.setDomainSolverType("Freq")
 # obj.Cylinder(Parameters)
 
 
+# ###################################################################################
+# # Cylinder Electrodes
+# ###################################################################################
 
 
-number_wires = 6
-gap_pairs = 5
-gap_wires = 1
-Names = [["Sig", "Sig"], ["LeftGND", "LeftGND"], ["RightGND", "RightGND"]]
-Names_Components = [ "Sig", "LeftGND","RightGND"]
-Wire_Radius = 1
-Lenght_Wire = 100
-Dis_to_GND = 2
-GND_Thickness = 1
-Clad_Thickness = 2
+# number_wires = 6
+# gap_pairs = 5
+# gap_wires = 1
+# Names = [["Sig", "Sig"], ["LeftGND", "LeftGND"], ["RightGND", "RightGND"]]
+# Names_Components = [ "Sig", "LeftGND","RightGND"]
+# Wire_Radius = 1
+# Lenght_Wire = 100
+# Dis_to_GND = 2
+# GND_Thickness = 1
+# Clad_Thickness = 2
 
 
+
+
+# Parameters = {}
+# obj.add_Au()
+# Parameters["Material"] = "Au"
+# Parameters["Outer Radius"] = Wire_Radius
+# Parameters["Inner Radius"] = 0
+# Parameters["Orentation Axis"] = "Z"
+# Parameters["Z min"] = 0
+# Parameters["Z max"] = Lenght_Wire
+# Parameters["Y center"] = Parameters["Outer Radius"] 
+
+
+# midL = -(Parameters["Outer Radius"] + gap_wires/2)
+# midR =  (Parameters["Outer Radius"] + gap_wires/2)
+
+# PosX = [midL, midR]
+# Tranlsate_pos = [0, -(2*Parameters["Outer Radius"]*2 + gap_wires + gap_pairs ) , (2*Parameters["Outer Radius"]*2 + gap_wires + gap_pairs)]
+
+# for i in range(len(Names_Components)):
+#     Parameters["Component Name"] = Names_Components[i]
+#     for j in range(2):
+#         Parameters["Cylinder Name"] = Names[i][j] + str(j)
+#         Parameters["X center"] = PosX[j]
+#         obj.Cylinder(Parameters)
+#     Trans = {}
+#     Trans["Name Object"] = Names_Components[i]
+#     Trans["Position X"] = Tranlsate_pos[i]
+#     Trans["Position Y"] = 0
+#     Trans["Position Z"] = 0
+#     Trans["Structure Type"] = "Shape"
+#     obj.Translation(Trans)
+
+
+# # Create metal bot 
+# Parameters["Brick Lenght Max"] = (max(Tranlsate_pos) * 2) + (Parameters["Outer Radius"]*2 + gap_wires)*2
+# Parameters["Brick Lenght Min"] = (min(Tranlsate_pos) * 2) - (Parameters["Outer Radius"]*2 + gap_wires)*2
+# Parameters["Brick Width Max"] =   - Dis_to_GND*2 - GND_Thickness*2
+# Parameters["Brick Width Min"] =  - Dis_to_GND*2 
+# Parameters["Brick Hight Max"] = Lenght_Wire*2 
+# Parameters["Brick Hight Min"] = 0
+# Parameters["Brick Name"] = "GND Plate"
+# Parameters["Component Name"] = "GND"
+# Parameters["Material"] = Parameters["Material"]
+# obj.Brick(Parameters)
+
+
+
+# # Create Cladding
+# Parameters["Brick Lenght Max"] = (max(Tranlsate_pos) * 2) + (Parameters["Outer Radius"]*2 + gap_wires)*2
+# Parameters["Brick Lenght Min"] = (min(Tranlsate_pos) * 2) - (Parameters["Outer Radius"]*2 + gap_wires)*2
+# Parameters["Brick Width Max"] =  Parameters["Outer Radius"]*2 +  Clad_Thickness*2
+# Parameters["Brick Width Min"] =  - Dis_to_GND*2 
+# Parameters["Brick Hight Max"] = Lenght_Wire*2 
+# Parameters["Brick Hight Min"] = 0
+# Parameters["Brick Name"] = "Cladding_1"
+# Parameters["Component Name"] = "Cladding"
+# Parameters["Material"] = "Vacuum"
+# obj.Brick(Parameters)
+
+
+
+
+# # Pick faces for solvers 
+
+# Names = [["Sig", "Sig"], ["LeftGND", "LeftGND"], ["RightGND", "RightGND"]]
+# Names_Components = [ "Sig", "LeftGND","RightGND"]
+# Parameters["Port Number"] = [1 ,2]
+# Parameters["Face ID"] = [1 ,3]
+
+
+# Parameters["Orientation"] = "Positive"
+# Parameters["Coordinates"] = "Picks"
+# Parameters["Port Number"]
+# Parameters["Span"] = [5, 5, 0]
+# Parameters["Picked Port Polarity"] = "positive", "positive", "negative", "negative", "negative", "negative"
+# Parameters["Picked Component Name"] = []
+# Parameters["Picked Port Number"]  = 1
+# Parameters["Number of picks"] = 6
+
+
+# for i in range(len(Names_Components)):
+#     for j in range(len(Parameters["Port Number"])):
+#         PicParams = {}
+#         PicParams["Option"] = "Face"
+#         PicParams["Face Number"] = Parameters["Face ID"][j]
+#         # PicParams["Object"] = f"""{Names_Components[i]}:{Names[i][j]+str(j)}"""
+#         for k in range(len(Names[0])):
+#             PicParams["Object"] = f"""{Names_Components[i]}:{Names[i][j]+str(k)}"""
+#             Parameters["Picked Component Name"].append(PicParams["Object"])
+#             PickFace = obj.Pick(PicParams)
+
+# obj.WaveguidePortWithPins(Parameters)
+      
+
+
+
+
+#####################################################################################
+# PAD IHP 
+#####################################################################################
 
 
 Parameters = {}
-obj.add_Au()
-Parameters["Material"] = "Au"
-Parameters["Outer Radius"] = Wire_Radius
-Parameters["Inner Radius"] = 0
-Parameters["Orentation Axis"] = "Z"
-Parameters["Z min"] = 0
-Parameters["Z max"] = Lenght_Wire
-Parameters["Y center"] = Parameters["Outer Radius"] 
 
+PAD_Width = 80
+PAD_Length = 80
+PAD_Thickness = 5
+Name = ["GND_L", "Sig_L", "GND_Mid", "Sig_R", "GND_R"]
+Component_Name = ["_input", "_output"]
+Dist = np.arange(-400, 500, 200)
+PAD_Dist = [-200, 200]
+Material = "Al"
 
-midL = -(Parameters["Outer Radius"] + gap_wires/2)
-midR =  (Parameters["Outer Radius"] + gap_wires/2)
+obj.add_Al()
+obj.add_Glue()
+obj.add_Si()
 
-PosX = [midL, midR]
-Tranlsate_pos = [0, -(2*Parameters["Outer Radius"]*2 + gap_wires + gap_pairs ) , (2*Parameters["Outer Radius"]*2 + gap_wires + gap_pairs)]
-
-for i in range(len(Names_Components)):
-    Parameters["Component Name"] = Names_Components[i]
-    for j in range(2):
-        Parameters["Cylinder Name"] = Names[i][j] + str(j)
-        Parameters["X center"] = PosX[j]
-        obj.Cylinder(Parameters)
-    Trans = {}
-    Trans["Name Object"] = Names_Components[i]
-    Trans["Position X"] = Tranlsate_pos[i]
-    Trans["Position Y"] = 0
-    Trans["Position Z"] = 0
-    Trans["Structure Type"] = "Shape"
-    obj.Translation(Trans)
-
-
-# Create metal bot 
-Parameters["Brick Lenght Max"] = (max(Tranlsate_pos) * 2) + (Parameters["Outer Radius"]*2 + gap_wires)*2
-Parameters["Brick Lenght Min"] = (min(Tranlsate_pos) * 2) - (Parameters["Outer Radius"]*2 + gap_wires)*2
-Parameters["Brick Width Max"] =   - Dis_to_GND*2 - GND_Thickness*2
-Parameters["Brick Width Min"] =  - Dis_to_GND*2 
-Parameters["Brick Hight Max"] = Lenght_Wire*2 
-Parameters["Brick Hight Min"] = 0
-Parameters["Brick Name"] = "GND Plate"
-Parameters["Component Name"] = "GND"
-Parameters["Material"] = Parameters["Material"]
-obj.Brick(Parameters)
+for j in range(len(Component_Name)):
+    for i in range(len(Name)):
+        # Create squere Electrodes 
+        Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+        Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+        Parameters["Brick Width Max"] = Dist[i] + PAD_Width
+        Parameters["Brick Width Min"] = Dist[i] -PAD_Width
+        Parameters["Brick Hight Max"] = PAD_Thickness * 2
+        Parameters["Brick Hight Min"] = 0 
+        Parameters["Brick Name"] = Name[i] + Component_Name[j]
+        Parameters["Component Name"] = Name[i] 
+        Parameters["Material"] = Material
+        obj.Brick(Parameters)
 
 
 
-# Create Cladding
-Parameters["Brick Lenght Max"] = (max(Tranlsate_pos) * 2) + (Parameters["Outer Radius"]*2 + gap_wires)*2
-Parameters["Brick Lenght Min"] = (min(Tranlsate_pos) * 2) - (Parameters["Outer Radius"]*2 + gap_wires)*2
-Parameters["Brick Width Max"] =  Parameters["Outer Radius"]*2 +  Clad_Thickness*2
-Parameters["Brick Width Min"] =  - Dis_to_GND*2 
-Parameters["Brick Hight Max"] = Lenght_Wire*2 
-Parameters["Brick Hight Min"] = 0
-Parameters["Brick Name"] = "Cladding_1"
-Parameters["Component Name"] = "Cladding"
-Parameters["Material"] = "Vacuum"
+# Create Substrate
+Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+Parameters["Brick Hight Max"] = 0
+Parameters["Brick Hight Min"] = -300 
+Parameters["Brick Name"] = "Substrate_Chip"
+Parameters["Component Name"] = "Substrate"
+Parameters["Material"] = "Si"
 obj.Brick(Parameters)
 
 
 
 
-# Pick faces for solvers 
 
-Names = [["Sig", "Sig"], ["LeftGND", "LeftGND"], ["RightGND", "RightGND"]]
-Names_Components = [ "Sig", "LeftGND","RightGND"]
-Parameters["Port Number"] = [1 ,2]
-Parameters["Face ID"] = [1 ,3]
+# Create Bomd Wires
+Names_Wires = ["Wire_L_GND", "Wire_L_Sig", "Wire_Mid_GND", "Wire_R_Sig", "Wire_R_GND"]
+Bond_Wire_Height = 20
+Bond_Wire_Radius = 17.5/2
+
+for k in range(len(Dist)):
+    Parameters = {}
+    Parameters['X1'] = PAD_Dist[0]/2 
+    Parameters['Y1'] = Dist[k]/2
+    Parameters['Z1'] = PAD_Thickness
+    Parameters['X2'] = PAD_Dist[1]/2 
+    Parameters['Y2'] = Dist[k]/2
+    Parameters['Z2'] = PAD_Thickness
 
 
-Parameters["Orientation"] = "Positive"
+    obj.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters, Height = Bond_Wire_Height, Radius = Bond_Wire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire" )
+    obj.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+
+
+
+# Create Top Plate for Bond Wires and cladding
+Parameters = {}
+
+PAD_Width = 80
+PAD_Length = 80
+PAD_Thickness = 2.8
+Name_Shield = "Floating_Shield"
+Component_Name = "Floating_Shield"
+PAD_Dist_to_Wires = 30
+Material = "Al"
+Material_Clad = "DAF_Glue"
+
+
+# Create squere floating shield
+Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length/2
+Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length/2
+Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+Parameters["Brick Hight Max"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires*2
+Parameters["Brick Hight Min"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires
+Parameters["Brick Name"] = Name_Shield
+Parameters["Component Name"] = Component_Name
+Parameters["Material"] = Material
+obj.Brick(Parameters)
+
+
+
+# Create cladding
+Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length/2
+Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length/2
+Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+Parameters["Brick Hight Max"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires
+Parameters["Brick Hight Min"] = PAD_Thickness*2 
+Parameters["Brick Name"] = "Floating_Shield_Clad"
+Parameters["Component Name"] = Component_Name
+Parameters["Material"] = Material_Clad
+obj.Brick(Parameters)
+
+
+
+# Pick Faces for Input Waveguide Port
+Parameters = {}
+Facer_input = []
+Facer_output = []
+Parameters["Option"] = "Face"
+
+for i in range(len(Name)):
+    Facer_input.append(Name[i] + ":" + Name[i] + "_input")
+
+# pick input faces
+for i in range(len(Name)):
+    Parameters["Face Number"] = 4
+    Parameters["Object"] = Facer_input[i]
+    obj.Pick(Parameters)
+
+# Create Port Input
+Parameters = {}
+Parameters["Port Number"] = 1
 Parameters["Coordinates"] = "Picks"
-Parameters["Port Number"]
-Parameters["Span"] = [5, 5, 0]
-Parameters["Picked Port Polarity"] = "positive", "positive", "negative", "negative", "negative", "negative"
-Parameters["Picked Component Name"] = []
-Parameters["Picked Port Number"]  = 1
-Parameters["Number of picks"] = 6
-
-
-for i in range(len(Names_Components)):
-    for j in range(len(Parameters["Port Number"])):
-        PicParams = {}
-        PicParams["Option"] = "Face"
-        PicParams["Face Number"] = Parameters["Face ID"][j]
-        # PicParams["Object"] = f"""{Names_Components[i]}:{Names[i][j]+str(j)}"""
-        for k in range(len(Names[0])):
-            PicParams["Object"] = f"""{Names_Components[i]}:{Names[i][j]+str(k)}"""
-            Parameters["Picked Component Name"].append(PicParams["Object"])
-            PickFace = obj.Pick(PicParams)
+Parameters["Orientation"] = "Positive"
+Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
+Parameters["Picked Port Number"] = 1
+Parameters["Number of picks"] = 5
+Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
+Parameters["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig_L:Sig_L_input", "GND_Mid:GND_Mid_input", "Sig_R:Sig_R_input", "GND_R:GND_R_input"]
+Parameters["Face Number"] = 4
 
 obj.WaveguidePortWithPins(Parameters)
-        
-# lines = []
-# if Parameters["Number of picks"] > 2:
-#     for i in range(len(Parameters["Picked Port Polarity"])):
-#         lines.append(f'.AddPotentialPicked "{1}", "{Parameters["Picked Port Polarity"][i]}", "{Parameters["Picked Component Name"][i]}", "1"')
 
-#     # join them with newlines
-#     line_block = "\n".join(lines)
 
-#     vba_code = f"""
-#                 With Port
-#                 .Reset
-#                 .PortNumber "{PortNumber[0]}"
-#                 .NumberOfModes "5"
-                
-                
-#                 .Orientation "{Parameters["Orientation"]}"
-#                 .Coordinates "{Parameters["Coordinates"]}"
-#                 .PortOnBound "False"
-#                 .ClipPickedPortToBound "False"
-#                 .XrangeAdd "{Parameters["Span"][0]}", "{Parameters["Span"][0]}"
-#                 .YrangeAdd "{Parameters["Span"][1]}", "{Parameters["Span"][1]}"
-#                 .ZrangeAdd "{Parameters["Span"][2]}", "{Parameters["Span"][2]}"
-#                 .AdjustPolarization "True"
-#                 .PolarizationAngle "0"
-#                 .SingleEnded "False"
-#                 {line_block}
-#                 .Create
-#                 End With
-#                 """
-#     obj.prj.model3d.add_to_history("create waveguide port", vba_code)
+
+
+# Pick output faces
+Parameters = {}
+Facer_input = []
+Facer_output = []
+Parameters["Option"] = "Face"
+for i in range(len(Name)):
+    Facer_output.append(Name[i] + ":" + Name[i] + "_output")
+
+for i in range(len(Name)):
+    Parameters["Face Number"] = 6
+    Parameters["Object"] = Facer_output[i]
+    obj.Pick(Parameters)
+
+#Create Port Output
+Parameters = {}
+Parameters["Port Number"] = 2
+Parameters["Coordinates"] = "Picks"
+Parameters["Orientation"] = "Positive"
+Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
+Parameters["Picked Port Number"] = 1
+Parameters["Number of picks"] = 5
+Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
+Parameters["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig_L:Sig_L_output", "GND_Mid:GND_Mid_output", "Sig_R:Sig_R_output", "GND_R:GND_R_output"]
+Parameters["Face Number"] = 6
+
+obj.WaveguidePortWithPins(Parameters)
+
+
+
+
+# Insert Monitors
+Field_Freq = np.arange(0,220,20)
+
+
+Parameters = {}
+Parameters["Monitor Type"] = "Efield"
+Parameters["Domain"] = "Frequency"
+
+
+for i in range(len(Field_Freq)):
+    Parameters["Monitor Frequency"] = Field_Freq[i]
+    obj.CreateEfieldMonitor(Parameters)
+
+
+
+
+
+    
+    #  .Reset
+    #  .PortNumber "2"
+    #  .Label ""
+    #  .Folder ""
+    #  .NumberOfModes "1"
+    #  .AdjustPolarization "False"
+    #  .PolarizationAngle "0.0"
+    #  .ReferencePlaneDistance "0"
+    #  .TextSize "50"
+    #  .TextMaxLimit "0"
+    #  .Coordinates "Picks"
+    #  .Orientation "positive"
+    #  .PortOnBound "True"
+    #  .ClipPickedPortToBound "False"
+    #  .Xrange "140", "140"
+    #  .Yrange "-240", "240"
+    #  .Zrange "0", "5"
+    #  .XrangeAdd "0.0", "0.0"
+    #  .YrangeAdd "40", "40"
+    #  .ZrangeAdd "40", "40"
+    #  .SingleEnded "False"
+    #  .AddPotentialPicked "1", "positive", "Sig_R:Sig_R_output", "6"
+    #  .AddPotentialPicked "1", "positive", "Sig_L:Sig_L_output", "6"
+    #  .AddPotentialPicked "1", "negative", "GND_R:GND_R_output", "6"
+    #  .AddPotentialPicked "1", "negative", "GND_Mid:GND_Mid_output", "6"
+    #  .AddPotentialPicked "1", "negative", "GND_L:GND_L_output", "6"
+    #  .WaveguideMonitor "False"
+    #  .Create

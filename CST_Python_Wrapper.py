@@ -5,6 +5,12 @@ import sys
 import cst
 import cst.interface
 import json
+from scipy.integrate import quad
+import scipy.integrate as integrate
+from scipy.optimize import fsolve
+from scipy.special import fresnel
+plt.rcParams.update({"font.size":22})
+
 
 
 class CST_Commands:
@@ -106,7 +112,7 @@ class CST_Commands:
 
 
     def add_material(self, name):
-        list_of_materials = ["Si", "LiNbO3", "SiO2", "Au", "Gold"]
+        list_of_materials = ["Si", "LiNbO3", "SiO2", "Au", "Gold", "Al", "Glue"]
 
         if name in list_of_materials:
             if name == "Si":
@@ -121,6 +127,10 @@ class CST_Commands:
                 self.add_SiO2()
             elif name == "Au" or "Gold":
                 self.add_Au()
+            elif name == "Al":
+                self.add_Al()
+            elif name == "Glue":
+                self.add_Glue()
         else:
             raise ValueError(
                             """
@@ -129,6 +139,8 @@ class CST_Commands:
                             "LiNbO3"
                             "SiO2"
                             "Au or Gold"
+                            "Al"
+                            "Glue"
                             """
                             )
 
@@ -274,7 +286,154 @@ class CST_Commands:
                     """
         self.prj.model3d.add_to_history("add Au material", vba_code)
 
+    def add_Al(self):
+        """Add Aluminium to the Material Library
+        Args:
+            Name (str): Name of the Material
 
+        Returns:
+            str: String with the VBA code
+        """
+        # Add Meterial Gold.
+        vba_code = f"""
+                        With Material
+                            .Reset
+                            .Name "Al"
+                            .Folder ""
+                            .FrqType "static"
+                            .Type "Normal"
+                            .SetMaterialUnit "Hz", "mm"
+                            .Epsilon "1"
+                            .Mu "1.0"
+                            .Kappa "3.56e+007"
+                            .TanD "0.0"
+                            .TanDFreq "0.0"
+                            .TanDGiven "False"
+                            .TanDModel "ConstTanD"
+                            .KappaM "0"
+                            .TanDM "0.0"
+                            .TanDMFreq "0.0"
+                            .TanDMGiven "False"
+                            .TanDMModel "ConstTanD"
+                            .DispModelEps "None"
+                            .DispModelMu "None"
+                            .DispersiveFittingSchemeEps "General 1st"
+                            .DispersiveFittingSchemeMu "General 1st"
+                            .UseGeneralDispersionEps "False"
+                            .UseGeneralDispersionMu "False"
+                            .FrqType "all"
+                            .Type "Lossy metal"
+                            .MaterialUnit "Frequency", "GHz"
+                            .MaterialUnit "Geometry", "mm"
+                            .MaterialUnit "Time", "s"
+                            .MaterialUnit "Temperature", "Kelvin"
+                            .Mu "1.0"
+                            .Sigma "3.56e+007"
+                            .Rho "2700.0"
+                            .ThermalType "Normal"
+                            .ThermalConductivity "237.0"
+                            .SpecificHeat "900", "J/K/kg"
+                            .MetabolicRate "0"
+                            .BloodFlow "0"
+                            .VoxelConvection "0"
+                            .MechanicsType "Isotropic"
+                            .YoungsModulus "69"
+                            .PoissonsRatio "0.33"
+                            .ThermalExpansionRate "23"
+                            .ReferenceCoordSystem "Global"
+                            .CoordSystemType "Cartesian"
+                            .NLAnisotropy "False"
+                            .NLAStackingFactor "1"
+                            .NLADirectionX "1"
+                            .NLADirectionY "0"
+                            .NLADirectionZ "0"
+                            .Colour "1", "1", "0"
+                            .Wireframe "False"
+                            .Reflection "False"
+                            .Allowoutline "True"
+                            .Transparentoutline "False"
+                            .Transparency "0"
+                            .Create
+                        End With
+
+                    """
+        self.prj.model3d.add_to_history("add Al material", vba_code)
+
+    def add_Glue(self):
+        # Add Material Glue
+        vba_code = f"""
+                     With Material 
+                    .Reset 
+                    .Name "DAF_Glue"
+                    .Folder ""
+                    .Rho "0"
+                    .ThermalType "Normal"
+                    .ThermalConductivity "0"
+                    .SpecificHeat "0", "J/K/kg"
+                    .DynamicViscosity "0"
+                    .UseEmissivity "True"
+                    .Emissivity "0"
+                    .MetabolicRate "0.0"
+                    .VoxelConvection "0.0"
+                    .BloodFlow "0"
+                    .Absorptance "0"
+                    .MechanicsType "Unused"
+                    .IntrinsicCarrierDensity "0"
+                    .FrqType "all"
+                    .Type "Normal"
+                    .MaterialUnit "Frequency", "GHz"
+                    .MaterialUnit "Geometry", "um"
+                    .MaterialUnit "Time", "ns"
+                    .MaterialUnit "Temperature", "degC"
+                    .Epsilon "2.6"
+                    .Mu "1"
+                    .Sigma "0"
+                    .TanD "0.0"
+                    .TanDFreq "0.0"
+                    .TanDGiven "False"
+                    .TanDModel "ConstTanD"
+                    .SetConstTanDStrategyEps "AutomaticOrder"
+                    .ConstTanDModelOrderEps "3"
+                    .DjordjevicSarkarUpperFreqEps "0"
+                    .SetElParametricConductivity "False"
+                    .ReferenceCoordSystem "Global"
+                    .CoordSystemType "Cartesian"
+                    .SigmaM "0"
+                    .TanDM "0.0"
+                    .TanDMFreq "0.0"
+                    .TanDMGiven "False"
+                    .TanDMModel "ConstTanD"
+                    .SetConstTanDStrategyMu "AutomaticOrder"
+                    .ConstTanDModelOrderMu "3"
+                    .DjordjevicSarkarUpperFreqMu "0"
+                    .SetMagParametricConductivity "False"
+                    .DispModelEps  "None"
+                    .DispModelMu "None"
+                    .DispersiveFittingSchemeEps "Nth Order"
+                    .MaximalOrderNthModelFitEps "10"
+                    .ErrorLimitNthModelFitEps "0.1"
+                    .UseOnlyDataInSimFreqRangeNthModelEps "False"
+                    .DispersiveFittingSchemeMu "Nth Order"
+                    .MaximalOrderNthModelFitMu "10"
+                    .ErrorLimitNthModelFitMu "0.1"
+                    .UseOnlyDataInSimFreqRangeNthModelMu "False"
+                    .UseGeneralDispersionEps "False"
+                    .UseGeneralDispersionMu "False"
+                    .NLAnisotropy "False"
+                    .NLAStackingFactor "1"
+                    .NLADirectionX "1"
+                    .NLADirectionY "0"
+                    .NLADirectionZ "0"
+                    .Colour "0", "1", "1" 
+                    .Wireframe "False" 
+                    .Reflection "False" 
+                    .Allowoutline "True" 
+                    .Transparentoutline "False" 
+                    .Transparency "0" 
+                    .Create
+                End With
+                """
+        self.prj.model3d.add_to_history("add Glue material", vba_code)
 
 
     def AddGlobalParameter(self, Parameters):
@@ -512,7 +671,7 @@ class CST_Commands:
                         .Create
                     End With
                     """
-        self.prj.model3d.add_to_history("create brick", vba_code)
+        self.prj.model3d.add_to_history(f"create brick {Name}", vba_code)
 
 
         
@@ -1129,7 +1288,7 @@ class CST_Commands:
             vba_code = f"""
                         With Wire
                         .Reset
-                        .Folder "' + NameFolder + '"
+                        .Folder "{NameFolder}"
                         .Type "Bondwire"
                         .Name "{NameWire}"
                         .BondWireType "{BondwireType}"
@@ -1144,7 +1303,7 @@ class CST_Commands:
                         .Add
                         End With
                         """
-            self.prj.model3d.add_to_history("create bondwire", vba_code)
+            self.prj.model3d.add_to_history(f"create bondwire {NameWire}", vba_code)
             
 
         else:
@@ -1167,7 +1326,7 @@ class CST_Commands:
                         .Add
                         End With
                         """
-            self.prj.model3d.add_to_history("create bondwire", vba_code)
+            self.prj.model3d.add_to_history(f"create bondwire {NameWire}", vba_code)
 
 
 
@@ -1361,7 +1520,7 @@ class CST_Commands:
         vba_code = f"""
                     With Wire
                     .Reset
-                    .SolidName "component1:{SolidName}"
+                    .SolidName "{SolidName}:{SolidName}"
                     .Name "{CurveName}"
                     .Folder "{NameFolder}"
                     .Material "{Material}"
@@ -1369,7 +1528,7 @@ class CST_Commands:
                     .ConvertToSolidShape
                     End With
                     """
-        self.prj.model3d.add_to_history("to solid", vba_code)
+        self.prj.model3d.add_to_history(f"to solid {CurveName}", vba_code)
 
 
 
@@ -1559,36 +1718,44 @@ class CST_Commands:
         potential = Parameters["Picked Port Polarity"]
         marked_face = Parameters["Picked Component Name"]
         Number_of_picks = Parameters["Number of picks"]
+        facet_Id = Parameters["Face Number"]
         lines = []
 
         lines = []
         if Number_of_picks > 2:
             for i in range(len(potential)):
-                lines.append(f'.AddPotentialPicked "{set_number}", "{potential[i]}", "{marked_face[i]}", "1"')
+                lines.append(f'.AddPotentialPicked "{set_number}", "{potential[i]}", "{marked_face[i]}", "{facet_Id}"')
 
             # join them with newlines
             line_block = "\n".join(lines)
 
             vba_code = f"""
                         With Port
-                        .Reset
-                        .PortNumber "{PortNumber}"
-                        .NumberOfModes "5"
-                        .Orientation "{Orientation}"
-                        .Coordinates "{Coordinates}"
-                        .PortOnBound "False"
-                        .ClipPickedPortToBound "False"
-                        .XrangeAdd "{Span[0]}", "{Span[0]}"
-                        .YrangeAdd "{Span[1]}", "{Span[1]}"
-                        .ZrangeAdd "{Span[2]}", "{Span[2]}"
-                        .AdjustPolarization "True"
-                        .PolarizationAngle "0"
-                        .SingleEnded "False"
-                        {line_block}
-                        .Create
+                            .Reset
+                            .PortNumber "{PortNumber}"
+                            .Label ""
+                            .Folder ""
+                            .NumberOfModes "1"
+                            .AdjustPolarization "False"
+                            .PolarizationAngle "0.0"
+                            .ReferencePlaneDistance "0"
+                            .Coordinates "{Coordinates}"
+                            .Orientation "{Orientation}"
+                            .PortOnBound "True"
+                            .ClipPickedPortToBound "False"
+                            .Xrange "140", "140"
+                            .Yrange "-240", "240"
+                            .Zrange "0", "5"
+                            .XrangeAdd "{Span[0]}", "{Span[0]}"
+                            .YrangeAdd "{Span[1]}", "{Span[1]}"
+                            .ZrangeAdd "{Span[2]}", "{Span[2]}" 
+                            .SingleEnded "False"
+                            {line_block}
+                            .WaveguideMonitor "False"
+                            .Create
                         End With
                         """
-            self.prj.model3d.add_to_history("create waveguide port", vba_code)
+            self.prj.model3d.add_to_history(f"create waveguide port {PortNumber}", vba_code)
 
         else:
             vba_code = f"""
@@ -1607,7 +1774,7 @@ class CST_Commands:
                         .AdjustPolarization "True"
                         .PolarizationAngle "0"
                         .SingleEnded "False"
-                        .AddPotentialPicked "{set_number}", "{potential}", "{marked_face}", "1"
+                        .AddPotentialPicked "{set_number}", "{potential}", "{marked_face}", "{facet_Id}"
                         .Create
                         End With
                         """
@@ -1909,130 +2076,134 @@ class CST_Commands:
         Returns:
             str: String with VBA Code 
         """
-        Accuracy = Parameters["Accuracy"]
-        ModesOnly = Parameters["Caclculate Modes Only"]
-        AutoImpedance = Parameters["Auto Impedance"]
-        Impedance = Parameters["Impedance"]
-        Source = Parameters["Source Port"]
+        # Accuracy = Parameters["Accuracy"]
+        # ModesOnly = Parameters["Caclculate Modes Only"]
+        # AutoImpedance = Parameters["Auto Impedance"]
+        # Impedance = Parameters["Impedance"]
+        # Source = Parameters["Source Port"]
 
         vba_code = f"""
-            Mesh.SetCreator "High Frequency"
+            Mesh.SetCreator "High Frequency" 
+
             With FDSolver
-            .Reset
-            .SetMethod "Tetrahedral", "General purpose"
-            .OrderTet "Second"
-            .OrderSrf "First"
-            .Stimulation "All", "All" 
-            .ResetExcitationList 
-            .AutoNormImpedance "False"
-            .NormingImpedance "50"
-            .ModesOnly "False"
-            .ConsiderPortLossesTet "True"
-            .SetShieldAllPorts "False"
-            .AccuracyHex "1e-6"
-            .AccuracyTet "1e-5"
-            .AccuracySrf "1e-3"
-            .LimitIterations "False"
-            .MaxIterations "0"
-            .SetCalcBlockExcitationsInParallel "True", "True", ""
-            .StoreAllResults "False"
-            .StoreResultsInCache "False"
-            .UseHelmholtzEquation "True"
-            .LowFrequencyStabilization "True"
-            .Type "Direct"
-            .MeshAdaptionHex "False"
-            .MeshAdaptionTet "True"
-            .AcceleratedRestart "True"
-            .FreqDistAdaptMode "Distributed"
-            .NewIterativeSolver "True"
-            .TDCompatibleMaterials "False"
-            .ExtrudeOpenBC "False"
-            .SetOpenBCTypeHex "Default"
-            .SetOpenBCTypeTet "Default"
-            .AddMonitorSamples "True"
-            .CalcPowerLoss "True"
-            .CalcPowerLossPerComponent "False"
-            .SetKeepSolutionCoefficients "MonitorsAndMeshAdaptation"
-            .UseDoublePrecision "False"
-            .UseDoublePrecision_ML "True"
-            .MixedOrderSrf "False"
-            .MixedOrderTet "False"
-            .PreconditionerAccuracyIntEq "0.15"
-            .MLFMMAccuracy "Default"
-            .MinMLFMMBoxSize "0.3"
-            .UseCFIEForCPECIntEq "True"
-            .UseEnhancedCFIE2 "True"
-            .UseFastRCSSweepIntEq "false"
-            .UseSensitivityAnalysis "False"
-            .UseEnhancedNFSImprint "True"
-            .UseFastDirectFFCalc "True"
-            .RemoveAllStopCriteria "Hex"
-            .AddStopCriterion "All S-Parameters", "0.01", "2", "Hex", "True"
-            .AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Hex", "False"
-            .AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Hex", "False"
-            .RemoveAllStopCriteria "Tet"
-            .AddStopCriterion "All S-Parameters", "0.01", "2", "Tet", "True"
-            .AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Tet", "False"
-            .AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Tet", "False"
-            .AddStopCriterion "All Probes", "0.05", "2", "Tet", "True"
-            .RemoveAllStopCriteria "Srf"
-            .AddStopCriterion "All S-Parameters", "0.01", "2", "Srf", "True"
-            .AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Srf", "False"
-            .AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Srf", "False"
-            .SweepMinimumSamples "3"
-            .SetNumberOfResultDataSamples "5001"
-            .SetResultDataSamplingMode "Automatic"
-            .SweepWeightEvanescent "1.0"
-            .AccuracyROM "1e-4"
-            .AddSampleInterval "", "", "5", "Automatic", "True"
-            .AddSampleInterval "", "", "", "Automatic", "False"
-            .MPIParallelization "False"
-            .UseDistributedComputing "False"
-            .NetworkComputingStrategy "RunRemote"
-            .NetworkComputingJobCount "3"
-            .UseParallelization "True"
-            .MaxCPUs "1024"
-            .MaximumNumberOfCPUDevices "2"
-            .HardwareAcceleration "False"
-            .MaximumNumberOfGPUs "1"
+                .Reset 
+                .SetMethod "Tetrahedral", "General purpose" 
+                .OrderTet "Second" 
+                .OrderSrf "First" 
+                .Stimulation "All", "All" 
+                .ResetExcitationList 
+                .AutoNormImpedance "True" 
+                .NormingImpedance "50" 
+                .ModesOnly "False" 
+                .ConsiderPortLossesTet "True" 
+                .SetShieldAllPorts "False" 
+                .AccuracyHex "1e-6" 
+                .AccuracyTet "1e-4" 
+                .AccuracySrf "1e-3" 
+                .LimitIterations "False" 
+                .MaxIterations "0" 
+                .SetCalcBlockExcitationsInParallel "True", "True", "" 
+                .StoreAllResults "False" 
+                .StoreResultsInCache "False" 
+                .UseHelmholtzEquation "True" 
+                .LowFrequencyStabilization "True" 
+                .Type "Auto" 
+                .MeshAdaptionHex "False" 
+                .MeshAdaptionTet "True" 
+                .AcceleratedRestart "True" 
+                .FreqDistAdaptMode "Distributed" 
+                .NewIterativeSolver "True" 
+                .TDCompatibleMaterials "False" 
+                .ExtrudeOpenBC "False" 
+                .SetOpenBCTypeHex "Default" 
+                .SetOpenBCTypeTet "Default" 
+                .AddMonitorSamples "True" 
+                .CalcPowerLoss "True" 
+                .CalcPowerLossPerComponent "False" 
+                .SetKeepSolutionCoefficients "MonitorsAndMeshAdaptation" 
+                .UseDoublePrecision "False" 
+                .UseDoublePrecision_ML "True" 
+                .MixedOrderSrf "False" 
+                .MixedOrderTet "False" 
+                .PreconditionerAccuracyIntEq "0.15" 
+                .MLFMMAccuracy "Default" 
+                .MinMLFMMBoxSize "0.3" 
+                .UseCFIEForCPECIntEq "True" 
+                .UseEnhancedCFIE2 "True" 
+                .UseFastRCSSweepIntEq "false" 
+                .UseSensitivityAnalysis "False" 
+                .UseEnhancedNFSImprint "True" 
+                .UseFastDirectFFCalc "True" 
+                .RemoveAllStopCriteria "Hex"
+                .AddStopCriterion "All S-Parameters", "0.01", "2", "Hex", "True"
+                .AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Hex", "False"
+                .AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Hex", "False"
+                .RemoveAllStopCriteria "Tet"
+                .AddStopCriterion "All S-Parameters", "0.01", "2", "Tet", "True"
+                .AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Tet", "False"
+                .AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Tet", "False"
+                .AddStopCriterion "All Probes", "0.05", "2", "Tet", "True"
+                .RemoveAllStopCriteria "Srf"
+                .AddStopCriterion "All S-Parameters", "0.01", "2", "Srf", "True"
+                .AddStopCriterion "Reflection S-Parameters", "0.01", "2", "Srf", "False"
+                .AddStopCriterion "Transmission S-Parameters", "0.01", "2", "Srf", "False"
+                .SweepMinimumSamples "3" 
+                .SetNumberOfResultDataSamples "1001" 
+                .SetResultDataSamplingMode "Automatic" 
+                .SweepWeightEvanescent "1.0" 
+                .AccuracyROM "1e-4" 
+                .AddSampleInterval "", "", "1", "Automatic", "True" 
+                .AddSampleInterval "", "", "", "Automatic", "False" 
+                .MPIParallelization "False"
+                .UseDistributedComputing "False"
+                .NetworkComputingStrategy "RunRemote"
+                .NetworkComputingJobCount "3"
+                .UseParallelization "True"
+                .MaxCPUs "1024"
+                .MaximumNumberOfCPUDevices "2"
+                .HardwareAcceleration "False"
+                .MaximumNumberOfGPUs "1"
             End With
+
             With IESolver
-                .Reset
-                .UseFastFrequencySweep "True"
-                .UseIEGroundPlane "False"
-                .SetRealGroundMaterialName ""
-                .CalcFarFieldInRealGround "False"
-                .RealGroundModelType "Auto"
-                .PreconditionerType "Auto"
-                .ExtendThinWireModelByWireNubs "False"
-                .ExtraPreconditioning "False"
+                .Reset 
+                .UseFastFrequencySweep "True" 
+                .UseIEGroundPlane "False" 
+                .SetRealGroundMaterialName "" 
+                .CalcFarFieldInRealGround "False" 
+                .RealGroundModelType "Auto" 
+                .PreconditionerType "Auto" 
+                .ExtendThinWireModelByWireNubs "False" 
+                .ExtraPreconditioning "False" 
             End With
+
             With IESolver
-                .SetFMMFFCalcStopLevel "0"
-                .SetFMMFFCalcNumInterpPoints "6"
-                .UseFMMFarfieldCalc "True"
-                .SetCFIEAlpha "0.500000"
-                .LowFrequencyStabilization "False"
-                .LowFrequencyStabilizationML "True"
-                .Multilayer "False"
-                .SetiMoMACC_I "0.0001"
-                .SetiMoMACC_M "0.0001"
-                .DeembedExternalPorts "True"
-                .SetOpenBC_XY "True"
-                .OldRCSSweepDefintion "False"
-                .SetRCSOptimizationProperties "True", "100", "0.00001"
-                .SetAccuracySetting "Medium"
-                .CalculateSParaforFieldsources "True"
-                .ModeTrackingCMA "True"
-                .NumberOfModesCMA "3"
-                .StartFrequencyCMA "-1.0"
-                .SetAccuracySettingCMA "Default"
-                .FrequencySamplesCMA "0"
-                .SetMemSettingCMA "Auto"
-                .CalculateModalWeightingCoefficientsCMA "True"
-                .DetectThinDielectrics "True"
-                .UseLegacyRadiatedPowerCalc "False"
+                .SetFMMFFCalcStopLevel "0" 
+                .SetFMMFFCalcNumInterpPoints "6" 
+                .UseFMMFarfieldCalc "True" 
+                .SetCFIEAlpha "0.500000" 
+                .LowFrequencyStabilization "False" 
+                .LowFrequencyStabilizationML "True" 
+                .Multilayer "False" 
+                .SetiMoMACC_I "0.0001" 
+                .SetiMoMACC_M "0.0001" 
+                .DeembedExternalPorts "True" 
+                .SetOpenBC_XY "True" 
+                .OldRCSSweepDefintion "False" 
+                .SetRCSOptimizationProperties "True", "100", "0.00001" 
+                .SetAccuracySetting "Medium" 
+                .CalculateSParaforFieldsources "True" 
+                .ModeTrackingCMA "True" 
+                .NumberOfModesCMA "3" 
+                .StartFrequencyCMA "-1.0" 
+                .SetAccuracySettingCMA "Default" 
+                .FrequencySamplesCMA "0" 
+                .SetMemSettingCMA "Auto" 
+                .CalculateModalWeightingCoefficientsCMA "True" 
+                .DetectThinDielectrics "True" 
+                .UseLegacyRadiatedPowerCalc "False" 
             End With
+
         """
 
         self.prj.model3d.add_to_history("set frequency solver", vba_code) 
@@ -2341,8 +2512,10 @@ class CST_Commands:
 
         Args:
             Parameters (dict): Dictionary with Parameters
-                                Parameters["Wavelength"] : Int/float. This will set the wavelength. For this function
+                                Parameters["Monitor Wavelength"] : Int/float. This will set the wavelength. For this function
                                 and only for this function you need to give the exact number. So 1.55 um will be Parameters["Wavelength"]  = 1.55e-6
+                                Parameters["Monitor Frequency"] : Set Frequency of the Monitor
+                                Parameters["Domain"] : Str can be "Frequency" or "Wavelength"
                                 Parameters["Monitor Type"] : str with monitor Type. Can be one of :
                                     "Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current",
                                     "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", 
@@ -2354,34 +2527,54 @@ class CST_Commands:
         Returns:
             str: String with VBA Code 
         """
-        Wavelength = Parameters["Wavelength"]
         MonitorType = Parameters["Monitor Type"]
+        Domain = Parameters["Domain"]
         Types = ["Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current", "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" ]
-        Speed_of_light = scipy.constants.c * 1e-6
-        freq = Speed_of_light / Parameters["Wavelength"]
+    
+        
 
         if MonitorType in Types:
-            Name = MonitorType + ' (wl=' + str(Wavelength) + ')'
-            vba_code = f"""
-                With Monitor
-                .Reset
-                .Name "{Name}"
-                .Domain "Wavelength"
-                .FieldType "{MonitorType}"
-                .MonitorValue "{Wavelength}"
-                .UseSubvolume "False"
-                .Coordinates "Structure"
-                .SetSubvolume "-5.5", "2.5", "-3.5", "3.5", "-2.5", "3.8"
-                .SetSubvolumeOffset "0.0", "0.0", "0.0", "0.0", "0.0", "0.0"
-                .SetSubvolumeInflateWithOffset "False"
-                .Create
-                End With
-                """
-            self.prj.model3d.add_to_history("create Efield monitor", vba_code)
+            if "Monitor Frequency" in Parameters.keys():
+            # if Parameters["Monitor Frequency"] != None:
+                Freq = Parameters["Monitor Frequency"]
+                Name = MonitorType + ' (wl=' + str(Freq) + ')'
+                vba_code = f"""
+                    With Monitor
+                    .Reset
+                    .Name "{Name}"
+                    .Domain "{Domain}"
+                    .FieldType "{MonitorType}"
+                    .MonitorValue "{Freq}"
+                    .UseSubvolume "False"
+                    .Coordinates "Structure"
+                    .SetSubvolume "-5.5", "2.5", "-3.5", "3.5", "-2.5", "3.8"
+                    .SetSubvolumeOffset "0.0", "0.0", "0.0", "0.0", "0.0", "0.0"
+                    .SetSubvolumeInflateWithOffset "False"
+                    .Create
+                    End With
+                    """
+                self.prj.model3d.add_to_history("create Efield monitor", vba_code)
+
+            else:
+                Wavelength = Parameters["Monitor Wavelength"]
+                Name = MonitorType + ' (wl=' + str(Wavelength) + ')'
+                vba_code = f"""
+                    With Monitor
+                    .Reset
+                    .Name "{Name}"
+                    .Domain "{Domain}"
+                    .FieldType "{MonitorType}"
+                    .MonitorValue "{Wavelength}"
+                    .UseSubvolume "False"
+                    .Coordinates "Structure"
+                    .SetSubvolume "-5.5", "2.5", "-3.5", "3.5", "-2.5", "3.8"
+                    .SetSubvolumeOffset "0.0", "0.0", "0.0", "0.0", "0.0", "0.0"
+                    .SetSubvolumeInflateWithOffset "False"
+                    .Create
+                    End With
+                    """
         else:   
             raise ValueError("Parameters['Monitor Type'] is not in allowed types. Please choose one of the following types: ['Efield', 'Hfield', 'Surfacecurrent', 'Powerflow', 'Current', 'Powerloss', 'Eenergy', 'Elossdens', 'Lossdens', 'Henergy', 'Farfield', 'Fieldsource', 'Spacecharge', 'ParticleCurrentDensity', 'Electrondensity']")
-
-
 
 
 
@@ -2500,4 +2693,101 @@ class CST_Commands:
                     """
         self.prj.model3d.add_to_history("translation", vba_code)
 
+
+
+
+
+
+
+#################################################################################
+# Curves Class
+#################################################################################
+
+class Curves:
+    
+    def __init__(self, Span_X, Span_Y, Length):
+        self.Span_X = Span_X
+        self.Span_Y = Span_Y
+        self.Length = Length
+        self.t = np.arange(0, 1, 1/self.Length)
+        self.x_Points = []
+        self.y_Points = []
+        
+        
+    def Bezier_Curve(self):
+        """
+        The Cubic Bezier Polynoms are taken from Wikipedia!
+
+        Returns
+        -------
+        curve : 2 dimentional np array
+            curve[:,0] - X Param of the Bezier Curve
+            curve[:,1] - Y Param of the Bezier Curve
+
+        """
+        for i in range(len(self.t)):
+            self.x_Points.append(float((1-self.t[i])**3*0 + 3*(1-self.t[i])**2*self.t[i]*self.Span_X/2 + 3*(1-self.t[i])*self.t[i]**2*self.Span_X/2 + self.t[i]**3*self.Span_X))
+            self.y_Points.append(float(((1-self.t[i]**3)*0 + 3*(1-self.t[i])**2*self.t[i]*0 + 3*(1-self.t[i])*self.t[i]**2*self.Span_Y + self.t[i]**3*self.Span_Y)))
+            
+        x_Points = np.array(self.x_Points,dtype=float)
+        y_Points = np.array(self.y_Points,dtype=float)  
+        curve = np.vstack((x_Points, y_Points)).T
+        
+        return curve
+    
+    
+    
+    def Cosinus_Curve(self):
+        '''
+        The cosinus function is SpanY*(cos((pi/(2*SpanX))*t)^2)  ---->> t in the range of 0 to SpanY
+
+        Returns
+        -------
+        curve : 2 dimentional np array
+            curve[:,0] - X Param of the Bezier Curve
+            curve[:,1] - Y Param of the Bezier Curve
+
+        '''
+        P = self.Span_Y
+        L = self.Span_X
+        stepSize = L/len(self.t)
+        t = np.arange(0,L, stepSize) 
+        Func = P*(np.cos((np.pi/(2*L))*t)**2)  
+        curve = np.vstack((t, Func[::-1])).T
+        
+        return curve
+    
+    
+    
+    
+    def Euler_Curve(self):
+        """ 
+        Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)
+        using Fresnel integrals and linear curvature.
+        """
+        Span_X = self.Span_X
+        Span_Y = self.Span_Y
+        num_pts = self.Length
+        
+        # Arc length parameter
+        # s = np.arange(-1, 1, 2/num_pts)
+        s = np.linspace(-1, 1, num_pts)
+        
+        # Fresnel integrals (Euler spiral)
+        S, C = fresnel(s)
+
+        # Normalize to range [-1, 1]
+        C = C - C[0]
+        S = S - S[0]
+        C = C / (C[-1] - C[0])
+        S = S / (S[-1] - S[0])
+
+        # Euler spiral from -90° to +90° → makes an S-bend
+        x = S * Span_X
+        y = C * Span_Y
+        
+
+        curve = np.vstack((x, y)).T
+    
+        return curve
 

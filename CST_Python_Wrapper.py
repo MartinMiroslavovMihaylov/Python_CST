@@ -1478,6 +1478,225 @@ class CST_Commands:
 
 
 
+    def GGB_Probe(self, Parameters):
+        Name = Parameters["Name"]
+
+        # Define Probes Materials
+        vba_code1 = f"""
+                    With Material 
+                        .Reset 
+                        .Name "Teflon (PTFE) (loss free)" 
+                        .Folder "" 
+                        .Rho "2200.0"
+                        .ThermalType "Normal"
+                        .ThermalConductivity "0.2"
+                        .SpecificHeat "1000", "J/K/kg"
+                        .DynamicViscosity "0"
+                        .UseEmissivity "True"
+                        .Emissivity "0"
+                        .MetabolicRate "0.0"
+                        .VoxelConvection "0.0"
+                        .BloodFlow "0"
+                        .Absorptance "0"
+                        .MechanicsType "Isotropic"
+                        .YoungsModulus "0.5"
+                        .PoissonsRatio "0.4"
+                        .ThermalExpansionRate "140"
+                        .IntrinsicCarrierDensity "0"
+                        .FrqType "all"
+                        .Type "Normal"
+                        .MaterialUnit "Frequency", "GHz"
+                        .MaterialUnit "Geometry", "mm"
+                        .MaterialUnit "Time", "s"
+                        .Epsilon "2.1"
+                        .Mu "1.0"
+                        .Sigma "0.0"
+                        .TanD "0.0"
+                        .TanDFreq "0.0"
+                        .TanDGiven "False"
+                        .TanDModel "ConstTanD"
+                        .SetConstTanDStrategyEps "AutomaticOrder"
+                        .ConstTanDModelOrderEps "1"
+                        .DjordjevicSarkarUpperFreqEps "0"
+                        .SetElParametricConductivity "False"
+                        .ReferenceCoordSystem "Global"
+                        .CoordSystemType "Cartesian"
+                        .SigmaM "0.0"
+                        .TanDM "0.0"
+                        .TanDMFreq "0.0"
+                        .TanDMGiven "False"
+                        .TanDMModel "ConstSigma"
+                        .SetConstTanDStrategyMu "AutomaticOrder"
+                        .ConstTanDModelOrderMu "1"
+                        .DjordjevicSarkarUpperFreqMu "0"
+                        .SetMagParametricConductivity "False"
+                        .DispModelEps  "None"
+                        .DispModelMu "None"
+                        .DispersiveFittingSchemeEps "1st Order"
+                        .DispersiveFittingSchemeMu "1st Order"
+                        .UseGeneralDispersionEps "False"
+                        .UseGeneralDispersionMu "False"
+                        .NLAnisotropy "False"
+                        .NLAStackingFactor "1"
+                        .NLADirectionX "1"
+                        .NLADirectionY "0"
+                        .NLADirectionZ "0"
+                        .Colour "0.75", "0.95", "0.85" 
+                        .Wireframe "False" 
+                        .Reflection "False" 
+                        .Allowoutline "True" 
+                        .Transparentoutline "False" 
+                        .Transparency "0" 
+                        .Create
+                    End With 
+
+                    With Material 
+                        .Reset 
+                        .Name "epoxy_casting_CR110" 
+                        .Folder "" 
+                        .Rho "0"
+                        .ThermalType "Normal"
+                        .ThermalConductivity "0"
+                        .SpecificHeat "0", "J/K/kg"
+                        .DynamicViscosity "0"
+                        .UseEmissivity "True"
+                        .Emissivity "0"
+                        .MetabolicRate "0"
+                        .VoxelConvection "0"
+                        .BloodFlow "0"
+                        .Absorptance "0"
+                        .MechanicsType "Unused"
+                        .IntrinsicCarrierDensity "0"
+                        .FrqType "all"
+                        .Type "Normal"
+                        .MaterialUnit "Frequency", "GHz"
+                        .MaterialUnit "Geometry", "um"
+                        .MaterialUnit "Time", "ns"
+                        .MaterialUnit "Temperature", "K"
+                        .Epsilon "2.5"
+                        .Mu "1"
+                        .Sigma "0"
+                        .TanD "0.0"
+                        .TanDFreq "0.0"
+                        .TanDGiven "False"
+                        .TanDModel "ConstTanD"
+                        .SetConstTanDStrategyEps "AutomaticOrder"
+                        .ConstTanDModelOrderEps "1"
+                        .DjordjevicSarkarUpperFreqEps "0"
+                        .SetElParametricConductivity "False"
+                        .ReferenceCoordSystem "Global"
+                        .CoordSystemType "Cartesian"
+                        .SigmaM "0"
+                        .TanDM "0.0"
+                        .TanDMFreq "0.0"
+                        .TanDMGiven "False"
+                        .TanDMModel "ConstTanD"
+                        .SetConstTanDStrategyMu "AutomaticOrder"
+                        .ConstTanDModelOrderMu "1"
+                        .DjordjevicSarkarUpperFreqMu "0"
+                        .SetMagParametricConductivity "False"
+                        .DispModelEps  "None"
+                        .DispModelMu "None"
+                        .DispersiveFittingSchemeEps "Nth Order"
+                        .MaximalOrderNthModelFitEps "10"
+                        .ErrorLimitNthModelFitEps "0.1"
+                        .UseOnlyDataInSimFreqRangeNthModelEps "False"
+                        .DispersiveFittingSchemeMu "Nth Order"
+                        .MaximalOrderNthModelFitMu "10"
+                        .ErrorLimitNthModelFitMu "0.1"
+                        .UseOnlyDataInSimFreqRangeNthModelMu "False"
+                        .UseGeneralDispersionEps "False"
+                        .UseGeneralDispersionMu "False"
+                        .NonlinearMeasurementError "1e-1"
+                        .NLAnisotropy "False"
+                        .NLAStackingFactor "1"
+                        .NLADirectionX "1"
+                        .NLADirectionY "0"
+                        .NLADirectionZ "0"
+                        .Colour "0.501961", "0.501961", "0" 
+                        .Wireframe "False" 
+                        .Reflection "False" 
+                        .Allowoutline "True" 
+                        .Transparentoutline "False" 
+                        .Transparency "0" 
+                        .Create
+                    End With 
+
+        """
+        self.prj.model3d.add_to_history(f"create Material Teflon (PTFE) (loss free) and epoxy_casting_CR110 for GGB Probe", vba_code1)
+
+        vba_code3 = f"""
+                    With SAT 
+                        .Reset 
+                        .FileName "*1.cby" 
+                        .SubProjectScaleFactor "1e-06" 
+                        .ImportToActiveCoordinateSystem "True" 
+                        .ScaleToUnit "True" 
+                        .Curves "False" 
+                        .Read 
+                    End With 
+
+                    MeshSettings.AdjustItemMeshSettingsStart
+
+                    Group.Add "meshgroup1", "mesh"
+                    With MeshSettings
+                        With .ItemMeshSettings ("group$meshgroup1")
+                            .SetMeshType "Hex"
+                            .SetWithVersion "", "ConsiderGlobalEdgeRefinement", 1
+                            .SetWithVersion "", "ConsiderGlobalFaceRefinement", 1
+                            .SetWithVersion "", "ConsiderGlobalMaterialRefinement", 0
+                            .SetWithVersion "", "ConsiderGlobalRefinement", 1
+                            .SetWithVersion "", "ConsiderGlobalSnapping", 1
+                            .SetWithVersion "", "EdgeRefinementBufferLines", 3
+                            .SetWithVersion "", "EdgeRefinementRatio", "1"
+                            .SetWithVersion "", "EdgeRefinementStep", 0
+                            .SetWithVersion "", "EdgeRefinementType", "NONE"
+                            .SetWithVersion "", "EllipseRefinementNSteps", 2
+                            .SetWithVersion "", "EllipseRefinementRatio", 2
+                            .SetWithVersion "", "EllipseRefinementStep", 0
+                            .SetWithVersion "", "EllipseRefinementType", "NONE"
+                            .SetWithVersion "", "FaceRefinementBufferLines", 3
+                            .SetWithVersion "", "FaceRefinementNSteps", 2
+                            .SetWithVersion "", "FaceRefinementRatio", 2
+                            .SetWithVersion "", "FaceRefinementStep", 0
+                            .SetWithVersion "", "FaceRefinementType", "NONE"
+                            .SetWithVersion "2013.1|23.0.0|20130516", "SnappingIntervals", "0", "0", "0"
+                            .SetWithVersion "", "SnappingPriority", 0
+                            .SetWithVersion "", "SnapToAxialEdges", 1
+                            .SetWithVersion "", "SnapToCylinderCenters", 1
+                            .SetWithVersion "", "SnapToCylinders", 1
+                            .SetWithVersion "", "SnapToEllipseCenters", 1
+                            .SetWithVersion "", "SnapToEllipses", 1
+                            .SetWithVersion "", "SnapToObjectBoundaries", 0
+                            .SetWithVersion "", "SnapToPlanes", 1
+                            .SetWithVersion "", "SnapToSpheres", 1
+                            .SetWithVersion "", "SnapToTori", 0
+                            .SetWithVersion "", "SnapXYZ", 0, 0, 0
+                            .SetWithVersion "", "UseMaterialRefinement", 1
+                            .SetWithVersion "", "UseSnappingPriority", 0
+                            .SetWithVersion "", "VolumeRefinementExtentNumSteps", 0, 0, 0
+                            .SetWithVersion "", "VolumeRefinementExtentStep", "0", "25/2", "0"
+                            .SetWithVersion "", "VolumeRefinementExtentType", "ABS_VALUE"
+                            .SetWithVersion "", "VolumeRefinementExtentValueUseSameXYZ", 0
+                            .SetWithVersion "", "VolumeRefinementNumSteps", 0, 0, 0
+                            .SetWithVersion "", "VolumeRefinementRatio", 0, 0, 0
+                            .SetWithVersion "", "VolumeRefinementScopeType", "ALL"
+                            .SetWithVersion "", "VolumeRefinementStep", "290/10", "25/2", "0"
+                            .SetWithVersion "", "VolumeRefinementType", "ABS_VALUE"
+                            .SetWithVersion "", "VolumeRefinementValueUseSameXYZ", 0
+                        End With
+                    End With
+                    Group.AddItem "solid$Probe/component1:ground_pin_1_1", "meshgroup1"
+
+                    MeshSettings.AdjustItemMeshSettingsEnd
+
+        """
+
+
+        self.prj.model3d.add_to_history(f"create GGB Probe {Name}", vba_code3)
+
+
+
 
 ############################################################################
 # Transform to Solid
@@ -1739,12 +1958,14 @@ class CST_Commands:
                             .AdjustPolarization "False"
                             .PolarizationAngle "0.0"
                             .ReferencePlaneDistance "0"
+                            .TextSize "50"
+                            .TextMaxLimit "0"
                             .Coordinates "{Coordinates}"
                             .Orientation "{Orientation}"
                             .PortOnBound "True"
                             .ClipPickedPortToBound "False"
-                            .Xrange "140", "140"
-                            .Yrange "-240", "240"
+                            .Xrange "0", "0"
+                            .Yrange "0", "0"
                             .Zrange "0", "5"
                             .XrangeAdd "{Span[0]}", "{Span[0]}"
                             .YrangeAdd "{Span[1]}", "{Span[1]}"

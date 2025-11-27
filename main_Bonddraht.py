@@ -6,8 +6,12 @@ import os
 # Add the directory containing the project to sys.path
 current_path = os.path.dirname(os.path.abspath('__file__'))
 sys.path.append(current_path)
+from Curves_Functions import Curves
+# import Functions as VBA
+# import Components as Components
+from CST_Python_Wrapper import CST_Commands
 import numpy as np
-from CST_Python_Wrapper import CST_Commands, Curves
+
 
 
 # Define Curves Parameters and Data
@@ -39,7 +43,7 @@ EulerCurve = ObjCurves.Euler_Curve()
 
 
 
-
+from CST_Python_Wrapper import CST_Commands
 
 obj = CST_Commands()
 obj.New_Project("MWS")
@@ -363,6 +367,7 @@ obj.setDomainSolverType("Freq")
 #     Trans["Position Y"] = 0
 #     Trans["Position Z"] = 0
 #     Trans["Structure Type"] = "Shape"
+#     Trans["Translate Type"] = "Translate"
 #     obj.Translation(Trans)
 
 
@@ -496,8 +501,24 @@ for k in range(len(Dist)):
     Parameters['Y2'] = Dist[k]/2
     Parameters['Z2'] = PAD_Thickness
 
+    Points = {}
+    x = []
+    y = []
+    for i in range(0, 100):
+        x.append(i)
+        y.append(i*4)
+    x = np.array(x)
+    y = np.array(y)
+    Points['X'] = x
+    Points['Y'] = y
 
-    obj.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters, Height = Bond_Wire_Height, Radius = Bond_Wire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire" )
+
+    Points['X'] = CosinusCurve[:,0]
+    Points['Y'] = CosinusCurve[:,1]
+
+
+
+    obj.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters, Height = Bond_Wire_Height, Radius = Bond_Wire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
     obj.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
 
 
@@ -544,64 +565,64 @@ obj.Brick(Parameters)
 
 
 
-# Pick Faces for Input Waveguide Port
-Parameters = {}
-Facer_input = []
-Facer_output = []
-Parameters["Option"] = "Face"
+# # Pick Faces for Input Waveguide Port
+# Parameters = {}
+# Facer_input = []
+# Facer_output = []
+# Parameters["Option"] = "Face"
 
-for i in range(len(Name)):
-    Facer_input.append(Name[i] + ":" + Name[i] + "_input")
+# for i in range(len(Name)):
+#     Facer_input.append(Name[i] + ":" + Name[i] + "_input")
 
-# pick input faces
-for i in range(len(Name)):
-    Parameters["Face Number"] = 4
-    Parameters["Object"] = Facer_input[i]
-    obj.Pick(Parameters)
+# # pick input faces
+# for i in range(len(Name)):
+#     Parameters["Face Number"] = 4
+#     Parameters["Object"] = Facer_input[i]
+#     obj.Pick(Parameters)
 
-# Create Port Input
-Parameters = {}
-Parameters["Port Number"] = 1
-Parameters["Coordinates"] = "Picks"
-Parameters["Orientation"] = "Positive"
-Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
-Parameters["Picked Port Number"] = 1
-Parameters["Number of picks"] = 5
-Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
-Parameters["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig_L:Sig_L_input", "GND_Mid:GND_Mid_input", "Sig_R:Sig_R_input", "GND_R:GND_R_input"]
-Parameters["Face Number"] = 4
+# # Create Port Input
+# Parameters = {}
+# Parameters["Port Number"] = 1
+# Parameters["Coordinates"] = "Picks"
+# Parameters["Orientation"] = "Positive"
+# Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
+# Parameters["Picked Port Number"] = 1
+# Parameters["Number of picks"] = 5
+# Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
+# Parameters["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig_L:Sig_L_input", "GND_Mid:GND_Mid_input", "Sig_R:Sig_R_input", "GND_R:GND_R_input"]
+# Parameters["Face Number"] = 4
 
-obj.WaveguidePortWithPins(Parameters)
-
-
+# obj.WaveguidePortWithPins(Parameters)
 
 
-# Pick output faces
-Parameters = {}
-Facer_input = []
-Facer_output = []
-Parameters["Option"] = "Face"
-for i in range(len(Name)):
-    Facer_output.append(Name[i] + ":" + Name[i] + "_output")
 
-for i in range(len(Name)):
-    Parameters["Face Number"] = 6
-    Parameters["Object"] = Facer_output[i]
-    obj.Pick(Parameters)
 
-#Create Port Output
-Parameters = {}
-Parameters["Port Number"] = 2
-Parameters["Coordinates"] = "Picks"
-Parameters["Orientation"] = "Positive"
-Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
-Parameters["Picked Port Number"] = 1
-Parameters["Number of picks"] = 5
-Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
-Parameters["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig_L:Sig_L_output", "GND_Mid:GND_Mid_output", "Sig_R:Sig_R_output", "GND_R:GND_R_output"]
-Parameters["Face Number"] = 6
+# # Pick output faces
+# Parameters = {}
+# Facer_input = []
+# Facer_output = []
+# Parameters["Option"] = "Face"
+# for i in range(len(Name)):
+#     Facer_output.append(Name[i] + ":" + Name[i] + "_output")
 
-obj.WaveguidePortWithPins(Parameters)
+# for i in range(len(Name)):
+#     Parameters["Face Number"] = 6
+#     Parameters["Object"] = Facer_output[i]
+#     obj.Pick(Parameters)
+
+# #Create Port Output
+# Parameters = {}
+# Parameters["Port Number"] = 2
+# Parameters["Coordinates"] = "Picks"
+# Parameters["Orientation"] = "Positive"
+# Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
+# Parameters["Picked Port Number"] = 1
+# Parameters["Number of picks"] = 5
+# Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
+# Parameters["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig_L:Sig_L_output", "GND_Mid:GND_Mid_output", "Sig_R:Sig_R_output", "GND_R:GND_R_output"]
+# Parameters["Face Number"] = 6
+
+# obj.WaveguidePortWithPins(Parameters)
 
 
 
@@ -623,32 +644,100 @@ for i in range(len(Field_Freq)):
 
 
 
+
+# create_GGB_Probe()
+Parameters = {}
+Parameters["Component Name"] = "Probe_Left"
+Parameters["Orientation Angle"] = -30
+obj.GGB_Probe(Parameters)
+
+
+
+# Move Probes Left
+Parameters = {}
+Parameters["Translate Type"] = "Translate"
+Parameters["Name Object"] = "Probe_Left"
+Parameters["Position X"] = -320
+Parameters["Position Y"] = 0
+Parameters["Position Z"] = 5
+
+
+obj.Translation(Parameters)
+
+
+
+
+# create_GGB_Probe()
+Parameters = {}
+Parameters["Component Name"] = "Probe_Right"
+Parameters["Orientation Angle"] = 30
+obj.GGB_Probe(Parameters)
+
+
+# Move Probes Right
+Parameters = {}
+Parameters["Translate Type"] = "Translate"
+Parameters["Name Object"] = "Probe_Right"
+Parameters["Position X"] = 320
+Parameters["Position Y"] = 0
+Parameters["Position Z"] = 5
+
+
+obj.Translation(Parameters)
+
+
+
+
+
+# Pick Faces for Input Waveguide Port
+Parameters = {}
+Parameters["Option"] = "Face"
+Parameters["Face Number"] = [3,9]
+Names = ["Probe_Left:Signal_Probe", "Probe_Right:Signal_Probe"]
+
+
+# Port Parmaeters
+Parameters["Coordinates"] = "Picks"
+Orientation = ["positive", "positive"]
+Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
+Parameters["Picked Port Number"] = 1
+Parameters["Number of picks"] = 1
+Parameters["Picked Port Polarity"] = ["positive", "negative"]
+Componentname = ["Probe_Left", "Probe_Right"]
+PartName = ["Signal_Probe", "Body_Probe" ]
+Parameters["Number of picks"] = 5
+FaceNum =  [ 3, 9 ]
+Parameters["Picked Port Number"] 
+
+
+
+
+for i in range(len(Names)): 
+    Parameters["Orientation"] = Orientation[i]
+
+    for j in range(len(FaceNum )): 
+        Parameters["Object"] = f"{Componentname[i]}:{PartName[j]}"
+       
+        
+        Parameters["Face Number"] =  FaceNum[j]
+        
+        obj.Pick(Parameters)
     
-    #  .Reset
-    #  .PortNumber "2"
-    #  .Label ""
-    #  .Folder ""
-    #  .NumberOfModes "1"
-    #  .AdjustPolarization "False"
-    #  .PolarizationAngle "0.0"
-    #  .ReferencePlaneDistance "0"
-    #  .TextSize "50"
-    #  .TextMaxLimit "0"
-    #  .Coordinates "Picks"
-    #  .Orientation "positive"
-    #  .PortOnBound "True"
-    #  .ClipPickedPortToBound "False"
-    #  .Xrange "140", "140"
-    #  .Yrange "-240", "240"
-    #  .Zrange "0", "5"
-    #  .XrangeAdd "0.0", "0.0"
-    #  .YrangeAdd "40", "40"
-    #  .ZrangeAdd "40", "40"
-    #  .SingleEnded "False"
-    #  .AddPotentialPicked "1", "positive", "Sig_R:Sig_R_output", "6"
-    #  .AddPotentialPicked "1", "positive", "Sig_L:Sig_L_output", "6"
-    #  .AddPotentialPicked "1", "negative", "GND_R:GND_R_output", "6"
-    #  .AddPotentialPicked "1", "negative", "GND_Mid:GND_Mid_output", "6"
-    #  .AddPotentialPicked "1", "negative", "GND_L:GND_L_output", "6"
-    #  .WaveguideMonitor "False"
-    #  .Create
+    
+    # Create Port Input
+    Parameters["Picked Component Name"] = Names[i]
+    Parameters["Port Number"] = i+1
+    Parameters["Picked Port Number"] = 1
+    Parameters["Picked Component Name"] = []
+    Parameters["Face Number"] = [3,9]
+    for k in range(len(FaceNum)):
+        Parameters["Picked Component Name"].append(f"{Componentname[i]}:{PartName[k]}")
+    obj.WaveguidePortWithPins(Parameters)
+
+    
+
+
+    
+
+  
+

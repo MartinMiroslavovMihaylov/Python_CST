@@ -131,6 +131,8 @@ class CST_Commands:
                 self.add_Al()
             elif name == "Glue":
                 self.add_Glue()
+            elif name == "ProbeMaterials":
+                self.add_GGB_Probe_Material()
         else:
             raise ValueError(
                             """
@@ -141,6 +143,7 @@ class CST_Commands:
                             "Au or Gold"
                             "Al"
                             "Glue"
+                            ProbeMaterials
                             """
                             )
 
@@ -359,6 +362,7 @@ class CST_Commands:
                     """
         self.prj.model3d.add_to_history("add Al material", vba_code)
 
+
     def add_Glue(self):
         # Add Material Glue
         vba_code = f"""
@@ -434,6 +438,154 @@ class CST_Commands:
                 End With
                 """
         self.prj.model3d.add_to_history("add Glue material", vba_code)
+        
+        
+        
+    def add_GGB_Probe_Material(self):
+        # Define Probes Materials
+        vba_code1 = f"""
+                    With Material 
+                        .Reset 
+                        .Name "Teflon (PTFE) (loss free)" 
+                        .Folder "" 
+                        .Rho "2200.0"
+                        .ThermalType "Normal"
+                        .ThermalConductivity "0.2"
+                        .SpecificHeat "1000", "J/K/kg"
+                        .DynamicViscosity "0"
+                        .UseEmissivity "True"
+                        .Emissivity "0"
+                        .MetabolicRate "0.0"
+                        .VoxelConvection "0.0"
+                        .BloodFlow "0"
+                        .Absorptance "0"
+                        .MechanicsType "Isotropic"
+                        .YoungsModulus "0.5"
+                        .PoissonsRatio "0.4"
+                        .ThermalExpansionRate "140"
+                        .IntrinsicCarrierDensity "0"
+                        .FrqType "all"
+                        .Type "Normal"
+                        .MaterialUnit "Frequency", "GHz"
+                        .MaterialUnit "Geometry", "mm"
+                        .MaterialUnit "Time", "s"
+                        .Epsilon "2.1"
+                        .Mu "1.0"
+                        .Sigma "0.0"
+                        .TanD "0.0"
+                        .TanDFreq "0.0"
+                        .TanDGiven "False"
+                        .TanDModel "ConstTanD"
+                        .SetConstTanDStrategyEps "AutomaticOrder"
+                        .ConstTanDModelOrderEps "1"
+                        .DjordjevicSarkarUpperFreqEps "0"
+                        .SetElParametricConductivity "False"
+                        .ReferenceCoordSystem "Global"
+                        .CoordSystemType "Cartesian"
+                        .SigmaM "0.0"
+                        .TanDM "0.0"
+                        .TanDMFreq "0.0"
+                        .TanDMGiven "False"
+                        .TanDMModel "ConstSigma"
+                        .SetConstTanDStrategyMu "AutomaticOrder"
+                        .ConstTanDModelOrderMu "1"
+                        .DjordjevicSarkarUpperFreqMu "0"
+                        .SetMagParametricConductivity "False"
+                        .DispModelEps  "None"
+                        .DispModelMu "None"
+                        .DispersiveFittingSchemeEps "1st Order"
+                        .DispersiveFittingSchemeMu "1st Order"
+                        .UseGeneralDispersionEps "False"
+                        .UseGeneralDispersionMu "False"
+                        .NLAnisotropy "False"
+                        .NLAStackingFactor "1"
+                        .NLADirectionX "1"
+                        .NLADirectionY "0"
+                        .NLADirectionZ "0"
+                        .Colour "0.75", "0.95", "0.85" 
+                        .Wireframe "False" 
+                        .Reflection "False" 
+                        .Allowoutline "True" 
+                        .Transparentoutline "False" 
+                        .Transparency "0" 
+                        .Create
+                    End With 
+
+                    With Material 
+                        .Reset 
+                        .Name "epoxy_casting_CR110" 
+                        .Folder "" 
+                        .Rho "0"
+                        .ThermalType "Normal"
+                        .ThermalConductivity "0"
+                        .SpecificHeat "0", "J/K/kg"
+                        .DynamicViscosity "0"
+                        .UseEmissivity "True"
+                        .Emissivity "0"
+                        .MetabolicRate "0"
+                        .VoxelConvection "0"
+                        .BloodFlow "0"
+                        .Absorptance "0"
+                        .MechanicsType "Unused"
+                        .IntrinsicCarrierDensity "0"
+                        .FrqType "all"
+                        .Type "Normal"
+                        .MaterialUnit "Frequency", "GHz"
+                        .MaterialUnit "Geometry", "um"
+                        .MaterialUnit "Time", "ns"
+                        .MaterialUnit "Temperature", "K"
+                        .Epsilon "2.5"
+                        .Mu "1"
+                        .Sigma "0"
+                        .TanD "0.0"
+                        .TanDFreq "0.0"
+                        .TanDGiven "False"
+                        .TanDModel "ConstTanD"
+                        .SetConstTanDStrategyEps "AutomaticOrder"
+                        .ConstTanDModelOrderEps "1"
+                        .DjordjevicSarkarUpperFreqEps "0"
+                        .SetElParametricConductivity "False"
+                        .ReferenceCoordSystem "Global"
+                        .CoordSystemType "Cartesian"
+                        .SigmaM "0"
+                        .TanDM "0.0"
+                        .TanDMFreq "0.0"
+                        .TanDMGiven "False"
+                        .TanDMModel "ConstTanD"
+                        .SetConstTanDStrategyMu "AutomaticOrder"
+                        .ConstTanDModelOrderMu "1"
+                        .DjordjevicSarkarUpperFreqMu "0"
+                        .SetMagParametricConductivity "False"
+                        .DispModelEps  "None"
+                        .DispModelMu "None"
+                        .DispersiveFittingSchemeEps "Nth Order"
+                        .MaximalOrderNthModelFitEps "10"
+                        .ErrorLimitNthModelFitEps "0.1"
+                        .UseOnlyDataInSimFreqRangeNthModelEps "False"
+                        .DispersiveFittingSchemeMu "Nth Order"
+                        .MaximalOrderNthModelFitMu "10"
+                        .ErrorLimitNthModelFitMu "0.1"
+                        .UseOnlyDataInSimFreqRangeNthModelMu "False"
+                        .UseGeneralDispersionEps "False"
+                        .UseGeneralDispersionMu "False"
+                        .NonlinearMeasurementError "1e-1"
+                        .NLAnisotropy "False"
+                        .NLAStackingFactor "1"
+                        .NLADirectionX "1"
+                        .NLADirectionY "0"
+                        .NLADirectionZ "0"
+                        .Colour "0.501961", "0.501961", "0" 
+                        .Wireframe "False" 
+                        .Reflection "False" 
+                        .Allowoutline "True" 
+                        .Transparentoutline "False" 
+                        .Transparency "0" 
+                        .Create
+                    End With 
+
+        """
+        self.prj.model3d.add_to_history(f"create Material Teflon (PTFE) (loss free) and epoxy_casting_CR110 for GGB Probe", vba_code1)
+
 
 
     def AddGlobalParameter(self, Parameters):
@@ -672,6 +824,45 @@ class CST_Commands:
                     End With
                     """
         self.prj.model3d.add_to_history(f"create brick {Name}", vba_code)
+        
+        
+    def Sphere(self, Parameters):
+        Name = Parameters["Name"]
+        ComponentName = Parameters["Component Name"]
+        Material = Parameters["Material"]
+        Axis = Parameters["Axis"]
+        CentRadius = Parameters["Center Radius"]
+        Centers = Parameters["Center Positions"]
+        
+        if "Top Radius" not in Parameters.keys():
+            TopRadius = 0
+        else:
+            TopRadius = Parameters["Top Radius"]
+        if "Bottom Radius" not in Parameters.keys():
+            BotRadius = 0
+        else:
+            BotRadius = Parameters["Bottom Radius"]
+            
+                    
+        vba_code = f"""
+                    With Sphere 
+                     .Reset 
+                     .Name "{Name}" 
+                     .Component "{ComponentName}" 
+                     .Material "{Material}" 
+                     .Axis "{Axis}" 
+                     .CenterRadius "{CentRadius}" 
+                     .TopRadius "{TopRadius}" 
+                     .BottomRadius "{BotRadius}" 
+                     .Center "{Centers["X"]}", "{Centers["X"]}", "{Centers["X"]}" 
+                     .Segments "0" 
+                     .Create 
+                End With
+                """
+                
+        self.prj.model3d.add_to_history(f"create sphere {Name}", vba_code)
+        
+        
 
 
         
@@ -701,6 +892,29 @@ class CST_Commands:
                     End With
                 """
         self.prj.model3d.add_to_history("create curve", vba_code)
+        
+        
+    
+    def Elipse(self, Parameters):
+        Name = Parameters["Name"]
+        NameCurve = Parameters["Curve Name"]
+        
+        vba_code = f"""
+                    With Ellipse
+                     .Reset 
+                     .Name "{Name}" 
+                     .Curve "{NameCurve}" 
+                     .XRadius "{Parameters["X Radius"]}"
+                     .YRadius "{Parameters["Y Radius"]}" 
+                     .Xcenter "{Parameters["X Center"]}" 
+                     .Ycenter "{Parameters["Y Center"]}" 
+                     .Segments "0" 
+                     .Create
+                End With
+                
+                        """
+        self.prj.model3d.add_to_history(f"create elipse curve {Name}", vba_code)
+        
 
 
 
@@ -743,7 +957,9 @@ class CST_Commands:
         self.prj.model3d.add_to_history("2d polygon", vba_code)  
             
 
-    def Poligon_3D(WGName, Points):
+
+
+    def Poligon_3D(self, Parameters):
         """
         Create the 2D poligon for tRib waveguide
 
@@ -758,11 +974,12 @@ class CST_Commands:
             str: String with VBA Code 
         """
 
-        WGName  = WGName
+        Name = Parameters["Name"] 
+        CurveName = Parameters["Curve Name"] 
         lines = []
 
-        for i in range(1, len(Points['X'])):
-            lines.append(f'.Point "{Points["X"][i]}", "{Points["Y"][i]}"')
+        for i in range(0, len(Parameters["Point"]["X"])):
+            lines.append(f'.Point "{Parameters["Point"]["X"][i]}", "{Parameters["Point"]["Y"][i]}", "{Parameters["Point"]["Z"][i]}"')
 
         # join them with newlines
         line_block = "\n".join(lines)
@@ -770,13 +987,16 @@ class CST_Commands:
         vba_code = f"""
                     With Polygon3D
                     .Reset
-                    .Name "{WGName}"
-                    .Curve "{WGName}"
+                    .Name "{Name}"
+                    .Curve "{CurveName}"
                     {line_block}
                     .Create
                     End With
-                    """
-        self.prj.model3d.add_to_history("3d polygon", vba_code) 
+                    """ 
+        self.prj.model3d.add_to_history(f"3d polygon {CurveName}", vba_code) 
+
+
+
 
     
     # MZM Design
@@ -937,6 +1157,7 @@ class CST_Commands:
         # Waveguide and Waveguide to 
         # Translation Parameters
         Trans = {}
+        Trans["Translate Type"] = "Translate"
         Trans["Angle X"] = 0
         Trans["Angle Y"] = 90
         Trans["Angle Z"] = 0
@@ -1107,6 +1328,7 @@ class CST_Commands:
         # Waveguide and Waveguide to 
         # Translation Parameters
         Trans = {}
+        Trans["Translate Type"] = "Translate"
         Trans["Angle X"] = 0
         Trans["Angle Y"] = 90
         Trans["Angle Z"] = 0
@@ -1461,7 +1683,7 @@ class CST_Commands:
             Z_max = Parameters["Z max"]
             Xcenter = Parameters["X center"]
             Ycenter = Parameters["Y center"]
-            vba_code3 = f"""
+            vba_code1 = f"""
                     .Zrange "{Z_min}", "{Z_max}" 
                     .Xcenter "{Xcenter}" 
                     .Ycenter "{Ycenter}" 
@@ -1469,7 +1691,7 @@ class CST_Commands:
                     .Create 
                 End With
                 """
-            full_vba_code = vba_code + vba_code3
+            full_vba_code = vba_code + vba_code1
         
         else:
             raise ValueError("Orentation Axis can be only X, Y and Z!")
@@ -1478,222 +1700,529 @@ class CST_Commands:
 
 
 
+
+    def Conus(self, Parameters):
+        
+        Name = Parameters["Cylinder Name"]
+        Component_name = Parameters["Component Name"]
+        Material = Parameters["Material"]
+        Outer_Radius = Parameters["Top Radius"]
+        Inner_Radius = Parameters["Bottom Radius"]
+        Orentation_Axis = Parameters["Orentation Axis"]
+        vba_code = f"""
+                    With Cone 
+                     .Reset 
+                     .Name "{Name}" 
+                     .Component "{Component_name}" 
+                     .Material "{Material}" 
+                     .TopRadius "{Outer_Radius}" 
+                     .BottomRadius "{Inner_Radius}" 
+                     .Axis "{Orentation_Axis}"
+                     """
+        if Orentation_Axis == "X":
+            X_min = Parameters["X min"]
+            X_max = Parameters["X max"]
+            Zcenter = Parameters["Z center"]
+            Ycenter = Parameters["Y center"]
+            vba_code1 = f"""
+                    
+                    .Xrange "{X_min}", "{X_max}" 
+                    .Zcenter "{Zcenter}" 
+                    .Ycenter "{Ycenter}" 
+                    .Segments "0" 
+                    .Create 
+                End With
+                """
+            full_vba_code = vba_code + vba_code1
+
+        elif Orentation_Axis == "Y":
+            Y_min = Parameters["Y min"]
+            Y_max = Parameters["Y max"]
+            Zcenter = Parameters["Z center"]
+            Xcenter = Parameters["X center"]
+            vba_code1 = f"""
+                    .Yrange "{Y_min}", "{Y_max}" 
+                    .Zcenter "{Zcenter}" 
+                    .Xcenter "{Xcenter}" 
+                    .Segments "0" 
+                    .Create 
+                End With
+                """
+            full_vba_code = vba_code + vba_code1
+            
+        elif Orentation_Axis == "Z":
+            Z_min = Parameters["Z min"]
+            Z_max = Parameters["Z max"]
+            Xcenter = Parameters["X center"]
+            Ycenter = Parameters["Y center"]
+            vba_code1 = f"""
+                    .Zrange "{Z_min}", "{Z_max}" 
+                    .Xcenter "{Xcenter}" 
+                    .Ycenter "{Ycenter}" 
+                    .Segments "0" 
+                    .Create 
+                End With
+                """
+            full_vba_code = vba_code + vba_code1
+            
+        self.prj.model3d.add_to_history("create cylinder", full_vba_code)
+
+
+
+
     def GGB_Probe(self, Parameters):
-        Name = Parameters["Name"]
+        
+        
+        # Global Parameters
+        ComponentName = Parameters["Component Name"]
+        angleOrientation = Parameters["Orientation Angle"]
+        self.add_GGB_Probe_Material()
+       
+        # Create GGB Probes Body Cylinder
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Body_Probe"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Outer Radius"] =  290
+        DictComponent["Inner Radius"] =  170
+        DictComponent["Z min"] = 0
+        DictComponent["Z max"] = 900
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Cylinder(DictComponent)
+        
+        
+        # Create GGB Probes Signal Cylinder
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Signal_Probe"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Outer Radius"] =  50
+        DictComponent["Inner Radius"] =  0
+        DictComponent["Z min"] = 0
+        DictComponent["Z max"] = 900
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Cylinder(DictComponent)
+        
+        
+        # Create GGB Probes Isolation Cylinder
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Isolation_Probe"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "Teflon (PTFE) (loss free)"
+        DictComponent["Outer Radius"] =  170
+        DictComponent["Inner Radius"] = 50
+        DictComponent["Z min"] = 0
+        DictComponent["Z max"] = 900
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Cylinder(DictComponent)
+        
+        
+        
+        
+        # Create Signal Conus
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Conus_Probe_Sig"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Top Radius"] = 50
+        DictComponent["Bottom Radius"] = 51.91/2
+        DictComponent["Z min"] = -197.30
+        DictComponent["Z max"] = 0
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Conus(DictComponent)
+        
+        
+        # Create Signal Conus Tip
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Conus_Probe_Sig_Tip"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Top Radius"] = 51.91/2
+        DictComponent["Bottom Radius"] = 10.31/2
+        DictComponent["Z min"] = -197.30 - 45.10
+        DictComponent["Z max"] = -197.30
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Conus(DictComponent)
+        
+        
+        # Create Ground forms Left
+        DictComponent = {}
+        DictComponent["Name"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        Points = {}
+        Points['X'] = [0, 0, 0, 0, 0, 0]
+        Points['Y'] = [105, 130, 85, -5, -105, 105]
+        Points['Z'] = [0, -185, -240, -200, 0, 0 ]   
+        DictComponent["Point"] = Points
+        
+        self.Poligon_3D(DictComponent)
+        
+        
+        
+        DictComponent = {}
+        DictComponent["Name"] = ComponentName
+        DictComponent["Component Name"] = "Porbe_GND_L_Tip"
+        DictComponent["Material"] = "PEC"
+        DictComponent["Thickness"] = 25
+        DictComponent["Curve Folder"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        
+        
+        self.CurveToSolid(DictComponent)
+        
+        
+        # Translate to right 
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Translate"
+        DictComponent["Name Object"] = f"{ComponentName}:Porbe_GND_L_Tip"
+        DictComponent["Position X"] = 25/2
+        DictComponent["Position Y"] = -186.1
+        DictComponent["Position Z"] = 0
+        DictComponent["Structure Type"] = "Shape"
+        
+        
+        self.Translation(DictComponent)
+        
+        
+        
+        
+        
+        #  Create Ground forms Right
+        DictComponent = {}
+        DictComponent["Name"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        Points = {}
+        Points['X'] = [0, 0, 0, 0, 0, 0]
+        Points['Y'] = [-105, -130, -85, 5, 105, -105]
+        Points['Z'] = [0, -185, -240, -200, 0, 0 ]   
+        DictComponent["Point"] = Points
+        
+        self.Poligon_3D(DictComponent)
+        
+        
+        
+        DictComponent = {}
+        DictComponent["Name"] = ComponentName
+        DictComponent["Component Name"] = "Porbe_GND_R_Tip"
+        DictComponent["Material"] = "PEC"
+        DictComponent["Thickness"] = 25
+        DictComponent["Curve Folder"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        
+        self.CurveToSolid(DictComponent)
+        
+        
+        # Translate to right 180 degree
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Translate"
+        DictComponent["Name Object"] = f"{ComponentName}:Porbe_GND_R_Tip"
+        DictComponent["Position X"] = -25/2
+        DictComponent["Position Y"] = 186.1
+        DictComponent["Position Z"] = 0
+        DictComponent["Structure Type"] = "Shape"
+        
+        self.Translation(DictComponent)
+        
+        
+        # Create Sphere
+        DictComponent = {}
+        DictComponent["Name"] = "Elipse"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] =  "epoxy_casting_CR110"
+        DictComponent["Axis"] = "Z"
+        DictComponent["Center Radius"] = 100
+        Pos = {}
+        Pos["X"] = 0
+        Pos["Y"] = 0
+        Pos["Z"] = 0
+        DictComponent["Center Positions"] = Pos
+        
+        self.Sphere(DictComponent)
+        
+        
+        #Transform Sphere to Elipse 
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Scale" 
+        DictComponent["Name Object"] = f"{ComponentName}:Elipse" 
+        Pos = {}
+        Pos["X"] = 0
+        Pos["Y"] = 0
+        Pos["Z"] = 0
+        DictComponent["Center Positions"] = Pos
+        Scale = {}
+        Scale["X"] = 1.5
+        Scale["Y"] = 2
+        Scale["Z"] = 1
+        DictComponent["Scale Factors"] = Scale
+        
+        self.Translation(DictComponent)
+        
+        
+        # Subtract
+        DictComponent = {}
+        DictComponent["Name Cut Structure"] = f"{ComponentName}:Elipse"
+        Structures = [f"{ComponentName}:Conus_Probe_Sig" , f"{ComponentName}:Isolation_Probe", f"{ComponentName}:Porbe_GND_L_Tip", f"{ComponentName}:Porbe_GND_R_Tip", f"{ComponentName}:Body_Probe", f"{ComponentName}:Signal_Probe"]
+        
+        
+        for i in range(len(Structures)):
+            DictComponent["Name Structure to Cut"] = Structures[i]    
+            self.Cut_structures(DictComponent)
+            
+            
+        # Rebuild the missing parts after the sphere 
+        # Create GGB Probes Body Cylinder    
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Body_Probe"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Outer Radius"] =  290
+        DictComponent["Inner Radius"] =  170
+        DictComponent["Z min"] = 0
+        DictComponent["Z max"] = 900
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Cylinder(DictComponent)
+        
+        
+        
+        
+        # Create GGB Probes Signal Cylinder
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Signal_Probe"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Outer Radius"] =  50
+        DictComponent["Inner Radius"] =  0
+        DictComponent["Z min"] = 0
+        DictComponent["Z max"] = 900
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Cylinder(DictComponent)
 
-        # Define Probes Materials
-        vba_code1 = f"""
-                    With Material 
-                        .Reset 
-                        .Name "Teflon (PTFE) (loss free)" 
-                        .Folder "" 
-                        .Rho "2200.0"
-                        .ThermalType "Normal"
-                        .ThermalConductivity "0.2"
-                        .SpecificHeat "1000", "J/K/kg"
-                        .DynamicViscosity "0"
-                        .UseEmissivity "True"
-                        .Emissivity "0"
-                        .MetabolicRate "0.0"
-                        .VoxelConvection "0.0"
-                        .BloodFlow "0"
-                        .Absorptance "0"
-                        .MechanicsType "Isotropic"
-                        .YoungsModulus "0.5"
-                        .PoissonsRatio "0.4"
-                        .ThermalExpansionRate "140"
-                        .IntrinsicCarrierDensity "0"
-                        .FrqType "all"
-                        .Type "Normal"
-                        .MaterialUnit "Frequency", "GHz"
-                        .MaterialUnit "Geometry", "mm"
-                        .MaterialUnit "Time", "s"
-                        .Epsilon "2.1"
-                        .Mu "1.0"
-                        .Sigma "0.0"
-                        .TanD "0.0"
-                        .TanDFreq "0.0"
-                        .TanDGiven "False"
-                        .TanDModel "ConstTanD"
-                        .SetConstTanDStrategyEps "AutomaticOrder"
-                        .ConstTanDModelOrderEps "1"
-                        .DjordjevicSarkarUpperFreqEps "0"
-                        .SetElParametricConductivity "False"
-                        .ReferenceCoordSystem "Global"
-                        .CoordSystemType "Cartesian"
-                        .SigmaM "0.0"
-                        .TanDM "0.0"
-                        .TanDMFreq "0.0"
-                        .TanDMGiven "False"
-                        .TanDMModel "ConstSigma"
-                        .SetConstTanDStrategyMu "AutomaticOrder"
-                        .ConstTanDModelOrderMu "1"
-                        .DjordjevicSarkarUpperFreqMu "0"
-                        .SetMagParametricConductivity "False"
-                        .DispModelEps  "None"
-                        .DispModelMu "None"
-                        .DispersiveFittingSchemeEps "1st Order"
-                        .DispersiveFittingSchemeMu "1st Order"
-                        .UseGeneralDispersionEps "False"
-                        .UseGeneralDispersionMu "False"
-                        .NLAnisotropy "False"
-                        .NLAStackingFactor "1"
-                        .NLADirectionX "1"
-                        .NLADirectionY "0"
-                        .NLADirectionZ "0"
-                        .Colour "0.75", "0.95", "0.85" 
-                        .Wireframe "False" 
-                        .Reflection "False" 
-                        .Allowoutline "True" 
-                        .Transparentoutline "False" 
-                        .Transparency "0" 
-                        .Create
-                    End With 
+        
+        # Create GGB Probes Isolation Cylinder
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Isolation_Probe"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "Teflon (PTFE) (loss free)"
+        DictComponent["Outer Radius"] =  170
+        DictComponent["Inner Radius"] = 50
+        DictComponent["Z min"] = 0
+        DictComponent["Z max"] = 900
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Cylinder(DictComponent)
+        
+   
+        # Create Signal Conus
+        DictComponent = {}
+        DictComponent["Cylinder Name"] = "Conus_Probe_Sig"
+        DictComponent["Component Name"] = ComponentName
+        DictComponent["Material"] = "PEC"
+        DictComponent["Top Radius"] = 50
+        DictComponent["Bottom Radius"] = 51.91/2
+        DictComponent["Z min"] = -197.30
+        DictComponent["Z max"] = 0
+        DictComponent["X center"] = 0   
+        DictComponent["Y center"] = 0
+        DictComponent["Orentation Axis"] = "Z"
+        
+        self.Conus(DictComponent)
+        
 
-                    With Material 
-                        .Reset 
-                        .Name "epoxy_casting_CR110" 
-                        .Folder "" 
-                        .Rho "0"
-                        .ThermalType "Normal"
-                        .ThermalConductivity "0"
-                        .SpecificHeat "0", "J/K/kg"
-                        .DynamicViscosity "0"
-                        .UseEmissivity "True"
-                        .Emissivity "0"
-                        .MetabolicRate "0"
-                        .VoxelConvection "0"
-                        .BloodFlow "0"
-                        .Absorptance "0"
-                        .MechanicsType "Unused"
-                        .IntrinsicCarrierDensity "0"
-                        .FrqType "all"
-                        .Type "Normal"
-                        .MaterialUnit "Frequency", "GHz"
-                        .MaterialUnit "Geometry", "um"
-                        .MaterialUnit "Time", "ns"
-                        .MaterialUnit "Temperature", "K"
-                        .Epsilon "2.5"
-                        .Mu "1"
-                        .Sigma "0"
-                        .TanD "0.0"
-                        .TanDFreq "0.0"
-                        .TanDGiven "False"
-                        .TanDModel "ConstTanD"
-                        .SetConstTanDStrategyEps "AutomaticOrder"
-                        .ConstTanDModelOrderEps "1"
-                        .DjordjevicSarkarUpperFreqEps "0"
-                        .SetElParametricConductivity "False"
-                        .ReferenceCoordSystem "Global"
-                        .CoordSystemType "Cartesian"
-                        .SigmaM "0"
-                        .TanDM "0.0"
-                        .TanDMFreq "0.0"
-                        .TanDMGiven "False"
-                        .TanDMModel "ConstTanD"
-                        .SetConstTanDStrategyMu "AutomaticOrder"
-                        .ConstTanDModelOrderMu "1"
-                        .DjordjevicSarkarUpperFreqMu "0"
-                        .SetMagParametricConductivity "False"
-                        .DispModelEps  "None"
-                        .DispModelMu "None"
-                        .DispersiveFittingSchemeEps "Nth Order"
-                        .MaximalOrderNthModelFitEps "10"
-                        .ErrorLimitNthModelFitEps "0.1"
-                        .UseOnlyDataInSimFreqRangeNthModelEps "False"
-                        .DispersiveFittingSchemeMu "Nth Order"
-                        .MaximalOrderNthModelFitMu "10"
-                        .ErrorLimitNthModelFitMu "0.1"
-                        .UseOnlyDataInSimFreqRangeNthModelMu "False"
-                        .UseGeneralDispersionEps "False"
-                        .UseGeneralDispersionMu "False"
-                        .NonlinearMeasurementError "1e-1"
-                        .NLAnisotropy "False"
-                        .NLAStackingFactor "1"
-                        .NLADirectionX "1"
-                        .NLADirectionY "0"
-                        .NLADirectionZ "0"
-                        .Colour "0.501961", "0.501961", "0" 
-                        .Wireframe "False" 
-                        .Reflection "False" 
-                        .Allowoutline "True" 
-                        .Transparentoutline "False" 
-                        .Transparency "0" 
-                        .Create
-                    End With 
+        # Create Ground forms Left
+        DictComponent = {}
+        DictComponent["Name"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"  
+        Points['X'] = [0, 0, 0, 0, 0, 0]
+        Points['Y'] = [105, 130, 85, -5, -105, 105]
+        Points['Z'] = [0, -185, -240, -200, 0, 0 ]   
+        DictComponent["Point"] = Points
+        
+        self.Poligon_3D(DictComponent)
+        
+        
+        
+        DictComponent = {}
+        DictComponent["Name"] = ComponentName
+        DictComponent["Component Name"] = "Porbe_GND_L_Tip"
+        DictComponent["Material"] = "PEC"
+        DictComponent["Thickness"] = 25
+        DictComponent["Curve Folder"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        
+        self.CurveToSolid( DictComponent)
+        
+        
+        # Translate to right 
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Translate"
+        DictComponent["Name Object"] = f"{ComponentName}:Porbe_GND_L_Tip"
+        DictComponent["Position X"] = 25/2
+        DictComponent["Position Y"] = -186.1
+        DictComponent["Position Z"] = 0
+        DictComponent["Structure Type"] = "Shape"
+        
+        self.Translation(DictComponent)
+        
+        
+        #  Create Ground forms Right
+        DictComponent = {}
+        
+        DictComponent["Name"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        
+        Points['X'] = [0, 0, 0, 0, 0, 0]
+        Points['Y'] = [-105, -130, -85, 5, 105, -105]
+        Points['Z'] = [0, -185, -240, -200, 0, 0 ]   
+        DictComponent["Point"] = Points
+        
+        self.Poligon_3D(DictComponent)
+        
+        
+        DictComponent = {}
+        DictComponent["Name"] = ComponentName
+        DictComponent["Component Name"] = "Porbe_GND_R_Tip"
+        DictComponent["Material"] = "PEC"
+        DictComponent["Thickness"] = 25
+        DictComponent["Curve Folder"] = "GND_Curve_Pin"
+        DictComponent["Curve Name"] = "GND_Curve_Pin"
+        
+        
+        self.CurveToSolid(DictComponent)
+        
+        
+        # Translate to right 180 degree
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Translate"
+        DictComponent["Name Object"] = f"{ComponentName}:Porbe_GND_R_Tip"
+        DictComponent["Position X"] = -25/2
+        DictComponent["Position Y"] = 186.1
+        DictComponent["Position Z"] = 0
+        DictComponent["Structure Type"] = "Shape"
+        
+        self.Translation(DictComponent)
+        
+        
+        # Translate probe to -30 degree
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Rotate"
+        DictComponent["Name Object"] = ComponentName
+        Pos["X"] = 0
+        Pos["Y"] = 0
+        Pos["Z"] = 0
+        DictComponent["Center Positions"] = Pos
+        angle = {}
+        angle["X"] = 0
+        angle["Y"] = angleOrientation
+        angle["Z"] = 0
+        DictComponent["Angle Values"] = angle
+        
+        self.Translation(DictComponent)
+        
+        # Subtract
+        ObjectsToCut = [f"{ComponentName}:Conus_Probe_Sig_Tip", f"{ComponentName}:Porbe_GND_L_Tip", f"{ComponentName}:Porbe_GND_R_Tip" , f"{ComponentName}:Elipse",  f"{ComponentName}:Body_Probe", f"{ComponentName}:Isolation_Probe"]
+        if angleOrientation<0:
+            angleCutPlate = 30
+        else:
+            angleCutPlate = -30
+            
+        for i in range(len(ObjectsToCut)):
+                
+            # 30 Degree Plate for the cut 
+            DictComponent["Brick Lenght Max"] = 1000 
+            DictComponent["Brick Lenght Min"] = -1000
+            DictComponent["Brick Width Max"] = 750 
+            DictComponent["Brick Width Min"] = -750 
+            DictComponent["Brick Hight Max"] = 0
+            DictComponent["Brick Hight Min"] = -300
+            DictComponent["Brick Name"] = "Cut_Plate"
+            DictComponent["Component Name"] = ComponentName
+            DictComponent["Material"] = "PEC"
+            self.Brick(DictComponent)
+            
+            
+            
+            DictComponent = {}
+            DictComponent["Translate Type"] = "Rotate"
+            DictComponent["Name Object"] = f"{ComponentName}:Cut_Plate"
+            Pos["X"] = 0
+            Pos["Y"] = 0
+            Pos["Z"] = 0
+            DictComponent["Center Positions"] = Pos
+            angle = {}
+            angle["X"] = 0
+            angle["Y"] = angleCutPlate
+            angle["Z"] = 0
+            DictComponent["Angle Values"] = angle
+            
+            
+            self.Translation(DictComponent)
+            
 
-        """
-        self.prj.model3d.add_to_history(f"create Material Teflon (PTFE) (loss free) and epoxy_casting_CR110 for GGB Probe", vba_code1)
-
-        vba_code3 = f"""
-                    With SAT 
-                        .Reset 
-                        .FileName "*1.cby" 
-                        .SubProjectScaleFactor "1e-06" 
-                        .ImportToActiveCoordinateSystem "True" 
-                        .ScaleToUnit "True" 
-                        .Curves "False" 
-                        .Read 
-                    End With 
-
-                    MeshSettings.AdjustItemMeshSettingsStart
-
-                    Group.Add "meshgroup1", "mesh"
-                    With MeshSettings
-                        With .ItemMeshSettings ("group$meshgroup1")
-                            .SetMeshType "Hex"
-                            .SetWithVersion "", "ConsiderGlobalEdgeRefinement", 1
-                            .SetWithVersion "", "ConsiderGlobalFaceRefinement", 1
-                            .SetWithVersion "", "ConsiderGlobalMaterialRefinement", 0
-                            .SetWithVersion "", "ConsiderGlobalRefinement", 1
-                            .SetWithVersion "", "ConsiderGlobalSnapping", 1
-                            .SetWithVersion "", "EdgeRefinementBufferLines", 3
-                            .SetWithVersion "", "EdgeRefinementRatio", "1"
-                            .SetWithVersion "", "EdgeRefinementStep", 0
-                            .SetWithVersion "", "EdgeRefinementType", "NONE"
-                            .SetWithVersion "", "EllipseRefinementNSteps", 2
-                            .SetWithVersion "", "EllipseRefinementRatio", 2
-                            .SetWithVersion "", "EllipseRefinementStep", 0
-                            .SetWithVersion "", "EllipseRefinementType", "NONE"
-                            .SetWithVersion "", "FaceRefinementBufferLines", 3
-                            .SetWithVersion "", "FaceRefinementNSteps", 2
-                            .SetWithVersion "", "FaceRefinementRatio", 2
-                            .SetWithVersion "", "FaceRefinementStep", 0
-                            .SetWithVersion "", "FaceRefinementType", "NONE"
-                            .SetWithVersion "2013.1|23.0.0|20130516", "SnappingIntervals", "0", "0", "0"
-                            .SetWithVersion "", "SnappingPriority", 0
-                            .SetWithVersion "", "SnapToAxialEdges", 1
-                            .SetWithVersion "", "SnapToCylinderCenters", 1
-                            .SetWithVersion "", "SnapToCylinders", 1
-                            .SetWithVersion "", "SnapToEllipseCenters", 1
-                            .SetWithVersion "", "SnapToEllipses", 1
-                            .SetWithVersion "", "SnapToObjectBoundaries", 0
-                            .SetWithVersion "", "SnapToPlanes", 1
-                            .SetWithVersion "", "SnapToSpheres", 1
-                            .SetWithVersion "", "SnapToTori", 0
-                            .SetWithVersion "", "SnapXYZ", 0, 0, 0
-                            .SetWithVersion "", "UseMaterialRefinement", 1
-                            .SetWithVersion "", "UseSnappingPriority", 0
-                            .SetWithVersion "", "VolumeRefinementExtentNumSteps", 0, 0, 0
-                            .SetWithVersion "", "VolumeRefinementExtentStep", "0", "25/2", "0"
-                            .SetWithVersion "", "VolumeRefinementExtentType", "ABS_VALUE"
-                            .SetWithVersion "", "VolumeRefinementExtentValueUseSameXYZ", 0
-                            .SetWithVersion "", "VolumeRefinementNumSteps", 0, 0, 0
-                            .SetWithVersion "", "VolumeRefinementRatio", 0, 0, 0
-                            .SetWithVersion "", "VolumeRefinementScopeType", "ALL"
-                            .SetWithVersion "", "VolumeRefinementStep", "290/10", "25/2", "0"
-                            .SetWithVersion "", "VolumeRefinementType", "ABS_VALUE"
-                            .SetWithVersion "", "VolumeRefinementValueUseSameXYZ", 0
-                        End With
-                    End With
-                    Group.AddItem "solid$Probe/component1:ground_pin_1_1", "meshgroup1"
-
-                    MeshSettings.AdjustItemMeshSettingsEnd
-
-        """
-
-
-        self.prj.model3d.add_to_history(f"create GGB Probe {Name}", vba_code3)
+            DictComponent = {}
+            DictComponent["Translate Type"] = "Translate"
+            DictComponent["Name Object"] = f"{ComponentName}:Cut_Plate"
+            DictComponent["Position X"] = 0
+            DictComponent["Position Y"] = 0
+            DictComponent["Position Z"] = -144
+            DictComponent["Structure Type"] = "Shape"
+            
+            self.Translation(DictComponent)
+            
+            DictComponent = {}
+            DictComponent["Name Structure to Cut"]  = f"{ComponentName}:Cut_Plate"
+            DictComponent["Name Cut Structure"] = ObjectsToCut[i]
+            self.Cut_structures(DictComponent)
+            
+            
+        # Tranlate Probe to Tips Z = 0 Positiopn 
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Rotate"
+        DictComponent["Name Object"] = ComponentName
+        Pos["X"] = 0
+        Pos["Y"] = 0
+        Pos["Z"] = 0
+        DictComponent["Center Positions"] = Pos
+        angle = {}
+        angle["X"] = 0
+        angle["Y"] = angleOrientation
+        angle["Z"] = 0
+        DictComponent["Angle Values"] = angle
+        
+        self.Translation(DictComponent)
+        
+        DictComponent = {}
+        DictComponent["Translate Type"] = "Translate"
+        DictComponent["Name Object"] = ComponentName
+        DictComponent["Position X"] = 0
+        DictComponent["Position Y"] = 0
+        DictComponent["Position Z"] = 124.5
+        
+        self.Translation(DictComponent)
+        
+       
 
 
 
@@ -1749,7 +2278,38 @@ class CST_Commands:
                     """
         self.prj.model3d.add_to_history(f"to solid {CurveName}", vba_code)
 
-
+    
+    def CurveToSolid(self,  Parameters):
+        
+        Name = Parameters["Name"] 
+        NameComponent = Parameters["Component Name"]
+        Material = Parameters["Material"]
+        Thickness = Parameters["Thickness"]
+        CurveFolder = Parameters["Curve Folder"]
+        CurveName = Parameters["Curve Name"]
+        
+        if "angle" not in Parameters.keys():
+            Angle = 0
+        else:
+            Angle = Parameters["angle"]
+        
+        vba_code = f"""
+                    With ExtrudeCurve
+                    .Reset
+                    .Name "{NameComponent}"
+                    .Component "{Name}"
+                    .Material "{Material}"
+                    .Thickness "{Thickness}"
+                    .Twistangle "0"
+                    .Taperangle "{Angle}"
+                    .Curve "{CurveFolder}:{CurveName}"
+                    .Create
+                    End With
+                    """
+        self.prj.model3d.add_to_history(f"Curve to solid {NameComponent}", vba_code)
+                
+        
+        
 
 
 
@@ -1934,19 +2494,22 @@ class CST_Commands:
         PortNumber = Parameters["Port Number"]
         Span = Parameters["Span"]
         set_number = Parameters["Picked Port Number"] 
-        potential = Parameters["Picked Port Polarity"]
-        marked_face = Parameters["Picked Component Name"]
         Number_of_picks = Parameters["Number of picks"]
-        facet_Id = Parameters["Face Number"]
+        
+        
         lines = []
 
         lines = []
         if Number_of_picks > 2:
-            for i in range(len(potential)):
-                lines.append(f'.AddPotentialPicked "{set_number}", "{potential[i]}", "{marked_face[i]}", "{facet_Id}"')
+            potential = Parameters["Picked Port Polarity"]
+            marked_face = Parameters["Picked Component Name"]
+            facet_Id = Parameters["Face Number"]
+            for i in range(len(marked_face)):
+                lines.append(f'.AddPotentialPicked "{set_number}", "{potential[i]}", "{marked_face[i]}", "{facet_Id[i]}"')
 
             # join them with newlines
             line_block = "\n".join(lines)
+            
 
             vba_code = f"""
                         With Port
@@ -1957,7 +2520,7 @@ class CST_Commands:
                             .NumberOfModes "1"
                             .AdjustPolarization "False"
                             .PolarizationAngle "0.0"
-                            .ReferencePlaneDistance "0"
+                            .ReferencePlaneDistance "0.0"
                             .TextSize "50"
                             .TextMaxLimit "0"
                             .Coordinates "{Coordinates}"
@@ -1966,7 +2529,7 @@ class CST_Commands:
                             .ClipPickedPortToBound "False"
                             .Xrange "0", "0"
                             .Yrange "0", "0"
-                            .Zrange "0", "5"
+                            .Zrange "0", "0"
                             .XrangeAdd "{Span[0]}", "{Span[0]}"
                             .YrangeAdd "{Span[1]}", "{Span[1]}"
                             .ZrangeAdd "{Span[2]}", "{Span[2]}" 
@@ -1978,24 +2541,32 @@ class CST_Commands:
                         """
             self.prj.model3d.add_to_history(f"create waveguide port {PortNumber}", vba_code)
 
+
         else:
             vba_code = f"""
                         With Port
                         .Reset
                         .PortNumber "{PortNumber}"
-                        .NumberOfModes "5"
+                        .Label ""
+                        .Folder ""
+                        .NumberOfModes "1"
+                        .AdjustPolarization "False"
+                        .PolarizationAngle "0"
                         .ReferencePlaneDistance "0"
+                        .TextSize "50"
+                        .TextMaxLimit "1"
                         .Coordinates "{Coordinates}"
                         .Orientation "{Orientation} "
-                        .PortOnBound "False"
+                        .PortOnBound "True"
                         .ClipPickedPortToBound "False"
+                        .Xrange "0", "100"
+                        .Yrange "0", "100"
+                        .Zrange "0", "0"
                         .XrangeAdd "{Span[0]}", "{Span[0]}"
                         .YrangeAdd "{Span[1]}", "{Span[1]}"
                         .ZrangeAdd "{Span[2]}", "{Span[2]}"
-                        .AdjustPolarization "True"
-                        .PolarizationAngle "0"
                         .SingleEnded "False"
-                        .AddPotentialPicked "{set_number}", "{potential}", "{marked_face}", "{facet_Id}"
+                        .WaveguideMonitor "False"
                         .Create
                         End With
                         """
@@ -2891,31 +3462,142 @@ class CST_Commands:
 
 
     def Translation(self, Parameters):
+        Type = Parameters["Translate Type"]
+        Type_list = ["Translate", "Scale", "Rotate"]
+        
+        
+        
+
+        if Type in Type_list:
+            if Type == "Translate":
+                Name = Parameters["Name Object"]
+                PosX = Parameters["Position X"]
+                PosY = Parameters["Position Y"]
+                PosZ = Parameters["Position Z"]
+                vba_code = f"""
+                            With Transform
+                            .Reset
+                            .Name "{Name}"
+                            .Vector "{PosX}", "{PosY}", "{PosZ}"
+                            .UsePickedPoints "False"
+                            .InvertPickedPoints "False"
+                            .MultipleObjects "False"
+                            .GroupObjects "False"
+                            .Repetitions "1"
+                            .MultipleSelection "False"
+                            .Transform "Shape", "Translate
+                            End With
+                            """
+                self.prj.model3d.add_to_history("translation", vba_code)
+                
+            elif Type == "Scale":  
+                Name = Parameters["Name Object"]
+                CenterPos = Parameters["Center Positions"]
+                ScaleFactor = Parameters["Scale Factors"]
+        
+                vba_code = f"""                                        
+                            With Transform 
+                                 .Reset 
+                                 .Name "{Name}" 
+                                 .Origin "Free" 
+                                 .Center "{CenterPos["X"]}", "{CenterPos["Y"]}", "{CenterPos["Z"]}" 
+                                 .ScaleFactor "{ScaleFactor["X"]}", "{ScaleFactor["Y"]}", "{ScaleFactor["Z"]}" 
+                                 .MultipleObjects "False" 
+                                 .GroupObjects "False" 
+                                 .Repetitions "1" 
+                                 .MultipleSelection "False" 
+                                 .AutoDestination "True" 
+                                 .Transform "Shape", "Scale" 
+                            End With
+                         """
+                self.prj.model3d.add_to_history("translation scale {Name}", vba_code)
+            elif Type == "Rotate" :
+                Name = Parameters["Name Object"]
+                CenterPos = Parameters["Center Positions"]
+                Angle = Parameters["Angle Values"]
+
+                vba_code = f"""                                        
+                            With Transform 
+                                 .Reset 
+                                 .Name "{Name}" 
+                                 .Origin "Free" 
+                                 .Center "{CenterPos["X"]}", "{CenterPos["Y"]}", "{CenterPos["Z"]}" 
+                                 .Angle "{Angle["X"]}", "{Angle["Y"]}", "{Angle["Z"]}" 
+                                 .MultipleObjects "False" 
+                                 .GroupObjects "False" 
+                                 .Repetitions "1" 
+                                 .MultipleSelection "False" 
+                                 .AutoDestination "True" 
+                                 .Transform "Shape", "Rotate" 
+                            End With
+
+                         """
+                self.prj.model3d.add_to_history("translation scale {Name}", vba_code)
+                        
+        
+    
+    def Translation_Scale(self, Parameters):
 
         Name = Parameters["Name Object"]
-        PosX = Parameters["Position X"]
-        PosY = Parameters["Position Y"]
-        PosZ = Parameters["Position Z"]
-        Shape = Parameters["Structure Type"]
+        CenterPos = Parameters["Center Positions"]
+        ScaleFactor = Parameters["Scale Factors"]
 
-        vba_code = f"""
-                    With Transform
-                    .Reset
-                    .Name "{Name}"
-                    .Vector "{PosX}", "{PosY}", "{PosZ}"
-                    .UsePickedPoints "False"
-                    .InvertPickedPoints "False"
-                    .MultipleObjects "False"
-                    .GroupObjects "False"
-                    .Repetitions "1"
-                    .MultipleSelection "False"
-                    .Transform "{Shape}", "Translate"
+        vba_code = f"""                                        
+                    With Transform 
+                         .Reset 
+                         .Name "{Name}" 
+                         .Origin "Free" 
+                         .Center "{CenterPos["X"]}", "{CenterPos["Y"]}", "{CenterPos["Z"]}" 
+                         .ScaleFactor "{ScaleFactor["X"]}", "{ScaleFactor["Y"]}", "{ScaleFactor["Z"]}" 
+                         .MultipleObjects "False" 
+                         .GroupObjects "False" 
+                         .Repetitions "1" 
+                         .MultipleSelection "False" 
+                         .AutoDestination "True" 
+                         .Transform "Shape", "Scale" 
                     End With
-                    """
-        self.prj.model3d.add_to_history("translation", vba_code)
+                 """
+        self.prj.model3d.add_to_history("translation scale {Name}", vba_code)
+        
+        
+        
+        
+    def Translation_Rotation(self, Parameters):
+
+        Name = Parameters["Name Object"]
+        CenterPos = Parameters["Center Positions"]
+        Angle = Parameters["Angle Values"]
+
+        vba_code = f"""                                        
+                    With Transform 
+                         .Reset 
+                         .Name "{Name}" 
+                         .Origin "Free" 
+                         .Center "{CenterPos["X"]}", "{CenterPos["Y"]}", "{CenterPos["Z"]}" 
+                         .Angle "{Angle["X"]}", "{Angle["Y"]}", "{Angle["Z"]}" 
+                         .MultipleObjects "False" 
+                         .GroupObjects "False" 
+                         .Repetitions "1" 
+                         .MultipleSelection "False" 
+                         .AutoDestination "True" 
+                         .Transform "Shape", "Rotate" 
+                    End With
+
+                 """
+        self.prj.model3d.add_to_history("translation scale {Name}", vba_code)
+    
 
 
 
+    def Cut_structures(self, Parameters):
+        CutElement = Parameters["Name Cut Structure"]
+        CutterElement = Parameters["Name Structure to Cut"]
+        vba_code = f"""
+                    Solid.Subtract "{CutElement}", "{CutterElement}"
+        """
+        self.prj.model3d.add_to_history("Cur Structure {CutElement}", vba_code)
+        
+        
 
 
 

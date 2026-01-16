@@ -249,7 +249,7 @@ class CST_Commands:
                         .Type "Normal"
                         .SetMaterialUnit "GHz", "um"
                         .Mu "1"
-                        .Epsilon "2.0851"
+                        .Epsilon "3.9"
                         .Color "0.529", "0.808", "0.922"
                         .Create
                         End With

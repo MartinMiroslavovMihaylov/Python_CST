@@ -224,7 +224,7 @@ class CST_Commands:
                         .SpecificHeat "700"
                         .YoungsModulus "112"
                         .PoissonsRatio "0.28"
-                        .Color "0.5","0.5", "0.5"
+                        .Colour "0.749", "0.749", "0.560" 
                         .Create
                         End With
                     """
@@ -243,14 +243,81 @@ class CST_Commands:
         # Add Meterial SiO2
         vba_code = f"""
                         With Material
-                        .Reset
+                        .Reset 
                         .Name "SiO2"
-                        .FrqType "All"
+                        .Rho "2270.0"
+                        .ThermalType "Normal"
+                        .ThermalConductivity "0.32"
+                        .SpecificHeat "1000", "J/K/kg"
+                        .DynamicViscosity "0"
+                        .UseEmissivity "True"
+                        .Emissivity "0"
+                        .MetabolicRate "0.0"
+                        .VoxelConvection "0.0"
+                        .BloodFlow "0"
+                        .MechanicsType "Isotropic"
+                        .YoungsModulus "66"
+                        .PoissonsRatio "0.17"
+                        .ThermalExpansionRate "0.56"
+                        .SolarRadiationAbsorptionType "Opaque"
+                        .Absorptance "0.0"
+                        .UseSemiTransparencyCalculator "False"
+                        .SolarRadTransmittance "0.0"
+                        .SolarRadReflectance "0.0"
+                        .SolarRadSpecimenThickness "0.0"
+                        .SolarRadRefractiveIndex "1.0"
+                        .SolarRadAbsorptionCoefficient "0.0"
+                        .IntrinsicCarrierDensityModel "none"
+                        .FrqType "all"
                         .Type "Normal"
-                        .SetMaterialUnit "GHz", "um"
+                        .MaterialUnit "Frequency", "GHz"
+                        .MaterialUnit "Geometry", "um"
+                        .MaterialUnit "Time", "s"
+                        .Epsilon "3.8"
                         .Mu "1"
-                        .Epsilon "3.9"
-                        .Color "0.529", "0.808", "0.922"
+                        .Sigma "0"
+                        .TanD "0.0"
+                        .TanDFreq "0.0"
+                        .TanDGiven "False"
+                        .TanDModel "ConstTanD"
+                        .SetConstTanDStrategyEps "AutomaticOrder"
+                        .ConstTanDModelOrderEps "3"
+                        .DjordjevicSarkarUpperFreqEps "0"
+                        .SetElParametricConductivity "False"
+                        .ReferenceCoordSystem "Global"
+                        .CoordSystemType "Cartesian"
+                        .SigmaM "0"
+                        .TanDM "0.0"
+                        .TanDMFreq "0.0"
+                        .TanDMGiven "False"
+                        .TanDMModel "ConstTanD"
+                        .SetConstTanDStrategyMu "AutomaticOrder"
+                        .ConstTanDModelOrderMu "3"
+                        .DjordjevicSarkarUpperFreqMu "0"
+                        .SetMagParametricConductivity "False"
+                        .DispModelEps  "None"
+                        .DispModelMu "None"
+                        .DispersiveFittingSchemeEps "Nth Order"
+                        .MaximalOrderNthModelFitEps "10"
+                        .ErrorLimitNthModelFitEps "0.1"
+                        .UseOnlyDataInSimFreqRangeNthModelEps "False"
+                        .DispersiveFittingSchemeMu "Nth Order"
+                        .MaximalOrderNthModelFitMu "10"
+                        .ErrorLimitNthModelFitMu "0.1"
+                        .UseOnlyDataInSimFreqRangeNthModelMu "False"
+                        .UseGeneralDispersionEps "False"
+                        .UseGeneralDispersionMu "False"
+                        .NLAnisotropy "False"
+                        .NLAStackingFactor "1"
+                        .NLADirectionX "1"
+                        .NLADirectionY "0"
+                        .NLADirectionZ "0"
+                        .Colour "0.529", "0.808", "0.922" 
+                        .Wireframe "False" 
+                        .Reflection "False" 
+                        .Allowoutline "True" 
+                        .Transparentoutline "False" 
+                        .Transparency "0" 
                         .Create
                         End With
                     """
@@ -272,18 +339,59 @@ class CST_Commands:
                         With Material
                         .Reset
                         .Name "Au"
-                        .FrqType "All"
-                        .Type "lossy metal"
-                        .SetMaterialUnit "GHz", "um"
-                        .Mu "1"
+                        .FrqType "static"
+                        .Type "Normal"
+                        .SetMaterialUnit "Hz", "mm"
+                        .Epsilon "1"
+                        .Mu "1.0"
+                        .Kappa "4.561e+007"
+                        .TanD "0.0"
+                        .TanDFreq "0.0"
+                        .TanDGiven "False"
+                        .TanDModel "ConstTanD"
+                        .KappaM "0"
+                        .TanDM "0.0"
+                        .TanDMFreq "0.0"
+                        .TanDMGiven "False"
+                        .TanDMModel "ConstTanD"
+                        .DispModelEps "None"
+                        .DispModelMu "None"
+                        .DispersiveFittingSchemeEps "General 1st"
+                        .DispersiveFittingSchemeMu "General 1st"
+                        .UseGeneralDispersionEps "False"
+                        .UseGeneralDispersionMu "False"
+                        .FrqType "all"
+                        .Type "Lossy metal"
+                        .MaterialUnit "Frequency", "GHz"
+                        .MaterialUnit "Geometry", "mm"
+                        .MaterialUnit "Time", "s"
+                        .MaterialUnit "Temperature", "Kelvin"
+                        .Mu "1.0"
                         .Sigma "4.561e+007"
-                        .Rho "19320"
-                        .ThermalConductivity "130"
+                        .Rho "19320.0"
                         .ThermalType "Normal"
-                        .SpecificHeat "700"
+                        .ThermalConductivity "314.0"
+                        .SpecificHeat "130", "J/K/kg"
+                        .MetabolicRate "0"
+                        .BloodFlow "0"
+                        .VoxelConvection "0"
+                        .MechanicsType "Isotropic"
                         .YoungsModulus "78"
-                        .PoissonsRatio "42"
+                        .PoissonsRatio "0.42"
+                        .ThermalExpansionRate "14"
+                        .ReferenceCoordSystem "Global"
+                        .CoordSystemType "Cartesian"
+                        .NLAnisotropy "False"
+                        .NLAStackingFactor "1"
+                        .NLADirectionX "1"
+                        .NLADirectionY "0"
+                        .NLADirectionZ "0"
                         .Color "1","0.84", "0"
+                        .Wireframe "False"
+                        .Reflection "False"
+                        .Allowoutline "True"
+                        .Transparentoutline "False"
+                        .Transparency "0"
                         .Create
                         End With
                     """
@@ -351,6 +459,7 @@ class CST_Commands:
                             .NLADirectionY "0"
                             .NLADirectionZ "0"
                             .Colour "1", "1", "0"
+                            .Colour "0.643", "0.666", "0.635" 
                             .Wireframe "False"
                             .Reflection "False"
                             .Allowoutline "True"
@@ -361,7 +470,6 @@ class CST_Commands:
 
                     """
         self.prj.model3d.add_to_history("add Al material", vba_code)
-
 
     def add_Glue(self):
         # Add Material Glue
@@ -382,7 +490,16 @@ class CST_Commands:
                     .BloodFlow "0"
                     .Absorptance "0"
                     .MechanicsType "Unused"
+                    .SolarRadiationAbsorptionType "Opaque"
+                    .Absorptance "0"
+                    .UseSemiTransparencyCalculator "False"
+                    .SolarRadTransmittance "0.0"
+                    .SolarRadReflectance "0.0"
+                    .SolarRadSpecimenThickness "0.0"
+                    .SolarRadRefractiveIndex "1.0"
+                    .SolarRadAbsorptionCoefficient "0.0"
                     .IntrinsicCarrierDensity "0"
+                    .IntrinsicCarrierDensityModel "none"
                     .FrqType "all"
                     .Type "Normal"
                     .MaterialUnit "Frequency", "GHz"
@@ -392,9 +509,9 @@ class CST_Commands:
                     .Epsilon "2.6"
                     .Mu "1"
                     .Sigma "0"
-                    .TanD "0.0"
-                    .TanDFreq "0.0"
-                    .TanDGiven "False"
+                    .TanD "0.043"
+                    .TanDFreq "100"
+                    .TanDGiven "True"
                     .TanDModel "ConstTanD"
                     .SetConstTanDStrategyEps "AutomaticOrder"
                     .ConstTanDModelOrderEps "3"
@@ -438,6 +555,7 @@ class CST_Commands:
                 End With
                 """
         self.prj.model3d.add_to_history("add Glue material", vba_code)
+
         
         
         
@@ -1429,6 +1547,719 @@ class CST_Commands:
         Parameters["Component Name"] = "WG"
         Parameters["Material"] = "LiNbO3"
         self.Brick(Parameters)
+
+
+
+    def GSG_Bondwire_ChipToChip_connection(self, Parameters):
+        """
+        This function generate and two Chips connected by bondwires setup
+        The Setup is taken from IHP the Bondpads are from Aluminiam the 
+        bondwires are also from Aluminium. The Glue and floating shield over the 
+        bondwires was taken from KIT Paper setup. This setup is for GSG Pads.
+        This Function have the Option to import the GGP GSg probes. 
+        Materials:
+                    Gold - Floating Shield
+                    DAF Glue - For the glue between the bondwires
+                    Al - For bondwires and bondpads
+                    SiO2 - Layer under the bondpads on the boths chips
+                    Si - Substrate Layer below the SiO2
+
+        Args:
+            Parameters (dict): Dictionary with all the needed values
+                    Parameters["PAD Width GND"]  : GND Bondpads width
+                    Parameters["PAD Width Signal"] : Signal Bondpads width
+                    Parameters["PAD Length"] : Signal and GND bondpads lenght
+                    Parameters["PAD Thickness"] : Signal and GND bondpads thickness
+                    Parameters["PADs Distance"] : Distance from first chip bondpads to the secound chip bondpads
+                    Parameters["Bonwire height"] : Bondwire hight in the middle point
+                    Parameters["Bonwire radius"] : Bondwire ridius
+                    Parameters["Glue Thickness"] : DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
+                    Parameters["Floating Shield Thickness"] : Floating shield gold metal thickness
+                    Parameters["Accuracy"] : FDTD Solver Accuracy. Can be :
+                                                                            80 dB
+                                                                            60 dB
+                                                                            50 dB
+                                                                            40 dB
+                                                                            35 dB
+                                                                            30 dB
+                                                                            25 dB
+                                                                            20 dB
+                                                                            'no check'
+
+        """
+
+        # Define Curves Parameters and Data
+        Lenght = 100
+        Offset = 40
+        points = 100
+        # Generate the Bezier and Cos points
+        ObjCurves = Curves(Lenght, Offset, points)
+        CosinusCurve = ObjCurves.Cosinus_Curve()
+ 
+
+        # Import Materials into CST enviroment
+        self.add_Al()
+        self.add_Au()
+        self.add_Glue()
+        self.add_Si()
+        self.add_SiO2()
+
+        PAD_Width = Parameters["PAD Width GND"] 
+        SIG_PAD_Width = Parameters["PAD Width Signal"] 
+        PAD_Length = Parameters["PAD Length"]
+        PAD_Thickness = Parameters["PAD Thickness"]
+        Component_Name = ["_input", "_output"]
+        Names_Chips = ["Chip_L", "Chip_R"]
+        PAD_Dist_given = Parameters["PADs Distance"]
+        PAD_Dist = [ -PAD_Dist_given - PAD_Length, PAD_Dist_given + PAD_Length]
+        Bondwire_Height = Parameters["Bonwire height"]
+        Bondwire_Radius = Parameters["Bonwire radius"]
+        Glue_Thickness = Parameters["Glue Thickness"]
+        FloatingShieldThickness = Parameters["Floating Shield Thickness"]
+        SpanY = Parameters["Port Y Span"]
+        SpanZ = Parameters["Port Z Span"]
+        Facet_Number = [4, 6]
+        Solver_Accuracy = Parameters["Accuracy"] 
+        Solver_Impedance_Status = True
+        Solver_Impedance_Value = 50
+        Solver_Source_Port = "All"
+        Solver_Mesh_Type = "TLM"
+        Solver_Calc_Modes = False
+        Probes = Parameters["Probes"]
+
+    
+        # Set Chip Distance from Pad to pad and the spacing
+        # this will set the Chip width too
+        Dist = np.arange(-200, 400, 200)
+
+
+        # Create Pads Loop
+        Brick_Parameters = {}
+        Material_Pads = "Al"
+        Name = ["GND_L", "Sig", "GND_R"]
+
+        for j in range(len(Component_Name)):
+            for i in range(len(Name)):
+                if Name[i].split("_")[0] == "GND":
+                    # Create squere Electrodes 
+                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Width Max"] = Dist[i] + PAD_Width
+                    Brick_Parameters["Brick Width Min"] = Dist[i] - PAD_Width
+                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
+                    Brick_Parameters["Component Name"] = Name[i] 
+                    Brick_Parameters["Material"] = Material_Pads
+                    self.Brick(Brick_Parameters)
+                else:
+                    # Create squere Electrodes 
+                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Width Max"] = Dist[i] + SIG_PAD_Width
+                    Brick_Parameters["Brick Width Min"] = Dist[i] - SIG_PAD_Width
+                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
+                    Brick_Parameters["Component Name"] = Name[i] 
+                    Brick_Parameters["Material"] = Material_Pads
+                    self.Brick(Brick_Parameters)
+        
+
+        # Create two Chips Left and Right Loop 
+        Material_Substrate = "Si"
+        Material_iso = "SiO2"
+        Brick_Parameters = {}
+
+        for i in range(len(Names_Chips)):
+            # Create SiO2 Layer
+            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+            if PAD_Dist[i] > 0:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+            else:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+            Brick_Parameters["Brick Hight Max"] = 0
+            Brick_Parameters["Brick Hight Min"] = -19.92
+            Brick_Parameters["Brick Name"] = "SiO2_Layer" + Component_Name[i]
+            Brick_Parameters["Component Name"] = Names_Chips[i]
+            Brick_Parameters["Material"] = Material_iso
+            self.Brick(Brick_Parameters)
+
+            # Create Substrate
+            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+            if PAD_Dist[i] > 0:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+            else:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+            Brick_Parameters["Brick Hight Max"] = -19.92
+            Brick_Parameters["Brick Hight Min"] = -298.86
+            Brick_Parameters["Brick Name"] = "Substrate_Chip" + Component_Name[i]
+            Brick_Parameters["Component Name"] = Names_Chips[i]
+            Brick_Parameters["Material"] = Material_Substrate
+            self.Brick(Brick_Parameters)
+
+        # Create GND PADS Bondwires
+        Names_Wires = ["Wire_L_GND_1", "Wire_L_GND_2", "Wire_R_GND_1", "Wire_R_GND_2"]
+        Dist2 = [-125, -75, 75, 125]
+
+        for k in range(len(Dist2)):
+
+            Parameters_Bondwire = {}
+            Parameters_Bondwire['X1'] = PAD_Dist[0]/2 
+            Parameters_Bondwire['Y1'] = Dist2[k]
+            Parameters_Bondwire['Z1'] = PAD_Thickness
+            Parameters_Bondwire['X2'] = PAD_Dist[1]/2 
+            Parameters_Bondwire['Y2'] = Dist2[k]
+            Parameters_Bondwire['Z2'] = PAD_Thickness
+
+            Points = {}
+            x = []
+            y = []
+            for i in range(0, 100):
+                x.append(i)
+                y.append(i*4)
+            x = np.array(x)
+            y = np.array(y)
+            Points['X'] = x
+            Points['Y'] = y
+
+
+            Points['X'] = CosinusCurve[:,0]
+            Points['Y'] = CosinusCurve[:,1]
+
+
+
+            self.BondWire(NameWire = Names_Wires[k], Coordinates = Parameters_Bondwire, Height = Bondwire_Height, Radius = Bondwire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+            self.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+        
+        # Create Signal PADS Bondwires
+        Names_Wires = ["Wire_Sig"]
+        Dist2 = [0]
+
+
+        for k in range(len(Dist2)):
+            Parameters_Bondwire = {}
+            Parameters_Bondwire['X1'] = PAD_Dist[0]/2 
+            Parameters_Bondwire['Y1'] = Dist2[k]
+            Parameters_Bondwire['Z1'] = PAD_Thickness
+            Parameters_Bondwire['X2'] = PAD_Dist[1]/2 
+            Parameters_Bondwire['Y2'] = Dist2[k]
+            Parameters_Bondwire['Z2'] = PAD_Thickness
+
+            Points = {}
+            x = []
+            y = []
+            for i in range(0, 100):
+                x.append(i)
+                y.append(i*4)
+            x = np.array(x)
+            y = np.array(y)
+            Points['X'] = x
+            Points['Y'] = y
+
+
+            Points['X'] = CosinusCurve[:,0]
+            Points['Y'] = CosinusCurve[:,1]
+
+
+
+            self.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters_Bondwire, Height = Bondwire_Height, Radius = Bondwire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+            self.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+        # Create Top Plate for Bond Wires and cladding
+
+        # PAD_Thickness = 2.8
+        Name_Shield = "Floating_Shield"
+        Component_Name = "Floating_Shield"
+        Material = "Au"
+        Material_Clad = "DAF_Glue"
+
+
+        # Create cladding
+        Brick_Parameters = {}
+        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2
+        Brick_Parameters["Brick Hight Min"] = 0
+        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 
+        Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
+        Brick_Parameters["Component Name"] = Component_Name
+        Brick_Parameters["Material"] = Material_Clad
+        self.Brick(Brick_Parameters)
+
+
+
+        # Create squere floating shield
+        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2 + FloatingShieldThickness*2
+        Brick_Parameters["Brick Hight Min"] = Glue_Thickness*2
+        # Brick_Parameters["Brick Hight Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
+        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 + Glue_Thickness*2
+        Brick_Parameters["Brick Name"] = Name_Shield
+        Brick_Parameters["Component Name"] = Component_Name
+        Brick_Parameters["Material"] = Material
+        self.Brick(Brick_Parameters)
+
+        if Probes == False:
+            # Pick Faces for Input Waveguide Port 1
+            Parameters_Port = {}
+            Facer_input = []
+            Parameters_Port["Option"] = "Face"
+
+            for i in range(len(Name)):
+                Facer_input.append(Name[i] + ":" + Name[i] + "_input")
+
+            # pick input faces
+            for i in range(len(Name)):
+                Parameters_Port["Face Number"] = Facet_Number[0]
+                Parameters_Port["Object"] = Facer_input[i]
+                self.Pick(Parameters_Port)
+
+            # Create Port Input
+            Parameters_Port = {}
+            Parameters_Port["Port Number"] = 1
+            Parameters_Port["Coordinates"] = "Picks"
+            Parameters_Port["Orientation"] = "Positive"
+            Parameters_Port["Span"] = [3, SpanY, SpanZ]
+            Parameters_Port["Picked Port Number"] = [1,1,1]
+            Parameters_Port["Number of picks"] = 3
+            Parameters_Port["Picked Port Polarity"] = ["negative", "positive", "negative"]
+            Parameters_Port["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig:Sig_input", "GND_R:GND_R_input"]
+            Parameters_Port["Face Number"] = [Facet_Number[0], Facet_Number[0], Facet_Number[0]]
+            self.WaveguidePortWithPins(Parameters_Port)
+
+
+
+            # Pick Faces for Input Waveguide Port 2
+            Parameters_Port = {}
+            Facer_output = []
+            Parameters_Port["Option"] = "Face"
+            for i in range(len(Name)):
+                Facer_output.append(Name[i] + ":" + Name[i] + "_output")
+
+            for i in range(len(Name)):
+                Parameters_Port["Face Number"] = Facet_Number[1]
+                Parameters_Port["Object"] = Facer_output[i]
+                self.Pick(Parameters_Port)
+
+            #Create Port Output
+            Parameters_Port = {}
+            Parameters_Port["Port Number"] = 2
+            Parameters_Port["Coordinates"] = "Picks"
+            Parameters_Port["Orientation"] = "Positive"
+            Parameters_Port["Span"] = [3, SpanY, SpanZ]
+            Parameters_Port["Picked Port Number"] = [1,1,1]
+            Parameters_Port["Number of picks"] = 5
+            Parameters_Port["Picked Port Polarity"] = ["negative", "positive", "negative"]
+            Parameters_Port["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig:Sig_output", "GND_R:GND_R_output"]
+            Parameters_Port["Face Number"] = [Facet_Number[1], Facet_Number[1], Facet_Number[1]]
+            self.WaveguidePortWithPins(Parameters_Port)
+
+
+        elif Probes == True:
+
+            # create_GGB_Probe()
+            Parameters_Probes = {}
+            Parameters_Probes["Component Name"] = "Probe_Left"
+            Parameters_Probes["Orientation Angle"] = -30
+            Parameters_Probes["Name"] = "GGB_L"
+            self.GGB_Probe(Parameters_Probes)
+
+            # Move Probes Left
+            Parameters_Probes_Move = {}
+            Parameters_Probes_Move["Translate Type"] = "Translate"
+            Parameters_Probes_Move["Name Object"] = "Probe_Left"
+            Parameters_Probes_Move["Position X"] = PAD_Dist[0] - PAD_Length/2 + 20
+            Parameters_Probes_Move["Position Y"] = 0
+            Parameters_Probes_Move["Position Z"] = PAD_Thickness/2
+            self.Translation(Parameters_Probes_Move)
+            
+
+
+            # create_GGB_Probe()
+            Parameters_Probes = {}
+            Parameters_Probes["Component Name"] = "Probe_Right"
+            Parameters_Probes["Orientation Angle"] = 30
+            self.GGB_Probe(Parameters_Probes)
+
+            # Move Probes Right
+            Parameters_Probes_Move = {}
+            Parameters_Probes_Move["Translate Type"] = "Translate"
+            Parameters_Probes_Move["Name Object"] = "Probe_Right"
+            Parameters_Probes_Move["Position X"] = PAD_Dist[1] + PAD_Length/2 - 20
+            Parameters_Probes_Move["Position Y"] = 0
+            Parameters_Probes_Move["Position Z"] = PAD_Thickness/2
+            self.Translation(Parameters_Probes_Move)
+
+
+        # Set FDTD Time domain solver 
+        Parameters_Solver = {}
+        Parameters_Solver["Accuracy"] = Solver_Accuracy
+        Parameters_Solver["Auto Impedance"] = Solver_Impedance_Status
+        Parameters_Solver["Impedance"] = Solver_Impedance_Value
+        Parameters_Solver["Source Port"] = Solver_Source_Port
+        Parameters_Solver["Solver Mesh Type"] = Solver_Mesh_Type
+        Parameters_Solver["Caclculate Modes Only"] = Solver_Calc_Modes
+        self.setTimeSolver(Parameters_Solver)
+
+
+
+
+
+    def GSGSG_Bondwire_ChipToChip_connection(self, Parameters):
+        """
+        This function generate and two Chips connected by bondwires setup
+        The Setup is taken from IHP the Bondpads are from Aluminiam the 
+        bondwires are also from Aluminium. The Glue and floating shield over the 
+        bondwires was taken from KIT Paper setup. This setup is for GSGSG Pads.
+        Materials:
+                    Gold - Floating Shield
+                    DAF Glue - For the glue between the bondwires
+                    Al - For bondwires and bondpads
+                    SiO2 - Layer under the bondpads on the boths chips
+                    Si - Substrate Layer below the SiO2
+
+        Args:
+            Parameters (dict): Dictionary with all the needed values
+                    Parameters["PAD Width GND"]  : GND Bondpads width
+                    Parameters["PAD Width Signal"] : Signal Bondpads width
+                    Parameters["PAD Length"] : Signal and GND bondpads lenght
+                    Parameters["PAD Thickness"] : Signal and GND bondpads thickness
+                    Parameters["PADs Distance"] : Distance from first chip bondpads to the secound chip bondpads
+                    Parameters["Bonwire height"] : Bondwire hight in the middle point
+                    Parameters["Bonwire radius"] : Bondwire ridius
+                    Parameters["Glue Thickness"] : DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
+                    Parameters["Floating Shield Thickness"] : Floating shield gold metal thickness
+                    Parameters["Accuracy"] : FDTD Solver Accuracy. Can be :
+                                                                            80 dB
+                                                                            60 dB
+                                                                            50 dB
+                                                                            40 dB
+                                                                            35 dB
+                                                                            30 dB
+                                                                            25 dB
+                                                                            20 dB
+                                                                            'no check'
+
+        """
+        # Define Curves Parameters and Data
+        Lenght = 100
+        Offset = 40
+        points = 100
+        # Generate the Bezier and Cos points
+        ObjCurves = Curves(Lenght, Offset, points)
+        CosinusCurve = ObjCurves.Cosinus_Curve()
+ 
+
+        # Import Materials into CST enviroment
+        self.add_Al()
+        self.add_Au()
+        self.add_Glue()
+        self.add_Si()
+        self.add_SiO2()
+
+        PAD_Width = Parameters["PAD Width GND"] 
+        SIG_PAD_Width = Parameters["PAD Width Signal"] 
+        PAD_Length = Parameters["PAD Length"]
+        PAD_Thickness = Parameters["PAD Thickness"]
+        Component_Name = ["_input", "_output"]
+        Names_Chips = ["Chip_L", "Chip_R"]
+        PAD_Dist_given = Parameters["PADs Distance"]
+        PAD_Dist = [ -PAD_Dist_given - PAD_Length, PAD_Dist_given + PAD_Length]
+        Bondwire_Height = Parameters["Bonwire height"]
+        Bondwire_Radius = Parameters["Bonwire radius"]
+        Glue_Thickness = Parameters["Glue Thickness"]
+        SpanY = Parameters["Port Y Span"]
+        SpanZ = Parameters["Port Z Span"]
+        FloatingShieldThickness = Parameters["Floating Shield Thickness"]
+        Facet_Number = [4, 6]
+        Solver_Accuracy = Parameters["Accuracy"] 
+        Solver_Impedance_Status = True
+        Solver_Impedance_Value = 50
+        Solver_Source_Port = "All"
+        Solver_Mesh_Type = "TLM"
+        Solver_Calc_Modes = False
+
+        # Set Chip Distance from Pad to pad and the spacing
+        # this will set the Chip width too
+        Dist = np.arange(-400, 500, 200)
+
+
+        # Create Pads Loop
+        Brick_Parameters = {}
+        Material_Pads = "Al"
+        Name = ["GND_L", "Sig_L", "GND_Mid", "Sig_R", "GND_R"]
+
+        for j in range(len(Component_Name)):
+            for i in range(len(Name)):
+                if Name[i].split("_")[0] == "GND":
+                    # Create squere Electrodes 
+                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Width Max"] = Dist[i] + PAD_Width
+                    Brick_Parameters["Brick Width Min"] = Dist[i] - PAD_Width
+                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
+                    Brick_Parameters["Component Name"] = Name[i] 
+                    Brick_Parameters["Material"] = Material_Pads
+                    self.Brick(Brick_Parameters)
+                else:
+                    # Create squere Electrodes 
+                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Width Max"] = Dist[i] + SIG_PAD_Width
+                    Brick_Parameters["Brick Width Min"] = Dist[i] - SIG_PAD_Width
+                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
+                    Brick_Parameters["Component Name"] = Name[i] 
+                    Brick_Parameters["Material"] = Material_Pads
+                    self.Brick(Brick_Parameters)
+
+
+
+
+        # Create two Chips Left and Right Loop 
+        Material_Substrate = "Si"
+        Material_iso = "SiO2"
+        Brick_Parameters = {}
+
+        for i in range(len(Names_Chips)):
+            # Create SiO2 Layer
+            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+            if PAD_Dist[i] > 0:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+            else:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+            Brick_Parameters["Brick Hight Max"] = 0
+            Brick_Parameters["Brick Hight Min"] = -19.92
+            Brick_Parameters["Brick Name"] = "SiO2_Layer" + Component_Name[i]
+            Brick_Parameters["Component Name"] = Names_Chips[i]
+            Brick_Parameters["Material"] = Material_iso
+            self.Brick(Brick_Parameters)
+
+            # Create Substrate
+            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+            if PAD_Dist[i] > 0:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+            else:
+                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+            Brick_Parameters["Brick Hight Max"] = -19.92
+            Brick_Parameters["Brick Hight Min"] = -298.86
+            Brick_Parameters["Brick Name"] = "Substrate_Chip" + Component_Name[i]
+            Brick_Parameters["Component Name"] = Names_Chips[i]
+            Brick_Parameters["Material"] = Material_Substrate
+            self.Brick(Brick_Parameters)
+
+
+
+        # Create GND PADS Bondwires
+        Names_Wires = ["Wire_L_GND_1", "Wire_L_GND_2", "Wire_Mid_GND_1", "Wire_Mid_GND_2", "Wire_R_GND_1", "Wire_R_GND_2"]
+        Dist2 = [-225, -175, -25, 25, 175, 225]
+
+        for k in range(len(Dist2)):
+
+            Parameters_Bondwire = {}
+            Parameters_Bondwire['X1'] = PAD_Dist[0]/2 
+            Parameters_Bondwire['Y1'] = Dist2[k]
+            Parameters_Bondwire['Z1'] = PAD_Thickness
+            Parameters_Bondwire['X2'] = PAD_Dist[1]/2 
+            Parameters_Bondwire['Y2'] = Dist2[k]
+            Parameters_Bondwire['Z2'] = PAD_Thickness
+
+            Points = {}
+            x = []
+            y = []
+            for i in range(0, 100):
+                x.append(i)
+                y.append(i*4)
+            x = np.array(x)
+            y = np.array(y)
+            Points['X'] = x
+            Points['Y'] = y
+
+
+            Points['X'] = CosinusCurve[:,0]
+            Points['Y'] = CosinusCurve[:,1]
+
+
+
+            self.BondWire(NameWire = Names_Wires[k], Coordinates = Parameters_Bondwire, Height = Bondwire_Height, Radius = Bondwire_Radius , BondwireType = "Spline", Termination = "extended", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+            self.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+        
+        # Create Signal PADS Bondwires
+        Names_Wires = ["Wire_L_Sig", "Wire_R_Sig"]
+        Dist2 = [-100, 100]
+
+
+        for k in range(len(Dist2)):
+            Parameters_Bondwire = {}
+            Parameters_Bondwire['X1'] = PAD_Dist[0]/2 
+            Parameters_Bondwire['Y1'] = Dist2[k]
+            Parameters_Bondwire['Z1'] = PAD_Thickness
+            Parameters_Bondwire['X2'] = PAD_Dist[1]/2 
+            Parameters_Bondwire['Y2'] = Dist2[k]
+            Parameters_Bondwire['Z2'] = PAD_Thickness
+
+            Points = {}
+            x = []
+            y = []
+            for i in range(0, 100):
+                x.append(i)
+                y.append(i*4)
+            x = np.array(x)
+            y = np.array(y)
+            Points['X'] = x
+            Points['Y'] = y
+
+
+            Points['X'] = CosinusCurve[:,0]
+            Points['Y'] = CosinusCurve[:,1]
+
+
+
+            self.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters_Bondwire, Height = Bondwire_Height, Radius = Bondwire_Radius , BondwireType = "Spline", Termination= "extended", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+            self.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+
+
+        
+
+        # Create Top Plate for Bond Wires and cladding
+
+        # PAD_Thickness = 2.8
+        Name_Shield = "Floating_Shield"
+        Component_Name = "Floating_Shield"
+        Material = "Au"
+        Material_Clad = "DAF_Glue"
+
+
+        # Create cladding
+        Brick_Parameters = {}
+        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2
+        Brick_Parameters["Brick Hight Min"] = 0
+        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 
+        Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
+        Brick_Parameters["Component Name"] = Component_Name
+        Brick_Parameters["Material"] = Material_Clad
+        self.Brick(Brick_Parameters)
+
+
+
+        # Create squere floating shield
+        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2 + FloatingShieldThickness*2
+        Brick_Parameters["Brick Hight Min"] = Glue_Thickness*2
+        # Brick_Parameters["Brick Hight Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
+        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 + Glue_Thickness*2
+        Brick_Parameters["Brick Name"] = Name_Shield
+        Brick_Parameters["Component Name"] = Component_Name
+        Brick_Parameters["Material"] = Material
+        self.Brick(Brick_Parameters)
+
+
+        
+        # Pick Faces for Input Waveguide Port 1
+        Parameters_Port = {}
+        Facer_input = []
+        Parameters_Port["Option"] = "Face"
+
+        for i in range(len(Name)):
+            Facer_input.append(Name[i] + ":" + Name[i] + "_input")
+
+        # pick input faces
+        for i in range(len(Name)):
+            Parameters_Port["Face Number"] = Facet_Number[0]
+            Parameters_Port["Object"] = Facer_input[i]
+            self.Pick(Parameters_Port)
+
+        # Create Port Input
+        Parameters_Port = {}
+        Parameters_Port["Port Number"] = 1
+        Parameters_Port["Coordinates"] = "Picks"
+        Parameters_Port["Orientation"] = "Positive"
+        Parameters_Port["Span"] = [3, SpanY, SpanZ]
+        Parameters_Port["Picked Port Number"] = [1,1,1,2,2,2]
+        Parameters_Port["Number of picks"] = 3
+        Parameters_Port["Picked Port Polarity"] = ["negative", "positive", "negative", "negative", "positive","negative"]
+        Parameters_Port["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig_L:Sig_L_input", "GND_Mid:GND_Mid_input", "GND_Mid:GND_Mid_input", "Sig_R:Sig_R_input", "GND_R:GND_R_input"]
+        Parameters_Port["Face Number"] = [Facet_Number[0], Facet_Number[0], Facet_Number[0], Facet_Number[0], Facet_Number[0], Facet_Number[0]]
+        self.WaveguidePortWithPins(Parameters_Port)
+
+
+
+        # Pick Faces for Input Waveguide Port 2
+        Parameters_Port = {}
+        Facer_output = []
+        Parameters_Port["Option"] = "Face"
+        for i in range(len(Name)):
+            Facer_output.append(Name[i] + ":" + Name[i] + "_output")
+
+        for i in range(len(Name)):
+            Parameters_Port["Face Number"] = Facet_Number[1]
+            Parameters_Port["Object"] = Facer_output[i]
+            self.Pick(Parameters_Port)
+
+        #Create Port Output
+        Parameters_Port = {}
+        Parameters_Port["Port Number"] = 2
+        Parameters_Port["Coordinates"] = "Picks"
+        Parameters_Port["Orientation"] = "Positive"
+        Parameters_Port["Span"] = [3, SpanY, SpanZ]
+        Parameters_Port["Picked Port Number"] = [1,1,1,2,2,2]
+        Parameters_Port["Number of picks"] = 5
+        Parameters_Port["Picked Port Polarity"] = ["negative", "positive", "negative", "negative", "positive","negative"]
+        Parameters_Port["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig_L:Sig_L_output", "GND_Mid:GND_Mid_output", "GND_Mid:GND_Mid_output", "Sig_R:Sig_R_output", "GND_R:GND_R_output"]
+        Parameters_Port["Face Number"] = [Facet_Number[1], Facet_Number[1], Facet_Number[1], Facet_Number[1], Facet_Number[1], Facet_Number[1]]
+        self.WaveguidePortWithPins(Parameters_Port)
+
+
+        # Set FDTD Time domain solver 
+        
+        # Set Time Solver
+        Parameters_Solver = {}
+        Parameters_Solver["Accuracy"] = Solver_Accuracy
+        Parameters_Solver["Auto Impedance"] = Solver_Impedance_Status
+        Parameters_Solver["Impedance"] = Solver_Impedance_Value
+        Parameters_Solver["Source Port"] = Solver_Source_Port
+        Parameters_Solver["Solver Mesh Type"] = Solver_Mesh_Type
+        Parameters_Solver["Caclculate Modes Only"] = Solver_Calc_Modes
+        self.setTimeSolver(Parameters_Solver)
 
 
 
@@ -2505,7 +3336,7 @@ class CST_Commands:
             marked_face = Parameters["Picked Component Name"]
             facet_Id = Parameters["Face Number"]
             for i in range(len(marked_face)):
-                lines.append(f'.AddPotentialPicked "{set_number}", "{potential[i]}", "{marked_face[i]}", "{facet_Id[i]}"')
+                lines.append(f'.AddPotentialPicked "{set_number[i]}", "{potential[i]}", "{marked_face[i]}", "{facet_Id[i]}"')
 
             # join them with newlines
             line_block = "\n".join(lines)
@@ -2679,7 +3510,6 @@ class CST_Commands:
             
 
 
-
 # def WaveguidePorts_on_Electrodes_MZM(self, Parameters, Obj):
 #     for i in range(len(Parameters["Port Number"])):
 #         for j in range(len(Parameters["Electrodes_Names"])):
@@ -2826,27 +3656,30 @@ class CST_Commands:
                         .NormingImpedance "{Impedance}"
                         End With
                         """
-            self.prj.model3d.add_to_history("set time solver", vba_code)  
+            self.prj.model3d.add_to_history(f"set {MeshType} time solver", vba_code)  
 
-        else:
+
+        elif MeshType == "TLM":
             vba_code = f"""
-                        'Mesh.SetCreator "High Frequency"
-                        'With Solver
-                        '.Reset
-                        '.Method "Hexahedral TLM"
-                        '.SteadyStateLimit "-{Accuracy}"
-                        '.StimulationPort "All"
-                        '.StimulationMode "All"
-                        '.MeshAdaption "False"
-                        '.SParaSymmetry "True"
-                        '.AutoNormImpedance "True"
-                        '.NormingImpedance ' + '"{Impedance}"
-                        '.StoreTDResultsInCache  "False"
-                        '.RunDiscretizerOnly "False"
-                        '.SuperimposePLWExcitation "False"
-                        'End With
+                        Mesh.SetCreator "High Frequency"
+                        With Solver
+                        .Reset
+                        .Method "Hexahedral TLM"
+                        .SteadyStateLimit "-{Accuracy}"
+                        .StimulationPort "{Source}"
+                        .StimulationMode "All"
+                        .MeshAdaption "False"
+                        .SParaSymmetry "False"
+                        .AutoNormImpedance "True"
+                        .NormingImpedance "{Impedance}"
+                        .StoreTDResultsInCache  "False"
+                        .RunDiscretizerOnly "False"
+                        .SuperimposePLWExcitation "False"
+                        End With
                         """
-            self.prj.model3d.add_to_history("set time solver", vba_code) 
+            self.prj.model3d.add_to_history(f"set {MeshType} time solver", vba_code) 
+        else:
+            raise ValueError("Mesh Type is not recognized, only 'TLM' or 'FIT' are supported! ")
 
 
 
@@ -3255,6 +4088,7 @@ class CST_Commands:
                         ChangeSolverType("HF Time Domain")
                 """
         self.prj.model3d.add_to_history("set electrical simulation", vba_code)
+
 
 
     def ChangeSolverType(self, Type):

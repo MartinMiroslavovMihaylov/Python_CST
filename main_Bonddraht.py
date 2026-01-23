@@ -6,26 +6,34 @@ import os
 # Add the directory containing the project to sys.path
 current_path = os.path.dirname(os.path.abspath('__file__'))
 sys.path.append(current_path)
-from Curves_Functions import Curves
+# from Curves_Functions import Curves
 # import Functions as VBA
 # import Components as Components
-from CST_Python_Wrapper import CST_Commands
+from CST_Python_Wrapper import CST_Commands, Curves
 import numpy as np
-
 
 
 # Define Curves Parameters and Data
 Lenght = 100
 Offset = 40
 points = 100
-
-
-
 # Generate the Bezier and Cos points
 ObjCurves = Curves(Lenght, Offset, points)
-BezierCuve = ObjCurves.Bezier_Curve()
 CosinusCurve = ObjCurves.Cosinus_Curve()
-EulerCurve = ObjCurves.Euler_Curve()
+
+
+# # Define Curves Parameters and Data
+# Lenght = 100
+# Offset = 40
+# points = 100
+
+
+
+# # Generate the Bezier and Cos points
+# ObjCurves = Curves(Lenght, Offset, points)
+# BezierCuve = ObjCurves.Bezier_Curve()
+# CosinusCurve = ObjCurves.Cosinus_Curve()
+# EulerCurve = ObjCurves.Euler_Curve()
 
 
 # plt.figure()
@@ -42,8 +50,6 @@ EulerCurve = ObjCurves.Euler_Curve()
 
 
 
-
-from CST_Python_Wrapper import CST_Commands
 
 obj = CST_Commands()
 obj.New_Project("MWS")
@@ -265,7 +271,7 @@ obj.setFreqSolver(Parameters)
 
 
 
-obj.setDomainSolverType("Freq")
+# obj.setDomainSolverType("Freq")
 
 
 
@@ -440,131 +446,245 @@ obj.setDomainSolverType("Freq")
 #####################################################################################
 
 
-Parameters = {}
+# Parameters = {}
 
-PAD_Width = 80
-PAD_Length = 80
-PAD_Thickness = 5
-Name = ["GND_L", "Sig_L", "GND_Mid", "Sig_R", "GND_R"]
-Component_Name = ["_input", "_output"]
-Dist = np.arange(-400, 500, 200)
-PAD_Dist = [-200, 200]
-Material = "Al"
+# PAD_Width = 100
+# SIG_PAD_Width = 80
+# PAD_Length = 100
+# PAD_Thickness = 5
+# Name = ["GND_L", "Sig_L", "GND_Mid", "Sig_R", "GND_R"]
+# Component_Name = ["_input", "_output"]
+# Names_Chips = ["Chip_L", "Chip_R"]
+# Dist = np.arange(-400, 500, 200)
+# PAD_Dist = [-319, 319]
+# Material = "Al"
 
-obj.add_Al()
-obj.add_Glue()
-obj.add_Si()
+# obj.add_Al()
+# obj.add_Au()
+# obj.add_Glue()
+# obj.add_Si()
+# obj.add_SiO2()
 
-for j in range(len(Component_Name)):
-    for i in range(len(Name)):
-        # Create squere Electrodes 
-        Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
-        Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
-        Parameters["Brick Width Max"] = Dist[i] + PAD_Width
-        Parameters["Brick Width Min"] = Dist[i] -PAD_Width
-        Parameters["Brick Hight Max"] = PAD_Thickness * 2
-        Parameters["Brick Hight Min"] = 0 
-        Parameters["Brick Name"] = Name[i] + Component_Name[j]
-        Parameters["Component Name"] = Name[i] 
-        Parameters["Material"] = Material
-        obj.Brick(Parameters)
-
-
-
-# Create Substrate
-Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
-Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
-Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
-Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
-Parameters["Brick Hight Max"] = 0
-Parameters["Brick Hight Min"] = -300 
-Parameters["Brick Name"] = "Substrate_Chip"
-Parameters["Component Name"] = "Substrate"
-Parameters["Material"] = "Si"
-obj.Brick(Parameters)
-
-
-
-
-
-# Create Bomd Wires
-Names_Wires = ["Wire_L_GND", "Wire_L_Sig", "Wire_Mid_GND", "Wire_R_Sig", "Wire_R_GND"]
-Bond_Wire_Height = 20
-Bond_Wire_Radius = 17.5/2
-
-for k in range(len(Dist)):
-    Parameters = {}
-    Parameters['X1'] = PAD_Dist[0]/2 
-    Parameters['Y1'] = Dist[k]/2
-    Parameters['Z1'] = PAD_Thickness
-    Parameters['X2'] = PAD_Dist[1]/2 
-    Parameters['Y2'] = Dist[k]/2
-    Parameters['Z2'] = PAD_Thickness
-
-    Points = {}
-    x = []
-    y = []
-    for i in range(0, 100):
-        x.append(i)
-        y.append(i*4)
-    x = np.array(x)
-    y = np.array(y)
-    Points['X'] = x
-    Points['Y'] = y
+# # pad_spacing = 100
+# # _dist = 2*pad_spacing + PAD_Width/2 + 2*PAD_Width
+# # Dist = np.arange(-_dist, _dist + pad_spacing*2, pad_spacing*2)
+        
+# for j in range(len(Component_Name)):
+#     for i in range(len(Name)):
+#         if Name[i].split("_")[0] == "GND":
+#             # Create squere Electrodes 
+#             Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+#             Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+#             Parameters["Brick Width Max"] = Dist[i] + PAD_Width
+#             Parameters["Brick Width Min"] = Dist[i] - PAD_Width
+#             Parameters["Brick Hight Max"] = PAD_Thickness * 2
+#             Parameters["Brick Hight Min"] = 0 
+#             Parameters["Brick Name"] = Name[i] + Component_Name[j]
+#             Parameters["Component Name"] = Name[i] 
+#             Parameters["Material"] = "Al"
+#             obj.Brick(Parameters)
+#         else:
+#             # Create squere Electrodes 
+#             Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+#             Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+#             Parameters["Brick Width Max"] = Dist[i] + SIG_PAD_Width
+#             Parameters["Brick Width Min"] = Dist[i] - SIG_PAD_Width
+#             Parameters["Brick Hight Max"] = PAD_Thickness * 2
+#             Parameters["Brick Hight Min"] = 0 
+#             Parameters["Brick Name"] = Name[i] + Component_Name[j]
+#             Parameters["Component Name"] = Name[i] 
+#             Parameters["Material"] = "Al"
+#             obj.Brick(Parameters)
 
 
-    Points['X'] = CosinusCurve[:,0]
-    Points['Y'] = CosinusCurve[:,1]
-
-
-
-    obj.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters, Height = Bond_Wire_Height, Radius = Bond_Wire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
-    obj.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+# # for j in range(len(Component_Name)):
+# #     for i in range(len(Name)):
+# #         # Create squere Electrodes 
+# #         Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
+# #         Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+# #         Parameters["Brick Width Max"] = Dist[i] + PAD_Width
+# #         Parameters["Brick Width Min"] = Dist[i] -PAD_Width
+# #         Parameters["Brick Hight Max"] = PAD_Thickness * 2
+# #         Parameters["Brick Hight Min"] = 0 
+# #         Parameters["Brick Name"] = Name[i] + Component_Name[j]
+# #         Parameters["Component Name"] = Name[i] 
+# #         Parameters["Material"] = Material
+# #         obj.Brick(Parameters)
 
 
 
 
-# Create Top Plate for Bond Wires and cladding
-Parameters = {}
+# # Create two Chips Left and Right 
+# for i in range(len(Names_Chips)):
+#     # Create SiO2 Layer
+#     # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+#     # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+#     if PAD_Dist[i] > 0:
+#         Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
+#         Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+#     else:
+#         Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
+#         Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+#     Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+#     Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+#     Parameters["Brick Hight Max"] = 0
+#     Parameters["Brick Hight Min"] = -19.92
+#     Parameters["Brick Name"] = "SiO2_Layer" + Component_Name[i]
+#     Parameters["Component Name"] = Names_Chips[i]
+#     Parameters["Material"] = "SiO2"
+#     obj.Brick(Parameters)
 
-PAD_Width = 80
-PAD_Length = 80
-PAD_Thickness = 2.8
-Name_Shield = "Floating_Shield"
-Component_Name = "Floating_Shield"
-PAD_Dist_to_Wires = 30
-Material = "Al"
-Material_Clad = "DAF_Glue"
-
-
-# Create squere floating shield
-Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length/2
-Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length/2
-Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
-Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-Parameters["Brick Hight Max"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires*2
-Parameters["Brick Hight Min"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires
-Parameters["Brick Name"] = Name_Shield
-Parameters["Component Name"] = Component_Name
-Parameters["Material"] = Material
-obj.Brick(Parameters)
-
-
-
-# Create cladding
-Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length/2
-Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length/2
-Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
-Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-Parameters["Brick Hight Max"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires
-Parameters["Brick Hight Min"] = PAD_Thickness*2 
-Parameters["Brick Name"] = "Floating_Shield_Clad"
-Parameters["Component Name"] = Component_Name
-Parameters["Material"] = Material_Clad
-obj.Brick(Parameters)
-
+#     # Create Substrate
+#     # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
+#     # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+#     if PAD_Dist[i] > 0:
+#         Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
+#         Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+#     else:
+#         Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
+#         Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+#     Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
+#     Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
+#     Parameters["Brick Hight Max"] = -19.92
+#     Parameters["Brick Hight Min"] = -298.86
+#     Parameters["Brick Name"] = "Substrate_Chip" + Component_Name[i]
+#     Parameters["Component Name"] = Names_Chips[i]
+#     Parameters["Material"] = "Si"
+#     obj.Brick(Parameters)
 
 
+
+
+# # Create Bomd Wires
+# Names_Wires = ["Wire_L_GND_1", "Wire_L_GND_2", "Wire_Mid_GND_1", "Wire_Mid_GND_2", "Wire_R_GND_1", "Wire_R_GND_2"]
+# # Dist2 = [-400, 0, 400]
+# Dist2 = [-225, -175, -25, 25, 175, 225]
+# Bond_Wire_Height = 20
+# # Bond_Wire_Radius = 17.5/2
+# Bond_Wire_Radius = 25/2
+# Offset = [-25, 25]
+# Offset_name = ["_1", "_2"]
+
+# for k in range(len(Dist2)):
+
+#     Parameters = {}
+#     Parameters['X1'] = PAD_Dist[0]/2 
+#     Parameters['Y1'] = Dist2[k]
+#     Parameters['Z1'] = PAD_Thickness
+#     Parameters['X2'] = PAD_Dist[1]/2 
+#     Parameters['Y2'] = Dist2[k]
+#     Parameters['Z2'] = PAD_Thickness
+
+#     Points = {}
+#     x = []
+#     y = []
+#     for i in range(0, 100):
+#         x.append(i)
+#         y.append(i*4)
+#     x = np.array(x)
+#     y = np.array(y)
+#     Points['X'] = x
+#     Points['Y'] = y
+
+
+#     Points['X'] = CosinusCurve[:,0]
+#     Points['Y'] = CosinusCurve[:,1]
+
+
+
+#     obj.BondWire(NameWire = Names_Wires[k], Coordinates = Parameters, Height = Bond_Wire_Height, Radius = Bond_Wire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+#     obj.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+
+
+
+
+# # Create Bomd Wires
+# Names_Wires = ["Wire_L_Sig", "Wire_R_Sig"]
+# Dist2 = [-100, 100]
+# Bond_Wire_Height = 20
+# # Bond_Wire_Radius = 17.5/2
+# Bond_Wire_Radius = 25/2
+
+# for k in range(len(Dist2)):
+#     Parameters = {}
+#     Parameters['X1'] = PAD_Dist[0]/2 
+#     Parameters['Y1'] = Dist2[k]
+#     Parameters['Z1'] = PAD_Thickness
+#     Parameters['X2'] = PAD_Dist[1]/2 
+#     Parameters['Y2'] = Dist2[k]
+#     Parameters['Z2'] = PAD_Thickness
+
+#     Points = {}
+#     x = []
+#     y = []
+#     for i in range(0, 100):
+#         x.append(i)
+#         y.append(i*4)
+#     x = np.array(x)
+#     y = np.array(y)
+#     Points['X'] = x
+#     Points['Y'] = y
+
+
+#     Points['X'] = CosinusCurve[:,0]
+#     Points['Y'] = CosinusCurve[:,1]
+
+
+
+#     obj.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters, Height = Bond_Wire_Height, Radius = Bond_Wire_Radius , BondwireType = "Spline", Termination= "rounded", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+#     obj.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+
+
+
+
+# # Create Top Plate for Bond Wires and cladding
+# Parameters = {}
+
+# PAD_Width = 80
+# PAD_Length = 80
+# PAD_Thickness = 2.8
+# Name_Shield = "Floating_Shield"
+# Component_Name = "Floating_Shield"
+# PAD_Dist_to_Wires = 50
+# Material = "Au"
+# Material_Clad = "DAF_Glue"
+
+
+# # Create squere floating shield
+# Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length/2
+# Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length/2
+# Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+# Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+# Parameters["Brick Hight Max"] = PAD_Thickness*2 + 100 + PAD_Dist_to_Wires*2
+# Parameters["Brick Hight Min"] = PAD_Thickness*2 + 100
+# # Parameters["Brick Hight Max"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires*2
+# # Parameters["Brick Hight Min"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires
+# Parameters["Brick Name"] = Name_Shield
+# Parameters["Component Name"] = Component_Name
+# Parameters["Material"] = Material
+# obj.Brick(Parameters)
+
+
+
+# # Create cladding
+# Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length/2
+# Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length/2
+# Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+# Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+# # Parameters["Brick Hight Max"] = PAD_Thickness*2 + Bond_Wire_Height*2 + Bond_Wire_Radius*2 + PAD_Dist_to_Wires
+# Parameters["Brick Hight Max"] = PAD_Thickness*2 + 100
+# Parameters["Brick Hight Min"] = PAD_Thickness*2 
+# Parameters["Brick Name"] = "Floating_Shield_Clad"
+# Parameters["Component Name"] = Component_Name
+# Parameters["Material"] = Material_Clad
+# obj.Brick(Parameters)
+# 
+# 
+# 
+# 
+# 
+# 
 # # Pick Faces for Input Waveguide Port
 # Parameters = {}
 # Facer_input = []
@@ -586,13 +706,16 @@ obj.Brick(Parameters)
 # Parameters["Coordinates"] = "Picks"
 # Parameters["Orientation"] = "Positive"
 # Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
-# Parameters["Picked Port Number"] = 1
-# Parameters["Number of picks"] = 5
-# Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
-# Parameters["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig_L:Sig_L_input", "GND_Mid:GND_Mid_input", "Sig_R:Sig_R_input", "GND_R:GND_R_input"]
-# Parameters["Face Number"] = 4
+# # Parameters["Picked Port Number"] = 1
+# Parameters["Picked Port Number"] = [1,1,1,2,2,2]
+# Parameters["Number of picks"] = 3
+# Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "negative", "positive","negative"]
+# Parameters["Picked Component Name"] = [ "GND_L:GND_L_input", "Sig_L:Sig_L_input", "GND_Mid:GND_Mid_input", "GND_Mid:GND_Mid_input", "Sig_R:Sig_R_input", "GND_R:GND_R_input"]
+# Parameters["Face Number"] = [4,4,4,4,4,4]
 
 # obj.WaveguidePortWithPins(Parameters)
+
+
 
 
 
@@ -616,123 +739,155 @@ obj.Brick(Parameters)
 # Parameters["Coordinates"] = "Picks"
 # Parameters["Orientation"] = "Positive"
 # Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
-# Parameters["Picked Port Number"] = 1
+# # Parameters["Picked Port Number"] = 1
+# Parameters["Picked Port Number"] = [1,1,1,2,2,2]
 # Parameters["Number of picks"] = 5
-# Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "positive","negative"]
-# Parameters["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig_L:Sig_L_output", "GND_Mid:GND_Mid_output", "Sig_R:Sig_R_output", "GND_R:GND_R_output"]
-# Parameters["Face Number"] = 6
+# Parameters["Picked Port Polarity"] = ["negative", "positive", "negative", "negative", "positive","negative"]
+# Parameters["Picked Component Name"] = [ "GND_L:GND_L_output", "Sig_L:Sig_L_output", "GND_Mid:GND_Mid_output", "GND_Mid:GND_Mid_output", "Sig_R:Sig_R_output", "GND_R:GND_R_output"]
+# Parameters["Face Number"] = [6,6,6,6,6,6]
 
 # obj.WaveguidePortWithPins(Parameters)
 
 
 
 
-# Insert Monitors
-Field_Freq = np.arange(0,220,20)
 
 
 Parameters = {}
-Parameters["Monitor Type"] = "Efield"
-Parameters["Domain"] = "Frequency"
+Parameters["PAD Width GND"] = 100
+Parameters["PAD Width Signal"] = 80
+Parameters["PAD Length"] = 100
+Parameters["PAD Thickness"] = 2.8
 
 
-for i in range(len(Field_Freq)):
-    Parameters["Monitor Frequency"] = Field_Freq[i]
-    obj.CreateEfieldMonitor(Parameters)
+Parameters["PADs Distance"] = 219
+Parameters["Bonwire height"] = 60
+Parameters["Bonwire radius"] = 25/2
+Parameters["Glue Thickness"] = 50
+Parameters["Floating Shield Thickness"]= 35
+
+Parameters["Port Y Span"] = 70
+Parameters["Port Z Span"] = 200
+Parameters["Accuracy"] = 40
 
 
-
-
-
-
-# create_GGB_Probe()
-Parameters = {}
-Parameters["Component Name"] = "Probe_Left"
-Parameters["Orientation Angle"] = -30
-obj.GGB_Probe(Parameters)
-
-
-
-# Move Probes Left
-Parameters = {}
-Parameters["Translate Type"] = "Translate"
-Parameters["Name Object"] = "Probe_Left"
-Parameters["Position X"] = -320
-Parameters["Position Y"] = 0
-Parameters["Position Z"] = 5
-
-
-obj.Translation(Parameters)
-
-
-
-
-# create_GGB_Probe()
-Parameters = {}
-Parameters["Component Name"] = "Probe_Right"
-Parameters["Orientation Angle"] = 30
-obj.GGB_Probe(Parameters)
-
-
-# Move Probes Right
-Parameters = {}
-Parameters["Translate Type"] = "Translate"
-Parameters["Name Object"] = "Probe_Right"
-Parameters["Position X"] = 320
-Parameters["Position Y"] = 0
-Parameters["Position Z"] = 5
-
-
-obj.Translation(Parameters)
+obj.GSGSG_Bondwire_ChipToChip_connection(Parameters)
+# 
+# Parameters["Probes"] = True
+# obj.GSG_Bondwire_ChipToChip_connection(Parameters)
 
 
 
 
 
-# Pick Faces for Input Waveguide Port
-Parameters = {}
-Parameters["Option"] = "Face"
-Parameters["Face Number"] = [3,9]
-Names = ["Probe_Left:Signal_Probe", "Probe_Right:Signal_Probe"]
+
+# # Insert Monitors
+# Field_Freq = np.arange(0,220,20)
 
 
-# Port Parmaeters
-Parameters["Coordinates"] = "Picks"
-Orientation = ["positive", "positive"]
-Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
-Parameters["Picked Port Number"] = 1
-Parameters["Number of picks"] = 1
-Parameters["Picked Port Polarity"] = ["positive", "negative"]
-Componentname = ["Probe_Left", "Probe_Right"]
-PartName = ["Signal_Probe", "Body_Probe" ]
-Parameters["Number of picks"] = 5
-FaceNum =  [ 3, 9 ]
-Parameters["Picked Port Number"] 
+# Parameters = {}
+# Parameters["Monitor Type"] = "Efield"
+# Parameters["Domain"] = "Frequency"
+
+
+# for i in range(len(Field_Freq)):
+#     Parameters["Monitor Frequency"] = Field_Freq[i]
+#     obj.CreateEfieldMonitor(Parameters)
 
 
 
 
-for i in range(len(Names)): 
-    Parameters["Orientation"] = Orientation[i]
 
-    for j in range(len(FaceNum )): 
-        Parameters["Object"] = f"{Componentname[i]}:{PartName[j]}"
+
+# # create_GGB_Probe()
+# Parameters = {}
+# Parameters["Component Name"] = "Probe_Left"
+# Parameters["Orientation Angle"] = -30
+# Parameters["Name"] = "GGB_L"
+# obj.GGB_Probe(Parameters)
+
+
+
+# # Move Probes Left
+# Parameters = {}
+# Parameters["Translate Type"] = "Translate"
+# Parameters["Name Object"] = "Probe_Left"
+# Parameters["Position X"] = -320
+# Parameters["Position Y"] = 0
+# Parameters["Position Z"] = 5
+
+
+# obj.Translation(Parameters)
+
+
+
+
+# # create_GGB_Probe()
+# Parameters = {}
+# Parameters["Component Name"] = "Probe_Right"
+# Parameters["Orientation Angle"] = 30
+# obj.GGB_Probe(Parameters)
+
+
+# # Move Probes Right
+# Parameters = {}
+# Parameters["Translate Type"] = "Translate"
+# Parameters["Name Object"] = "Probe_Right"
+# Parameters["Position X"] = 320
+# Parameters["Position Y"] = 0
+# Parameters["Position Z"] = 5
+
+
+# obj.Translation(Parameters)
+
+
+
+
+
+# # Pick Faces for Input Waveguide Port
+# Parameters = {}
+# Parameters["Option"] = "Face"
+# Parameters["Face Number"] = [3,9]
+# Names = ["Probe_Left:Signal_Probe", "Probe_Right:Signal_Probe"]
+
+
+# # Port Parmaeters
+# Parameters["Coordinates"] = "Picks"
+# Orientation = ["positive", "positive"]
+# Parameters["Span"] = [3, PAD_Width/2, PAD_Width/2]
+# Parameters["Picked Port Number"] = 1
+# Parameters["Number of picks"] = 1
+# Parameters["Picked Port Polarity"] = ["positive", "negative"]
+# Componentname = ["Probe_Left", "Probe_Right"]
+# PartName = ["Signal_Probe", "Body_Probe" ]
+# Parameters["Number of picks"] = 5
+# FaceNum =  [ 3, 9 ]
+# Parameters["Picked Port Number"] 
+
+
+
+
+# for i in range(len(Names)): 
+#     Parameters["Orientation"] = Orientation[i]
+
+#     for j in range(len(FaceNum )): 
+#         Parameters["Object"] = f"{Componentname[i]}:{PartName[j]}"
        
         
-        Parameters["Face Number"] =  FaceNum[j]
+#         Parameters["Face Number"] =  FaceNum[j]
         
-        obj.Pick(Parameters)
+#         obj.Pick(Parameters)
     
     
-    # Create Port Input
-    Parameters["Picked Component Name"] = Names[i]
-    Parameters["Port Number"] = i+1
-    Parameters["Picked Port Number"] = 1
-    Parameters["Picked Component Name"] = []
-    Parameters["Face Number"] = [3,9]
-    for k in range(len(FaceNum)):
-        Parameters["Picked Component Name"].append(f"{Componentname[i]}:{PartName[k]}")
-    obj.WaveguidePortWithPins(Parameters)
+#     # Create Port Input
+#     Parameters["Picked Component Name"] = Names[i]
+#     Parameters["Port Number"] = i+1
+#     Parameters["Picked Port Number"] = 1
+#     Parameters["Picked Component Name"] = []
+#     Parameters["Face Number"] = [3,9]
+#     for k in range(len(FaceNum)):
+#         Parameters["Picked Component Name"].append(f"{Componentname[i]}:{PartName[k]}")
+#     obj.WaveguidePortWithPins(Parameters)
 
     
 

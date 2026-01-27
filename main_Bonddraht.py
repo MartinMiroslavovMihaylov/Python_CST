@@ -9,7 +9,7 @@ sys.path.append(current_path)
 # from Curves_Functions import Curves
 # import Functions as VBA
 # import Components as Components
-from CST_Python_Wrapper import CST_Commands, Curves
+from CST_Constructor import CST_Commands, Curves
 import numpy as np
 
 
@@ -53,8 +53,8 @@ CosinusCurve = ObjCurves.Cosinus_Curve()
 
 obj = CST_Commands()
 obj.New_Project("MWS")
-# obj.Save_Project("C:/Users/marti/Desktop/UPB Kursen/CST with Python/CST_Bonddrahtmodell", "Wrapper_Save", False)
-# obj.Open_Project("C:/Users/marti/Desktop/UPB Kursen/CST with Python/CST_Bonddrahtmodell/Wrapper_Save.cst")
+# obj.Save_Project("C:/Users/marti/Desktop/UPB Kursen/CST with Python/CST_Bonddrahtmodell", "Test_Save_Code", False)
+# obj.Open_Project("C:/Users/marti/Desktop/UPB Kursen/CST with Python/CST_Bonddrahtmodell/Test_Save_Code.cst")
 
 
 
@@ -80,9 +80,9 @@ obj.set_Units(Parameters)
 
 
 
-# obj.add_Si()
-# obj.add_SiO2()
-# obj.add_Au()
+# # obj.add_Si()
+# # obj.add_SiO2()
+# # obj.add_Au()
 obj.add_material("Si")
 
 
@@ -102,12 +102,32 @@ obj.add_material("Si")
 # Points['X'] = CosinusCurve[:,0]
 # Points['Y'] = CosinusCurve[:,1]
 
+# Parameter_Curve = {}
+# Parameter_Curve["Curve Name"] = "Curve_Python"
+# Parameter_Curve["Points"] = Points
+
+# obj.Curve(Parameter_Curve)
+
+# Parameters_CurveToSolid = {}
+# Parameters_CurveToSolid["Name"] = "curve_to_solid"
+# Parameters_CurveToSolid["Component Name"] = "Curve_To_Solid"
+# Parameters_CurveToSolid["Material"] = "Si"
+# Parameters_CurveToSolid["Thickness"] = 2
+# Parameters_CurveToSolid["Curve Folder"] = "Curve_Python"
+# Parameters_CurveToSolid["Curve Name"] = "Curve_Python"
+# obj.CurveToSolid(Parameters_CurveToSolid)
 
 
-# obj.Curve("Curve_Python", Points)
-# obj.ToSolid("Curve_python_Solid", CurveName = "Curve_Python", NameFolder = "Curve_Python", Material = "Si" )
-# obj.Poligon_2D()
-# obj.RibWaveguide_ToSolid()
+
+
+# Parameters_toSolid = {}
+# Parameters_toSolid["Solid Name"] = "Curve_python_Solid"
+# Parameters_toSolid["Curve Name"] = "Curve_Python"
+# Parameters_toSolid["Name Folder"] = "Curve_Python"
+# Parameters_toSolid["Material"] =  "Si"
+
+# obj.ToSolid(Parameters_toSolid)
+
 
 
 # GlobalParam = {}
@@ -119,10 +139,7 @@ obj.add_material("Si")
 
 # obj.AddGlobalParameter(GlobalParam)
 
-
-# params = {}
-# params['Width_Gap'] = 5
-# params['Hight'] = 2
+# params = 'Length'
 # obj.DeleteGlobalParameter(params)
 
 
@@ -164,20 +181,20 @@ obj.setSimFreqeuncy(Parameters)
 
 
 # Set Frequency Solver
-Parameters = {}
+# Parameters = {}
 
-obj.setFreqSolver(Parameters)
+# obj.setFreqSolver()
 
 
-# # Set Time Solver
-# Parameters= {}
-# Parameters["Accuracy"] = 30
-# Parameters["Caclculate Modes Only"] = False
-# Parameters["Auto Impedance"] = True
-# Parameters["Impedance"] = 50
-# Parameters["Source Port"]  = 1
-# Parameters["Solver Mesh Type"] = "TLM"
-# obj.setTimeSolver(Parameters)
+# Set Time Solver
+Parameters= {}
+Parameters["Accuracy"] = 40
+Parameters["Caclculate Modes Only"] = False
+Parameters["Auto Impedance"] = True
+Parameters["Impedance"] = 50
+Parameters["Source Port"]  = 1
+Parameters["Solver Mesh Type"] = "TLM"
+obj.setTimeSolver(Parameters)
 
 
 
@@ -197,8 +214,6 @@ obj.setFreqSolver(Parameters)
 # Parameters["Angle Z"] = 0 
 
 # obj.MZM(Parameters)
-
-
 
 
 # Parameters = {}
@@ -255,13 +270,19 @@ obj.setFreqSolver(Parameters)
 # Points['X'] = CosinusCurve[:,0]
 # Points['Y'] = CosinusCurve[:,1]
 
-
-# obj.BondWire(NameWire = "TestWire" ,Coordinates = Parameters, Height = 1, Radius = 0.5 , BondwireType = "Spline", Material = "Copper (annealed)",  NameFolder = "BondWire")
-
-
-
-
-
+# obj.add_Au()
+# Parameters_Wire = {}
+# Parameters_Wire["Name Wire"] = "TestWire"
+# Parameters_Wire["Coordinates"] = Parameters
+# Parameters_Wire["Height"] = 20
+# Parameters_Wire["Radius"] = 0.5
+# Parameters_Wire["Bondwire Type"] = "Spline"
+# Parameters_Wire["Center Position"] = 0.5
+# Parameters_Wire["Material"] = "Au"
+# Parameters_Wire["SolidWireModel"] = True
+# Parameters_Wire["Termination"] = "rounded" 
+# Parameters_Wire["NameFolder"] = "BondWire"
+# obj.BondWire(Parameters_Wire)
 
 
 # obj.Curve(CurveName = "TestCurve", Points = Points)
@@ -269,9 +290,9 @@ obj.setFreqSolver(Parameters)
 # obj.ToSolid(SolidName = "TestSolidCurve2", CurveName = "CurveWire2", NameFolder = "CurveWire2", Material = "Si")
 
 
-
-
-# obj.setDomainSolverType("Freq")
+# Parameters = {}
+# Parameters["Domain"] = "Freq"
+# obj.setDomainSolverType(Parameters)
 
 
 
@@ -292,37 +313,6 @@ obj.setFreqSolver(Parameters)
 # obj.Cylinder(Parameters)
 
 
-# Parameters = {}
-# Parameters["Cylinder Name"] = "Test Cylinder Y"
-# Parameters["Component Name"] = "Cylinder Y"
-# Parameters["Material"] = "Au"
-# Parameters["Outer Radius"] = 5
-# Parameters["Inner Radius"] = 2
-# Parameters["Orentation Axis"] = "Y"
-# Parameters["Y min"] = 0
-# Parameters["Y max"] = 10
-# Parameters["X center"] = 0
-# Parameters["Z center"] = 0
-
-
-# obj.Cylinder(Parameters)
-
-
-
-# Parameters = {}
-# Parameters["Cylinder Name"] = "Test Cylinder Z2"
-# Parameters["Component Name"] = "Cylinder Z"
-# Parameters["Material"] = "Au"
-# Parameters["Outer Radius"] = 5
-# Parameters["Inner Radius"] = 2
-# Parameters["Orentation Axis"] = "Z"
-# Parameters["Z min"] = 0
-# Parameters["Z max"] = 10
-# Parameters["Y center"] = 0
-# Parameters["X center"] = 0
-
-
-# obj.Cylinder(Parameters)
 
 
 # ###################################################################################
@@ -679,12 +669,12 @@ obj.setFreqSolver(Parameters)
 # Parameters["Component Name"] = Component_Name
 # Parameters["Material"] = Material_Clad
 # obj.Brick(Parameters)
-# 
-# 
-# 
-# 
-# 
-# 
+
+
+
+
+
+
 # # Pick Faces for Input Waveguide Port
 # Parameters = {}
 # Facer_input = []
@@ -755,13 +745,13 @@ obj.setFreqSolver(Parameters)
 
 Parameters = {}
 Parameters["PAD Width GND"] = 100
-Parameters["PAD Width Signal"] = 80
+Parameters["PAD Width Signal"] = 40
 Parameters["PAD Length"] = 100
 Parameters["PAD Thickness"] = 2.8
 
 
 Parameters["PADs Distance"] = 219
-Parameters["Bonwire height"] = 60
+Parameters["Bonwire height"] = 20
 Parameters["Bonwire radius"] = 25/2
 Parameters["Glue Thickness"] = 50
 Parameters["Floating Shield Thickness"]= 35
@@ -771,10 +761,10 @@ Parameters["Port Z Span"] = 200
 Parameters["Accuracy"] = 40
 
 
-obj.GSGSG_Bondwire_ChipToChip_connection(Parameters)
-# 
-# Parameters["Probes"] = True
-# obj.GSG_Bondwire_ChipToChip_connection(Parameters)
+# obj.GSGSG_Bondwire_ChipToChip_connection(Parameters)
+
+Parameters["Probes"] = True
+obj.GSG_Bondwire_ChipToChip_connection(Parameters)
 
 
 

@@ -4443,18 +4443,15 @@ class CST_Commands:
                     With MeshSettings
                         .SetMeshType "Hex"
                         .Set "Version", 1%
-                        .Set "StepsPerWaveNear", "{CellNear}"
-                        .Set "StepsPerWaveFar", "{CellFar}"
-                        .Set "WavelengthRefinementSameAsNear", "0" 
-                        .Set "StepsPerBoxNear", "{CellNear}"
-                        .Set "StepsPerBoxFar", "{CellFar}"
                     End With
+
                     With Mesh
-                        .MeshType "{MeshType}"
+                        .MeshType "PBA"
                     End With
+
                 ChangeSolverType("HF Time Domain")
                 """
-        self.prj.model3d.add_to_history("set optical simulation", vba_code)
+        self.prj.model3d.add_to_history(f"set optical simulation", vba_code)
 
 
 

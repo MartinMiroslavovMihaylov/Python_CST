@@ -21,20 +21,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout main branch (code)
-      - name: Checkout main code
+      # --- Checkout main code ---
+      - name: Checkout main branch
         uses: actions/checkout@v5
         with:
           path: repo
 
-      # Checkout docs branch (Sphinx sources)
+      # --- Checkout docs branch ---
       - name: Checkout docs branch
         uses: actions/checkout@v5
         with:
           ref: docu
           path: docs-src
 
-      # Set up Python
+      # --- Set up Python ---
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -42,7 +42,7 @@ jobs:
           cache: pip
           cache-dependency-path: docs-src/requirements-docs.txt
 
-      # Install dependencies
+      # --- Install dependencies ---
       - name: Install doc dependencies
         run: |
           python -m pip install --upgrade pip
@@ -50,23 +50,32 @@ jobs:
           pip install matplotlib pandas
           echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
 
-      # Sanity import check (ensure package can be imported)
+      # --- Sanity import check ---
       - name: Sanity import check
         run: |
           python - <<'PY'
           import os
           import sys
-          code_dir = os.environ["CODE_DIR"]
+
+          # Get CODE_DIR from environment
+          code_dir = os.environ.get("CODE_DIR", os.path.abspath("../repo"))
           sys.path.insert(0, code_dir)
-          from CST_Constructor import CST_Commands, Curves
+
+          # Debug info
+          print("[Sanity] sys.path:", sys.path)
+          print("[Sanity] Repo contents:", os.listdir(code_dir))
+          print("[Sanity] CST_Constructor contents:", os.listdir(os.path.join(code_dir, "CST_Constructor")))
+
+          # Correct import from package
+          from CST_Constructor.CST_Constructor import CST_Commands, Curves
           print("Imported CST_Constructor successfully:", CST_Commands, Curves)
           PY
 
-      # Build Sphinx HTML
+      # --- Build Sphinx HTML ---
       - name: Build Sphinx HTML
         run: sphinx-build -b html docs-src _site
 
-      # Upload Pages artifact
+      # --- Upload Pages artifact ---
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,4 +1,4 @@
-# Python_CST/__init__.py
+# CST_Constructor/__init__.py
 
 from importlib.metadata import PackageNotFoundError, version
 
@@ -8,15 +8,12 @@ try:
 except PackageNotFoundError:
     __version__ = "0+unknown"  # fallback for source installs
 
-# --- Import classes/functions from Constructor module ---
-from CST_Constructor.CST_Constructor import (
-    CST_Commands,
-    Curves,
-)
+# --- Import classes from CST_Constructor.py ---
+from .CST_Constructor import Constructor, Curves
 
 # --- Exported names ---
 __all__ = [
     "__version__",
-    "CST_Commands",
-    "Curves"
+    "Constructor",
+    "Curves",
 ]

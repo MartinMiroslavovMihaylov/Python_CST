@@ -1,3 +1,4 @@
+# docs-src/conf.py
 # Configuration file for the Sphinx documentation builder.
 
 import os
@@ -5,16 +6,19 @@ import sys
 import shutil
 import subprocess
 
-# --- Add main repo to sys.path ---
+# --- Determine repo root (CODE_DIR) ---
 
+# First try environment variable set by GitHub Actions
 CODE_DIR = os.environ.get("CODE_DIR")
 if not CODE_DIR or not os.path.isdir(CODE_DIR):
-    CODE_DIR = os.path.abspath("../repo")  # fallback
+    # Fallback: assume repo is one folder up from docs-src
+    CODE_DIR = os.path.abspath("../repo")
 
+# Add repo root to sys.path for autodoc
 sys.path.insert(0, CODE_DIR)
+print(f"[conf.py] Added CODE_DIR to sys.path: {CODE_DIR}")
 
 # --- Expose code examples under 'examples-src' ---
-
 
 def _mount_examples():
     src = os.path.join(CODE_DIR, "Examples")
@@ -43,21 +47,16 @@ def _mount_examples():
             print(f"[conf.py] Junction examples-src -> {src}")
         except Exception:
             shutil.copytree(src, dst)
-            print(
-                f"[conf.py] Copied examples to '{dst}' (symlink/junction unavailable)"
-            )
-
+            print(f"[conf.py] Copied examples to '{dst}' (symlink/junction unavailable)")
 
 _mount_examples()
 
 # --- Project information ---
-
 project = "Python-CST Constructor Script"
 author = "Martin Mihaylov"
 release = "27.01.2026"
 
 # --- General configuration ---
-
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
@@ -76,18 +75,14 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autodoc_typehints = "description"
 
 # --- Mock heavy imports ---
-
 autodoc_mock_imports = [
     "numpy",
     "pandas",
     "matplotlib",
-    "os",
-    "sys",
     "matlab",
 ]
 
 # --- HTML output options ---
-
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     "collapse_navigation": False,

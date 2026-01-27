@@ -6,14 +6,9 @@ from importlib.metadata import PackageNotFoundError, version
 try:
     __version__ = version(__name__)
 except PackageNotFoundError:
-    __version__ = "0+unknown"  # fallback for source installs
+    __version__ = "0+unknown"
 
-# --- Import classes from CST_Constructor.py ---
+# --- Import classes ---
 from .CST_Constructor import CST_Commands, Curves
 
-# --- Exported names ---
-__all__ = [
-    "__version__",
-    "CST_Commands",
-    "Curves",
-]
+__all__ = ["__version__", "CST_Commands", "Curves"]

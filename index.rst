@@ -45,20 +45,15 @@ Option ``-e`` means **editable installation**.
 How to use this Library
 -----------------------
 
-:doc:`Install`
-   How to install.
-   
-:doc:`Examples/index`
-   Code Examples.
-   
-:doc:`Extras/index`
-	Code Curves functions.
+:doc:`Install` — How to install.  
+:doc:`Examples/index` — Code examples.  
+:doc:`Extras/index` — Curves functions examples.  
 
-.. toctree::
-   :maxdepth: 3
-   :caption: Documentation
 
-   Install
-   Examples/index
-   Extras/index
-   Constructor
+Module Reference
+----------------
+
+.. automodule:: CST_Constructor
+    :members:
+    :undoc-members:
+    :show-inheritance:

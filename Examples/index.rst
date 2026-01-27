@@ -47,8 +47,11 @@ To call the following in your Python IDLE.
 Full Code Examples:
 -------------------
 
+All detailed examples can be found below:
+
 .. toctree::
    :maxdepth: 1
+   :caption: Available Examples
 
    Example_GSG_Pads_with_Bondwires
    Example_GSGSG_Pads_with_Bondwires

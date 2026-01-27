@@ -52,9 +52,9 @@ _mount_examples()
 
 # --- Project information ---
 
-project = "Python-Lumerical Constructor Script"
+project = "Python-CST Constructor Script"
 author = "Martin Mihaylov"
-release = "01.01.2024"
+release = "27.01.2026"
 
 # --- General configuration ---
 
@@ -84,7 +84,6 @@ autodoc_mock_imports = [
     "os",
     "sys",
     "matlab",
-    "imt",
 ]
 
 # --- HTML output options ---

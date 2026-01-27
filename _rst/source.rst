@@ -4,10 +4,10 @@ source package
 Submodules
 ----------
 
-source.Constructor module
+source.CST_Constructor module
 -------------------------
 
-.. automodule:: source.Constructor
+.. automodule:: source.CCST_onstructor
    :members:
    :undoc-members:
    :show-inheritance:

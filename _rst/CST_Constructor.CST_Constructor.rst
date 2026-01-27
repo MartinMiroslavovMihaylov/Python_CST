@@ -1,7 +1,7 @@
-Constructor module
+CST_Constructor module
 ==================
 
-.. automodule:: Constructor.Constructor
+.. automodule:: CST_Constructor.CST_Constructor
    :members:
    :undoc-members:
    :show-inheritance:

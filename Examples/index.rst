@@ -1,33 +1,47 @@
 Examples
 ========
 
-Python code example how to start and call the Lumerical from Python. 
-To call the following in your Python IDLEmß.
+Python code example how to start and call the CST from Python. 
+To call the following in your Python IDLE.
 
 .. code-block:: python
 
-	import os
-	import os.path
+	import numpy as np 
+	import matplotlib.pyplot as plt
+	import pandas as pandas
 	import sys
-	# Import Constructor 
-	import Constructor as Constructor
-	# Import Help Menu
-	from Constructor import Help
-	#Import Loading Bar
-	from Constructor import loadingBar
-	# Import Logfile function extractor 
-	from Constructor import Logfile
+	import os
+	# Add the directory containing the project to sys.path
+	current_path = os.path.dirname(os.path.abspath('__file__'))
+	sys.path.append(current_path)
+	from CST_Constructor import CST_Commands, Curves
+
+
+	# #Open new CST Project 
+	# Call CST script 
+	obj = CST_Commands()
 	
-	# Give the lumpi.py files paths
-	Path = "C:/Program Files/Lumerical/v221/api/python/lumapi.py"
+	# #List of all the available CSt Projects that can be called from this scrip
+	# obj.New_Project("CS")
+	# obj.New_Project("DS")
+	# obj.New_Project("EMS")
+	# obj.New_Project("FD3D")
+	# obj.New_Project("MPS")
+	obj.New_Project("MWS")
+	# obj.New_Project("PCBS")
+	# obj.New_Project("PS")
+
 	
-	# Start the Lumerical FDTD API
-	obj = Constructor.Constructor(file, "FDTD")
+	# #Open existing CST Project
+	# obj.Open_Project("C:/...../Test_Save_Code.cst")
+	
+	# #Open existing CST Project
+	# obj.Open_Project("C:/...../Test_Save_Code.cst")
 	
 	
-	## If you have an Material Library you wanna import you can use 
-	#MaterialPath = "C:/.../Materials.mdf"
-	#obj = Constructor.Constructor(file, "FDTD", MaterialPath )
+	# #Save CST Project
+	# obj.Save_Project("C:/...../CST", "Test_Save_Code", False)
+
 
 
 Full Code Examples:
@@ -36,7 +50,8 @@ Full Code Examples:
 .. toctree::
    :maxdepth: 1
 
-   Example_Simple_Waveguide_FDE
-   Example_MMI_EME
-   Example_S_Bend_FDTD
-   Example_MZM_CHARGE
+   Example_GSG_Pads_with_Bondwires
+   Example_GSGSG_Pads_with_Bondwires
+   Example_MZM
+   Example_Phase_Modulator
+   Example_Waveguide_FDE

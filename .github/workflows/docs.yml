@@ -57,8 +57,8 @@ jobs:
           import os, sys
           code_dir = os.environ["CODE_DIR"]
           sys.path.insert(0, code_dir)
-          import CST_Constructor
-          print("Imported CST_Constructor successfully")
+          from CST_Constructor import Constructor, Curves
+          print("Imported CST_Constructor successfully:", Constructor, Curves)
           PY
 
       # Build Sphinx HTML

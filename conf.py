@@ -80,6 +80,7 @@ autodoc_mock_imports = [
     "pandas",
     "matplotlib",
     "matlab",
+    "cst",  # <-- mock CST Studio API
 ]
 
 # --- HTML output options ---

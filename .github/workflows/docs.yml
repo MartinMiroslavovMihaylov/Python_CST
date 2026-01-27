@@ -50,21 +50,21 @@ jobs:
           pip install matplotlib pandas
           echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
 
-      # Sanity import check
+      # Sanity import check (ensure package can be imported)
       - name: Sanity import check
         run: |
           python - <<'PY'
-          import os, sys
+          import os
+          import sys
           code_dir = os.environ["CODE_DIR"]
           sys.path.insert(0, code_dir)
-          from CST_Constructor import Constructor, Curves
-          print("Imported CST_Constructor successfully:", Constructor, Curves)
+          from CST_Constructor import CST_Commands, Curves
+          print("Imported CST_Constructor successfully:", CST_Commands, Curves)
           PY
 
       # Build Sphinx HTML
       - name: Build Sphinx HTML
-        run: |
-          sphinx-build -b html docs-src _site
+        run: sphinx-build -b html docs-src _site
 
       # Upload Pages artifact
       - name: Upload Pages artifact

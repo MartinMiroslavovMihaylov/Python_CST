@@ -89,6 +89,7 @@ autodoc_mock_imports = [
     "pandas",
     "matplotlib",
     "matlab",
+    "scipy"
 ]
 
 # Detect CI environment

@@ -17,18 +17,22 @@ concurrency:
   cancel-in-progress: true  # prevents overlapping deploys
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
+build:
+runs-on: ubuntu-latest
+steps:
+# Checkout main branch (code)
+- name: Checkout main code
+uses: actions/checkout@v5
+with:
+path: repo
 
-    steps:
-      # --- Checkout main code (Python_CST) ---
-      - name: Checkout main branch
-        uses: actions/checkout@v5
-        with:
-          path: repo
-
+  # Checkout docs branch (Sphinx sources)
+                                               
+  - name: Checkout docs branch
+    uses: actions/checkout@v5
+    with:
+      ref: docu
+      path: docs-src
       # --- Checkout docs branch ---
       - name: Checkout docs branch
         uses: actions/checkout@v5
@@ -36,63 +40,48 @@ jobs:
           ref: docu
           path: docs-src
 
-      # --- Set up Python ---
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: docs-src/requirements-docs.txt
+# Set up Python
+  - name: Set up Python
+    uses: actions/setup-python@v5
+    with:
+      python-version: "3.11"
+      cache: "pip"
+      cache-dependency-path: "docs-src/requirements-docs.txt"
 
-      # --- Install doc dependencies ---
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r docs-src/requirements-docs.txt
-          pip install matplotlib pandas
-          echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
+  # Install dependencies including Constructor requirements
+  - name: Install doc dependencies
+    run: |
+      python -m pip install --upgrade pip
+                                
+                    
+      pip install -r docs-src/requirements-docs.txt
+      pip install matplotlib pandas  # add other dependencies your code needs
+      echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
+  # Sanity import check
+  - name: Sanity import check
+    run: |
+      python - <<'PY'
+      import os, sys
+      code_dir = os.environ["CODE_DIR"]
+      sys.path.insert(0, code_dir)
+      from CST_Constructor.CST_Constructor import CST_Commands, Curves
+      print("Imported CST_Constructor successfully:", CST_Commands, Curves)
+      PY
 
-      # --- Optional sanity check ---
-      - name: List repo contents
-        run: ls -R ${CODE_DIR}
+  # Build Sphinx HTML
+  - name: Build Sphinx HTML
+    env:
+      CODE_DIR: ${{ github.workspace }}/repo
+    run: sphinx-build -b html docs-src _site
 
-      - name: Sanity import check
-        run: |
-          python - <<'PY'
-          import os, sys
-          code_dir = os.environ.get("CODE_DIR")
-          sys.path.insert(0, code_dir)
-          print("[Sanity] sys.path:", sys.path)
-          print("[Sanity] Repo contents:", os.listdir(code_dir))
-          try:
-              from CST_Constructor.CST_Constructor import CST_Commands, Curves
-              print("Imported CST_Constructor successfully:", CST_Commands, Curves)
-          except ModuleNotFoundError as e:
-              print(f"Warning: {e} (CST module not installed; skipping runtime import)")
-          PY
-
-      # --- Clean previous build ---
-      - name: Clean _site
-        run: rm -rf _site
-
-      # --- Generate .rst from code and build Sphinx ---
-      - name: Build Sphinx HTML
-        shell: bash
-        run: |
-          export PYTHONPATH=${CODE_DIR}:$PYTHONPATH
-          # Generate .rst files for CST_Constructor automatically
-          sphinx-apidoc -o docs-src/_rst --separate --force --no-toc ${CODE_DIR}/CST_Constructor
-          # Build HTML
-          sphinx-build -b html docs-src _site
-
-      # --- Upload Pages artifact ---
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-          name: github-pages
-
-      # --- Deploy to GitHub Pages ---
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  # Upload Pages artifact
+  - name: Upload Pages artifact
+    uses: actions/upload-pages-artifact@v3
+    with:
+                                               
+      path: _site
+                                               
+                                                                
+              
+                                                       
+                          

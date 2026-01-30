@@ -78,8 +78,11 @@ jobs:
 
       # --- Build Sphinx HTML ---
       - name: Build Sphinx HTML
-        run: sphinx-build -b html docs-src _site
-
+          shell: bash
+          run: |
+            export PYTHONPATH=${CODE_DIR}:$PYTHONPATH
+            sphinx-build -b html docs-src _site
+ 
       # --- Upload Pages artifact ---
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

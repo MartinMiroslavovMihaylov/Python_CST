@@ -1,0 +1,1866 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CST_Constructor.CST_Constructor module &mdash; Python-CST Constructor Script 27.01.2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b3658ba4"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Python-CST Constructor Script
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Install.html#cst-installation-and-file-location">CST Installation and file location</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#full-code-examples">Full Code Examples:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Example_GSG_Pads_with_Bondwires.html">Example_GSG_Pads_with_Bondwires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Example_GSGSG_Pads_with_Bondwires.html">Example_GSGSG_Pads_with_Bondwires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Example_MZM.html">Example_MZM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Example_Phase_Modulator.html">Example_Phase_Modulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Example_Waveguide_FDE.html">Example_Waveguide</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Extras/index.html">Curves ClassExamples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CST_Constructor.html">CST_Constructor Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands"><code class="docutils literal notranslate"><span class="pre">CST_Commands</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.AddGlobalParameter"><code class="docutils literal notranslate"><span class="pre">CST_Commands.AddGlobalParameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.BondWire"><code class="docutils literal notranslate"><span class="pre">CST_Commands.BondWire()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Brick"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Brick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ChangeSolverType"><code class="docutils literal notranslate"><span class="pre">CST_Commands.ChangeSolverType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ClearAllPicks"><code class="docutils literal notranslate"><span class="pre">CST_Commands.ClearAllPicks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Conus"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Conus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CreateEfieldMonitor"><code class="docutils literal notranslate"><span class="pre">CST_Commands.CreateEfieldMonitor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Curve"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveToSolid"><code class="docutils literal notranslate"><span class="pre">CST_Commands.CurveToSolid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveWire"><code class="docutils literal notranslate"><span class="pre">CST_Commands.CurveWire()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cut_structures"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Cut_structures()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cylinder"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Cylinder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.DeleteGlobalParameter"><code class="docutils literal notranslate"><span class="pre">CST_Commands.DeleteGlobalParameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Elipse"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Elipse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GGB_Probe"><code class="docutils literal notranslate"><span class="pre">CST_Commands.GGB_Probe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection"><code class="docutils literal notranslate"><span class="pre">CST_Commands.GSGSG_Bondwire_ChipToChip_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection"><code class="docutils literal notranslate"><span class="pre">CST_Commands.GSG_Bondwire_ChipToChip_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MZM"><code class="docutils literal notranslate"><span class="pre">CST_Commands.MZM()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MoveWaveguidePorts"><code class="docutils literal notranslate"><span class="pre">CST_Commands.MoveWaveguidePorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.New_Project"><code class="docutils literal notranslate"><span class="pre">CST_Commands.New_Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Open_Project"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Open_Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.PhaseModulator"><code class="docutils literal notranslate"><span class="pre">CST_Commands.PhaseModulator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Pick"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Pick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_2D"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Poligon_2D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_3D"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Poligon_3D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RibWaveguide_ToSolid"><code class="docutils literal notranslate"><span class="pre">CST_Commands.RibWaveguide_ToSolid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RotationTranslation"><code class="docutils literal notranslate"><span class="pre">CST_Commands.RotationTranslation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Save_Project"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Save_Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetDiscretePort"><code class="docutils literal notranslate"><span class="pre">CST_Commands.SetDiscretePort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetMesh"><code class="docutils literal notranslate"><span class="pre">CST_Commands.SetMesh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Sphere"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Sphere()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Squere_Waveguide"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Squere_Waveguide()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.StartTimeSolver"><code class="docutils literal notranslate"><span class="pre">CST_Commands.StartTimeSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ToSolid"><code class="docutils literal notranslate"><span class="pre">CST_Commands.ToSolid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Translation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Rotation"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Translation_Rotation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Scale"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Translation_Scale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePort"><code class="docutils literal notranslate"><span class="pre">CST_Commands.WaveguidePort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePortWithPins"><code class="docutils literal notranslate"><span class="pre">CST_Commands.WaveguidePortWithPins()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Al"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Al()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Au"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Au()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_GGB_Probe_Material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_GGB_Probe_Material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Glue"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Glue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Si"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Si()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_SiO2"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_SiO2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_anisotropy_material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_anisotropy_material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_json_material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_json_material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.removeObject"><code class="docutils literal notranslate"><span class="pre">CST_Commands.removeObject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBackground"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setBackground()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBoundary"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setBoundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setDomainSolverType"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setDomainSolverType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setElectricalSimulationProperties"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setElectricalSimulationProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setFreqSolver"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setFreqSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setOpticalSimulationProperties"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setOpticalSimulationProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimFreqeuncy"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setSimFreqeuncy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimWavelength"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setSimWavelength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setTimeSolver"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setTimeSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.set_Units"><code class="docutils literal notranslate"><span class="pre">CST_Commands.set_Units()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.Curves"><code class="docutils literal notranslate"><span class="pre">Curves</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Bezier_Curve"><code class="docutils literal notranslate"><span class="pre">Curves.Bezier_Curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Cosinus_Curve"><code class="docutils literal notranslate"><span class="pre">Curves.Cosinus_Curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Euler_Curve"><code class="docutils literal notranslate"><span class="pre">Curves.Euler_Curve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Python-CST Constructor Script</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CST_Constructor.CST_Constructor module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_rst/CST_Constructor.CST_Constructor.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-CST_Constructor.CST_Constructor">
+<span id="cst-constructor-cst-constructor-module"></span><h1>CST_Constructor.CST_Constructor module<a class="headerlink" href="#module-CST_Constructor.CST_Constructor" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">CST_Constructor.CST_Constructor.</span></span><span class="sig-name descname"><span class="pre">CST_Commands</span></span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.AddGlobalParameter">
+<span class="sig-name descname"><span class="pre">AddGlobalParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.AddGlobalParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.AddGlobalParameter" title="Link to this definition"></a></dt>
+<dd><p>Add Global parameters to the working enviroment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with the name and value of the parameter. For Example:
+GlobalParam = {}
+GlobalParam[‘Length’] = 20
+This will add Length = 20 to your CSt global enviroments.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.BondWire">
+<span class="sig-name descname"><span class="pre">BondWire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.BondWire"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.BondWire" title="Link to this definition"></a></dt>
+<dd><p>Create Bond Wire.</p>
+<dl>
+<dt>Args: Parameters (dict) with parameters</dt><dd><p>Parameters[“Name Wire”] : (str): Name of the Bondwire
+Parameters[“Coordinates”] : (dict) Dictionary with Coordinates in X,Y,Z plane to create the Bondwire:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>For Example</dt><dd><p>Parameters = {}
+Parameters[‘X1’] = 0
+Parameters[‘Y1’] = 0
+Parameters[‘Z1’] = 0
+Parameters[‘X2’] = 5
+Parameters[‘Y2’] = 5
+Parameters[‘Z2’] = 0</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Parameters[“Height”] : (int/float) Hight of the middle point of the Bondwire
+Parameters[“Radius”] : (int/float) Radius of the bond wire. Bond wire is an cylinder type of object.
+Parameters[“Bondwire Type”] : (str, optional) The type of bond wire. Defaults to “Spline”. Other inputs are:</p>
+<blockquote>
+<div><p>“Spline”
+“JEDEC4”
+“JEDEC5”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Parameters[“Center Position”]<span class="classifier">(int/float) The center Position of the Height. This can be moved to make</span></dt><dd><p>an object that dont have the top height in the middle. Defaults to 0.5.</p>
+</dd>
+</dl>
+<p>Parameters[“alpha”] : (int/float, optional) When using “JEDEC5” an alpha parameter need to be defined. See CST documentation!! Defaults to None.
+Parameters[“beta”] : (int/float, optional) When using “JEDEC5” an betta parameter need to be defined. See CST documentation!!. Defaults to None.
+Parameters[“Material”] : (str, optional) Material for of the Bond wire. For now you need to load the material</p>
+<blockquote>
+<div><p>in your simulation and then use this function. Otherwise the material
+will not be found. Defaults to “PCE”.</p>
+</div></blockquote>
+<p>Parameters[“SolidWireModel”] : (bool, optional) This option will turn the bondiwre into solid object. Defaults to True.
+Parameters[“Termination”] : (str, optional) How the Bondwire will be temrinated. Defaults to None. Options are:</p>
+<blockquote>
+<div><p>“natural”
+“rounded”
+“extended”</p>
+</div></blockquote>
+<p>Parameters[“NameFolder”] : (str, optional) The name of the folder. Defaults to name of the wire.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Brick">
+<span class="sig-name descname"><span class="pre">Brick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Brick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Brick" title="Link to this definition"></a></dt>
+<dd><p>Create an Brick object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with Parameters
+Parameters[“Brick Lenght Min”] : int/float for min Lenght. It will be center so the lenght that you give will be set to Lenght/2
+Parameters[“Brick Lenght Max”] : int/float for Max Lenght. It will be center so the lenght that you give will be set to Lenght/2
+Parameters[“Brick Width Min”] : int/float for Min Width. It will be center so the width that you give will be set to Width/2
+Parameters[“Brick Width Max”] : int/float for Max Width. It will be center so the width that you give will be set to Width/2
+Parameters[“Brick Hight Min”] : int/float for Min Hight. It will be center so the hight that you give will be set to Hight/2
+Parameters[“Brick Hight Max”] : int/float for Max Hight. It will be center so the hight that you give will be set to Hight/2
+Parameters[“Material”] : str with Materials for the Brick object
+Parameters[“Brick Name”] : str with Brick Name
+Parameters[“Component Name”] : str with Component Name. The strcuture will be made as “Component Name:Brick Name”</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.ChangeSolverType">
+<span class="sig-name descname"><span class="pre">ChangeSolverType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.ChangeSolverType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.ChangeSolverType" title="Link to this definition"></a></dt>
+<dd><p>Change solver type</p>
+<blockquote>
+<div><p>TODO: Include the rest of the solver types. For now only time is available!</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Args: Parameters (dict): Dictionary with Parameters</dt><dd><dl class="simple">
+<dt>Parameters[‘Type’]<span class="classifier">(str) Solver type. Can be:</span></dt><dd><p>Parameters[‘Type’] = “Time”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.ClearAllPicks">
+<span class="sig-name descname"><span class="pre">ClearAllPicks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.ClearAllPicks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.ClearAllPicks" title="Link to this definition"></a></dt>
+<dd><p>Clear all pciks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Conus">
+<span class="sig-name descname"><span class="pre">Conus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Conus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Conus" title="Link to this definition"></a></dt>
+<dd><p>Create Conus object in CST enviroment.</p>
+<blockquote>
+<div><dl>
+<dt>Args: Parameters (dict) Dictionary with parameters needed for the function.</dt><dd><p>Parameters[“Conus Name”] : (str) Name of the conus.
+Parameters[“Component Name”] : (str) Name of the conus component in the component tree.
+Parameters[“Material”] : (str, optional) Material for of the Bond wire. For now you need to load the material</p>
+<blockquote>
+<div><p>in your simulation and then use this function.</p>
+</div></blockquote>
+<p>Parameters[“Top Radius”] : (int/float) conus top radius.
+Parameters[“Bottom Radius”] : (int/float) Conus bottom radius.
+Parameters[“Orentation Axis”] : (str) Conus Orientation axis can be “X”, “Y” or “Z”.
+If Parameters[“Orentation Axis”] = “X” then the following parameters are needed :</p>
+<blockquote>
+<div><p>Parameters[“X min”] : (int/float) X min parameter
+Parameters[“X max”] : (int/float) X max parameter
+Parameters[“Z center”] : (int/float) Z center parameter
+Parameters[“Y center”] : (int/float) Y center parameter</p>
+</div></blockquote>
+<dl class="simple">
+<dt>If Parameters[“Orentation Axis”] = “Y” then the following parameters are needed :</dt><dd><p>Parameters[“Y min”] : (int/float) Y min parameter
+Parameters[“Y max”] : (int/float) Y max parameter
+Parameters[“Z center”] : (int/float) Z center parameter
+Parameters[“X center”] : (int/float) X center parameter</p>
+</dd>
+<dt>If Parameters[“Orentation Axis”] = “Z” then the following parameters are needed :</dt><dd><p>Parameters[“Z min”] : (int/float) Z min parameter
+Parameters[“Z max”] : (int/float) Z max parameter
+Parameters[“X center”] : (int/float) X center parameter
+Parameters[“Y center”] : (int/float) Y center parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.CreateEfieldMonitor">
+<span class="sig-name descname"><span class="pre">CreateEfieldMonitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.CreateEfieldMonitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.CreateEfieldMonitor" title="Link to this definition"></a></dt>
+<dd><p>Set Monitor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with Parameters
+Parameters[“Monitor Wavelength”] : Int/float. This will set the wavelength. For this function
+and only for this function you need to give the exact number. So 1.55 um will be Parameters[“Wavelength”]  = 1.55e-6
+Parameters[“Monitor Frequency”] : Set Frequency of the Monitor
+Parameters[“Domain”] : Str can be “Frequency” or “Wavelength”
+Parameters[“Monitor Type”] : str with monitor Type. Can be one of :</p>
+<blockquote>
+<div><p>”Efield”, “Hfield”, “Surfacecurrent”, “Powerflow”, “Current”,
+“Powerloss”, “Eenergy”, “Elossdens”, “Lossdens”, “Henergy”,
+“Farfield”, “Fieldsource”, “Spacecharge”, “ParticleCurrentDensity”, “Electrondensity”</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Error massage</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Curve">
+<span class="sig-name descname"><span class="pre">Curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Curve" title="Link to this definition"></a></dt>
+<dd><p>Create 2D Curve in the CST enviroment.</p>
+<dl>
+<dt>Args: Parameters (dict) parameters dict</dt><dd><p>Parameters[“Curve Name”] : (str) Name of the Curves
+Parameters[“Points”] : (dict) Dictionary of Curve Points. For example.</p>
+<blockquote>
+<div><p>x = []
+y = []
+for i in range(0, 100):</p>
+<blockquote>
+<div><p>x.append(i)
+y.append(i*4)</p>
+</div></blockquote>
+<p>x = np.array(x)
+y = np.array(y)
+Points[‘X’] = x
+Points[‘Y’] = y
+Points[‘X’] = CosinusCurve[:,0]
+Points[‘Y’] = CosinusCurve[:,1]
+obj.Curve(“Curve_Python”, Points)</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.CurveToSolid">
+<span class="sig-name descname"><span class="pre">CurveToSolid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.CurveToSolid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.CurveToSolid" title="Link to this definition"></a></dt>
+<dd><p>This function transfer curve to solid object.</p>
+<dl class="simple">
+<dt>Args: Parameters (dict) of parameters needed for the function</dt><dd><p>Parameters[“Name”]  : (str) Name of the solid object
+Parameters[“Component Name”] : (str, optional) Name of the component in the component tree.
+Parameters[“Material”] : (str, optional) Material for the solid.
+Parameters[“Thickness”] : (int/float) Thickness of the solid curve
+Parameters[“Angle”] : (int/float) Angle
+Parameters[“Curve Folder”] : (str) Curve folder. First you need to crate curve and then give here the correct name of the curve folder.
+Parameters[“Curve Name”] : (str) Curve folder. First you need to crate curve and then give here the correct name of the curve.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.CurveWire">
+<span class="sig-name descname"><span class="pre">CurveWire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.CurveWire"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.CurveWire" title="Link to this definition"></a></dt>
+<dd><p>Create curve wire based coordinates parameters points</p>
+<dl>
+<dt>Args: Parameters (dict) Dictionary with parameters needed for the function.</dt><dd><p>Parameters[“Name Wire”] : (str) Name of the wire
+Parameters[“Radius”] : (int/float) Radius of the curve
+Parameters[“Points”] : (dict, optional) Dictionary of X and  Y points for the curve. Defaults to None.
+Parameters[“Material”] : (str, optional) Material for of the Bond wire. For now you need to load the material</p>
+<blockquote>
+<div><p>in your simulation and then use this function. Otherwise the material
+will not be found. Defaults to “PCE”.</p>
+</div></blockquote>
+<p>Parameters[“SolidWireModel”] : (bool, optional) This option will turn the Curve Wire into solid object. Defaults to True.
+Parameters[“Termination”] : (str, optional) How the Bondwire will be temrinated. Defaults to None. Options are:</p>
+<blockquote>
+<div><p>“natural”
+“rounded”
+“extended”</p>
+</div></blockquote>
+<p>Parameters[“NameFolder”] : (str, optional) The name of the bondwire folder. Defaults to name of the wire.
+Parameters[“CurveFolderName”] : (str, optional) Name of the Curve folder name. Defaults to None.
+Parameters[“CurveName”] : (str, optional) Curve name. Defaults to None.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Cut_structures">
+<span class="sig-name descname"><span class="pre">Cut_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Cut_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Cut_structures" title="Link to this definition"></a></dt>
+<dd><p>Cut function</p>
+<dl class="simple">
+<dt>Args: Parameters (dict): Dictionarty with Parameters</dt><dd><p>Parameters[“Name Cut Structure”] : (str) Name of the structure to cut
+Parameters[“Name Structure to Cut”] : (str) Name Structure to cut the Parameters[“Name Cut Structure”] to.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Cylinder">
+<span class="sig-name descname"><span class="pre">Cylinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Cylinder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Cylinder" title="Link to this definition"></a></dt>
+<dd><p>Create Cylinder object in CST enviroment.</p>
+<blockquote>
+<div><dl>
+<dt>Args: Parameters (dict) Dictionary with parameters needed for the function.</dt><dd><p>Parameters[“Cylinder Name”] : (str) Name of the cylinder
+Parameters[“Component Name”] : (str) Name of the cylinder component in the component tree.
+Parameters[“Material”] : (str, optional) Material for of the Bond wire. For now you need to load the material</p>
+<blockquote>
+<div><p>in your simulation and then use this function.</p>
+</div></blockquote>
+<p>Parameters[“Outer Radius”] : (int/float) Cylinder outer radius.
+Parameters[“Inner Radius”] : (int/float) Cylinder inner radius.
+Parameters[“Orentation Axis”] : (str) Cylunder Orientation axis can be “X”, “Y” or “Z”.
+If Parameters[“Orentation Axis”] = “X” then the following parameters are needed :</p>
+<blockquote>
+<div><p>Parameters[“X min”] : (int/float) X min parameter
+Parameters[“X max”] : (int/float) X max parameter
+Parameters[“Z center”] : (int/float) Z center parameter
+Parameters[“Y center”] : (int/float) Y center parameter</p>
+</div></blockquote>
+<dl class="simple">
+<dt>If Parameters[“Orentation Axis”] = “Y” then the following parameters are needed :</dt><dd><p>Parameters[“Y min”] : (int/float) Y min parameter
+Parameters[“Y max”] : (int/float) Y max parameter
+Parameters[“Z center”] : (int/float) Z center parameter
+Parameters[“X center”] : (int/float) X center parameter</p>
+</dd>
+<dt>If Parameters[“Orentation Axis”] = “Z” then the following parameters are needed :</dt><dd><p>Parameters[“Z min”] : (int/float) Z min parameter
+Parameters[“Z max”] : (int/float) Z max parameter
+Parameters[“X center”] : (int/float) X center parameter
+Parameters[“Y center”] : (int/float) Y center parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+<li><p><strong>ValueError</strong> – Error massage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.DeleteGlobalParameter">
+<span class="sig-name descname"><span class="pre">DeleteGlobalParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.DeleteGlobalParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.DeleteGlobalParameter" title="Link to this definition"></a></dt>
+<dd><p>Delete an Global parameter from the enviroment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>str</em>) – Parameter name to be removed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Elipse">
+<span class="sig-name descname"><span class="pre">Elipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Elipse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Elipse" title="Link to this definition"></a></dt>
+<dd><p>Create Elipse object, in Z-orientation in the moment, in CST enviroment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with Parameters</p>
+<p>Parameters[“Name”] : str Name of the Elipse object
+Parameters[“Curve Name”] : str with Component Name. The strcuture will be made as “Curve Name:Name”
+Parameters[“X Radius”] : int/float radius in X-Direction of the elipse
+Parameters[“Y Radius”] : int/float radius in Y-Direction of the elipse
+Parameters[“X Center”] : int/float position of X-Center
+Parameters[“Y Center”] : int/float position of Y-Center</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.GGB_Probe">
+<span class="sig-name descname"><span class="pre">GGB_Probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.GGB_Probe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.GGB_Probe" title="Link to this definition"></a></dt>
+<dd><p>Create GGB Probes in CSt enviroment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with parameters needed for the structure.
+Parameters[“Component Name”] : (str) Name of the Component
+Parameters[“Orientation Angle”] : (int/float) angle of tilting the GGB Probes</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection">
+<span class="sig-name descname"><span class="pre">GSGSG_Bondwire_ChipToChip_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.GSGSG_Bondwire_ChipToChip_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection" title="Link to this definition"></a></dt>
+<dd><p>This function generate and two Chips connected by bondwires setup
+The Setup is taken from IHP the Bondpads are from Aluminiam the
+bondwires are also from Aluminium. The Glue and floating shield over the
+bondwires was taken from KIT Paper setup. This setup is for GSGSG Pads.
+Materials:</p>
+<blockquote>
+<div><p>Gold - Floating Shield
+DAF Glue - For the glue between the bondwires
+Al - For bondwires and bondpads
+SiO2 - Layer under the bondpads on the boths chips
+Si - Substrate Layer below the SiO2</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with all the needed values
+Parameters[“PAD Width GND”]  : GND Bondpads width
+Parameters[“PAD Width Signal”] : Signal Bondpads width
+Parameters[“PAD Length”] : Signal and GND bondpads lenght
+Parameters[“PAD Thickness”] : Signal and GND bondpads thickness
+Parameters[“PADs Distance”] : Distance from first chip bondpads to the secound chip bondpads
+Parameters[“Bonwire height”] : Bondwire hight in the middle point
+Parameters[“Bonwire radius”] : Bondwire ridius
+Parameters[“Floating Shield”] : (boolen) Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
+If set True you need to set Parameters[“Floating Shield Thickness”] and Parameters[“Glue Thickness”] too!
+Parameters[“Glue Thickness”] : (int/float) DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
+Parameters[“Floating Shield Thickness”] : (int/float) Floating shield gold metal thickness
+Parameters[“Accuracy”] : FDTD Solver Accuracy. Can be :</p>
+<blockquote>
+<div><p>80 dB
+60 dB
+50 dB
+40 dB
+35 dB
+30 dB
+25 dB
+20 dB
+‘no check’</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection">
+<span class="sig-name descname"><span class="pre">GSG_Bondwire_ChipToChip_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.GSG_Bondwire_ChipToChip_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection" title="Link to this definition"></a></dt>
+<dd><p>This function generate and two Chips connected by bondwires setup
+The Setup is taken from IHP the Bondpads are from Aluminiam the
+bondwires are also from Aluminium. The Glue and floating shield over the
+bondwires was taken from KIT Paper setup. This setup is for GSG Pads.
+This Function have the Option to import the GGP GSg probes.
+Materials:</p>
+<blockquote>
+<div><p>Gold - Floating Shield
+DAF Glue - For the glue between the bondwires
+Al - For bondwires and bondpads
+SiO2 - Layer under the bondpads on the boths chips
+Si - Substrate Layer below the SiO2</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with all the needed values
+Parameters[“PAD Width GND”]  : GND Bondpads width
+Parameters[“PAD Width Signal”] : Signal Bondpads width
+Parameters[“PAD Length”] : Signal and GND bondpads lenght
+Parameters[“PAD Thickness”] : Signal and GND bondpads thickness
+Parameters[“PADs Distance”] : Distance from first chip bondpads to the secound chip bondpads
+Parameters[“Bonwire height”] : Bondwire hight in the middle point
+Parameters[“Bonwire radius”] : Bondwire ridius
+Parameters[“Floating Shield”] : (boolen) Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
+If set True you need to set Parameters[“Floating Shield Thickness”] and Parameters[“Glue Thickness”] too!
+Parameters[“Glue Thickness”] : (int/float) DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
+Parameters[“Floating Shield Thickness”] : (int/float) Floating shield gold metal thickness
+Parameters[“Accuracy”] : FDTD Solver Accuracy. Can be :</p>
+<blockquote>
+<div><p>80 dB
+60 dB
+50 dB
+40 dB
+35 dB
+30 dB
+25 dB
+20 dB
+‘no check’</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.MZM">
+<span class="sig-name descname"><span class="pre">MZM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.MZM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.MZM" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Create an MZM Modulator. Materials used:</dt><dd><p>Gold - For the electrodes
+LiNbO3 - For Optical Waveguides
+SiO2 - For Substrate</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with all the needed values</p></li>
+<li><p><strong>Parameters</strong><strong>[</strong><strong>&quot;Lenght_Electrodes&quot;</strong><strong>]</strong> – Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.</p></li>
+<li><p><strong>GND&quot;</strong><strong>]</strong> (<em>Parameters</em><em>[</em><em>&quot;Width</em>) – Width of the GND electrodes</p></li>
+<li><p><strong>Signal&quot;</strong><strong>]</strong> (<em>Parameters</em><em>[</em><em>&quot;Width</em>) – Width of the Signal Electrode</p></li>
+<li><p><strong>WG&quot;</strong><strong>]</strong> (<em>Parameters</em><em>[</em><em>&quot;High</em>) – Top wWidth of the optical waveguide. It is an Rib waveguide</p></li>
+<li><p><strong>Parameters</strong><strong>[</strong><strong>&quot;Gap&quot;</strong><strong>]</strong> – Gap between Signal and optical Waveguide</p></li>
+<li><p><strong>Parameters</strong><strong>[</strong><strong>&quot;angle&quot;</strong><strong>]</strong> – Angle of the side wall of the optical waveguide</p></li>
+<li><p><strong>Electrodes&quot;</strong><strong>]</strong> (<em>Parameters</em><em>[</em><em>&quot;High</em>) – Hight of the Electodes</p></li>
+<li><p><strong>WG&quot;</strong><strong>]</strong> – Hight of the optical Waveguide</p></li>
+<li><p><strong>Slab&quot;</strong><strong>]</strong> (<em>Parameters</em><em>[</em><em>&quot;High</em>) – Hight of the Slab. When choosen “0” no Slab will be implemented.</p></li>
+<li><p><strong>Substrate&quot;</strong><strong>]</strong> (<em>Parameters</em><em>[</em><em>&quot;High</em>) – Hight of the substrate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.MoveWaveguidePorts">
+<span class="sig-name descname"><span class="pre">MoveWaveguidePorts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.MoveWaveguidePorts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.MoveWaveguidePorts" title="Link to this definition"></a></dt>
+<dd><p>Function to move the waveguide ports</p>
+<blockquote>
+<div><dl>
+<dt>Args: Parameters (dict): Dictionary with Port Parameters</dt><dd><p>Parameters[“Port Number”] : (int) Port number
+Parameters[“Distance”] : (int/float) distance to move the waveguide
+Parameters[“Span”] : (dict) with array to set the range in “X”, “Y” and “Z”</p>
+<blockquote>
+<div><p>Parameters[“Span”][0][0] - Yrange min
+Parameters[“Span”][0][1] - Yrange max
+Parameters[“Span”][1][0] - Zrange min
+Parameters[“Span”][1][1] - Zrange max</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.New_Project">
+<span class="sig-name descname"><span class="pre">New_Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_project</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.New_Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.New_Project" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Open_Project">
+<span class="sig-name descname"><span class="pre">Open_Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Open_Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Open_Project" title="Link to this definition"></a></dt>
+<dd><p>Open existing project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path and name to the project that you want ot open.</p></li>
+<li><p><strong>example</strong> (<em>For</em>) – path = “C:/Test_folder/Test_cst_Project.cst”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with the VBA code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.PhaseModulator">
+<span class="sig-name descname"><span class="pre">PhaseModulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.PhaseModulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.PhaseModulator" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Create an Phase Modulator. Materials used:</dt><dd><p>Gold - For the electrodes
+LiNbO3 - For Optical Waveguides
+SiO2 - For Substrate</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with all the needed values
+Parameters[“Lenght_Electrodes”] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
+Parameters[“Width GND”] : Width of the GND electrodes
+Parameters[“Width Signal”] : Width of the Signal Electrode
+Parameters[“Width WG”] : Top wWidth of the optical waveguide. It is an Rib waveguide
+Parameters[“Gap”] : Gap between Signal and optical Waveguide
+Parameters[“angle”] : Angle of the side wall of the optical waveguide
+Parameters[“High Electrodes”] : Hight of the Electodes
+Parameters[“High WG”] : Hight of the optical Waveguide
+Parameters[“High Slab”] : Hight of the Slab. When choosen “0” no Slab will be implemented.
+Parameters[“High Substrate”] : Hight of the substrate</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Pick">
+<span class="sig-name descname"><span class="pre">Pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Pick" title="Link to this definition"></a></dt>
+<dd><p>Pick function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with Parameters
+PicParams[“Option”] : Pcik option. For example “Face”
+PicParams[“Object”] : Name of the object on witch the pick will be executed.
+PicParams[“Face Number”] = int with the ID of the picked Face for example.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Poligon_2D">
+<span class="sig-name descname"><span class="pre">Poligon_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Poligon_2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Poligon_2D" title="Link to this definition"></a></dt>
+<dd><p>Create the 2D poligon for tRib waveguide
+Args: Parameters (dict) of parameters fot the function</p>
+<blockquote>
+<div><p>Parameters[“Waveguide Name”] : (str) Name of the poligon
+Parameters[“Points X”] : (dict) Poligon dictionary wiht X Points
+Parameters[“Points Y”] : (dict) Poligon dictionary wiht X Points</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Poligon_3D">
+<span class="sig-name descname"><span class="pre">Poligon_3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Poligon_3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Poligon_3D" title="Link to this definition"></a></dt>
+<dd><p>Create the 2D poligon for tRib waveguide</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>WGName</strong> (<em>str</em>) – Name of the poligon</p></li>
+<li><p><strong>Points</strong> (<em>dict</em>) – Dictionary with the Points:
+Points[‘X’] = []
+Points[‘Y’] = []
+Points[‘Z’] = []</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.RibWaveguide_ToSolid">
+<span class="sig-name descname"><span class="pre">RibWaveguide_ToSolid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.RibWaveguide_ToSolid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.RibWaveguide_ToSolid" title="Link to this definition"></a></dt>
+<dd><p>This is ToSolid function that will allow the use to create the RibWaveguide.
+TODO: Murrge the TOSolid and RibWaveguideToSolid functions later on.</p>
+<dl>
+<dt>Args: Parameters (dict) Parameters dict needed for the function:</dt><dd><p>Parameters[“Waveguide Name”] : (str, optional) Waveguide Name. Defaults to “Rib_Waveguide”.
+Parameters[“Wavaguide Hight”] : (int/float, optional) Hight of the waveguide. Defaults to None.
+Parameters[“Angle”] : (int/float, optional) Side angle of the waveguide. Defaults to None
+Parameters[“Name Folder”] : (str, optional) Folder name. Defaults to None.
+Parameters[“Material”] : (str, optional) Material for of the Bond wire. For now you need to load the material</p>
+<blockquote>
+<div><p>in your simulation and then use this function. Otherwise the material
+will not be found. Defaults to None.</p>
+</div></blockquote>
+<p>Parameters[“Waveguide Folder Name”] : (str, optional) Name of the folder where the poligon 3D or 2D is created. Defaults to None.
+Parameters[“Waveguide Name”] : (str, optional) Name of the Poligon 3D or 2D. Defaults to None.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – Error massage</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.RotationTranslation">
+<span class="sig-name descname"><span class="pre">RotationTranslation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.RotationTranslation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.RotationTranslation" title="Link to this definition"></a></dt>
+<dd><p>Rotation Translation function</p>
+<dl class="simple">
+<dt>Args: Parameters (dict): Dictionarty with Parameters</dt><dd><p>Parameters[“Name Object”] : (str) Name of the Object that you want to rotate
+Parameters[“Angle X”] : (int/float) X Angle of rotation
+Parameters[“Angle Y”] : (int/float) Y Angle of rotation
+Parameters[“Angle Z”] : (int/float) Z Angle of rotation</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Save_Project">
+<span class="sig-name descname"><span class="pre">Save_Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Save_Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Save_Project" title="Link to this definition"></a></dt>
+<dd><p>Save CST Project to path with an given name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to where the CST file should be saved.</p></li>
+<li><p><strong>name</strong> (<em>srr</em>) – Name of the file to save</p></li>
+<li><p><strong>overwrite</strong> (<em>bool</em><em>, </em><em>optional</em>) – If the save file exist you can set “overwrite=True” to overwrite the existing save project. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with the VBA code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.SetDiscretePort">
+<span class="sig-name descname"><span class="pre">SetDiscretePort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.SetDiscretePort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.SetDiscretePort" title="Link to this definition"></a></dt>
+<dd><p>Function to set discrete port</p>
+<blockquote>
+<div><dl>
+<dt>Args: Parameters (dict): Dictionary with parameters to set discrete port</dt><dd><p>Parameters[“Discrete Port Number”] : (int) Port number
+Parameters[“Discrete Port Type”] : (str) Type of discrete port, can be:</p>
+<blockquote>
+<div><p>“Voltage”
+“S-Parameters”
+“Current”</p>
+</div></blockquote>
+<p>Parameters[“Port Impedance”] : (int/float) Impedance of the port
+Parameters[“Port Voltage”] : (int/float) set Port voltage
+Parameters[“Port Current”] : (int/float) set Port current
+Parameters[“Port Radius”] : (int/float) set Port radius
+Parameters[“Discrete Port Coordinates”] : (dict) set dictionary with port coordiantes</p>
+<blockquote>
+<div><p>Parameters[“Discrete Port Coordinates”][“X1”]
+Parameters[“Discrete Port Coordinates”][“Y1”]
+Parameters[“Discrete Port Coordinates”][“Z1”]
+Parameters[“Discrete Port Coordinates”][“X2”]
+Parameters[“Discrete Port Coordinates”][“Y2”]
+Parameters[“Discrete Port Coordinates”][“Z2”]</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.SetMesh">
+<span class="sig-name descname"><span class="pre">SetMesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.SetMesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.SetMesh" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Sets the type of the mesh. The user can define the mesh cells per wavelength near and far</dt><dd><p>from the simulations object.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionarty with Parameters
+Parameters[“Mesh Type”] : str Type of the Mesh. You can choose between:</p>
+<blockquote>
+<div><p>PBA - Hexahedral mesh with Perfect Boundary Approximation
+HexahedralTLM
+CFD
+CFDNew
+Staircase - Hexahedral mesh with staircase cells
+Tetrahedral - Tetrahedral mesh
+Surface - Surface mesh
+SurfaceMLS - urface multi layer mesh
+Planar - Planar 2D mesh</p>
+</div></blockquote>
+<p>Parameters[“Mesh Cells Near Object”] : int Cells per Wavelength near the simulation object
+Parameters[“Mesh Cells far Object”] : int Cells per Wavelength far from the simulation object</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Sphere">
+<span class="sig-name descname"><span class="pre">Sphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Sphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Sphere" title="Link to this definition"></a></dt>
+<dd><p>Create Sphere object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with Parameters</p>
+<p>Parameters[“Axis”] : str to set an oriantation Axis. Can be “X”, “Y” or “Z”.
+Parameters[“Center Radius”] : int/float Radius of the sphere
+Parameters[“Top Radius”] : int/float set sphere top radius
+Parameters[“Bottom Radius”] : int/float set sphere bottom radius
+Parameters[“Center Positions”] : dict with XCenter, YCenter and ZCenter. For example:</p>
+<blockquote>
+<div><p>Positions = {}
+Positions[“X”] = 2
+Positions[“Y”] = 2
+Positions[“Z”] = 2
+Parameters[“Center Positions”] = Positions</p>
+</div></blockquote>
+<p>Parameters[“Material”] : str with Materials for the Sphere object
+Parameters[“Name”] : str with Sphere Name
+Parameters[“Component Name”] : str with Component Name. The strcuture will be made as “Component Name:Name”</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Squere_Waveguide">
+<span class="sig-name descname"><span class="pre">Squere_Waveguide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Squere_Waveguide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Squere_Waveguide" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>This function generate and simple straight waveguide. Materials used:</dt><dd><p>Gold - For the electrodes
+LiNbO3 - For Optical Waveguides
+SiO2 - For Substrate</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with all the needed values
+Parameters[“Lenght WG”] : Length of the Waveguide.
+Parameters[“High_WG”] : Hight of the optical Waveguide
+Parameters[“Width WG”] : : Top Width of the optical waveguide. It is an Rib waveguide.
+Parameters[“Substrate Height”] : Hight of the substrate.
+Parameters[“Slab Heigh”] : Hight of the Slab. When choosen “0” no Slab will be implemented.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.StartTimeSolver">
+<span class="sig-name descname"><span class="pre">StartTimeSolver</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.StartTimeSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.StartTimeSolver" title="Link to this definition"></a></dt>
+<dd><p>Start Time Simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.ToSolid">
+<span class="sig-name descname"><span class="pre">ToSolid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.ToSolid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.ToSolid" title="Link to this definition"></a></dt>
+<dd><p>This function transfer an function or polynom to solid object.</p>
+<dl>
+<dt>Args: Parameters (dict) of parameters needed for the function</dt><dd><p>Parameters[“Solid Name”] : (str) Name of the solid object
+Parameters[“Curve Name”] : (str, optional) Name of the curve. Defaults to “Polygon”.
+Parameters[“Name Folder”] : (str, optional) Name of the folder. Defaults to Curve name.
+Parameters[“Material”] : (str, optional) Material for of the Bond wire. For now you need to load the material</p>
+<blockquote>
+<div><p>in your simulation and then use this function. Otherwise the material
+will not be found. Defaults to Aluminum.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Translation">
+<span class="sig-name descname"><span class="pre">Translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Translation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Translation" title="Link to this definition"></a></dt>
+<dd><p>Translation function</p>
+<dl>
+<dt>Args: Parameters (dict): Dictionarty with Parameters</dt><dd><dl>
+<dt>Parameters[“Translate Type”]<span class="classifier">(str) Type of translation. Can be:</span></dt><dd><p>“Translate”
+“Scale”
+“Rotate”</p>
+</dd>
+<dt>If Parameters[“Translate Type”] = “Translate”</dt><dd><p>Parameters[“Name Object”] : (str) Name of the Object that you want to rotate
+Parameters[“Object to rotate”] : (str) The object you wanna rotate. If solid</p>
+<blockquote>
+<div><p>Parameters[“Object to rotate”] = “Shape”, if Curve Parameters[“Object to rotate”] = “Curve”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Parameters[“Position”]<span class="classifier">array with (int/float) with position parameters. For [“X”, “Y” , “Z”] directions</span></dt><dd><p>For Example -&gt; Parameters[“Position”] = [1,2,3]</p>
+</dd>
+</dl>
+</dd>
+<dt>If Parameters[“Translate Type”] = “Scale”</dt><dd><p>Parameters[“Name Object”] : (str) Name of the Object that you want to rotate
+Parameters[“Center Positions”] : array with (int/float) with Center position for scale operation. For [“X”, “Y” , “Z”] directions</p>
+<blockquote>
+<div><p>For Example -&gt; Parameters[“Center Positions”] = [1,2,3]</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Parameters[“Scale Factors”]<span class="classifier">array with (int/float) with Scale factor. For [“X”, “Y” , “Z”] directions</span></dt><dd><p>For Example -&gt; Parameters[“Scale Factors”] = [1,2,3]</p>
+</dd>
+</dl>
+</dd>
+<dt>If Parameters[“Translate Type”] = “Rotate”</dt><dd><p>Parameters[“Name Object”] : (str) Name of the Object that you want to rotate
+Parameters[“Object to rotate”] : (str) The object you wanna rotate. If solid</p>
+<blockquote>
+<div><p>Parameters[“Object to rotate”] = “Shape”, if Curve Parameters[“Object to rotate”] = “Curve”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Parameters[“Center Positions”]<span class="classifier">array with (int/float) with Center position for scale operation. For [“X”, “Y” , “Z”] directions</span></dt><dd><p>For Example -&gt; Parameters[“Center Positions”] = [1,2,3]</p>
+</dd>
+<dt>Parameters[“Angle Values”]<span class="classifier">array with (int/float) with Scale factor. For [“X”, “Y” , “Z”] directions</span></dt><dd><p>For Example -&gt; Parameters[“Angle Values”] = [1,2,3]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Translation_Rotation">
+<span class="sig-name descname"><span class="pre">Translation_Rotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Translation_Rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Translation_Rotation" title="Link to this definition"></a></dt>
+<dd><p>Rotation tranlation function</p>
+<dl>
+<dt>Args: Parameters (dict): Dictionarty with Parameters</dt><dd><p>Parameters[“Name Object”] : (str) Name of the Object that you want to rotate
+Parameters[“Center Positions”] : (dict) Center position for scale operation</p>
+<blockquote>
+<div><p>Parameters[“Center Positions”][“X”] : (int/float) Center position X
+Parameters[“Center Positions”][“Y”] : (int/float) Center position Y
+Parameters[“Center Positions”][“Z”] : (int/float) Center position Z</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Parameters[“Angle Values”]<span class="classifier">(dict) Scale factor</span></dt><dd><p>Parameters[“Angle Values”][“X”] : (int/float) Angle Value X
+Parameters[“Angle Values”][“Y”] : (int/float) Angle Value Y
+Parameters[“Angle Values”][“Z”] : (int/float) Angle Value Z</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.Translation_Scale">
+<span class="sig-name descname"><span class="pre">Translation_Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.Translation_Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.Translation_Scale" title="Link to this definition"></a></dt>
+<dd><p>Scale tranlation function</p>
+<dl>
+<dt>Args: Parameters (dict): Dictionarty with Parameters</dt><dd><p>Parameters[“Name Object”] : (str) Name of the Object that you want to rotate
+Parameters[“Center Positions”] : (dict) Center position for scale operation</p>
+<blockquote>
+<div><p>Parameters[“Center Positions”][“X”] : (int/float) Center position X
+Parameters[“Center Positions”][“Y”] : (int/float) Center position Y
+Parameters[“Center Positions”][“Z”] : (int/float) Center position Z</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Parameters[“Scale Factors”]<span class="classifier">(dict) Scale factor</span></dt><dd><p>Parameters[“Scale Factors”][“X”] : (int/float) Scale factor X
+Parameters[“Scale Factors”][“Y”] : (int/float) Scale factor Y
+Parameters[“Scale Factors”][“Z”] : (int/float) Scale factor Z</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.WaveguidePort">
+<span class="sig-name descname"><span class="pre">WaveguidePort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.WaveguidePort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePort" title="Link to this definition"></a></dt>
+<dd><p>Set the Waveguide Port for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with Port Parameters
+Parameters[“Orientation”] = Str with Port Orientation can be “Positive” or “Negative”. For</p>
+<blockquote>
+<div><p>this function an 2 ports will be defined so please give an array with two Oriantations
+like  Parameters[“Orientation”] = [“Positive”, “Positive”]</p>
+</div></blockquote>
+<p>Parameters[“Coordinates”] = Str witch Coordinates type, “Picks” is the best one!
+Parameters[“Span”] = Array with Array of port span [[Ymin, Ymax],[Zmin, Zmax]]
+Parameters[“Potential”] = Array with port Potential . For example [1,2]
+Parameters[“Port Number”] = Array with Port number [1,2]</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.WaveguidePortWithPins">
+<span class="sig-name descname"><span class="pre">WaveguidePortWithPins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.WaveguidePortWithPins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePortWithPins" title="Link to this definition"></a></dt>
+<dd><p>Set the Waveguide Port for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Parameters</strong> (<em>dict</em>) – <p>Dictionary with Port Parameters
+Parameters[“Orientation”] = Str with Port Orientation can be “Positive” or “Negative”. For</p>
+<blockquote>
+<div><p>this function an 2 ports will be defined so please give an array with two Oriantations
+like  Parameters[“Orientation”] = [“Positive”, “Positive”]</p>
+</div></blockquote>
+<p>Parameters[“Coordinates”] = Str witch Coordinates type, “Picks” is the best one!
+Parameters[“Span”] = Array with Array of port span [[Ymin, Ymax],[Zmin, Zmax]]
+Parameters[“Potential”] = Array with port Potential . For example [1,2]
+Parameters[“Port Number”] = Array with Port number [1,2]
+Parameters[“Polarity”] = Port Polarity can be be “Positive” or “Negative”. For</p>
+<blockquote>
+<div><p>this function an 2 ports will be defined so please give an
+array with two Polaritys. For example Parameters[“Polarity”] = [“Positive”, “Positive”]</p>
+</div></blockquote>
+<p>Parameters[“Solid Name”] = Name of the Object on witch the Waveguide port will be created. For example “WG:WG1”
+Parameters[“Face ID”] = Array with the ID of the two picked faces. For example Parameters[“Face ID”] = [2,4]</p>
+</p></li>
+<li><p><strong>PicParams</strong> (<em>dict</em>) – Dictionary with Pick Faces Parameters
+PickParams[“Face Number”] = Integer with the number of the picked face of the structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_Al">
+<span class="sig-name descname"><span class="pre">add_Al</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_Al"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_Al" title="Link to this definition"></a></dt>
+<dd><p>Add Aluminium to the Material Library</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_Au">
+<span class="sig-name descname"><span class="pre">add_Au</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_Au"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_Au" title="Link to this definition"></a></dt>
+<dd><p>Add gold to the Material Library</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_GGB_Probe_Material">
+<span class="sig-name descname"><span class="pre">add_GGB_Probe_Material</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_GGB_Probe_Material"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_GGB_Probe_Material" title="Link to this definition"></a></dt>
+<dd><p>Add an materials according to GGB Probes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_Glue">
+<span class="sig-name descname"><span class="pre">add_Glue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_Glue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_Glue" title="Link to this definition"></a></dt>
+<dd><p>Add special glue for the floating shield bond wires according to the KIT model..</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_Si">
+<span class="sig-name descname"><span class="pre">add_Si</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_Si"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_Si" title="Link to this definition"></a></dt>
+<dd><p>Add silicon to the Material Library</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_SiO2">
+<span class="sig-name descname"><span class="pre">add_SiO2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_SiO2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_SiO2" title="Link to this definition"></a></dt>
+<dd><p>Add silicon dioxide to the Material Library</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_anisotropy_material">
+<span class="sig-name descname"><span class="pre">add_anisotropy_material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_anisotropy_material"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_anisotropy_material" title="Link to this definition"></a></dt>
+<dd><p>Add Anisotropic material to Material Libs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Name</strong> (<em>str</em>) – Name of the Material</p></li>
+<li><p><strong>Values</strong> (<em>Dict</em>) – Dictionary with the material Values:
+Values[“X”] : X Epsilon Value
+Values[“Y”] : Y Epsilon Value
+Values[“Z”] : Z Epsilon Value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with the VBA code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_json_material">
+<span class="sig-name descname"><span class="pre">add_json_material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_json_material"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_json_material" title="Link to this definition"></a></dt>
+<dd><p>Add a JSON material file if one is provided by the manufacturer or another source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to file.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name of the file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.add_material">
+<span class="sig-name descname"><span class="pre">add_material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.add_material"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.add_material" title="Link to this definition"></a></dt>
+<dd><p>Add an pre-set of Materials that are for now only available. An extra materials need to be added here.
+Materials that are added to this CST_Constructor:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“Si” Silicon</p></li>
+<li><p>“LiNbO3” Lithium niobate x-cut</p></li>
+<li><p>“SiO2” silicon dioxide</p></li>
+<li><p>“Au” Gold</p></li>
+<li><p>“Al” Aluminium</p></li>
+<li><p>“Glue” Special Glue for the Bondwire floating shield according to KIT Model</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.removeObject">
+<span class="sig-name descname"><span class="pre">removeObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.removeObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.removeObject" title="Link to this definition"></a></dt>
+<dd><p>Delete objects in project</p>
+<dl>
+<dt>Args: Parameters (dict) with all needed parameters for the function.</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>Parameters[“Type”]<span class="classifier">(str) Type of the Deleted objet. It can be:</span></dt><dd><p>‘Folder’
+‘Material’
+‘Component’
+‘Port’
+‘Curve’</p>
+</dd>
+</dl>
+<p>Parameters[“Name”] : (str) Name of the object to delete. When ‘Port’ choosen you only need
+to give the number of the port , like Parameters[“Name”] = “1”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>For example Parameters[“Type”] = ‘Component’</dt><dd><p>Parameters[“Name”] = ‘Box’
+This will delte an component called box.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with the VBA code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setBackground">
+<span class="sig-name descname"><span class="pre">setBackground</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setBackground"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setBackground" title="Link to this definition"></a></dt>
+<dd><p>Set the Simulation background.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Parameters</strong> (<em>dic</em>) – Dictionary with coordinates for the background.
+Parameters[“Type Background”] = str, Type of the Background. Defoult is “Normal”
+Parameters[“Xmin Background”] = int/float
+Parameters[“Xmin Background”] = int/float
+Parameters[“Xmin Background”] = int/float
+Parameters[“Xmin Background”] = int/float
+Parameters[“Xmin Background”] = int/float
+Parameters[“Xmin Background”] = int/float</p></li>
+<li><p><strong>Type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of background material. Cehck CST for more information. Defaults to Normal.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setBoundary">
+<span class="sig-name descname"><span class="pre">setBoundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setBoundary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setBoundary" title="Link to this definition"></a></dt>
+<dd><p>Set Boundary box Parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with Boundary Parameters
+Parameters[“Xmin Boundary”] = str
+Parameters[“Xmax Boundary”] = str
+Parameters[“Ymin Boundary”] = str
+Parameters[“Ymax Boundary”] = str
+Parameters[“Zmin Boundary”] = str
+Parameters[“Zmax Boundary”] = str
+Parameters[“Xsymmetry Boundary”] = str
+Parameters[“Ysymmetry Boundary”] = str
+Parameters[“Zsymmetry Boundary”] = str</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setDomainSolverType">
+<span class="sig-name descname"><span class="pre">setDomainSolverType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setDomainSolverType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setDomainSolverType" title="Link to this definition"></a></dt>
+<dd><p>Set Domein solver type</p>
+<dl>
+<dt>Args: Parameters (dict): Dictionary with Parameters</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>Parameters[‘Domain’]<span class="classifier">(str) Solver domain. Can be:</span></dt><dd><p>“Time”
+“Freq”
+“EigenMode”
+“Integral”
+“Asymptotic”
+“Multilayer”</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: String with VBA Code</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setElectricalSimulationProperties">
+<span class="sig-name descname"><span class="pre">setElectricalSimulationProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setElectricalSimulationProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setElectricalSimulationProperties" title="Link to this definition"></a></dt>
+<dd><p>Set electrical simulation properties</p>
+<blockquote>
+<div><p>TODO : The function need to be expands so more parameters such as mesh properties can be added!</p>
+<dl class="simple">
+<dt>Args: Parameters (dict): Dictionary with Parameters</dt><dd><p>Parameters[‘Dimensions’] : (str) Unit Leghts
+Parameters[‘Frequency’]  : (str) Frequency Units
+Parameters[‘Time’] : (str) Time Units
+Parameters[‘Temperature’] : (str) Temperature Units
+Parameters[“Type Background”] : (str) Background Type
+Parameters[“Xmin Background”] : (int/float) Backgroun X min span
+Parameters[“Xmax Background”] : (int/float) Background X max span
+Parameters[“Ymin Background”] : (int/float) Backgroun Y min span
+Parameters[“Ymax Background”] : (int/float) Backgroun Y max span
+Parameters[“Zmin Background”] : (int/float) Backgroun Z min span
+Parameters[“Zmax Background”] : (int/float) Backgroun Z max span
+Parameters[“Min Frequency”] : (int/float) Min frequency
+Parameters[“Max Frequency”] : (int/float) Max frequency
+Parameters[“Xmin Boundary”] : (int/float) Min X boundary
+Parameters[“Xmax Boundary”] : (int/float) Max X boundary
+Parameters[“Ymin Boundary”] : (int/float) Min Y boundary
+Parameters[“Ymax Boundary”] : (int/float) Max Y boundary
+Parameters[“Zmin Boundary”] : (int/float) Min Z boundary
+Parameters[“Zmax Boundary”] : (int/float) Max Z boundary
+Parameters[“Xsymmetry Boundary”] : (int/float) set symetrie to the X boundary
+Parameters[“Ysymmetry Boundary”] : (int/float) set symetrie to the Y boundary
+Parameters[“Zsymmetry Boundary”] : (int/float) set symetrie to the Z boundary</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setFreqSolver">
+<span class="sig-name descname"><span class="pre">setFreqSolver</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setFreqSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setFreqSolver" title="Link to this definition"></a></dt>
+<dd><p>Set Frequency solver Parameters</p>
+<blockquote>
+<div><p>TODO : This function will set an IDLE Frequency solver parameters. It need to be customizable!</p>
+</div></blockquote>
+<p>For Example Somthing liek:
+def setFreqSolver(self)
+:param Parameters: Dictionary with Parameters</p>
+<blockquote>
+<div><p>Parameters[“Accuracy”] : int from 10,15,20,25,30,35,40. Simulation accuracy. For example 20.
+Parameters[“Caclculate Modes Only”] : Boolen. True if you want to calculate
+only the Ports modes. False to calculate the hole structure.
+Parameters[“Auto Impedance”] : Booled. Set Port Impedance. True if you want to set manually
+False otherwise.
+Parameters[“Impedance”] : int/float Port Impedance.
+Parameters[“Source Port”] : Int. Set the Source Port. For example 1 or 2</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setOpticalSimulationProperties">
+<span class="sig-name descname"><span class="pre">setOpticalSimulationProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setOpticalSimulationProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setOpticalSimulationProperties" title="Link to this definition"></a></dt>
+<dd><p>Function to set an Optical Simulation Properties.</p>
+<blockquote>
+<div><p>TODO : The function need to be expands so more parameters such as mesh properties can be added!</p>
+<p>Args: Parameters (dict): Dictionary with Parameters</p>
+<blockquote>
+<div><p>Parameters[‘Dimensions’] : (str) Unit Leghts
+Parameters[‘Frequency’]  : (str) Frequency Units
+Parameters[‘Time’] : (str) Time Units
+Parameters[‘Temperature’] : (str) Temperature Units
+Parameters[“Type Background”] : (str) Background Type
+Parameters[“Xmin Background”] : (int/float) Backgroun X min span
+Parameters[“Xmax Background”] : (int/float) Background X max span
+Parameters[“Ymin Background”] : (int/float) Backgroun Y min span
+Parameters[“Ymax Background”] : (int/float) Backgroun Y max span
+Parameters[“Zmin Background”] : (int/float) Backgroun Z min span
+Parameters[“Zmax Background”] : (int/float) Backgroun Z max span
+Parameters[“Min Wavelength”] : (int/float) Min wavelenght
+Parameters[“Max Wavelength”] : (int/float) Max wavelenght
+Parameters[“Xmin Boundary”] : (int/float) Min X boundary
+Parameters[“Xmax Boundary”] : (int/float) Max X boundary
+Parameters[“Ymin Boundary”] : (int/float) Min Y boundary
+Parameters[“Ymax Boundary”] : (int/float) Max Y boundary
+Parameters[“Zmin Boundary”] : (int/float) Min Z boundary
+Parameters[“Zmax Boundary”] : (int/float) Max Z boundary
+Parameters[“Xsymmetry Boundary”] : (int/float) set symetrie to the X boundary
+Parameters[“Ysymmetry Boundary”] : (int/float) set symetrie to the Y boundary
+Parameters[“Zsymmetry Boundary”] : (int/float) set symetrie to the Z boundary</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String with VBA Code</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setSimFreqeuncy">
+<span class="sig-name descname"><span class="pre">setSimFreqeuncy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setSimFreqeuncy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setSimFreqeuncy" title="Link to this definition"></a></dt>
+<dd><p>Set Simulation Frequency</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with Parameters
+Parameters[“Min Frequency”] : Min Frequency of Simulation
+Parameters[“Max Frequency”] : Max Frequency of Simulation</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setSimWavelength">
+<span class="sig-name descname"><span class="pre">setSimWavelength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setSimWavelength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setSimWavelength" title="Link to this definition"></a></dt>
+<dd><p>Set Simulation SetSimWavelength</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with Parameters
+Parameters[“Min Wavelength”] : Min Wavelength
+Parameters[“Max Wavelength”] : Max Wavelength</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.setTimeSolver">
+<span class="sig-name descname"><span class="pre">setTimeSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.setTimeSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.setTimeSolver" title="Link to this definition"></a></dt>
+<dd><p>Set Time solver Parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with Parameters
+Parameters[“Accuracy”] : int from 10,15,20,25,30,35,40. Simulation accuracy. For example 20.
+Parameters[“Caclculate Modes Only”] : Boolen. True if you want to calculate
+only the Ports modes. False to calculate the hole structure.
+Parameters[“Auto Impedance”] : Booled. Set Port Impedance. True if you want to set manually
+False otherwise.
+Parameters[“Impedance”] : int/float Port Impedance.
+Parameters[“Source Port”] : Int. Set the Source Port. For example 1 or 2</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with VBA Code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.CST_Commands.set_Units">
+<span class="sig-name descname"><span class="pre">set_Units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#CST_Commands.set_Units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.CST_Commands.set_Units" title="Link to this definition"></a></dt>
+<dd><p>Set CSt enviroment global units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Parameters</strong> (<em>dict</em>) – Dictionary with the name and value of the parameter.
+Parameters[“Unit Lenght”] - str with measurement unit for lenght. For example “um”
+Parameters[“Unit Frequency”] - str with measurement unit for frequency. For example “GHz”
+Parameters[“Unit Time”] - str with measurement unit for time. For example “ns”
+Parameters[“Unit Temperature”] - str with measurement unit for temperatur. For example “K”</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String with the VBA code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.Curves">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">CST_Constructor.CST_Constructor.</span></span><span class="sig-name descname"><span class="pre">Curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Span_X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Span_Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NumberOfPoints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#Curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.Curves" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Curve class is given an Euler Bezier and Cosinis curves (S-Curves). It was created to use the mathematical expressions
+to assist the above CST wire to solid functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.Curves.Bezier_Curve">
+<span class="sig-name descname"><span class="pre">Bezier_Curve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#Curves.Bezier_Curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.Curves.Bezier_Curve" title="Link to this definition"></a></dt>
+<dd><p>The Cubic Bezier Polynoms are taken from Wikipedia!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>curve</strong> – curve[:,0] - X Param of the Bezier Curve
+curve[:,1] - Y Param of the Bezier Curve</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>2 dimentional np array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.Curves.Cosinus_Curve">
+<span class="sig-name descname"><span class="pre">Cosinus_Curve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#Curves.Cosinus_Curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.Curves.Cosinus_Curve" title="Link to this definition"></a></dt>
+<dd><p>The cosinus function is SpanY*(cos((pi/(2*SpanX))*t)^2)  —-&gt;&gt; t in the range of 0 to SpanY</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>curve</strong> – curve[:,0] - X Param of the Bezier Curve
+curve[:,1] - Y Param of the Bezier Curve</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>2 dimentional np array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CST_Constructor.CST_Constructor.Curves.Euler_Curve">
+<span class="sig-name descname"><span class="pre">Euler_Curve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CST_Constructor/CST_Constructor.html#Curves.Euler_Curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CST_Constructor.CST_Constructor.Curves.Euler_Curve" title="Link to this definition"></a></dt>
+<dd><p>Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)
+using Fresnel integrals and linear curvature.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

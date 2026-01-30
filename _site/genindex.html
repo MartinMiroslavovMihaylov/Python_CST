@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Python-Lumerical Constructor Script 01.01.2024 documentation</title>
+  <title>Index &mdash; Python-CST Constructor Script 27.01.2026 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3bcf0cf1"></script>
+      <script src="_static/documentation_options.js?v=b3658ba4"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,7 +29,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            Python-Lumerical Constructor Script
+            Python-CST Constructor Script
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -42,22 +42,90 @@
               <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Install.html#lumerical-installation-and-file-location">Lumerical Installation and file location</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Install.html#lumerical-materials-dataset">Lumerical Materials Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html#cst-installation-and-file-location">CST Installation and file location</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Examples/index.html#full-code-examples">Full Code Examples:</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Examples/Example_MMI_EME.html">Example_MMI_EME</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Examples/Example_S_Bend_FDTD.html">Example_S_Bend_FDTD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Examples/Example_MZM_CHARGE.html">Example_MZM_CHARGE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/Example_GSG_Pads_with_Bondwires.html">Example_GSG_Pads_with_Bondwires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/Example_GSGSG_Pads_with_Bondwires.html">Example_GSGSG_Pads_with_Bondwires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/Example_MZM.html">Example_MZM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/Example_Phase_Modulator.html">Example_Phase_Modulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/Example_Waveguide_FDE.html">Example_Waveguide</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Extras/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Extras/index.html#help-menu">Help Menu</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Extras/index.html#loading-bar">Loading Bar</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Extras/index.html#logger">Logger</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Constructor.html">Constructor Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Extras/index.html">Curves ClassExamples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CST_Constructor.html">CST_Constructor Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands"><code class="docutils literal notranslate"><span class="pre">CST_Commands</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.AddGlobalParameter"><code class="docutils literal notranslate"><span class="pre">CST_Commands.AddGlobalParameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.BondWire"><code class="docutils literal notranslate"><span class="pre">CST_Commands.BondWire()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Brick"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Brick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ChangeSolverType"><code class="docutils literal notranslate"><span class="pre">CST_Commands.ChangeSolverType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ClearAllPicks"><code class="docutils literal notranslate"><span class="pre">CST_Commands.ClearAllPicks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Conus"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Conus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CreateEfieldMonitor"><code class="docutils literal notranslate"><span class="pre">CST_Commands.CreateEfieldMonitor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Curve"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveToSolid"><code class="docutils literal notranslate"><span class="pre">CST_Commands.CurveToSolid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveWire"><code class="docutils literal notranslate"><span class="pre">CST_Commands.CurveWire()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cut_structures"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Cut_structures()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cylinder"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Cylinder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.DeleteGlobalParameter"><code class="docutils literal notranslate"><span class="pre">CST_Commands.DeleteGlobalParameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Elipse"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Elipse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GGB_Probe"><code class="docutils literal notranslate"><span class="pre">CST_Commands.GGB_Probe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection"><code class="docutils literal notranslate"><span class="pre">CST_Commands.GSGSG_Bondwire_ChipToChip_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection"><code class="docutils literal notranslate"><span class="pre">CST_Commands.GSG_Bondwire_ChipToChip_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MZM"><code class="docutils literal notranslate"><span class="pre">CST_Commands.MZM()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MoveWaveguidePorts"><code class="docutils literal notranslate"><span class="pre">CST_Commands.MoveWaveguidePorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.New_Project"><code class="docutils literal notranslate"><span class="pre">CST_Commands.New_Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Open_Project"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Open_Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.PhaseModulator"><code class="docutils literal notranslate"><span class="pre">CST_Commands.PhaseModulator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Pick"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Pick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_2D"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Poligon_2D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_3D"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Poligon_3D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RibWaveguide_ToSolid"><code class="docutils literal notranslate"><span class="pre">CST_Commands.RibWaveguide_ToSolid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RotationTranslation"><code class="docutils literal notranslate"><span class="pre">CST_Commands.RotationTranslation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Save_Project"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Save_Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetDiscretePort"><code class="docutils literal notranslate"><span class="pre">CST_Commands.SetDiscretePort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetMesh"><code class="docutils literal notranslate"><span class="pre">CST_Commands.SetMesh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Sphere"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Sphere()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Squere_Waveguide"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Squere_Waveguide()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.StartTimeSolver"><code class="docutils literal notranslate"><span class="pre">CST_Commands.StartTimeSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ToSolid"><code class="docutils literal notranslate"><span class="pre">CST_Commands.ToSolid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Translation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Rotation"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Translation_Rotation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Scale"><code class="docutils literal notranslate"><span class="pre">CST_Commands.Translation_Scale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePort"><code class="docutils literal notranslate"><span class="pre">CST_Commands.WaveguidePort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePortWithPins"><code class="docutils literal notranslate"><span class="pre">CST_Commands.WaveguidePortWithPins()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Al"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Al()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Au"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Au()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_GGB_Probe_Material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_GGB_Probe_Material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Glue"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Glue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Si"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_Si()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_SiO2"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_SiO2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_anisotropy_material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_anisotropy_material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_json_material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_json_material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_material"><code class="docutils literal notranslate"><span class="pre">CST_Commands.add_material()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.removeObject"><code class="docutils literal notranslate"><span class="pre">CST_Commands.removeObject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBackground"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setBackground()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBoundary"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setBoundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setDomainSolverType"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setDomainSolverType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setElectricalSimulationProperties"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setElectricalSimulationProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setFreqSolver"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setFreqSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setOpticalSimulationProperties"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setOpticalSimulationProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimFreqeuncy"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setSimFreqeuncy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimWavelength"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setSimWavelength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setTimeSolver"><code class="docutils literal notranslate"><span class="pre">CST_Commands.setTimeSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.set_Units"><code class="docutils literal notranslate"><span class="pre">CST_Commands.set_Units()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves"><code class="docutils literal notranslate"><span class="pre">Curves</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Bezier_Curve"><code class="docutils literal notranslate"><span class="pre">Curves.Bezier_Curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Cosinus_Curve"><code class="docutils literal notranslate"><span class="pre">Curves.Cosinus_Curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Euler_Curve"><code class="docutils literal notranslate"><span class="pre">Curves.Euler_Curve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -66,7 +134,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Python-Lumerical Constructor Script</a>
+          <a href="index.html">Python-CST Constructor Script</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -87,8 +155,535 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_Al">add_Al() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Al">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Al">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_anisotropy_material">add_anisotropy_material() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_anisotropy_material">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_anisotropy_material">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_Au">add_Au() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Au">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Au">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_GGB_Probe_Material">add_GGB_Probe_Material() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_GGB_Probe_Material">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_GGB_Probe_Material">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_Glue">add_Glue() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Glue">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Glue">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_json_material">add_json_material() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_json_material">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_json_material">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_material">add_material() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_material">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_material">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_Si">add_Si() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Si">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_Si">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.add_SiO2">add_SiO2() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_SiO2">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.add_SiO2">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.AddGlobalParameter">AddGlobalParameter() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.AddGlobalParameter">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.AddGlobalParameter">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Bezier_Curve">Bezier_Curve() (CST_Constructor.CST_Constructor.Curves method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Bezier_Curve">[1]</a>
+
+      <ul>
+        <li><a href="_rst/CST_Constructor.html#CST_Constructor.Curves.Bezier_Curve">(CST_Constructor.Curves method)</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.BondWire">BondWire() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.BondWire">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.BondWire">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Brick">Brick() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Brick">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Brick">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.ChangeSolverType">ChangeSolverType() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ChangeSolverType">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ChangeSolverType">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.ClearAllPicks">ClearAllPicks() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ClearAllPicks">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ClearAllPicks">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Conus">Conus() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Conus">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Conus">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Cosinus_Curve">Cosinus_Curve() (CST_Constructor.CST_Constructor.Curves method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Cosinus_Curve">[1]</a>
+
+      <ul>
+        <li><a href="_rst/CST_Constructor.html#CST_Constructor.Curves.Cosinus_Curve">(CST_Constructor.Curves method)</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.CreateEfieldMonitor">CreateEfieldMonitor() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CreateEfieldMonitor">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CreateEfieldMonitor">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands">CST_Commands (class in CST_Constructor)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands">(class in CST_Constructor.CST_Constructor)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands">[1]</a>
+</li>
+      </ul></li>
+      <li>
+    CST_Constructor
+
+      <ul>
+        <li><a href="_rst/CST_Constructor.html#module-CST_Constructor">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    CST_Constructor.CST_Constructor
+
+      <ul>
+        <li><a href="CST_Constructor.html#module-CST_Constructor.CST_Constructor">module</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#module-CST_Constructor.CST_Constructor">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Curve">Curve() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Curve">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Curve">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.Curves">Curves (class in CST_Constructor)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves">(class in CST_Constructor.CST_Constructor)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.Curves">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.CurveToSolid">CurveToSolid() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveToSolid">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveToSolid">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.CurveWire">CurveWire() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveWire">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.CurveWire">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Cut_structures">Cut_structures() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cut_structures">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cut_structures">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Cylinder">Cylinder() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cylinder">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Cylinder">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.DeleteGlobalParameter">DeleteGlobalParameter() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.DeleteGlobalParameter">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.DeleteGlobalParameter">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Elipse">Elipse() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Elipse">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Elipse">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Euler_Curve">Euler_Curve() (CST_Constructor.CST_Constructor.Curves method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.Curves.Euler_Curve">[1]</a>
+
+      <ul>
+        <li><a href="_rst/CST_Constructor.html#CST_Constructor.Curves.Euler_Curve">(CST_Constructor.Curves method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.GGB_Probe">GGB_Probe() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GGB_Probe">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GGB_Probe">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection">GSG_Bondwire_ChipToChip_connection() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSG_Bondwire_ChipToChip_connection">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection">GSGSG_Bondwire_ChipToChip_connection() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.GSGSG_Bondwire_ChipToChip_connection">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    module
+
+      <ul>
+        <li><a href="_rst/CST_Constructor.html#module-CST_Constructor">CST_Constructor</a>
+</li>
+        <li><a href="CST_Constructor.html#module-CST_Constructor.CST_Constructor">CST_Constructor.CST_Constructor</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#module-CST_Constructor.CST_Constructor">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.MoveWaveguidePorts">MoveWaveguidePorts() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MoveWaveguidePorts">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MoveWaveguidePorts">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.MZM">MZM() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MZM">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.MZM">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.New_Project">New_Project() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.New_Project">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.New_Project">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Open_Project">Open_Project() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Open_Project">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Open_Project">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.PhaseModulator">PhaseModulator() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.PhaseModulator">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.PhaseModulator">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Pick">Pick() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Pick">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Pick">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Poligon_2D">Poligon_2D() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_2D">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_2D">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Poligon_3D">Poligon_3D() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_3D">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Poligon_3D">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.removeObject">removeObject() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.removeObject">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.removeObject">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.RibWaveguide_ToSolid">RibWaveguide_ToSolid() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RibWaveguide_ToSolid">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RibWaveguide_ToSolid">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.RotationTranslation">RotationTranslation() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RotationTranslation">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.RotationTranslation">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Save_Project">Save_Project() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Save_Project">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Save_Project">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.set_Units">set_Units() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.set_Units">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.set_Units">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setBackground">setBackground() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBackground">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBackground">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setBoundary">setBoundary() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBoundary">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setBoundary">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.SetDiscretePort">SetDiscretePort() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetDiscretePort">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetDiscretePort">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setDomainSolverType">setDomainSolverType() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setDomainSolverType">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setDomainSolverType">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setElectricalSimulationProperties">setElectricalSimulationProperties() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setElectricalSimulationProperties">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setElectricalSimulationProperties">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setFreqSolver">setFreqSolver() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setFreqSolver">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setFreqSolver">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.SetMesh">SetMesh() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetMesh">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.SetMesh">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setOpticalSimulationProperties">setOpticalSimulationProperties() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setOpticalSimulationProperties">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setOpticalSimulationProperties">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setSimFreqeuncy">setSimFreqeuncy() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimFreqeuncy">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimFreqeuncy">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setSimWavelength">setSimWavelength() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimWavelength">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setSimWavelength">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.setTimeSolver">setTimeSolver() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setTimeSolver">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.setTimeSolver">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Sphere">Sphere() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Sphere">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Sphere">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Squere_Waveguide">Squere_Waveguide() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Squere_Waveguide">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Squere_Waveguide">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.StartTimeSolver">StartTimeSolver() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.StartTimeSolver">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.StartTimeSolver">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.ToSolid">ToSolid() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ToSolid">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.ToSolid">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Translation">Translation() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Translation_Rotation">Translation_Rotation() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Rotation">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Rotation">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.Translation_Scale">Translation_Scale() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Scale">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.Translation_Scale">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.WaveguidePort">WaveguidePort() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePort">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePort">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_rst/CST_Constructor.html#CST_Constructor.CST_Commands.WaveguidePortWithPins">WaveguidePortWithPins() (CST_Constructor.CST_Commands method)</a>
+
+      <ul>
+        <li><a href="CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePortWithPins">(CST_Constructor.CST_Constructor.CST_Commands method)</a>, <a href="_rst/CST_Constructor.CST_Constructor.html#CST_Constructor.CST_Constructor.CST_Commands.WaveguidePortWithPins">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
 
 
            </div>

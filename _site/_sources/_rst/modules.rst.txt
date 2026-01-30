@@ -1,4 +1,4 @@
-Constructor
+CST_Constructor
 ===========
 
 .. toctree::

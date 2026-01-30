@@ -1,8 +1,7 @@
 
 Install
 =======
-
-This Python Libraries can be used with Python Version 3.10.0 or newer.
+These Python libraries can be used with Python version 3.11.0. Please check the CST Help menu to verify which Python versions are compatible with your CST installation.
 
 For the Moment you will need the following Python Libraries. ::
 
@@ -11,23 +10,25 @@ For the Moment you will need the following Python Libraries. ::
    pip install matplotlib
 
    
-Lumerical Installation and file location 
+CST Installation and file location 
 ==============================================================
 
-To use a Python Lumerical script, you will need a licensed and installed copy of Ansys Lumerical.
-It doesn’t matter whether you are on Windows or Linux—you need to locate where Lumerical is installed and search in::
+The CST Studio Suite installation comes with a working Python interpreter, which requires no further setup to start using it with the CST Python Libraries. Various packages like numpy and scipy are pre-installed. You can find it under:
 
-   Windows: C:/Program Files/Lumerical/v.../api/python
+	Windows: “<CST_STUDIO_SUITE_FOLDER>\AMD64\python\python”
+	Linux: “<CST_STUDIO_SUITE_FOLDER>/LinuxAMD64/python/python”
 
-   Linux: .../Lumerical/v.../api/python
+where <CST_STUDIO_SUITE_FOLDER> should be replaced with the path to the CST Studio Suite installation on your system.
 
-Inside, you will find lumapi.py. You need to provide your Python script with the path to where lumapi.py is located on your system.
+Custom Python interpreter
+To make sure your interpreter is able to load the CST Python Libraries, a minimal package can be installed that links to the actual CST Studio Suite installation:
 
+pip install --no-index --find-links "<CST_STUDIO_SUITE_FOLDER>/Library/Python/repo/simple" cst-studio-suite-link
+where <CST_STUDIO_SUITE_FOLDER> should be replaced with the path to the CST Studio Suite installation on your system. Do not install this package if you don’t have CST Studio Suite installed on the same machine as the python interpreter.
 
-Lumerical Materials Dataset
-==============================================================
+Testing your environment
+You have successfully set up your Python environment if you are able to execute the following code without an error:
 
-The scripts can be used with an external material library file. If you have one, for example
-Material_File_Example.mdf, you can import it at the beginning of the script.
-To see how, please refer to the next section Examples.
+import cst
+print(cst.__file__)  # should print '<PATH_TO_CST_AMD64>\python_cst_libraries\cst\__init__.py'
 

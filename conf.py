@@ -1,4 +1,4 @@
-# docs-src/conf.py
+                  
 # Configuration file for the Sphinx documentation builder.
 
 import os
@@ -6,17 +6,18 @@ import sys
 import shutil
 import subprocess
 
-# --- Determine repo root (CODE_DIR) ---
+# --- Add main repo to sys.path ---
 
-# First try environment variable set by GitHub Actions
+                                                      
 CODE_DIR = os.environ.get("CODE_DIR")
 if not CODE_DIR or not os.path.isdir(CODE_DIR):
-    # Fallback: assume repo is one folder up from docs-src
-    CODE_DIR = os.path.abspath("../repo")
+                                                          
+    CODE_DIR = os.path.abspath("../repo")  # fallback
 
-# Add repo root to sys.path for autodoc
+                                     
 sys.path.insert(0, CODE_DIR)
-print(f"[conf.py] Added CODE_DIR to sys.path: {CODE_DIR}")
+                                                         
+
 
 # --- Expose code examples under 'examples-src' ---
 
@@ -47,7 +48,9 @@ def _mount_examples():
             print(f"[conf.py] Junction examples-src -> {src}")
         except Exception:
             shutil.copytree(src, dst)
-            print(f"[conf.py] Copied examples to '{dst}' (symlink/junction unavailable)")
+            print(
+                f"[conf.py] Copied examples to '{dst}' (symlink/junction unavailable)"
+            )
 
 _mount_examples()
 
@@ -79,9 +82,10 @@ autodoc_mock_imports = [
     "numpy",
     "pandas",
     "matplotlib",
+    "os",
+    "sys",   
     "matlab",
     "cst",  # <-- mock CST Studio API
-    "CST_Constructor.CST_Constructor"
 ]
 
 # --- HTML output options ---

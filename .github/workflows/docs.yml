@@ -2,7 +2,7 @@ name: Build & Deploy Sphinx Docs
 
 on:
   push:
-    branches: [ main, docu ]    # build on main or docu
+    branches: [ main, docu ]  # build on main or docu branch
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -23,14 +23,14 @@ jobs:
       name: github-pages
 
     steps:
-      # --- Checkout main code ---
-      - name: Checkout main branch (Python_CST)
+      # --- Checkout main code (Python_CST) ---
+      - name: Checkout main branch
         uses: actions/checkout@v5
         with:
           path: repo
 
       # --- Checkout docs branch ---
-      - name: Checkout docs branch (Sphinx sources)
+      - name: Checkout docs branch
         uses: actions/checkout@v5
         with:
           ref: docu
@@ -50,15 +50,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r docs-src/requirements-docs.txt
           pip install matplotlib pandas
-          # set CODE_DIR for later steps
           echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
 
-      # --- Sanity import check ---
+      # --- Optional sanity check ---
+      - name: List repo contents
+        run: ls -R ${CODE_DIR}
+
       - name: Sanity import check
         run: |
           python - <<'PY'
           import os, sys
-          code_dir = os.environ.get("CODE_DIR", os.path.abspath("../repo"))
+          code_dir = os.environ.get("CODE_DIR")
           sys.path.insert(0, code_dir)
           print("[Sanity] sys.path:", sys.path)
           print("[Sanity] Repo contents:", os.listdir(code_dir))
@@ -73,12 +75,14 @@ jobs:
       - name: Clean _site
         run: rm -rf _site
 
-      # --- Build Sphinx HTML ---
+      # --- Generate .rst from code and build Sphinx ---
       - name: Build Sphinx HTML
         shell: bash
         run: |
           export PYTHONPATH=${CODE_DIR}:$PYTHONPATH
-          sphinx-apidoc -o docs-src/_rst --separate --force --no-toc ../Python_CST/CST_Constructor
+          # Generate .rst files for CST_Constructor automatically
+          sphinx-apidoc -o docs-src/_rst --separate --force --no-toc ${CODE_DIR}/CST_Constructor
+          # Build HTML
           sphinx-build -b html docs-src _site
 
       # --- Upload Pages artifact ---

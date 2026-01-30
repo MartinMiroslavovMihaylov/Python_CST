@@ -79,23 +79,35 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
+# --- Templates ---
 templates_path = ["_templates"]
+autosummary_generate = True
+
+# --- Exclude patterns ---
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autodoc_typehints = "description"
 
-# --- Mock heavy imports only on CI ---
+# --- Mock heavy imports ---
 autodoc_mock_imports = [
     "numpy",
     "pandas",
     "matplotlib",
     "matlab",
-    "scipy"
+    "scipy",
+    "scipy.integrate",
 ]
 
-# Detect CI environment
+# --- Mock CST only on CI ---
 if os.environ.get("GITHUB_ACTIONS") == "true":
     autodoc_mock_imports.append("cst")
     print("[conf.py] Running on GitHub Actions: 'cst' will be mocked.")
+
+# --- Default autodoc options ---
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": True,
+    "show-inheritance": True,
+}
 
 # --- HTML options ---
 html_theme = "sphinx_rtd_theme"

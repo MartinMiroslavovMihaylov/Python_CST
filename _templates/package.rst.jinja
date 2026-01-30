@@ -1,50 +1,31 @@
-{%- set TOP_PREFIX = 'Constructor.' -%}
+{{ fullname }}
+{{ "=" * fullname|length }}
 
-{%- macro automodule(modname, options) -%}
-.. automodule:: {{ modname }}
-{%- for option in options %}
-   :{{ option }}:
-{%- endfor %}
-{%- endmacro %}
+.. automodule:: {{ fullname }}
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-{%- macro toctree(docnames) -%}
-.. toctree::
-   :maxdepth: {{ 2 }}
-{% for docname in docnames %}
-   {{ docname }}
-{%- endfor %}
-{%- endmacro %}
-
-{%- if is_namespace %}
-{{- [pkgname|replace(TOP_PREFIX, ''), "namespace"] | join(" ") | e | heading }}
-{% else %}
-{{- [pkgname|replace(TOP_PREFIX, ''), "package"] | join(" ") | e | heading }}
-{% endif %}
-
-{%- if is_namespace %}
-.. py:module:: {{ pkgname }}
-{% endif %}
-
-{%- if modulefirst and not is_namespace %}
-{{ automodule(pkgname, automodule_options) }}
-{% endif %}
-
-{%- if subpackages %}
+{% if subpackages %}
 Subpackages
 -----------
 
-{{ toctree(subpackages) }}
+.. toctree::
+   :maxdepth: 2
+
+{% for item in subpackages %}
+   {{ item }}
+{% endfor %}
 {% endif %}
 
-{%- if submodules %}
-{% if separatemodules %}
-{{ toctree(submodules) }}
-{% else %}
-{%- for submodule in submodules %}
-{% if show_headings %}
-{{- [submodule|replace(TOP_PREFIX, ''), "module"] | join(" ") | e | heading(2) }}
-{% endif %}
-{{ automodule(submodule, automodule_options) }}
+{% if submodules %}
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+{% for item in submodules %}
+   {{ item }}
 {% endfor %}
-{%- endif %}
-{%- endif %}
+{% endif %}

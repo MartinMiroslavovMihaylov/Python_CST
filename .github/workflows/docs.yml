@@ -2,7 +2,7 @@ name: Build & Deploy Sphinx Docs
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, docu ]    # build on main or docu
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true  # prevents multiple overlapping deploys
+  cancel-in-progress: true  # prevents overlapping deploys
 
 jobs:
   build-and-deploy:
@@ -24,20 +24,20 @@ jobs:
 
     steps:
       # --- Checkout main code ---
-      - name: Checkout main branch
+      - name: Checkout main branch (Python_CST)
         uses: actions/checkout@v5
         with:
           path: repo
 
       # --- Checkout docs branch ---
-      - name: Checkout docs branch
+      - name: Checkout docs branch (Sphinx sources)
         uses: actions/checkout@v5
         with:
           ref: docu
           path: docs-src
 
       # --- Set up Python ---
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -50,26 +50,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r docs-src/requirements-docs.txt
           pip install matplotlib pandas
+          # set CODE_DIR for later steps
           echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
 
       # --- Sanity import check ---
       - name: Sanity import check
         run: |
           python - <<'PY'
-          import os
-          import sys
-
+          import os, sys
           code_dir = os.environ.get("CODE_DIR", os.path.abspath("../repo"))
           sys.path.insert(0, code_dir)
-
           print("[Sanity] sys.path:", sys.path)
           print("[Sanity] Repo contents:", os.listdir(code_dir))
-
           try:
               from CST_Constructor.CST_Constructor import CST_Commands, Curves
               print("Imported CST_Constructor successfully:", CST_Commands, Curves)
           except ModuleNotFoundError as e:
-              print(f"Warning: {e} (CST module not installed on GitHub Actions; skipping runtime import)")
+              print(f"Warning: {e} (CST module not installed; skipping runtime import)")
           PY
 
       # --- Clean previous build ---
@@ -78,11 +75,12 @@ jobs:
 
       # --- Build Sphinx HTML ---
       - name: Build Sphinx HTML
-          shell: bash
-          run: |
-            export PYTHONPATH=${CODE_DIR}:$PYTHONPATH
-            sphinx-build -b html docs-src _site
- 
+        shell: bash
+        run: |
+          export PYTHONPATH=${CODE_DIR}:$PYTHONPATH
+          sphinx-apidoc -o docs-src/_rst --separate --force --no-toc ../Python_CST/CST_Constructor
+          sphinx-build -b html docs-src _site
+
       # --- Upload Pages artifact ---
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

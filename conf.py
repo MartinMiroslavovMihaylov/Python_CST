@@ -1,5 +1,5 @@
-                  
-# Configuration file for the Sphinx documentation builder.
+# docs-src/conf.py
+# Configuration file for Sphinx documentation builder.
 
 import os
 import sys
@@ -7,62 +7,69 @@ import shutil
 import subprocess
 
 # --- Add main repo to sys.path ---
-
-                                                      
 CODE_DIR = os.environ.get("CODE_DIR")
 if not CODE_DIR or not os.path.isdir(CODE_DIR):
-                                                          
-    CODE_DIR = os.path.abspath("../repo")  # fallback
+    CODE_DIR = os.path.abspath("../repo")  # fallback if CODE_DIR not set
 
-                                     
 sys.path.insert(0, CODE_DIR)
-                                                         
-
-
-# --- Expose code examples under 'examples-src' ---
+print(f"[conf.py] Added CODE_DIR to sys.path: {CODE_DIR}")
 
 def _mount_examples():
     src = os.path.join(CODE_DIR, "Examples")
-    dst = os.path.abspath(os.path.join(os.path.dirname(__file__), "examples-src"))
+    dst = os.path.join(os.path.dirname(__file__), "examples-src")
 
     if not os.path.isdir(src):
         print(f"[conf.py] No code examples at {src}; skipping.", file=sys.stderr)
         return
 
-    try:
-        if os.path.exists(dst):
+    # Remove existing examples-src
+    if os.path.exists(dst):
+        try:
             if os.path.islink(dst):
                 os.unlink(dst)
-            else:
+            elif os.path.isdir(dst):
                 shutil.rmtree(dst)
+            else:
+                os.remove(dst)
+        except Exception as e:
+            print(f"[conf.py] Failed to remove old examples-src: {e}", file=sys.stderr)
+            return
 
+    # Try symlink first (works on Linux / GitHub Actions)
+    try:
         os.symlink(src, dst, target_is_directory=True)
         print(f"[conf.py] Linked examples-src -> {src}")
-
+        return
     except Exception:
-        # Windows fallback to copy if symlink fails
+        pass
+
+    # Try Windows junction
+    if os.name == "nt":
         try:
-            subprocess.run(
-                ["cmd", "/c", "mklink", "/J", dst, src], check=True, shell=True
-            )
+            subprocess.run(["cmd", "/c", "mklink", "/J", dst, src], check=True, shell=True)
             print(f"[conf.py] Junction examples-src -> {src}")
+            return
         except Exception:
-            shutil.copytree(src, dst)
-            print(
-                f"[conf.py] Copied examples to '{dst}' (symlink/junction unavailable)"
-            )
+            pass
+
+    # Fallback: copy examples
+    try:
+        shutil.copytree(src, dst)
+        print(f"[conf.py] Copied examples to '{dst}' (symlink/junction unavailable)")
+    except Exception as e:
+        print(f"[conf.py] Failed to copy examples: {e}", file=sys.stderr)
 
 _mount_examples()
 
-# --- Project information ---
+# --- Project info ---
 project = "Python-CST Constructor Script"
 author = "Martin Mihaylov"
 release = "27.01.2026"
 
-# --- General configuration ---
+# --- Sphinx extensions ---
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
+    "sphinx.ext.autosummary",  # remove if you don't want autosummary
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
@@ -74,21 +81,20 @@ extensions = [
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-
 autodoc_typehints = "description"
 
 # --- Mock heavy imports ---
 autodoc_mock_imports = [
-    "numpy",
-    "pandas",
-    "matplotlib",
-    "os",
-    "sys",   
-    "matlab",
-    "cst",  # <-- mock CST Studio API
+    "numpy", 
+    "pandas", 
+    "matplotlib", 
+    "os", 
+    "sys", 
+    "matlab", 
+    "cst"        
 ]
 
-# --- HTML output options ---
+# --- HTML options ---
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     "collapse_navigation": False,

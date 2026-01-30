@@ -57,4 +57,4 @@ All detailed examples can be found below:
    Example_GSGSG_Pads_with_Bondwires
    Example_MZM
    Example_Phase_Modulator
-   Example_Waveguide_FDE
+   Example_Waveguide

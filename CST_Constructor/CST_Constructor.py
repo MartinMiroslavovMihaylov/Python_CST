@@ -105,6 +105,70 @@ class CST_Commands:
         self.prj = self.de.open_project(path)
 
 
+    def removeObject(self, Parameters):
+        """Delete objects in project
+
+        Args: Parameters (dict) with all needed parameters for the function. 
+                Parameters["Type"] : (str) Type of the Deleted objet. It can be:  
+                                                                    'Folder'
+                                                                    'Material'
+                                                                    'Component'
+                                                                    'Port'
+                                                                    'Curve' 
+                Parameters["Name"] : (str) Name of the object to delete. When 'Port' choosen you only need 
+                to give the number of the port , like Parameters["Name"] = "1"
+
+            For example Parameters["Type"] = 'Component'
+                        Parameters["Name"] = 'Box'
+                        This will delte an component called box. 
+        Returns:
+            str: String with the VBA code
+        
+        """
+
+        type = Parameters["Type"]
+        name = Parameters["Name"]
+
+        if type == "Folder":
+            vba_code = f"""
+                         Wire.DeleteFolder "{name}"
+                        """
+            self.prj.model3d.add_to_history("set units", vba_code)
+
+        elif type == "Material":
+            vba_code = f"""
+                         Material.Delete "{name}"
+
+                        """
+            self.prj.model3d.add_to_history("set units", vba_code)
+
+        elif type == "Component":
+            vba_code = f"""
+                         Component.Delete "{name}"
+
+                        """
+            self.prj.model3d.add_to_history("set units", vba_code)
+
+        elif type == "Port":
+            vba_code = f"""
+                         Port.Delete "{name}"
+
+                        """
+            self.prj.model3d.add_to_history("set units", vba_code)
+
+        elif type == "Curve":
+            vba_code = f"""
+                         Curve.DeleteCurve "{name}"
+
+                        """
+            self.prj.model3d.add_to_history("set units", vba_code)
+        
+        else:
+            raise ValueError("Not supportet Type. You can choose between, 'Component', 'Folder', Material, 'Port', or 'Curve' !")
+  
+
+
+
 
     ############################################################################
     # CST solver parameters
@@ -1805,8 +1869,10 @@ class CST_Commands:
                     Parameters["PADs Distance"] : Distance from first chip bondpads to the secound chip bondpads
                     Parameters["Bonwire height"] : Bondwire hight in the middle point
                     Parameters["Bonwire radius"] : Bondwire ridius
-                    Parameters["Glue Thickness"] : DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
-                    Parameters["Floating Shield Thickness"] : Floating shield gold metal thickness
+                    Parameters["Floating Shield"] : (boolen) Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
+                    If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
+                    Parameters["Glue Thickness"] : (int/float) DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
+                    Parameters["Floating Shield Thickness"] : (int/float) Floating shield gold metal thickness
                     Parameters["Accuracy"] : FDTD Solver Accuracy. Can be :
                                                                             80 dB
                                                                             60 dB
@@ -1849,8 +1915,6 @@ class CST_Commands:
         PAD_Dist = [ -PAD_Dist_given - PAD_Length, PAD_Dist_given + PAD_Length]
         Bondwire_Height = Parameters["Bonwire height"]
         Bondwire_Radius = Parameters["Bonwire radius"]
-        Glue_Thickness = Parameters["Glue Thickness"]
-        FloatingShieldThickness = Parameters["Floating Shield Thickness"]
         SpanY = Parameters["Port Y Span"]
         SpanZ = Parameters["Port Z Span"]
         Facet_Number = [4, 6]
@@ -2015,43 +2079,50 @@ class CST_Commands:
             self.ToSolid(Parameters_toSolid)
 
         # Create Top Plate for Bond Wires and cladding
+         # Create Top Plate for Bond Wires and cladding
+        if Parameters["Floating Shield"] == True:
 
-        # PAD_Thickness = 2.8
-        Name_Shield = "Floating_Shield"
-        Component_Name = "Floating_Shield"
-        Material = "Au"
-        Material_Clad = "DAF_Glue"
-
-
-        # Create cladding
-        Brick_Parameters = {}
-        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
-        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
-        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2
-        Brick_Parameters["Brick Hight Min"] = 0
-        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 
-        Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
-        Brick_Parameters["Component Name"] = Component_Name
-        Brick_Parameters["Material"] = Material_Clad
-        self.Brick(Brick_Parameters)
+            # Set glue thickness and floating shield thickness
+            Glue_Thickness = Parameters["Glue Thickness"]
+            FloatingShieldThickness = Parameters["Floating Shield Thickness"]
+            # PAD_Thickness = 2.8
+            Name_Shield = "Floating_Shield"
+            Component_Name = "Floating_Shield"
+            Material = "Au"
+            Material_Clad = "DAF_Glue"
 
 
+            # Create cladding
+            Brick_Parameters = {}
+            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+            Brick_Parameters["Brick Hight Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            Brick_Parameters["Brick Hight Min"] = 0
+            # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 
+            Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
+            Brick_Parameters["Component Name"] = Component_Name
+            Brick_Parameters["Material"] = Material_Clad
+            self.Brick(Brick_Parameters)
 
-        # Create squere floating shield
-        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
-        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
-        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2 + FloatingShieldThickness*2
-        Brick_Parameters["Brick Hight Min"] = Glue_Thickness*2
-        # Brick_Parameters["Brick Hight Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
-        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 + Glue_Thickness*2
-        Brick_Parameters["Brick Name"] = Name_Shield
-        Brick_Parameters["Component Name"] = Component_Name
-        Brick_Parameters["Material"] = Material
-        self.Brick(Brick_Parameters)
+
+
+            # Create squere floating shield
+            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+            Brick_Parameters["Brick Hight Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2 + FloatingShieldThickness*2
+            Brick_Parameters["Brick Hight Min"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            # Brick_Parameters["Brick Hight Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
+            # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 + Glue_Thickness*2
+            Brick_Parameters["Brick Name"] = Name_Shield
+            Brick_Parameters["Component Name"] = Component_Name
+            Brick_Parameters["Material"] = Material
+            self.Brick(Brick_Parameters)
+        else:
+            pass
 
         if Probes == False:
             # Pick Faces for Input Waveguide Port 1
@@ -2185,8 +2256,10 @@ class CST_Commands:
                     Parameters["PADs Distance"] : Distance from first chip bondpads to the secound chip bondpads
                     Parameters["Bonwire height"] : Bondwire hight in the middle point
                     Parameters["Bonwire radius"] : Bondwire ridius
-                    Parameters["Glue Thickness"] : DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
-                    Parameters["Floating Shield Thickness"] : Floating shield gold metal thickness
+                    Parameters["Floating Shield"] : (boolen) Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
+                    If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
+                    Parameters["Glue Thickness"] : (int/float) DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
+                    Parameters["Floating Shield Thickness"] : (int/float) Floating shield gold metal thickness
                     Parameters["Accuracy"] : FDTD Solver Accuracy. Can be :
                                                                             80 dB
                                                                             60 dB
@@ -2228,10 +2301,10 @@ class CST_Commands:
         PAD_Dist = [ -PAD_Dist_given - PAD_Length, PAD_Dist_given + PAD_Length]
         Bondwire_Height = Parameters["Bonwire height"]
         Bondwire_Radius = Parameters["Bonwire radius"]
-        Glue_Thickness = Parameters["Glue Thickness"]
+        
         SpanY = Parameters["Port Y Span"]
         SpanZ = Parameters["Port Z Span"]
-        FloatingShieldThickness = Parameters["Floating Shield Thickness"]
+        
         Facet_Number = [4, 6]
         Solver_Accuracy = Parameters["Accuracy"] 
         Solver_Impedance_Status = True
@@ -2287,8 +2360,6 @@ class CST_Commands:
 
         for i in range(len(Names_Chips)):
             # Create SiO2 Layer
-            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
-            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
             if PAD_Dist[i] > 0:
                 Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
                 Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
@@ -2305,8 +2376,6 @@ class CST_Commands:
             self.Brick(Brick_Parameters)
 
             # Create Substrate
-            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
-            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
             if PAD_Dist[i] > 0:
                 Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
                 Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
@@ -2351,7 +2420,6 @@ class CST_Commands:
             ParametersWire["Termination"] = "extended"
             ParametersWire["NameFolder"] = Names_Wires[k] + "_BondWire"
             self.BondWire(ParametersWire)
-            # self.BondWire(NameWire = Names_Wires[k], Coordinates = Parameters_Bondwire, Height = Bondwire_Height, Radius = Bondwire_Radius , BondwireType = "Spline", Termination = "extended", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
             
             Parameters_toSolid = {}
             Parameters_toSolid["Solid Name"] = Names_Wires[k]
@@ -2359,7 +2427,7 @@ class CST_Commands:
             Parameters_toSolid["Name Folder"] =  Names_Wires[k] + "_BondWire"
             Parameters_toSolid["Material"] =  "Al"
             self.ToSolid(Parameters_toSolid)
-            # self.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
+            
 
         
         # Create Signal PADS Bondwires
@@ -2389,57 +2457,61 @@ class CST_Commands:
             ParametersWire["Termination"] = "extended"
             ParametersWire["NameFolder"] = Names_Wires[k] + "_BondWire"
             self.BondWire(ParametersWire)
-            # self.BondWire(NameWire = Names_Wires[k] ,Coordinates = Parameters_Bondwire, Height = Bondwire_Height, Radius = Bondwire_Radius , BondwireType = "Spline", Termination= "extended", Material = "Al",  NameFolder = Names_Wires[k] + "_BondWire")
+
             Parameters_toSolid = {}
             Parameters_toSolid["Solid Name"] = Names_Wires[k]
             Parameters_toSolid["Curve Name"] = Names_Wires[k]
             Parameters_toSolid["Name Folder"] =  Names_Wires[k] + "_BondWire"
             Parameters_toSolid["Material"] =  "Al"
             self.ToSolid(Parameters_toSolid)
-            # self.ToSolid(SolidName = Names_Wires[k], CurveName = Names_Wires[k], NameFolder = Names_Wires[k] + "_BondWire", Material = "Al")
-
+    
 
 
         
 
         # Create Top Plate for Bond Wires and cladding
+        if Parameters["Floating Shield"] == True:
 
-        # PAD_Thickness = 2.8
-        Name_Shield = "Floating_Shield"
-        Component_Name = "Floating_Shield"
-        Material = "Au"
-        Material_Clad = "DAF_Glue"
+            # Set glue thickness and floating shield thickness
+            Glue_Thickness = Parameters["Glue Thickness"]
+            FloatingShieldThickness = Parameters["Floating Shield Thickness"]
 
-
-        # Create cladding
-        Brick_Parameters = {}
-        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
-        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
-        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2
-        Brick_Parameters["Brick Hight Min"] = 0
-        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 
-        Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
-        Brick_Parameters["Component Name"] = Component_Name
-        Brick_Parameters["Material"] = Material_Clad
-        self.Brick(Brick_Parameters)
+            # PAD_Thickness = 2.8
+            Name_Shield = "Floating_Shield"
+            Component_Name = "Floating_Shield"
+            Material = "Au"
+            Material_Clad = "DAF_Glue"
 
 
+            # Create cladding
+            Brick_Parameters = {}
+            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+            Brick_Parameters["Brick Hight Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            Brick_Parameters["Brick Hight Min"] = 0
+            Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
+            Brick_Parameters["Component Name"] = Component_Name
+            Brick_Parameters["Material"] = Material_Clad
+            self.Brick(Brick_Parameters)
 
-        # Create squere floating shield
-        Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-        Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
-        Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
-        Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-        Brick_Parameters["Brick Hight Max"] = Glue_Thickness*2 + FloatingShieldThickness*2
-        Brick_Parameters["Brick Hight Min"] = Glue_Thickness*2
-        # Brick_Parameters["Brick Hight Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
-        # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 + Glue_Thickness*2
-        Brick_Parameters["Brick Name"] = Name_Shield
-        Brick_Parameters["Component Name"] = Component_Name
-        Brick_Parameters["Material"] = Material
-        self.Brick(Brick_Parameters)
+
+
+            # Create squere floating shield
+            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
+            Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
+            Brick_Parameters["Brick Hight Max"] = 2* (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2 + FloatingShieldThickness*2
+            Brick_Parameters["Brick Hight Min"] = 2* (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            Brick_Parameters["Brick Name"] = Name_Shield
+            Brick_Parameters["Component Name"] = Component_Name
+            Brick_Parameters["Material"] = Material
+            self.Brick(Brick_Parameters)
+        
+        else: 
+            pass
 
 
         

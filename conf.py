@@ -69,7 +69,7 @@ release = "27.01.2026"
 # --- Sphinx extensions ---
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",  # remove if you don't want autosummary
+    "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
@@ -83,15 +83,18 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autodoc_typehints = "description"
 
-# --- Mock heavy imports ---
-# Removed built-ins os, sys; kept external libraries and cst
+# --- Mock heavy imports only on CI ---
 autodoc_mock_imports = [
-    "numpy", 
-    "pandas", 
-    "matplotlib", 
-    "matlab", 
-    "cst"        # CST is mocked so docs build in CI
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "matlab",
 ]
+
+# Detect CI environment
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    autodoc_mock_imports.append("cst")
+    print("[conf.py] Running on GitHub Actions: 'cst' will be mocked.")
 
 # --- HTML options ---
 html_theme = "sphinx_rtd_theme"

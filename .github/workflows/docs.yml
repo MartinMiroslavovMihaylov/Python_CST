@@ -20,22 +20,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      artifact-name: sphinx-docs-myx  # unique artifact name
+      artifact-name: sphinx-docs-myx
     steps:
-      # Checkout main code
       - name: Checkout main code
         uses: actions/checkout@v5
         with:
           path: repo
 
-      # Checkout docs branch
       - name: Checkout docs branch
         uses: actions/checkout@v5
         with:
           ref: docu
           path: docs-src
 
-      # Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -43,7 +40,6 @@ jobs:
           cache: "pip"
           cache-dependency-path: "docs-src/requirements-docs.txt"
 
-      # Install dependencies
       - name: Install doc dependencies
         run: |
           python -m pip install --upgrade pip
@@ -51,7 +47,6 @@ jobs:
           pip install matplotlib pandas
           echo "CODE_DIR=${GITHUB_WORKSPACE}/repo" >> $GITHUB_ENV
 
-      # Sanity import check
       - name: Sanity import check
         run: |
           python - <<'PY'
@@ -62,35 +57,27 @@ jobs:
           print("Imported CST_Constructor successfully:", CST_Commands, Curves)
           PY
 
-      # Build Sphinx HTML
       - name: Build Sphinx HTML
         env:
           CODE_DIR: ${{ github.workspace }}/repo
         run: sphinx-build -b html docs-src _site
 
-      # Install GitHub CLI
-      - name: Install GitHub CLI
-        run: |
-          sudo apt update
-          sudo apt install -y gh jq
-
-      # Authenticate GitHub CLI (automatic in GitHub Actions)
-      - name: Authenticate GitHub CLI
-        run: gh auth setup-git
-
-      # Cleanup old artifacts
+      # Cleanup old artifacts using GITHUB_TOKEN
       - name: Delete old artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api repos/${{ github.repository }}/actions/artifacts --paginate \
+          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/actions/artifacts \
             | jq -r '.artifacts[] | select(.name=="sphinx-docs-myx") | .id' \
-            | xargs -r -I {} gh api -X DELETE repos/${{ github.repository }}/actions/artifacts/{}
+            | xargs -r -I {} curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/actions/artifacts/{}
 
-      # Upload Pages artifact (single, unique name)
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: sphinx-docs-myx
           path: _site
+          name: sphinx-docs-myx
 
   deploy:
     runs-on: ubuntu-latest

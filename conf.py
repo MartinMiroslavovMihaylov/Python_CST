@@ -84,14 +84,13 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autodoc_typehints = "description"
 
 # --- Mock heavy imports ---
+# Removed built-ins os, sys; kept external libraries and cst
 autodoc_mock_imports = [
     "numpy", 
     "pandas", 
     "matplotlib", 
-    "os", 
-    "sys", 
     "matlab", 
-    "cst"        
+    "cst"        # CST is mocked so docs build in CI
 ]
 
 # --- HTML options ---

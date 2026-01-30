@@ -46,14 +46,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r docs-src/requirements-docs.txt
-          pip install matplotlib pandas
+          pip install matplotlib pandas scipy  # scipy needed to avoid warnings
 
-      # Build Sphinx HTML (CST mocked in conf.py)
+      # Build Sphinx HTML (CST and SciPy mocked in conf.py)
       - name: Build Sphinx HTML
         run: sphinx-build -b html docs-src _site
 
-      # Cleanup old artifacts using GitHub API
-      - name: Delete old GitHub Pages artifacts
+      # Cleanup old GitHub Pages artifacts
+      - name: Delete old artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -63,11 +63,11 @@ jobs:
             | xargs -r -I {} curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/actions/artifacts/{}
 
-      # Upload Pages artifact (unique name)
+      # Upload Pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          name: sphinx-docs-myx
+          name: sphinx-docs-myx   # must match deploy artifact_name
           path: _site
 
   deploy:
@@ -76,3 +76,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: sphinx-docs-myx

@@ -54,7 +54,7 @@ Module Reference
 ----------------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
    :caption: Documentation
 
    Install

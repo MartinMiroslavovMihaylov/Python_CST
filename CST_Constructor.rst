@@ -5,8 +5,7 @@ This module contains all classes and functions from the `CST_Constructor` packag
 
 ---
 
-.. automodule:: CST_Constructor
+.. automodule:: CST_Constructor.CST_Constructor
    :members:
    :undoc-members:
    :show-inheritance:
-   :inherited-members:

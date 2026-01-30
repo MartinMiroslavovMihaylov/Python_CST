@@ -53,7 +53,14 @@ How to use this Library
 Module Reference
 ----------------
 
+.. toctree::
+   :maxdepth: 2
+
+   Install
+   Examples/index
+   Extras/index
+
 .. automodule:: CST_Constructor
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

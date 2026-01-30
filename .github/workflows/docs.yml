@@ -2,7 +2,7 @@ name: Build & Deploy Sphinx Docs
 
 on:
   push:
-    branches: [ main, docu ]  # build on main or docu branch
+    branches: [ main, docu ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -14,13 +14,13 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true  # prevents overlapping deploys
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      artifact-name: sphinx-docs
+      artifact-name: sphinx-docs-myx  # unique artifact name
     steps:
       # Checkout main code
       - name: Checkout main code
@@ -28,7 +28,7 @@ jobs:
         with:
           path: repo
 
-      # Checkout docs branch (Sphinx sources)
+      # Checkout docs branch
       - name: Checkout docs branch
         uses: actions/checkout@v5
         with:
@@ -68,11 +68,28 @@ jobs:
           CODE_DIR: ${{ github.workspace }}/repo
         run: sphinx-build -b html docs-src _site
 
+      # Install GitHub CLI
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh jq
+
+      # Authenticate GitHub CLI (automatic in GitHub Actions)
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+
+      # Cleanup old artifacts
+      - name: Delete old artifacts
+        run: |
+          gh api repos/${{ github.repository }}/actions/artifacts --paginate \
+            | jq -r '.artifacts[] | select(.name=="sphinx-docs-myx") | .id' \
+            | xargs -r -I {} gh api -X DELETE repos/${{ github.repository }}/actions/artifacts/{}
+
       # Upload Pages artifact (single, unique name)
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          name: sphinx-docs
+          name: sphinx-docs-myx
           path: _site
 
   deploy:

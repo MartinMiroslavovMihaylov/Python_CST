@@ -81,6 +81,7 @@ autodoc_mock_imports = [
     "matplotlib",
     "matlab",
     "cst",  # <-- mock CST Studio API
+    "CST_Constructor.CST_Constructor"
 ]
 
 # --- HTML output options ---

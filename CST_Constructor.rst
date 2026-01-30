@@ -1,7 +1,9 @@
 CST_Constructor Module
-==================
+======================
 
-.. automodule:: CST_Constructor.CST_Constructor
+This module contains all classes and functions from the CST_Constructor package.
+
+.. automodule:: CST_Constructor
    :members:
    :undoc-members:
    :show-inheritance:

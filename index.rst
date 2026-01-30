@@ -54,13 +54,10 @@ Module Reference
 ----------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   :caption: Documentation
 
    Install
    Examples/index
    Extras/index
-
-.. automodule:: CST_Constructor
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   CST_Constructor

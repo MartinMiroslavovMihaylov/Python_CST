@@ -212,6 +212,8 @@ class CST_Commands:
 
         Parameters
         ----------
+        Parameters : dict 
+            Dictionary with all needed parameters for this function.
         Parameters["Unit Lenght"] : str
             Measurement unit for lenght. For example "um"
         Parameters["Unit Frequency"] : str
@@ -1012,6 +1014,8 @@ class CST_Commands:
 
         Parameters
         ----------
+        Parameters : dict 
+            Dictionary with all needed parameters for this function.
         Parameters["Type Background"] : str
             Type of the Background. Defoult is "Normal". It can be set to:
                 "PEC"

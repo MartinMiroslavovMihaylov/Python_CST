@@ -9,6 +9,6 @@ except PackageNotFoundError:
     __version__ = "0+unknown"
 
 # --- Import classes ---
-from .CST_Constructor import CST_Commands, Curves
+from .CST_Constructor import CST_Commands, Curves, PostProcess
 
-__all__ = ["__version__", "CST_Commands", "Curves"]
+__all__ = ["__version__", "CST_Commands", "Curves", "PostProcess"]

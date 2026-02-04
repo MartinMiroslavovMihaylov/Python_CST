@@ -78,53 +78,84 @@ class CST_Commands:
     
 
     def Save_Project(self, path, name, overwrite = False):
-        """Save CST Project to path with an given name
-
-        Args:
-            path (str): Path to where the CST file should be saved.
-            name (srr): Name of the file to save
-            overwrite (bool, optional): If the save file exist you can set "overwrite=True" to overwrite the existing save project. Defaults to False.
-        
-        Returns:
-            str: String with the VBA code
         """
+        Save CST Project to path with an given name
+
+        Parameters
+        ----------
+        path : str
+            Path to where the CST file should be saved.
+        name : str
+            Name of the file to save
+        overwrite : boolen
+            If the save file exist you can set "overwrite=True" to overwrite the existing save project. The default is False.
+
+        Returns
+        -------
+        None.
+
+        """
+
+
         self.prj.save(path + "/" + str(name) + ".cst", allow_overwrite=overwrite)
 
 
 
     def Open_Project(self, path):
-        """Open existing project.
-
-        Args:
-            path (str): Path and name to the project that you want ot open. 
-            For example : path = "C:/Test_folder/Test_cst_Project.cst"
-        Returns:
-            str: String with the VBA code
         """
+        Open existing project.
+
+        Parameters
+        ----------
+        path : str
+            Path and name to the project that you want ot open. 
+            For example : path = "C:/Test_folder/Test_cst_Project.cst"
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # open the project
         self.prj = self.de.open_project(path)
 
 
     def removeObject(self, Parameters):
-        """Delete objects in project
-
-        Args: Parameters (dict) with all needed parameters for the function. 
-                Parameters["Type"] : (str) Type of the Deleted objet. It can be:  
-                                                                    'Folder'
-                                                                    'Material'
-                                                                    'Component'
-                                                                    'Port'
-                                                                    'Curve' 
-                Parameters["Name"] : (str) Name of the object to delete. When 'Port' choosen you only need 
-                to give the number of the port , like Parameters["Name"] = "1"
-
-            For example Parameters["Type"] = 'Component'
-                        Parameters["Name"] = 'Box'
-                        This will delte an component called box. 
-        Returns:
-            str: String with the VBA code
-        
         """
+        Delete objects in project
+
+        Parameters
+        ----------
+        Parameters : dict 
+            Dictionary with all needed parameters for this function.
+        Parameters["Type"] : str
+            Type of the Deleted objet. It can be:  
+                                                                'Folder'
+                                                                'Material'
+                                                                'Component'
+                                                                'Port'
+                                                                'Curve' 
+        Parameters["Name"] : str
+            Name of the object to delete. When 'Port' choosen you only need 
+            to give the number of the port , like Parameters["Name"] = "1"
+            
+            For example Parameters["Type"] = 'Component'
+            Parameters["Name"] = 'Box'
+            This will delte an component called box. 
+        
+                                                                    
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         type = Parameters["Type"]
         name = Parameters["Name"]
@@ -176,18 +207,26 @@ class CST_Commands:
     
 
     def set_Units(self, Parameters):
-        """Set CSt enviroment global units.
-
-        Args:
-            Parameters (dict): Dictionary with the name and value of the parameter.
-                            Parameters["Unit Lenght"] - str with measurement unit for lenght. For example "um"
-                            Parameters["Unit Frequency"] - str with measurement unit for frequency. For example "GHz"
-                            Parameters["Unit Time"] - str with measurement unit for time. For example "ns"
-                            Parameters["Unit Temperature"] - str with measurement unit for temperatur. For example "K"
-        
-        Returns:
-            str: String with the VBA code
         """
+        Set CST enviroment global units.
+
+        Parameters
+        ----------
+        Parameters["Unit Lenght"] : str
+            Measurement unit for lenght. For example "um"
+        Parameters["Unit Frequency"] : str
+            Measurement unit for frequency. For example "GHz"
+        Parameters["Unit Time"] : str
+            Measurement unit for time. For example "ns"
+        Parameters["Unit Temperature"] : str
+            Measurement unit for temperatur. For example "K"
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         u_Lenght = Parameters["Unit Lenght"]
         u_Freq = Parameters["Unit Frequency"]
@@ -211,12 +250,22 @@ class CST_Commands:
 
     
     def add_json_material(self, path, name):
-        """Add a JSON material file if one is provided by the manufacturer or another source.
-
-        Args:
-            path (str): Path to file.
-            name (str): Name of the file.
         """
+        Add a JSON material file if one is provided by the manufacturer or another source.
+
+        Parameters
+        ----------
+        path : str
+            Path to file.
+        name : str
+            Name of the file..
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # load materials from JSON file
         with open(os.path.join(path, str(name) + ".json")) as json_file:
             materials = json.load(json_file)
@@ -224,16 +273,32 @@ class CST_Commands:
 
 
     def add_material(self, name):
-        """Add an pre-set of Materials that are for now only available. An extra materials need to be added here. 
-           Materials that are added to this CST_Constructor:
-                                                            - "Si" Silicon
-                                                            - "LiNbO3" Lithium niobate x-cut
-                                                            - "SiO2" silicon dioxide
-                                                            - "Au" Gold
-                                                            - "Al" Aluminium
-                                                            - "Glue" Special Glue for the Bondwire floating shield according to KIT Model
-        
         """
+        Add an pre-set of Materials that are for now only available. An extra materials need to be added here. 
+           
+
+        Parameters
+        ----------
+        name : str
+            Materials that are added to this CST_Constructor:
+                - "Si" Silicon
+                - "LiNbO3" Lithium niobate x-cut
+                - "SiO2" silicon dioxide
+                - "Au" Gold
+                - "Al" Aluminium
+                - "Glue" Special Glue for the Bondwire floating shield according to KIT Model
+
+        Raises
+        ------
+        ValueError
+            Give Error back if you choose some matherial that is not in the list of materials.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         list_of_materials = ["Si", "LiNbO3", "SiO2", "Au", "Gold", "Al", "Glue"]
 
         if name in list_of_materials:
@@ -274,17 +339,25 @@ class CST_Commands:
 
 
     def add_anisotropy_material(self, name, Values):
-        """Add Anisotropic material to Material Libs
-
-        Args:
-            Name (str): Name of the Material
-            Values (Dict): Dictionary with the material Values:
-                            Values["X"] : X Epsilon Value
-                            Values["Y"] : Y Epsilon Value
-                            Values["Z"] : Z Epsilon Value
-        Returns:
-            str: String with the VBA code
         """
+        Add Anisotropic material to Material Libs
+
+        Parameters
+        ----------
+        name : str
+            Name of the Material
+        Values : dict
+            Dictionary with the material Values:
+                Values["X"] : X Epsilon Value
+                Values["Y"] : Y Epsilon Value
+                Values["Z"] : Z Epsilon Value
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Chix = round((Values["X"] - 1), 2)
         # Chiy = round((Values["Y"] - 1), 2)
         # Chiz = round((Values["Z"] - 1), 2 )
@@ -321,11 +394,15 @@ class CST_Commands:
 
 
     def add_Si(self):
-        """Add silicon to the Material Library
-
-        Returns:
-            str: String with the VBA code
         """
+        Add Silicon to Material 
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         # Add Silicon to materials
         vba_code = f"""
@@ -352,11 +429,15 @@ class CST_Commands:
     
 
     def add_SiO2(self):
-        """Add silicon dioxide to the Material Library
-
-        Returns:
-            str: String with the VBA code
         """
+        Add Silicon dioxide to Materials
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Add Meterial SiO2
         vba_code = f"""
                         With Material
@@ -444,11 +525,15 @@ class CST_Commands:
 
 
     def add_Au(self):
-        """Add gold to the Material Library
-
-        Returns:
-            str: String with the VBA code
         """
+        Add gold to Material
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Add Meterial Gold.
         vba_code = f"""
                         With Material
@@ -515,11 +600,15 @@ class CST_Commands:
 
 
     def add_Al(self):
-        """Add Aluminium to the Material Library
-
-        Returns:
-            str: String with the VBA code
         """
+        Add Aluminium to Material
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Add Meterial Gold.
         vba_code = f"""
                         With Material
@@ -589,11 +678,15 @@ class CST_Commands:
 
 
     def add_Glue(self):
-        """Add special glue for the floating shield bond wires according to the KIT model..
-
-        Returns:
-            str: String with the VBA code
         """
+        Add special glue for the floating shield bond wires according to the KIT model.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Add Material Glue
         vba_code = f"""
                      With Material 
@@ -682,11 +775,15 @@ class CST_Commands:
         
         
     def add_GGB_Probe_Material(self):
-        """Add an materials according to GGB Probes. 
-
-           Returns:
-            str: String with the VBA code
         """
+        Add an materials according to GGB Probes. 
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Define Probes Materials
         vba_code1 = f"""
                     With Material 
@@ -837,16 +934,21 @@ class CST_Commands:
         """
         Add Global parameters to the working enviroment
 
-        Args:
-            Parameters (dict): Dictionary with the name and value of the parameter. For Example:
-                            GlobalParam = {}
-                            GlobalParam['Length'] = 20
-                            This will add Length = 20 to your CSt global enviroments.
+        Parameters
+        ----------
+        Parameters : dict
+            Dictionary with the name and value of the parameter. 
+                For Example:
+                    Parameters = {}
+                    Parameters['Length'] = 20
+                    This will add Length = 20 to your CSt global enviroments. 
 
-        Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
+
         """
-
+        
         # Parameters Values and Keys
         Param = list(Parameters.keys())
         Values = list(Parameters.values())
@@ -865,14 +967,20 @@ class CST_Commands:
 
 
     def DeleteGlobalParameter(self, Parameters):
-        """Delete an Global parameter from the enviroment.
-
-        Args:
-            Parameters (str): Parameter name to be removed.
-
-        Returns:
-            str: String with VBA Code 
         """
+        Delete an Global parameter from the enviroment.
+
+        Parameters
+        ----------
+        Parameters : str
+            Name of parameter to be removed.
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         # Parameters Values and Keys
 
@@ -898,70 +1006,124 @@ class CST_Commands:
 
         
     def setBackground(self, Parameters):
-        """Set the Simulation background.
-
-        Args:
-            Parameters (dic): Dictionary with coordinates for the background. 
-                                Parameters["Type Background"] = str, Type of the Background. Defoult is "Normal"
-                                Parameters["Xmin Background"] = int/float
-                                Parameters["Xmin Background"] = int/float
-                                Parameters["Xmin Background"] = int/float
-                                Parameters["Xmin Background"] = int/float
-                                Parameters["Xmin Background"] = int/float
-                                Parameters["Xmin Background"] = int/float
-            Type (str, optional): Type of background material. Cehck CST for more information. Defaults to Normal.
-
-        Returns:
-            str: String with VBA Code 
+        
         """
+        Set the Simulation background.
+
+        Parameters
+        ----------
+        Parameters["Type Background"] : str
+            Type of the Background. Defoult is "Normal". It can be set to:
+                "PEC"
+                "Normal"
+                "Anisotropic"
+                "Anisotropic"     
+        Parameters["Xmax Background"] : int/float
+            Background X-max value
+        Parameters["Xmin Background"] : int/float
+            Background X-min value
+        Parameters["Ymax Background"] : int/float
+            Background Y-max value
+        Parameters["Ymin Background"] : int/float
+            Background Y-min value
+        Parameters["Zmax Background"] : int/float
+            Background Z-max value
+        Parameters["Zmin Background"] : int/float
+            Background Z-max value
+        
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         #Check Background Type
-        if Parameters["Type Background"] == None:
-            Type = "Normal"
+        Types = ["PEC", "Normal", "Anisotropic", "Anisotropic"]
+        
+        if Parameters["Type Background"] not in Types:
+            raise ValueError("Background Type can be set to: 'PEC', 'Normal', 'Anisotropic' or 'Lossy metal'")
         else:
-            Type = Parameters["Type Background"]
-
-        vba_code = f"""
-                    With Background
-                    .ResetBackground
-                    .Type "{Type}"
-                    .Epsilon "1.0"
-                    .Mu "1.0"
-                    .Rho "1.204"
-                    .ThermalType "Normal"
-                    .ThermalConductivity "0"
-                    .SpecificHeat "1005"
-                    .ApplyInAllDirections "False"
-                    .XminSpace "{Parameters["Xmin Background"]}"
-                    .XmaxSpace "{Parameters["Xmax Background"]}"
-                    .YminSpace "{Parameters["Ymin Background"]}"
-                    .YmaxSpace "{Parameters["Ymax Background"]}"
-                    .ZminSpace "{Parameters["Zmin Background"]}"
-                    .ZmaxSpace "{Parameters["Zmax Background"]}"
-                    End With
-                    """
-        self.prj.model3d.add_to_history("set background", vba_code)       
+            if Parameters["Type Background"] == None:
+                Type = "Normal"
+            else:
+                Type = Parameters["Type Background"]
+    
+            vba_code = f"""
+                        With Background
+                        .ResetBackground
+                        .Type "{Type}"
+                        .Epsilon "1.0"
+                        .Mu "1.0"
+                        .Rho "1.204"
+                        .ThermalType "Normal"
+                        .ThermalConductivity "0"
+                        .SpecificHeat "1005"
+                        .ApplyInAllDirections "False"
+                        .XminSpace "{Parameters["Xmin Background"]}"
+                        .XmaxSpace "{Parameters["Xmax Background"]}"
+                        .YminSpace "{Parameters["Ymin Background"]}"
+                        .YmaxSpace "{Parameters["Ymax Background"]}"
+                        .ZminSpace "{Parameters["Zmin Background"]}"
+                        .ZmaxSpace "{Parameters["Zmax Background"]}"
+                        End With
+                        """
+            self.prj.model3d.add_to_history("set background", vba_code)       
 
 
     def setBoundary(self, Parameters):
-        """Set Boundary box Parameters
-
-        Args:
-            Parameters (dict): Dictionary with Boundary Parameters 
-                                Parameters["Xmin Boundary"] = str
-                                Parameters["Xmax Boundary"] = str
-                                Parameters["Ymin Boundary"] = str
-                                Parameters["Ymax Boundary"] = str
-                                Parameters["Zmin Boundary"] = str
-                                Parameters["Zmax Boundary"] = str 
-                                Parameters["Xsymmetry Boundary"] = str
-                                Parameters["Ysymmetry Boundary"] = str
-                                Parameters["Zsymmetry Boundary"] = str
-
-
-        Returns:
-            str: String with VBA Code 
         """
+        Set Boundary box Parameters
+
+        Parameters
+        ----------
+        Parameters["Xmin Boundary"] : str
+            Type of the X-min Boundary
+        Parameters["Xmax Boundary"] : str
+            Type of the X-max Boundary
+        Parameters["Ymin Boundary"] : str
+            Type of the Y-min Boundary
+        Parameters["Ymax Boundary"] : str
+            Type of the Y-max Boundary
+        Parameters["Zmin Boundary"] : str
+            Type of the Z-min Boundary
+        Parameters["Zmax Boundary"] : str 
+            Type of the Z-max Boundary
+        Parameters["Xsymmetry Boundary"] : str
+            Type of the X Boundary Symmetry 
+        Parameters["Ysymmetry Boundary"] : str
+            Type of the Y Boundary Symmetry 
+        Parameters["Zsymmetry Boundary"] : str
+            Type of the Z Boundary Symmetry 
+
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        
+        
+        Types = ["electric", "magnetic", "open", "expanded open", "periodic", "conducting wall", "unit cell"]
+        Symmetry = ["none", "electric", "magnetic"]
+        list_values = list(Parameters.values())
+        
+        for v in list_values:
+            if v not in Types + Symmetry:  # combine both lists
+                raise ValueError(f"""Invalid value '{v}'! 
+        You can choose from the Boundary types: {', '.join(Types)}.
+        For Symmetry you can choose between: {', '.join(Symmetry)}.""")
+    
+               
         # Boundary parameters
         Xmin = Parameters["Xmin Boundary"]
         Xmax = Parameters["Xmax Boundary"]
@@ -1003,16 +1165,22 @@ class CST_Commands:
 
 
     def setSimFreqeuncy(self, Parameters):
-        """Set Simulation Frequency
-
-        Args:
-            Parameters (dict): Dictionary with Parameters
-                                Parameters["Min Frequency"] : Min Frequency of Simulation
-                                Parameters["Max Frequency"] : Max Frequency of Simulation
-
-        Returns:
-            str: String with VBA Code 
         """
+        Set Simulation Frequency
+
+        Parameters
+        ----------
+        Parameters["Min Frequency"] : int/float
+            Min Frequency of Simulation
+        Parameters["Max Frequency"] : int/float
+            Max Frequency of Simulation
+
+        Returns
+        -------
+        None.
+
+        """
+        
         FreqMin = Parameters["Min Frequency"]
         FreqMax = Parameters["Max Frequency"]
         
@@ -1028,15 +1196,23 @@ class CST_Commands:
 
 
     def setSimWavelength(self, Parameters):
-        """Set Simulation SetSimWavelength
-
-        Args:
-            Parameters (dict): Dictionary with Parameters
-                                Parameters["Min Wavelength"] : Min Wavelength
-                                Parameters["Max Wavelength"] : Max Wavelength
-        Returns:
-            str: String with VBA Code 
         """
+        Set Simulation Wavelength
+
+        Parameters
+        ----------
+        Parameters["Min Wavelength"] : int/float
+            Min Wavelength
+        Parameters["Max Wavelength"] : int/float
+            Max Wavelength
+            
+
+        Returns
+        -------
+        None.
+
+        """
+       
         WavelengthMin = Parameters["Min Wavelength"]
         WavelengtMax = Parameters["Max Wavelength"]
         
@@ -1058,24 +1234,36 @@ class CST_Commands:
 
 
     def Brick(self, Parameters):
-        """Create an Brick object.
+        """
+        Create an Brick object.
 
-        Args:
-            Parameters (dict): Dictionary with Parameters
-                                Parameters["Brick Lenght Min"] : int/float for min Lenght. It will be center so the lenght that you give will be set to Lenght/2
-                                Parameters["Brick Lenght Max"] : int/float for Max Lenght. It will be center so the lenght that you give will be set to Lenght/2
-                                Parameters["Brick Width Min"] : int/float for Min Width. It will be center so the width that you give will be set to Width/2
-                                Parameters["Brick Width Max"] : int/float for Max Width. It will be center so the width that you give will be set to Width/2
-                                Parameters["Brick Hight Min"] : int/float for Min Hight. It will be center so the hight that you give will be set to Hight/2
-                                Parameters["Brick Hight Max"] : int/float for Max Hight. It will be center so the hight that you give will be set to Hight/2
-                                Parameters["Material"] : str with Materials for the Brick object
-                                Parameters["Brick Name"] : str with Brick Name
-                                Parameters["Component Name"] : str with Component Name. The strcuture will be made as "Component Name:Brick Name"
+        Parameters
+        ----------
+        Parameters["Brick Lenght Min"] : int/float
+            Min Lenght. It will be center so the lenght that you give will be set to Lenght/2
+        Parameters["Brick Lenght Max"] : int/float
+            Max Lenght. It will be center so the lenght that you give will be set to Lenght/2
+        Parameters["Brick Width Min"] : int/float
+            Min Width. It will be center so the width that you give will be set to Width/2
+        Parameters["Brick Width Max"] : int/float
+            Max Width. It will be center so the width that you give will be set to Width/2
+        Parameters["Brick Hight Min"] : int/float
+            Min Hight. It will be center so the hight that you give will be set to Hight/2
+        Parameters["Brick Hight Max"] : int/float
+            Max Hight. It will be center so the hight that you give will be set to Hight/2
+        Parameters["Material"] : str
+            Set Material for the Brick object
+        Parameters["Brick Name"] : str
+            Set Brick Name
+        Parameters["Component Name"] : str
+            Set Component Name. The strcuture will be made as "Component Name:Brick Name"
 
-        Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+        
         
         LenghtMin = Parameters["Brick Lenght Min"]
         LenghtMax = Parameters["Brick Lenght Max"]
@@ -1104,29 +1292,41 @@ class CST_Commands:
         
         
     def Sphere(self, Parameters):
-        """ Create Sphere object.
+        """
+        Create Sphere object.
+
+        Parameters
+        ----------
+        Parameters["Axis"] : str
+            Set an oriantation Axis. Can be "X", "Y" or "Z".
+        Parameters["Center Radius"] : int/float
+            Radius of the sphere
+        Parameters["Top Radius"] : int/float
+            Set sphere top radius
+        Parameters["Bottom Radius"] : int/float
+            Set sphere bottom radius
+        Parameters["Center Positions"] : dict
+            Dictionary with XCenter, YCenter and ZCenter. 
+                For example:
+                    Positions = {}
+                    Positions["X"] = 2
+                    Positions["Y"] = 2
+                    Positions["Z"] = 2
+                    Parameters["Center Positions"] = Positions
+        Parameters["Material"] : str
+            Set Materials for the Sphere object
+        Parameters["Name"] : str
+            Set Sphere Name.
+        Parameters["Component Name"] : str
+            Set Component Name. The strcuture will be made as "Component Name:Name".
         
-        Args:
-            Parameters (dict): Dictionary with Parameters
 
-                                Parameters["Axis"] : str to set an oriantation Axis. Can be "X", "Y" or "Z".
-                                Parameters["Center Radius"] : int/float Radius of the sphere
-                                Parameters["Top Radius"] : int/float set sphere top radius
-                                Parameters["Bottom Radius"] : int/float set sphere bottom radius
-                                Parameters["Center Positions"] : dict with XCenter, YCenter and ZCenter. For example:
-                                                                Positions = {}
-                                                                Positions["X"] = 2
-                                                                Positions["Y"] = 2
-                                                                Positions["Z"] = 2
-                                                                Parameters["Center Positions"] = Positions
-                                Parameters["Material"] : str with Materials for the Sphere object
-                                Parameters["Name"] : str with Sphere Name
-                                Parameters["Component Name"] : str with Component Name. The strcuture will be made as "Component Name:Name"
-
-        Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+        
         Name = Parameters["Name"]
         ComponentName = Parameters["Component Name"]
         Material = Parameters["Material"]
@@ -1168,28 +1368,32 @@ class CST_Commands:
         
 
     def Curve(self, Parameters):
-        """Create 2D Curve in the CST enviroment.
-        
-        Args: Parameters (dict) parameters dict
-                Parameters["Curve Name"] : (str) Name of the Curves
-                Parameters["Points"] : (dict) Dictionary of Curve Points. For example. 
-                            x = []
-                            y = []
-                            for i in range(0, 100):
-                                x.append(i)
-                                y.append(i*4)
-                            x = np.array(x)
-                            y = np.array(y)
-                            Points['X'] = x
-                            Points['Y'] = y
-                            Points['X'] = CosinusCurve[:,0]
-                            Points['Y'] = CosinusCurve[:,1]
-                            obj.Curve("Curve_Python", Points)
+        """
+        Create 2D Curve in the CST enviroment.
 
-        Returns:
-            str: String with VBA Code 
+        Parameters
+        ----------
+        Parameters["Curve Name"] : str
+            Set name of the Curves
+        Parameters["Points"] : dict
+            Dictionary of Curve Points. 
+                For example. 
+                    from CST_Constructor import Curves
+                     # Define Curves Parameters and Data
+                    Lenght = 100
+                    Offset = 40
+                    points = 100
+                    # Generate the Bezier and Cos points
+                    ObjCurves = Curves(Lenght, Offset, points)
+                    CosinusCurve = ObjCurves.Cosinus_Curve()
+                    Parameters["Points"] = CosinusCurve
+        
+        Returns
+        -------
+        None.
 
         """
+        
         # Set Parameters
         CurveName = Parameters["Curve Name"]
         Points = Parameters["Points"]
@@ -1220,22 +1424,30 @@ class CST_Commands:
         
     
     def Elipse(self, Parameters):
-        """Create Elipse object, in Z-orientation in the moment, in CST enviroment. 
+        """
+        Create Elipse object, in Z-orientation in the moment, in CST enviroment. 
 
-            Args:
-                Parameters (dict): Dictionary with Parameters
+        Parameters
+        ----------
+        Parameters["Name"] : str
+            Set Name of the Elipse object.
+        Parameters["Curve Name"] : str
+            Set Component Name. The strcuture will be made as "Curve Name:Name".
+        Parameters["X Radius"] : int/float
+            Set radius in X-Direction of the elipse
+        Parameters["Y Radius"] : int/float
+            Set radius in Y-Direction of the elipse
+        Parameters["X Center"] : int/float
+            Set position of X-Center
+        Parameters["Y Center"] : int/float
+            Set position of Y-Center
 
-                                    Parameters["Name"] : str Name of the Elipse object
-                                    Parameters["Curve Name"] : str with Component Name. The strcuture will be made as "Curve Name:Name"
-                                    Parameters["X Radius"] : int/float radius in X-Direction of the elipse
-                                    Parameters["Y Radius"] : int/float radius in Y-Direction of the elipse
-                                    Parameters["X Center"] : int/float position of X-Center
-                                    Parameters["Y Center"] : int/float position of Y-Center
-                                
-            Returns:
-                str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+        
         Name = Parameters["Name"]
         NameCurve = Parameters["Curve Name"]
         
@@ -1259,15 +1471,24 @@ class CST_Commands:
 
 
     def Poligon_2D(self, Parameters):
-        """Create the 2D poligon for tRib waveguide
-        Args: Parameters (dict) of parameters fot the function
-                Parameters["Waveguide Name"] : (str) Name of the poligon
-                Parameters["Points X"] : (dict) Poligon dictionary wiht X Points
-                Parameters["Points Y"] : (dict) Poligon dictionary wiht X Points
-
-        Returns:
-            str: String with VBA Code 
         """
+        Create the 2D poligon for tRib waveguide
+
+        Parameters
+        ----------
+        Parameters["Waveguide Name"] : str
+            Set name of the poligon.
+        Parameters["Points X"] : list of int/float
+            Set poligon dictionary wiht X Points
+         Parameters["Points Y"] : list of int/float
+             Set poligon dictionary wiht X Points
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         WGName  = Parameters["Waveguide Name"]
         Points_X = Parameters["Points X"]
@@ -1303,18 +1524,23 @@ class CST_Commands:
 
     def Poligon_3D(self, Parameters):
         """
-        Create the 2D poligon for tRib waveguide
+        Create the 3D poligon for tRib waveguide
 
-        Args:
-            WGName (str): Name of the poligon
-            Points (dict): Dictionary with the Points:
-                            Points['X'] = []
-                            Points['Y'] = []
-                            Points['Z'] = []   
+        Parameters
+        ----------
+        Parameters["Name"] : str
+            Set name of the poligon.
+        Parameters["Curve Name"]  : str
+            Set Component Name. The strcuture will be made as "Curve Name:Name".
+        Parameters["Point"] : dict
+            Dictionary with 'X' and 'Y' points for the poligon. 
 
-        Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
+
         """
+        
 
         Name = Parameters["Name"] 
         CurveName = Parameters["Curve Name"] 
@@ -1343,28 +1569,41 @@ class CST_Commands:
     
     # MZM Design
     def MZM(self, Parameters):
-        """Create an MZM Modulator. Materials used:
+        """
+        Create an MZM Modulator. Materials used:
                                                 Gold - For the electrodes
                                                 LiNbO3 - For Optical Waveguides
                                                 SiO2 - For Substrate
-                Args:
-                    Parameters (dict): Dictionary with all the needed values
-                    Parameters["Lenght_Electrodes"] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
-                    Parameters["Width GND"] : Width of the GND electrodes
-                    Parameters["Width Signal"] : Width of the Signal Electrode
-                    Parameters["Width WG"] : Top wWidth of the optical waveguide. It is an Rib waveguide
-                    Parameters["Gap"] : Gap between Signal and optical Waveguide
-                    Parameters["angle"] : Angle of the side wall of the optical waveguide
-                    Parameters["High Electrodes"] : Hight of the Electodes
-                    Parameters["High WG"] : Hight of the optical Waveguide
-                    Parameters["High Slab"] : Hight of the Slab. When choosen "0" no Slab will be implemented. 
-                    Parameters["High Substrate"] : Hight of the substrate
 
-                Returns:
-                    str: String with VBA Code 
+        Parameters
+        ----------
+        Parameters["Lenght_Electrodes"] : int/float
+            Set the length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
+        Parameters["Width GND"] : int/float
+            Set the width of the GND electrodes.
+        Parameters["Width Signal"] : int/float
+            Set the width of the Signal Electrode.
+        Parameters["Width WG"] : int/float
+            Set the top width of the optical waveguide. It is an Rib waveguide.
+        Parameters["Gap"] : int/float
+            Set the gap between Signal and optical Waveguide.
+        Parameters["angle"] : int/float
+            Set the angle of the side wall of the optical waveguide.
+        Parameters["High Electrodes"] : int/float
+            Set the hight of the Electodes.
+        Parameters["High WG"] : int/float
+            Set the hight of the optical Waveguide
+        Parameters["High Slab"] : int/float
+            Set the hight of the Slab. When choosen "0" no Slab will be implemented.
+        Parameters["High Substrate"] : int/float
+            Set the hight of the substrate.
+
+        Returns
+        -------
+        None.
 
         """
-
+       
         Length_MZM = Parameters["Electrodes Lenght"]
         Length_WG = Parameters["Electrodes Lenght"] + 2
         Width_Electrodes = Parameters["Width GND"]
@@ -1578,26 +1817,41 @@ class CST_Commands:
 
     # Phase Modulator Design
     def PhaseModulator(self, Parameters):
-        """Create an Phase Modulator. Materials used:
+        """
+        Create an Phase Modulator. Materials used:
                                                 Gold - For the electrodes
                                                 LiNbO3 - For Optical Waveguides
                                                 SiO2 - For Substrate
-        Args:
-            Parameters (dict): Dictionary with all the needed values
-                    Parameters["Lenght_Electrodes"] : Length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
-                    Parameters["Width GND"] : Width of the GND electrodes
-                    Parameters["Width Signal"] : Width of the Signal Electrode
-                    Parameters["Width WG"] : Top wWidth of the optical waveguide. It is an Rib waveguide
-                    Parameters["Gap"] : Gap between Signal and optical Waveguide
-                    Parameters["angle"] : Angle of the side wall of the optical waveguide
-                    Parameters["High Electrodes"] : Hight of the Electodes
-                    Parameters["High WG"] : Hight of the optical Waveguide
-                    Parameters["High Slab"] : Hight of the Slab. When choosen "0" no Slab will be implemented. 
-                    Parameters["High Substrate"] : Hight of the substrate
-        Returns:
-                    str: String with VBA Code 
-                    
+
+        Parameters
+        ----------
+        Parameters["Lenght_Electrodes"] : int/float
+            Set the length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
+        Parameters["Width GND"] : int/float
+            Set the width of the GND electrodes.
+        Parameters["Width Signal"] : int/float
+            Set the width of the Signal Electrode.
+        Parameters["Width WG"] : int/float
+            Set the top wWidth of the optical waveguide. It is an Rib waveguide.
+        Parameters["Gap"] : int/float
+            Set the gap between Signal and optical Waveguide.
+        Parameters["angle"] : int/float
+            Set the angle of the side wall of the optical waveguide.
+        Parameters["High Electrodes"] : int/float
+            Set the hight of the Electodes.
+        Parameters["High WG"] : int/float
+            Set the hight of the optical Waveguide.
+        Parameters["High Slab"] : int/float
+            Set the hight of the Slab. When choosen "0" no Slab will be implemented.
+        Parameters["High Substrate"] : int/float
+            Set the hight of the substrate
+
+        Returns
+        -------
+        None.
+
         """
+        
 
         Length_MZM = Parameters["Electrodes Lenght"]
         Length_WG = Parameters["Electrodes Lenght"] + 2
@@ -1756,24 +2010,31 @@ class CST_Commands:
 
 
     def Squere_Waveguide(self, Parameters):
-        """This function generate and simple straight waveguide. Materials used:
+        """
+        This function generate and simple straight waveguide. Materials used:
                                                 Gold - For the electrodes
                                                 LiNbO3 - For Optical Waveguides
                                                 SiO2 - For Substrate
 
-        Args:
-            Parameters (dict): Dictionary with all the needed values
-                    Parameters["Lenght WG"] : Length of the Waveguide.
-                    Parameters["High_WG"] : Hight of the optical Waveguide
-                    Parameters["Width WG"] : : Top Width of the optical waveguide. It is an Rib waveguide.
-                    Parameters["Substrate Height"] : Hight of the substrate.
-                    Parameters["Slab Heigh"] : Hight of the Slab. When choosen "0" no Slab will be implemented. 
+        Parameters
+        ----------
+        Parameters["Lenght WG"] : int/float
+            Set the length of the Waveguide.
+        Parameters["High_WG"] : int/float
+            Set the hight of the optical Waveguide.
+        Parameters["Width WG"] : int/float
+            Set the top width of the optical waveguide. It is an Rib waveguide.
+        Parameters["Substrate Height"] : int/float
+            Set the hight of the substrate..
+        Parameters["Slab Heigh"] : int/float
+            Set the hight of the slab. When choosen "0" no Slab will be implemented. .
 
-        Returns:
-                    str: String with VBA Code 
-                    
-        
+        Returns
+        -------
+        None.
+
         """
+       
         Length_WG = Parameters["Lenght WG"]
         Hight_WG = Parameters["Hight WG"]
         Width_WG = Parameters["Width WG"]
@@ -1860,34 +2121,47 @@ class CST_Commands:
                     SiO2 - Layer under the bondpads on the boths chips
                     Si - Substrate Layer below the SiO2
 
-        Args:
-            Parameters (dict): Dictionary with all the needed values
-                    Parameters["PAD Width GND"]  : GND Bondpads width
-                    Parameters["PAD Width Signal"] : Signal Bondpads width
-                    Parameters["PAD Length"] : Signal and GND bondpads lenght
-                    Parameters["PAD Thickness"] : Signal and GND bondpads thickness
-                    Parameters["PADs Distance"] : Distance from first chip bondpads to the secound chip bondpads
-                    Parameters["Bonwire height"] : Bondwire hight in the middle point
-                    Parameters["Bonwire radius"] : Bondwire ridius
-                    Parameters["Floating Shield"] : (boolen) Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
-                    If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
-                    Parameters["Glue Thickness"] : (int/float) DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
-                    Parameters["Floating Shield Thickness"] : (int/float) Floating shield gold metal thickness
-                    Parameters["Accuracy"] : FDTD Solver Accuracy. Can be :
-                                                                            80 dB
-                                                                            60 dB
-                                                                            50 dB
-                                                                            40 dB
-                                                                            35 dB
-                                                                            30 dB
-                                                                            25 dB
-                                                                            20 dB
-                                                                            'no check'
+        Parameters
+        ----------
+        Parameters["PAD Width GND"] : int/float
+            Set the GND Bondpads width.
+        Parameters["PAD Width Signal"] : int/float
+            Set the signal bondpads width.
+        Parameters["PAD Length"] : int/float
+            Set the signal and GND bondpads lenght.
+        Parameters["PAD Thickness"] : int/float
+            Set the signal and GND bondpads thickness.
+        Parameters["PADs Distance"] : int/float
+            Set the distance from first chip bondpads to the secound chip bondpads.
+        Parameters["Bonwire height"] : int/float
+            Set the bondwire hight in the middle point.
+        Parameters["Bonwire radius"] : int/float
+            Set the bondwire ridius.
+        Parameters["Floating Shield"] : boolen
+            Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
+            If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
+        Parameters["Glue Thickness"] : int/float
+            Set the DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip.
+        Parameters["Floating Shield Thickness"] : int/float
+            Set the floating shield gold metal thickness.
+        Parameters["Accuracy"] : int/float
+            FDTD Solver Accuracy. Can be :
+                                    80 dB
+                                    60 dB
+                                    50 dB
+                                    40 dB
+                                    35 dB
+                                    30 dB
+                                    25 dB
+                                    20 dB
+                                    'no check'
 
-        Returns:
-                    str: String with VBA Code 
-                    
+        Returns
+        -------
+        None.
+
         """
+        
 
         # Define Curves Parameters and Data
         Lenght = 100
@@ -2247,34 +2521,47 @@ class CST_Commands:
                     SiO2 - Layer under the bondpads on the boths chips
                     Si - Substrate Layer below the SiO2
 
-        Args:
-            Parameters (dict): Dictionary with all the needed values
-                    Parameters["PAD Width GND"]  : GND Bondpads width
-                    Parameters["PAD Width Signal"] : Signal Bondpads width
-                    Parameters["PAD Length"] : Signal and GND bondpads lenght
-                    Parameters["PAD Thickness"] : Signal and GND bondpads thickness
-                    Parameters["PADs Distance"] : Distance from first chip bondpads to the secound chip bondpads
-                    Parameters["Bonwire height"] : Bondwire hight in the middle point
-                    Parameters["Bonwire radius"] : Bondwire ridius
-                    Parameters["Floating Shield"] : (boolen) Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
-                    If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
-                    Parameters["Glue Thickness"] : (int/float) DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip
-                    Parameters["Floating Shield Thickness"] : (int/float) Floating shield gold metal thickness
-                    Parameters["Accuracy"] : FDTD Solver Accuracy. Can be :
-                                                                            80 dB
-                                                                            60 dB
-                                                                            50 dB
-                                                                            40 dB
-                                                                            35 dB
-                                                                            30 dB
-                                                                            25 dB
-                                                                            20 dB
-                                                                            'no check'
+        Parameters
+        ----------
+        Parameters["PAD Width GND"] : int/float
+            Set the GND Bondpads width.
+        Parameters["PAD Width Signal"] : int/float
+            Set the signal bondpads width.
+        Parameters["PAD Length"] : int/float
+            Set the signal and GND bondpads lenght.
+        Parameters["PAD Thickness"] : int/float
+            Set the signal and GND bondpads thickness.
+        Parameters["PADs Distance"] : int/float
+            Set the distance from first chip bondpads to the secound chip bondpads.
+        Parameters["Bonwire height"] : int/float
+            Set the bondwire hight in the middle point.
+        Parameters["Bonwire radius"] : int/float
+            Set the bondwire ridius.
+        Parameters["Floating Shield"] : boolen
+            Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
+            If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
+        Parameters["Glue Thickness"] : int/float
+            Set the DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip.
+        Parameters["Floating Shield Thickness"] : int/float
+            Set the floating shield gold metal thickness.
+        Parameters["Accuracy"] : int/float
+            Set the FDTD Solver Accuracy. Can be :
+                                            80 dB
+                                            60 dB
+                                            50 dB
+                                            40 dB
+                                            35 dB
+                                            30 dB
+                                            25 dB
+                                            20 dB
+                                            'no check'
 
-        Returns:
-                    str: String with VBA Code 
-                    
+        Returns
+        -------
+        None.
+
         """
+        
         # Define Curves Parameters and Data
         Lenght = 100
         Offset = 40
@@ -2587,47 +2874,65 @@ class CST_Commands:
 
     # def BondWire(self, NameWire, Coordinates, Height, Radius, BondwireType = "Spline", CenterPosition = 0.5, alpha = None, beta = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None):
     def BondWire(self, Parameters):
-        """Create Bond Wire.
-
-        Args: Parameters (dict) with parameters
-                Parameters["Name Wire"] : (str): Name of the Bondwire
-                Parameters["Coordinates"] : (dict) Dictionary with Coordinates in X,Y,Z plane to create the Bondwire:  
-                                For Example 
-                                    Parameters = {}
-                                    Parameters['X1'] = 0
-                                    Parameters['Y1'] = 0
-                                    Parameters['Z1'] = 0
-                                    Parameters['X2'] = 5
-                                    Parameters['Y2'] = 5
-                                    Parameters['Z2'] = 0
-                Parameters["Height"] : (int/float) Hight of the middle point of the Bondwire
-                Parameters["Radius"] : (int/float) Radius of the bond wire. Bond wire is an cylinder type of object.
-                Parameters["Bondwire Type"] : (str, optional) The type of bond wire. Defaults to "Spline". Other inputs are:
-                                                "Spline" 
-                                                "JEDEC4"
-                                                "JEDEC5"
-                Parameters["Center Position"] : (int/float) The center Position of the Height. This can be moved to make 
-                                            an object that dont have the top height in the middle. Defaults to 0.5.
-                Parameters["alpha"] : (int/float, optional) When using "JEDEC5" an alpha parameter need to be defined. See CST documentation!! Defaults to None.
-                Parameters["beta"] : (int/float, optional) When using "JEDEC5" an betta parameter need to be defined. See CST documentation!!. Defaults to None.
-                Parameters["Material"] : (str, optional) Material for of the Bond wire. For now you need to load the material 
-                                    in your simulation and then use this function. Otherwise the material 
-                                    will not be found. Defaults to "PCE".
-                Parameters["SolidWireModel"] : (bool, optional) This option will turn the bondiwre into solid object. Defaults to True.
-                Parameters["Termination"] : (str, optional) How the Bondwire will be temrinated. Defaults to None. Options are:
-                                            "natural" 
-                                            "rounded" 
-                                            "extended"
-                Parameters["NameFolder"] : (str, optional) The name of the folder. Defaults to name of the wire.
-            
-        Raises:
-            ValueError: Error massage
-            ValueError: Error massage
-            ValueError: Error massage
-
-        Returns:
-            str: String with VBA Code 
         """
+        Create Bond Wire.
+
+        Parameters
+        ----------
+        Parameters["Name Wire"] : str
+            Set the name of the Bondwire.
+        Parameters["Coordinates"] : dict of int/float 
+            Dictionary with Coordinates in X,Y,Z plane to create the Bondwire:  
+            For Example 
+                Points = {}
+                Points['X1'] = 0
+                Points['Y1'] = 0
+                Points['Z1'] = 0
+                Points['X2'] = 5
+                Points['Y2'] = 5
+                Points['Z2'] = 0
+                Parameters["Coordinates"] = Points
+        Parameters["Height"] : int/float
+            Set the hight of the middle point of the Bondwire.
+        Parameters["Radius"] : str
+            Set the radius of the bond wire. Bond wire is an cylinder type of object.
+        Parameters["Bondwire Type"] : str, optional
+            Set the type of bond wire. Defaults to "Spline". Other inputs are:
+                                                                                "Spline" 
+                                                                                "JEDEC4"
+                                                                                "JEDEC5".
+        Parameters["Center Position"] : int/float
+            The center Position of the Height. This can be moved to make 
+            an object that dont have the top height in the middle. Defaults to 0.5..
+        Parameters["alpha"] : int/float, optional
+            When using "JEDEC5" an alpha parameter need to be defined. See CST documentation!! Defaults to None..
+        Parameters["beta"] : int/float, optional
+            When using "JEDEC5" an betta parameter need to be defined. See CST documentation!!. Defaults to None..
+        Parameters["Material"] : str, optional 
+            Material for of the Bond wire. For now you need to load the material 
+            in your simulation and then use this function. Otherwise the material 
+            will not be found. Defaults to "PCE".
+        Parameters["SolidWireModel"] : boolen, optional
+            This option will turn the bondiwre into solid object. Defaults to True..
+        Parameters["Termination"] : str, optional
+            How the Bondwire will be temrinated. Defaults to None. Options are:
+                                                                            "natural" 
+                                                                            "rounded" 
+                                                                            "extended"
+        Parameters["NameFolder"] : str, optional
+            The name of the folder. Defaults to name of the wire.
+
+        Raises
+        ------
+        ValueError
+            Check if some parameters are set correctly.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Set Parameters
         NameWire = Parameters["Name Wire"]
         Coordinates = Parameters["Coordinates"] 
@@ -2759,7 +3064,7 @@ class CST_Commands:
         Points = Parameters["Points"]
         Material = Parameters["Material"] 
         SolidWireModel = Parameters["SolidWireModel"]
-        Parameters = Parameters["Termination"]
+        Termination = Parameters["Termination"]
         NameFolder = Parameters["NameFolder"] 
         CurveFolderName = Parameters["CurveFolderName"]
         CurveName = Parameters["CurveName"]
@@ -2816,41 +3121,63 @@ class CST_Commands:
 
 
     def Cylinder(self, Parameters):
-        """Create Cylinder object in CST enviroment.
-        
-            Args: Parameters (dict) Dictionary with parameters needed for the function.
-                Parameters["Cylinder Name"] : (str) Name of the cylinder
-                Parameters["Component Name"] : (str) Name of the cylinder component in the component tree.
-                Parameters["Material"] : (str, optional) Material for of the Bond wire. For now you need to load the material 
-                                    in your simulation and then use this function.
-                Parameters["Outer Radius"] : (int/float) Cylinder outer radius.
-                Parameters["Inner Radius"] : (int/float) Cylinder inner radius.                
-                Parameters["Orentation Axis"] : (str) Cylunder Orientation axis can be "X", "Y" or "Z".
-                If Parameters["Orentation Axis"] = "X" then the following parameters are needed :
-                    Parameters["X min"] : (int/float) X min parameter
-                    Parameters["X max"] : (int/float) X max parameter
-                    Parameters["Z center"] : (int/float) Z center parameter
-                    Parameters["Y center"] : (int/float) Y center parameter
-                If Parameters["Orentation Axis"] = "Y" then the following parameters are needed :
-                    Parameters["Y min"] : (int/float) Y min parameter
-                    Parameters["Y max"] : (int/float) Y max parameter
-                    Parameters["Z center"] : (int/float) Z center parameter
-                    Parameters["X center"] : (int/float) X center parameter
-                If Parameters["Orentation Axis"] = "Z" then the following parameters are needed :
-                    Parameters["Z min"] : (int/float) Z min parameter
-                    Parameters["Z max"] : (int/float) Z max parameter
-                    Parameters["X center"] : (int/float) X center parameter
-                    Parameters["Y center"] : (int/float) Y center parameter
+        """
+        Create Cylinder object in CST enviroment.
 
-        Raises:
-            ValueError: Error massage
-            ValueError: Error massage
-            ValueError: Error massage
+        Parameters
+        ----------
+        Parameters["Cylinder Name"] : str
+            Set the name of the cylinder.
+        Parameters["Component Name"] : str
+            Set the Name of the cylinder component in the component tree.
+        Parameters["Material"] : str, optional
+            Material for of the Bond wire. For now you need to load the material 
+            in your simulation and then use this function.
+        Parameters["Outer Radius"] : int/float
+            Set the cylinder outer radius.
+        Parameters["Inner Radius"] : int/float
+            Set the cylinder inner radius
+        Parameters["Orentation Axis"] : str
+            Cylunder Orientation axis can be "X", "Y" or "Z".
+            If Parameters["Orentation Axis"] = "X" then the following parameters are needed :
+                Parameters["X min"] : int/float
+                    Set the X-min parameter
+                Parameters["X max"] : int/float
+                    Set the X_max parameter
+                Parameters["Z center"] : int/float
+                    Set the Z-center parameter
+                Parameters["Y center"] : int/float
+                    Set the Y_center parameter
+            If Parameters["Orentation Axis"] = "Y" then the following parameters are needed :
+                Parameters["Y min"] : int/float
+                    Set the Y-min parameter
+                Parameters["Y max"] : int/float
+                    Set the Y-max parameter
+                Parameters["Z center"] : int/float
+                    Set the Z-center parameter
+                Parameters["X center"] : int/float
+                    Set the X-center parameter
+            If Parameters["Orentation Axis"] = "Z" then the following parameters are needed :
+                Parameters["Z min"] : int/float
+                    Set the Z-min parameter
+                Parameters["Z max"] : int/float
+                    Set the Z-max parameter
+                Parameters["X center"] : int/float
+                    Set the X-center parameter
+                Parameters["Y center"] : int/float
+                    Set the Y-center parameter
 
-        Returns:
-            str: String with VBA Code 
+        Raises
+        ------
+        ValueError
+            Values Errors.
+
+        Returns
+        -------
+        None.
 
         """
+    
 
         Name = Parameters["Cylinder Name"]
         Component_name = Parameters["Component Name"]
@@ -2923,41 +3250,57 @@ class CST_Commands:
 
 
     def Conus(self, Parameters):
-        """Create Conus object in CST enviroment.
-                
-            Args: Parameters (dict) Dictionary with parameters needed for the function.
-                Parameters["Conus Name"] : (str) Name of the conus.
-                Parameters["Component Name"] : (str) Name of the conus component in the component tree.
-                Parameters["Material"] : (str, optional) Material for of the Bond wire. For now you need to load the material 
-                                    in your simulation and then use this function.
-                Parameters["Top Radius"] : (int/float) conus top radius.
-                Parameters["Bottom Radius"] : (int/float) Conus bottom radius.                
-                Parameters["Orentation Axis"] : (str) Conus Orientation axis can be "X", "Y" or "Z".
-                If Parameters["Orentation Axis"] = "X" then the following parameters are needed :
-                    Parameters["X min"] : (int/float) X min parameter
-                    Parameters["X max"] : (int/float) X max parameter
-                    Parameters["Z center"] : (int/float) Z center parameter
-                    Parameters["Y center"] : (int/float) Y center parameter
-                If Parameters["Orentation Axis"] = "Y" then the following parameters are needed :
-                    Parameters["Y min"] : (int/float) Y min parameter
-                    Parameters["Y max"] : (int/float) Y max parameter
-                    Parameters["Z center"] : (int/float) Z center parameter
-                    Parameters["X center"] : (int/float) X center parameter
-                If Parameters["Orentation Axis"] = "Z" then the following parameters are needed :
-                    Parameters["Z min"] : (int/float) Z min parameter
-                    Parameters["Z max"] : (int/float) Z max parameter
-                    Parameters["X center"] : (int/float) X center parameter
-                    Parameters["Y center"] : (int/float) Y center parameter
-
-        Raises:
-            ValueError: Error massage
-            ValueError: Error massage
-            ValueError: Error massage
-
-        Returns:
-            str: String with VBA Code 
-          
         """
+        Create Conus object in CST enviroment.
+
+        Parameters
+        ----------
+        Parameters["Conus Name"] : str
+            Set the Name of the conus.
+        Parameters["Component Name"] : str
+            Set the  Name of the conus component in the component tree.
+        Parameters["Material"] : str
+            Set the material for of the Conus. 
+        Parameters["Top Radius"] : int/float
+            Set the conus top radius.
+        Parameters["Bottom Radius"] : int/float
+            Set the conus bottom radius.
+        Parameters["Orentation Axis"] : str
+            Set the conus Orientation axis can be "X", "Y" or "Z".
+            If Parameters["Orentation Axis"] = "X" then the following parameters are needed :
+                Parameters["X min"] : int/float 
+                    Set the X-min parameter
+                Parameters["X max"] : int/float
+                    Set the X-max parameter
+                Parameters["Z center"] : int/float
+                    Set the Z-center parameter
+                Parameters["Y center"] : int/float 
+                    Set the Y-center parameter
+            If Parameters["Orentation Axis"] = "Y" then the following parameters are needed :
+                Parameters["Y min"] : int/float
+                    Set the Y-min parameter
+                Parameters["Y max"] : int/float
+                    Set the Y-max parameter
+                Parameters["Z center"] : int/float
+                    Set the Z-center parameter
+                Parameters["X center"] : int/float
+                    Set the X-center parameter
+            If Parameters["Orentation Axis"] = "Z" then the following parameters are needed :
+                Parameters["Z min"] : int/float
+                    Set the Z-min parameter
+                Parameters["Z max"] : int/float
+                    Set the Z-max parameter
+                Parameters["X center"] : int/float 
+                    Set the X-center parameter
+                Parameters["Y center"] : int/float
+                    Set the Y-center parameter
+
+        Returns
+        -------
+        None.
+
+        """
+        
         
         Name = Parameters["Conus Name"]
         Component_name = Parameters["Component Name"]
@@ -3027,15 +3370,20 @@ class CST_Commands:
 
 
     def GGB_Probe(self, Parameters):
-        """Create GGB Probes in CSt enviroment.
+        """
+        Create GGB Probes in CSt enviroment.
 
-        Args:
-            Parameters (dict): Dictionary with parameters needed for the structure.
-                Parameters["Component Name"] : (str) Name of the Component
-                Parameters["Orientation Angle"] : (int/float) angle of tilting the GGB Probes
-        Returns:
-            str: String with VBA Code 
-          
+        Parameters
+        ----------
+        Parameters["Component Name"] : str
+            Set the Name of the Component.
+        Parameters["Orientation Angle"] : int/float
+            Set the angle of tilting the GGB Probes
+
+        Returns
+        -------
+        None.
+
         """
         
         
@@ -3515,20 +3863,28 @@ class CST_Commands:
 
     # def ToSolid(self, SolidName, CurveName = "Polygon", NameFolder = None, Material = None ):
     def ToSolid(self, Parameters):
-        """This function transfer an function or polynom to solid object.
+        """
+        This function transfer an function or polynom to solid object.
 
-        Args: Parameters (dict) of parameters needed for the function
-                Parameters["Solid Name"] : (str) Name of the solid object
-                Parameters["Curve Name"] : (str, optional) Name of the curve. Defaults to "Polygon".
-                Parameters["Name Folder"] : (str, optional) Name of the folder. Defaults to Curve name.
-                Parameters["Material"] : (str, optional) Material for of the Bond wire. For now you need to load the material 
-                                    in your simulation and then use this function. Otherwise the material 
-                                    will not be found. Defaults to Aluminum.
+        Parameters
+        ----------
+        Parameters["Solid Name"] : str
+            Set the name of the solid object.
+        Parameters["Curve Name"] : str
+            Name of the curve. Defaults to "Polygon".
+        Parameters["Name Folder"] : str
+            Set the name of the folder. Defaults to Curve name.
+       Parameters["Material"] : str
+            Material for of the Bond wire. For now you need to load the material 
+            in your simulation and then use this function. Otherwise the material 
+            will not be found. Defaults to Aluminum.
 
-        Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+        
         # Set Parameters 
         SolidName = Parameters["Solid Name"]
         CurveName = Parameters["Curve Name"]
@@ -3569,22 +3925,32 @@ class CST_Commands:
 
     
     def CurveToSolid(self,  Parameters):
-        """This function transfer curve to solid object.
-
-        Args: Parameters (dict) of parameters needed for the function
-                Parameters["Name"]  : (str) Name of the solid object
-                Parameters["Component Name"] : (str, optional) Name of the component in the component tree.
-                Parameters["Material"] : (str, optional) Material for the solid.
-                Parameters["Thickness"] : (int/float) Thickness of the solid curve
-                Parameters["Angle"] : (int/float) Angle
-                Parameters["Curve Folder"] : (str) Curve folder. First you need to crate curve and then give here the correct name of the curve folder.
-                Parameters["Curve Name"] : (str) Curve folder. First you need to crate curve and then give here the correct name of the curve.
-
-        Returns:
-            str: String with VBA Code 
-            
-        
         """
+        This function transfer curve to solid object.
+
+        Parameters
+        ----------
+        Parameters["Name"] : str
+            Set the Name of the solid object.
+        Parameters["Component Name"] : str
+            Set the name of the component in the component tree.
+        Parameters["Material"] : str
+            Set the material for the solid.
+        Parameters["Thickness"] : int/float
+            Set the thickness of the solid curve.
+        Parameters["Angle"] : int/float
+            Set the angle.
+        Parameters["Curve Folder"] : str
+            Set the curve folder. First you need to crate curve and then give here the correct name of the curve folder.
+        Parameters["Curve Name"] : str
+            Set the curve folder. First you need to crate curve and then give here the correct name of the curve.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         
         Name = Parameters["Name"] 
         NameComponent = Parameters["Component Name"]
@@ -3618,26 +3984,40 @@ class CST_Commands:
 
     # def RibWaveguide_ToSolid(self, SolidName, WaveguideName = "Rib_Waveguide", WG_Hight = None, Angle = None, NameFolder = None, Material = None, WGFolderName = None, WGName = None ):
     def RibWaveguide_ToSolid(self, Parameters):
-        """This is ToSolid function that will allow the use to create the RibWaveguide. 
-            TODO: Murrge the TOSolid and RibWaveguideToSolid functions later on. 
+        """
+        This is ToSolid function that will allow the use to create the RibWaveguide. 
+        TODO: Murrge the TOSolid and RibWaveguideToSolid functions later on. 
 
-            Args: Parameters (dict) Parameters dict needed for the function:
-                Parameters["Waveguide Name"] : (str, optional) Waveguide Name. Defaults to "Rib_Waveguide".
-                Parameters["Wavaguide Hight"] : (int/float, optional) Hight of the waveguide. Defaults to None. 
-                Parameters["Angle"] : (int/float, optional) Side angle of the waveguide. Defaults to None
-                Parameters["Name Folder"] : (str, optional) Folder name. Defaults to None.
-                Parameters["Material"] : (str, optional) Material for of the Bond wire. For now you need to load the material 
-                                        in your simulation and then use this function. Otherwise the material 
-                                        will not be found. Defaults to None.
-                Parameters["Waveguide Folder Name"] : (str, optional) Name of the folder where the poligon 3D or 2D is created. Defaults to None.
-                Parameters["Waveguide Name"] : (str, optional) Name of the Poligon 3D or 2D. Defaults to None.
-            
-            Raises:
-                ValueError: Error massage
+        Parameters
+        ----------
+        Parameters["Waveguide Name"] : TYPE
+            Set the Waveguide Name. Defaults to "Rib_Waveguide".
+        Parameters["Wavaguide Hight"] : int/float
+            Set the hight of the waveguide. Defaults to None.
+        Parameters["Angle"] : int/float
+            Set the side angle of the waveguide. Defaults to None.
+        Parameters["Name Folder"] : str
+            Set the folder name. Defaults to None.
+        Parameters["Material"] : str
+            Material for of the Bond wire. For now you need to load the material 
+            in your simulation and then use this function. Otherwise the material 
+            will not be found. Defaults to None.
+        Parameters["Waveguide Folder Name"] : str
+            Set the name of the folder where the poligon 3D or 2D is created. Defaults to None.
+        Parameters["Waveguide Name"] : TYPE
+            DESCRIPTION.
 
-            Returns:
-                str: String with VBA Code 
-            """
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Parameters set
         WaveguideName = Parameters["Waveguide Name"]
         WG_Hight = Parameters["Waveguide Hight"]
@@ -3703,21 +4083,34 @@ class CST_Commands:
 
 
     def WaveguidePort(self, Parameters):
-        """Set the Waveguide Port for  
-
-        Args:
-            Parameters (dict): Dictionary with Port Parameters
-                                Parameters["Orientation"] = Str with Port Orientation can be "Positive" or "Negative". For 
-                                                            this function an 2 ports will be defined so please give an array with two Oriantations
-                                                            like  Parameters["Orientation"] = ["Positive", "Positive"]
-                                Parameters["Coordinates"] = Str witch Coordinates type, "Picks" is the best one!
-                                Parameters["Span"] = Array with Array of port span [[Ymin, Ymax],[Zmin, Zmax]]
-                                Parameters["Potential"] = Array with port Potential . For example [1,2]
-                                Parameters["Port Number"] = Array with Port number [1,2]
-
-        Returns:
-            str: String with VBA Code 
         """
+        Set the Waveguide Port.
+
+        Parameters
+        ----------
+        Parameters["Orientation"] : str
+            Set the Port Orientation it can be "Positive" or "Negative". For 
+            this function an 2 ports will be defined so please give an array with two Oriantations
+            like  Parameters["Orientation"] = ["Positive", "Positive"].
+        Parameters["Coordinates"] : str
+            Set the Coordinates type, "Picks" is the best one!. It can be on of:
+                                                                                "Free"
+                                                                                "Full"
+                                                                                "Picks"
+        Parameters["Span"] : int/float array
+            Set an array of port span [[Ymin, Ymax],[Zmin, Zmax]].
+        Parameters["Potential"] : int array
+            Set the potential of the ports. For example [1,2].
+        Parameters["Port Number"] : int array
+            Set the array with port numbers.
+
+        Returns
+        -------
+        None.
+
+        """
+        
+        Coordinates_Types = ["Free", "Full", "Picks"]
 
         # Parameters to determin port position 
         Orientation = Parameters["Orientation"]
@@ -3735,6 +4128,11 @@ class CST_Commands:
         Port["1"] = None
         Port["2"] = None
 
+        # check coordinates type
+        if Coordinates not in Coordinates_Types:
+            raise ValueError("The Coordinates type can be one of 'Free' , 'Full' or 'Picks'")  
+        else:
+            pass
         # Ports Numbers
         PortNum = Parameters["Port Number"]
 
@@ -3767,29 +4165,45 @@ class CST_Commands:
 
 
     def WaveguidePortWithPins(self, Parameters):
-        """Set the Waveguide Port for  
-
-        Args:
-            Parameters (dict): Dictionary with Port Parameters
-                                Parameters["Orientation"] = Str with Port Orientation can be "Positive" or "Negative". For 
-                                                            this function an 2 ports will be defined so please give an array with two Oriantations
-                                                            like  Parameters["Orientation"] = ["Positive", "Positive"]
-                                Parameters["Coordinates"] = Str witch Coordinates type, "Picks" is the best one!
-                                Parameters["Span"] = Array with Array of port span [[Ymin, Ymax],[Zmin, Zmax]]
-                                Parameters["Potential"] = Array with port Potential . For example [1,2]
-                                Parameters["Port Number"] = Array with Port number [1,2]
-                                Parameters["Polarity"] = Port Polarity can be be "Positive" or "Negative". For 
-                                                        this function an 2 ports will be defined so please give an 
-                                                        array with two Polaritys. For example Parameters["Polarity"] = ["Positive", "Positive"]
-                                Parameters["Solid Name"] = Name of the Object on witch the Waveguide port will be created. For example "WG:WG1"
-                                Parameters["Face ID"] = Array with the ID of the two picked faces. For example Parameters["Face ID"] = [2,4]
-            PicParams (dict): Dictionary with Pick Faces Parameters
-                                PickParams["Face Number"] = Integer with the number of the picked face of the structure
-
-        Returns:
-            str: String with VBA Code 
         """
+        Set the Waveguide Port for  
 
+        Parameters
+        ----------
+        Parameters["Orientation"] : str
+            Set the port Orientation it can be "Positive" or "Negative". For 
+            this function an 2 ports will be defined so please give an array with two Oriantations
+            like  Parameters["Orientation"] = ["Positive", "Positive"].
+        Parameters["Coordinates"] : str
+            Set the Coordinates type, "Picks" is the best one!. It can be on of:
+                                                                                "Free"
+                                                                                "Full"
+                                                                                "Picks".
+        Parameters["Span"] :  int/float array
+            Set an array of port span [[Ymin, Ymax],[Zmin, Zmax]].
+        Parameters["Potential"] : int array
+            Set the potential of the ports. For example [1,2].
+        Parameters["Port Number"] : int array
+            Set the array with port numbers.
+        Parameters["Polarity"] : str array 
+            Set the Port Polarity it can be be "Positive" or "Negative". For 
+            this function an 2 ports will be defined so please give an 
+            array with two Polaritys. For example Parameters["Polarity"] = ["Positive", "Positive"]
+        Parameters["Solid Name"] : str
+            Set the name of the Object on witch the Waveguide port will be created. For example "WG:WG1".
+        Parameters["Face ID"] : int array
+            Set the ID of the two picked faces. For example Parameters["Face ID"] = [2,4]
+        PickParams["Face Number"] : int array
+            Set the number of the picked face of the structure
+
+        Returns
+        -------
+        None.
+
+        """
+       
+        
+        Coordinates_Types = ["Free", "Full", "Picks"]
         # Parameters to determin port position 
         Orientation = Parameters["Orientation"]
         Coordinates = Parameters["Coordinates"]
@@ -3798,6 +4212,13 @@ class CST_Commands:
         Span = Parameters["Span"]
         set_number = Parameters["Picked Port Number"] 
         Number_of_picks = Parameters["Number of picks"]
+        
+        # Check the corrdinates 
+        # check coordinates type
+        if Coordinates not in Coordinates_Types:
+            raise ValueError("The Coordinates type can be one of 'Free' , 'Full' or 'Picks'")  
+        else:
+            pass
         
         
         lines = []
@@ -3879,21 +4300,29 @@ class CST_Commands:
 
         
     def MoveWaveguidePorts(self, Parameters):
-        """Function to move the waveguide ports
+        """
+        Function to move the waveguide ports.
 
-            Args: Parameters (dict): Dictionary with Port Parameters
-                Parameters["Port Number"] : (int) Port number
-                Parameters["Distance"] : (int/float) distance to move the waveguide 
-                Parameters["Span"] : (dict) with array to set the range in "X", "Y" and "Z"
-                    Parameters["Span"][0][0] - Yrange min
-                    Parameters["Span"][0][1] - Yrange max
-                    Parameters["Span"][1][0] - Zrange min
-                    Parameters["Span"][1][1] - Zrange max
+        Parameters
+        ----------
+        Parameters["Port Number"] : int
+            Set the port number.
+        Parameters["Distance"] : int/float
+            Set the distance to move the waveguide.
+        Parameters["Span"] : dict
+            Set an Dictionary with array to set the range in "X", "Y" and "Z"
+                Parameters["Span"][0][0] - Yrange min
+                Parameters["Span"][0][1] - Yrange max
+                Parameters["Span"][1][0] - Zrange min
+                Parameters["Span"][1][1] - Zrange max.
+        
 
-        Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+        
         Distance = Parameters["Distance"]
         Span11 = Parameters["Span"][0][0]
         Span12 = Parameters["Span"][0][1]
@@ -3933,29 +4362,44 @@ class CST_Commands:
 
 
     def SetDiscretePort(self, Parameters):
-        """Function to set discrete port
+        """
+        Function to set discrete port
 
-            Args: Parameters (dict): Dictionary with parameters to set discrete port
-                Parameters["Discrete Port Number"] : (int) Port number
-                Parameters["Discrete Port Type"] : (str) Type of discrete port, can be:
-                                                   "Voltage"
-                                                   "S-Parameters"
-                                                   "Current"
-                Parameters["Port Impedance"] : (int/float) Impedance of the port
-                Parameters["Port Voltage"] : (int/float) set Port voltage
-                Parameters["Port Current"] : (int/float) set Port current
-                Parameters["Port Radius"] : (int/float) set Port radius
-                Parameters["Discrete Port Coordinates"] : (dict) set dictionary with port coordiantes
-                        Parameters["Discrete Port Coordinates"]["X1"]
-                        Parameters["Discrete Port Coordinates"]["Y1"]
-                        Parameters["Discrete Port Coordinates"]["Z1"]
-                        Parameters["Discrete Port Coordinates"]["X2"]
-                        Parameters["Discrete Port Coordinates"]["Y2"]
-                        Parameters["Discrete Port Coordinates"]["Z2"]
+        Parameters
+        ----------
+        Parameters["Discrete Port Number"] : int
+            Set the Port number.
+        Parameters["Discrete Port Type"] : str
+            Set the type of discrete port, can be:
+                                               "Voltage"
+                                               "S-Parameters"
+                                               "Current".
+        Parameters["Port Impedance"] : int float
+            Set the Impedance of the port.
+        Parameters["Port Voltage"] : int/float
+            Set Port voltage.
+        Parameters["Port Current"] : int/float
+            Set Port current.
+        Parameters["Port Radius"] : int/float
+            Set Port radius.
+        Parameters["Discrete Port Coordinates"] : dict
+            Set an dictionary with port coordiantes.
+                Parameters["Discrete Port Coordinates"]["X1"]
+                Parameters["Discrete Port Coordinates"]["Y1"]
+                Parameters["Discrete Port Coordinates"]["Z1"]
+                Parameters["Discrete Port Coordinates"]["X2"]
+                Parameters["Discrete Port Coordinates"]["Y2"]
+                Parameters["Discrete Port Coordinates"]["Z2"]
 
-        Returns:
-            str: String with VBA Code 
-        
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
         """
 
         PortNumber = Parameters["Discrete Port Number"]
@@ -4084,16 +4528,30 @@ class CST_Commands:
                 
 
     def Pick(self, Parameters):
-        """Pick function
-
-        Args:
-            Parameters (dict): Dictionary with Parameters   
-                            PicParams["Option"] : Pcik option. For example "Face"
-                            PicParams["Object"] : Name of the object on witch the pick will be executed.
-                            PicParams["Face Number"] = int with the ID of the picked Face for example.
-        Returns:
-            str: String with VBA Code 
         """
+        Pick function
+
+        Parameters
+        ----------
+        PicParams["Option"] : str
+            Set the Pcik option. For now only "Centerpoint" and "Face" can be choosen.
+        PicParams["Object"] : str
+            Set the name of the object on witch the pick will be executed..
+        PicParams["Face Number"] : int
+            Set the ID of the picked Face for example.
+
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        
+        obj_list = ["Centerpoint", "Face"]
         # Parameters for Picking an object
         FaceName = Parameters["Object"]
         Number = Parameters["Face Number"]
@@ -4113,11 +4571,15 @@ class CST_Commands:
 
         
     def ClearAllPicks(self):
-        """Clear all pciks
-
-        Returns:
-            str: String with VBA Code 
         """
+        Clear all pciks
+
+        Returns
+        -------
+        None.
+
+        """
+        
         vba_code = f"""
                 Pick.ClearAllPicks
                 """ 
@@ -4136,20 +4598,41 @@ class CST_Commands:
 ############################################################################
 
     def setTimeSolver(self, Parameters):
-        """Set Time solver Parameters
-
-        Args:
-            Parameters (dict): Dictionary with Parameters
-                                Parameters["Accuracy"] : int from 10,15,20,25,30,35,40. Simulation accuracy. For example 20.    
-                                Parameters["Caclculate Modes Only"] : Boolen. True if you want to calculate 
-                                only the Ports modes. False to calculate the hole structure. 
-                                Parameters["Auto Impedance"] : Booled. Set Port Impedance. True if you want to set manually
-                                False otherwise.
-                                Parameters["Impedance"] : int/float Port Impedance. 
-                                Parameters["Source Port"] : Int. Set the Source Port. For example 1 or 2
-        Returns:
-            str: String with VBA Code 
         """
+        Set Time solver Parameters
+
+        Parameters
+        ----------
+        Parameters["Accuracy"] : int
+            Set the accury of the solver. It can be 10
+                                                    15
+                                                    20
+                                                    25
+                                                    30
+                                                    35
+                                                    40
+        Parameters["Caclculate Modes Only"] : boolen
+            Set to True if you want to calculate the the Ports modes only.
+            False to calculate the hole structure.
+        Parameters["Auto Impedance"] : boolen
+            Set Port Impedance. True if you want to set manually
+            False otherwise.
+        Parameters["Impedance"] : int/float
+            Set the Port Impedance.
+        Parameters["Source Port"] : int
+            Set the Source Port. For example 1 or 2.
+
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         Accuracy = Parameters["Accuracy"]
         ModesOnly = Parameters["Caclculate Modes Only"]
         AutoImpedance = Parameters["Auto Impedance"]
@@ -4203,23 +4686,17 @@ class CST_Commands:
 
 
     def setFreqSolver(self):
-        """Set Frequency solver Parameters
-         
-            TODO : This function will set an IDLE Frequency solver parameters. It need to be customizable!
-        For Example Somthing liek:
-        def setFreqSolver(self)
-        Args:
-            Parameters (dict): Dictionary with Parameters
-                                Parameters["Accuracy"] : int from 10,15,20,25,30,35,40. Simulation accuracy. For example 20.    
-                                Parameters["Caclculate Modes Only"] : Boolen. True if you want to calculate 
-                                only the Ports modes. False to calculate the hole structure. 
-                                Parameters["Auto Impedance"] : Booled. Set Port Impedance. True if you want to set manually
-                                False otherwise.
-                                Parameters["Impedance"] : int/float Port Impedance. 
-                                Parameters["Source Port"] : Int. Set the Source Port. For example 1 or 2
-        Returns:
-            str: String with VBA Code 
         """
+        Set Frequency solver Parameters
+        TODO: This function is hard codet and need to be worked on. 
+        You cannot set parameters!
+
+        Returns
+        -------
+        None.
+
+        """
+        
         # Accuracy = Parameters["Accuracy"]
         # ModesOnly = Parameters["Caclculate Modes Only"]
         # AutoImpedance = Parameters["Auto Impedance"]
@@ -4354,11 +4831,15 @@ class CST_Commands:
 
                         
     def StartTimeSolver(self):
-        """Start Time Simulation
-
-        Returns:
-            str: String with VBA Code 
         """
+        Start Time Simulation
+
+        Returns
+        -------
+        None.
+
+        """
+        
         vba_code = f"""
                     With Solver
                     .Start
@@ -4370,39 +4851,63 @@ class CST_Commands:
 
     # Set Optical Simulation Domain 
     def setOpticalSimulationProperties(self, Parameters):
-        """Function to set an Optical Simulation Properties. 
-
-            TODO : The function need to be expands so more parameters such as mesh properties can be added!
-
-            Args: Parameters (dict): Dictionary with Parameters
-
-                    Parameters['Dimensions'] : (str) Unit Leghts
-                    Parameters['Frequency']  : (str) Frequency Units
-                    Parameters['Time'] : (str) Time Units
-                    Parameters['Temperature'] : (str) Temperature Units
-                    Parameters["Type Background"] : (str) Background Type
-                    Parameters["Xmin Background"] : (int/float) Backgroun X min span
-                    Parameters["Xmax Background"] : (int/float) Background X max span
-                    Parameters["Ymin Background"] : (int/float) Backgroun Y min span
-                    Parameters["Ymax Background"] : (int/float) Backgroun Y max span
-                    Parameters["Zmin Background"] : (int/float) Backgroun Z min span
-                    Parameters["Zmax Background"] : (int/float) Backgroun Z max span
-                    Parameters["Min Wavelength"] : (int/float) Min wavelenght
-                    Parameters["Max Wavelength"] : (int/float) Max wavelenght
-                    Parameters["Xmin Boundary"] : (int/float) Min X boundary
-                    Parameters["Xmax Boundary"] : (int/float) Max X boundary
-                    Parameters["Ymin Boundary"] : (int/float) Min Y boundary
-                    Parameters["Ymax Boundary"] : (int/float) Max Y boundary
-                    Parameters["Zmin Boundary"] : (int/float) Min Z boundary
-                    Parameters["Zmax Boundary"] : (int/float) Max Z boundary
-                    Parameters["Xsymmetry Boundary"] : (int/float) set symetrie to the X boundary
-                    Parameters["Ysymmetry Boundary"] : (int/float) set symetrie to the Y boundary
-                    Parameters["Zsymmetry Boundary"] : (int/float) set symetrie to the Z boundary
-
-        Returns:
-            str: String with VBA Code 
-            
         """
+        Function to set an Optical Simulation Properties. 
+        TODO : The function need to be expands so more parameters such as mesh properties can be added!
+
+        Parameters
+        ----------
+        Parameters['Dimensions'] : str
+            Set unit Leghts.
+        Parameters['Frequency'] : str
+            Set frequency Units.
+        Parameters['Time'] : str
+            Set the temperature Units.
+        Parameters['Temperature'] : str
+            Set the temperature Units.
+        Parameters["Type Background"]  : str
+            Set the background Type.
+        Parameters["Xmin Background"] : int/float
+            Set the backgroun X-min span.
+        Parameters["Xmax Background"] : int/float
+            Set the backgroun X-max span.
+        Parameters["Ymin Background"] : int/float
+            Set the backgroun Y-min span.
+        Parameters["Ymax Background"] : int/float
+            Set the backgroun Y-max span.
+        Parameters["Zmin Background"] : int/float
+            Set the backgroun Z-min span.
+        Parameters["Zmax Background"] : int/float
+            Set the backgroun Z-max span.
+        Parameters["Min Wavelength"] : int/float
+            Set the min wavelenght
+        Parameters["Max Wavelength"] : int/float
+            Set the max wavelenght
+        Parameters["Xmin Boundary"] : int/floar
+            Set the X-min boundary
+        Parameters["Xmax Boundary"] : int/floar
+            Set the X-max boundary
+        Parameters["Ymin Boundary"] : int/floar
+            Set the Y-min boundary
+        Parameters["Ymax Boundary"] : int/floar
+            Set the Y-max boundary
+        Parameters["Zmin Boundary"] : int/floar
+            Set the Z-min boundary
+        Parameters["Zmax Boundary"] : int/floar
+            Set the Z-max boundary
+        Parameters["Xsymmetry Boundary"] : int/float
+            Set symetrie to the X boundary
+        Parameters["Ysymmetry Boundary"] : int/float
+            Set symetrie to the Y boundary
+        Parameters["Zsymmetry Boundary"] : int/float 
+            Set symetrie to the Z boundary
+            
+        Returns
+        -------
+        None.
+
+        """
+        
         # Units Properties
         Length = Parameters['Dimensions'] 
         Frequency = Parameters['Frequency'] 
@@ -4532,38 +5037,63 @@ class CST_Commands:
       
     # Set Optical Simulation Domain 
     def setElectricalSimulationProperties(self, Parameters):
-        """Set electrical simulation properties
-
-            TODO : The function need to be expands so more parameters such as mesh properties can be added!
-
-            Args: Parameters (dict): Dictionary with Parameters
-                    Parameters['Dimensions'] : (str) Unit Leghts
-                    Parameters['Frequency']  : (str) Frequency Units
-                    Parameters['Time'] : (str) Time Units
-                    Parameters['Temperature'] : (str) Temperature Units
-                    Parameters["Type Background"] : (str) Background Type
-                    Parameters["Xmin Background"] : (int/float) Backgroun X min span
-                    Parameters["Xmax Background"] : (int/float) Background X max span
-                    Parameters["Ymin Background"] : (int/float) Backgroun Y min span
-                    Parameters["Ymax Background"] : (int/float) Backgroun Y max span
-                    Parameters["Zmin Background"] : (int/float) Backgroun Z min span
-                    Parameters["Zmax Background"] : (int/float) Backgroun Z max span
-                    Parameters["Min Frequency"] : (int/float) Min frequency
-                    Parameters["Max Frequency"] : (int/float) Max frequency
-                    Parameters["Xmin Boundary"] : (int/float) Min X boundary
-                    Parameters["Xmax Boundary"] : (int/float) Max X boundary
-                    Parameters["Ymin Boundary"] : (int/float) Min Y boundary
-                    Parameters["Ymax Boundary"] : (int/float) Max Y boundary
-                    Parameters["Zmin Boundary"] : (int/float) Min Z boundary
-                    Parameters["Zmax Boundary"] : (int/float) Max Z boundary
-                    Parameters["Xsymmetry Boundary"] : (int/float) set symetrie to the X boundary
-                    Parameters["Ysymmetry Boundary"] : (int/float) set symetrie to the Y boundary
-                    Parameters["Zsymmetry Boundary"] : (int/float) set symetrie to the Z boundary
-
-        Returns:
-            str: String with VBA Code 
-        
         """
+        Set electrical simulation properties
+        TODO : The function need to be expands so more parameters such as mesh properties can be added!
+
+        Parameters
+        ----------
+        Parameters['Dimensions'] : str
+            Set unit Leghts.
+        Parameters['Frequency'] : str
+            Set frequency Units.
+        Parameters['Time'] : str
+            Set the temperature Units.
+        Parameters['Temperature'] : str
+            Set the temperature Units.
+        Parameters["Type Background"]  : str
+            Set the background Type.
+        Parameters["Xmin Background"] : int/float
+            Set the backgroun X-min span.
+        Parameters["Xmax Background"] : int/float
+            Set the backgroun X-max span.
+        Parameters["Ymin Background"] : int/float
+            Set the backgroun Y-min span.
+        Parameters["Ymax Background"] : int/float
+            Set the backgroun Y-max span.
+        Parameters["Zmin Background"] : int/float
+            Set the backgroun Z-min span.
+        Parameters["Zmax Background"] : int/float
+            Set the backgroun Z-max span.
+        Parameters["Min Frequency"] : int/float
+            Set the min frequency
+        Parameters["Max Frequency"] : int/float
+            Set the max frequency
+        Parameters["Xmin Boundary"] : int/floar
+            Set the X-min boundary
+        Parameters["Xmax Boundary"] : int/floar
+            Set the X-max boundary
+        Parameters["Ymin Boundary"] : int/floar
+            Set the Y-min boundary
+        Parameters["Ymax Boundary"] : int/floar
+            Set the Y-max boundary
+        Parameters["Zmin Boundary"] : int/floar
+            Set the Z-min boundary
+        Parameters["Zmax Boundary"] : int/floar
+            Set the Z-max boundary
+        Parameters["Xsymmetry Boundary"] : int/float
+            Set symetrie to the X boundary
+        Parameters["Ysymmetry Boundary"] : int/float
+            Set symetrie to the Y boundary
+        Parameters["Zsymmetry Boundary"] : int/float 
+            Set symetrie to the Z boundary
+
+        Returns
+        -------
+        None.
+
+        """
+       
         # Units Properties
         Length = Parameters['Dimensions'] 
         Frequency = Parameters['Frequency'] 
@@ -4653,10 +5183,10 @@ class CST_Commands:
                         Mesh.MinimumCurvatureRefinement "150"
                         With MeshSettings
                             .SetMeshType "HexTLM"
-                            .Set "StepsPerWaveNear", "{CellNear}"
-                        .Set "StepsPerWaveFar", "{CellFar}"
-                            .Set "StepsPerBoxNear", "{CellNear}"
-                        .Set "StepsPerBoxFar", "{CellFar}"
+                            .Set "StepsPerWaveNear", "30"
+                        .Set "StepsPerWaveFar", "20"
+                            .Set "StepsPerBoxNear", "20"
+                        .Set "StepsPerBoxFar", "20"
                             .Set "RatioLimitGeometry", "15"
                         End With
                         With MeshSettings
@@ -4673,18 +5203,21 @@ class CST_Commands:
 
 
     def ChangeSolverType(self, Parameters):
-        """Change solver type
+        """
+        Change solver type
+        TODO: Include the rest of the solver types. For now only time is available!
 
-            TODO: Include the rest of the solver types. For now only time is available!
+        Parameters
+        ----------
+        Parameters['Type'] : str
+            Solver type. Can be Parameters['Type'] = "Time".
 
-         Args: Parameters (dict): Dictionary with Parameters
-                    Parameters['Type'] : (str) Solver type. Can be:
-                                        Parameters['Type'] = "Time"
-
-         Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+       
         time = ["TIME", "time", "Time", "t", "T"]
         Type = Parameters["Type"]
         if Type in time:
@@ -4700,21 +5233,27 @@ class CST_Commands:
 
 
     def setDomainSolverType(self, Parameters):
-        """Set Domein solver type
+        """
+        Set Domein solver type
 
-        Args: Parameters (dict): Dictionary with Parameters
-                    Parameters['Domain'] : (str) Solver domain. Can be:
+
+        Parameters
+        ----------
+        Parameters['Domain'] : str
+            Set the solver domain. Can be:
                                         "Time"
                                         "Freq"
                                         "EigenMode"
                                         "Integral"
                                         "Asymptotic"
-                                        "Multilayer"
+                                        "Multilayer".
 
-         Returns:
-            str: String with VBA Code 
+        Returns
+        -------
+        None.
 
         """
+        
 
         #Set Parameters
         Domain = Parameters["Domain"]
@@ -4746,26 +5285,34 @@ class CST_Commands:
 
 
     def CreateEfieldMonitor(self, Parameters):
-        """Set Monitor
+        """
+        Set Monitor
 
-        Args:
-            Parameters (dict): Dictionary with Parameters
-                                Parameters["Monitor Wavelength"] : Int/float. This will set the wavelength. For this function
-                                and only for this function you need to give the exact number. So 1.55 um will be Parameters["Wavelength"]  = 1.55e-6
-                                Parameters["Monitor Frequency"] : Set Frequency of the Monitor
-                                Parameters["Domain"] : Str can be "Frequency" or "Wavelength"
-                                Parameters["Monitor Type"] : str with monitor Type. Can be one of :
-                                    "Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current",
-                                    "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", 
-                                    "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" 
-                                
-        Raises:
-            ValueError: Error massage
+        Parameters
+        ----------
+        Parameters["Monitor Wavelength"] : int/float
+            Set the wavelength. For this function and only for this function you need to give the exact number. So 1.55 um will be Parameters["Wavelength"]  = 1.55e-6
+        Parameters["Monitor Frequency"] : int/float
+            Set Frequency of the Monitor.
+        Parameters["Domain"] : str
+            Set the domain can be "Frequency" or "Wavelength".
+        Parameters["Monitor Type"] : str
+            Set the monitor Type. Can be one of :
+            "Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current",
+            "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", 
+            "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" .
 
-        Returns:
-            str: String with VBA Code 
+        Raises
+        ------
+        ValueError
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
 
         """
+        
         MonitorType = Parameters["Monitor Type"]
         Domain = Parameters["Domain"]
         Types = ["Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current", "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" ]
@@ -4822,27 +5369,34 @@ class CST_Commands:
 ############################################################################
 
     def SetMesh(self, Parameters):
-        """Sets the type of the mesh. The user can define the mesh cells per wavelength near and far
-            from the simulations object.
-        Args:
-            Parameters (dict): Dictionarty with Parameters
-                                Parameters["Mesh Type"] : str Type of the Mesh. You can choose between:  
-                                                        PBA - Hexahedral mesh with Perfect Boundary Approximation
-                                                        HexahedralTLM
-                                                        CFD
-                                                        CFDNew
-                                                        Staircase - Hexahedral mesh with staircase cells
-                                                        Tetrahedral - Tetrahedral mesh
-                                                        Surface - Surface mesh
-                                                        SurfaceMLS - urface multi layer mesh
-                                                        Planar - Planar 2D mesh
-                                Parameters["Mesh Cells Near Object"] : int Cells per Wavelength near the simulation object
-                                Parameters["Mesh Cells far Object"] : int Cells per Wavelength far from the simulation object
-        Returns:
-            str: String with VBA Code 
+        """
+        Sets the type of the mesh. The user can define the mesh cells per wavelength near and far
+        from the simulations object.
+
+        Parameters
+        ----------
+        Parameters["Mesh Type"] : TYPE
+            Set the type of the Mesh. You can choose between:  
+                                    PBA - Hexahedral mesh with Perfect Boundary Approximation
+                                    HexahedralTLM
+                                    CFD
+                                    CFDNew
+                                    Staircase - Hexahedral mesh with staircase cells
+                                    Tetrahedral - Tetrahedral mesh
+                                    Surface - Surface mesh
+                                    SurfaceMLS - urface multi layer mesh
+                                    Planar - Planar 2D mesh.
+        Parameters["Mesh Cells Near Object"] : int
+            Set the cells per Wavelength near the simulation object.
+        Parameters["Mesh Cells far Object"] : int
+            Set the Cells per Wavelength far from the simulation object
+
+        Returns
+        -------
+        None.
 
         """
-        
+       
 
         MeshType = Parameters["Mesh Type"]
         CellNear = Parameters["Mesh Cells Near Object"]
@@ -4883,20 +5437,26 @@ class CST_Commands:
     
 
     def RotationTranslation(self, Parameters):
-        """Rotation Translation function
-
-            Args: Parameters (dict): Dictionarty with Parameters
-                    Parameters["Name Object"] : (str) Name of the Object that you want to rotate
-                    Parameters["Angle X"] : (int/float) X Angle of rotation
-                    Parameters["Angle Y"] : (int/float) Y Angle of rotation
-                    Parameters["Angle Z"] : (int/float) Z Angle of rotation
-
-
-            Returns:
-                str: String with VBA Code 
-        
         """
+        Rotation Translation function
 
+        Parameters
+        ----------
+        Parameters["Name Object"] : str
+            Set the name of the Object that you want to rotate.
+        Parameters["Angle X"] : int/float
+            Set the X Angle of rotation.
+        Parameters["Angle Y"] : int/float
+            Set the Y Angle of rotation.
+        Parameters["Angle Z"] : int/float
+            Set the Z Angle of rotation.
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         Name = Parameters["Name Object"]
         AngleX = Parameters["Angle X"]
@@ -4923,38 +5483,57 @@ class CST_Commands:
 
 
     def Translation(self, Parameters):
-        """Translation function
-
-            Args: Parameters (dict): Dictionarty with Parameters
-                    Parameters["Translate Type"] : (str) Type of translation. Can be:
-                                                    "Translate"
-                                                    "Scale"
-                                                    "Rotate"
-                    If Parameters["Translate Type"] = "Translate"
-                        Parameters["Name Object"] : (str) Name of the Object that you want to rotate
-                        Parameters["Object to rotate"] : (str) The object you wanna rotate. If solid
-                            Parameters["Object to rotate"] = "Shape", if Curve Parameters["Object to rotate"] = "Curve"
-                        Parameters["Position"] : array with (int/float) with position parameters. For ["X", "Y" , "Z"] directions 
-                            For Example -> Parameters["Position"] = [1,2,3]      
-                    If Parameters["Translate Type"] = "Scale"
-                         Parameters["Name Object"] : (str) Name of the Object that you want to rotate
-                         Parameters["Center Positions"] : array with (int/float) with Center position for scale operation. For ["X", "Y" , "Z"] directions 
-                            For Example -> Parameters["Center Positions"] = [1,2,3]     
-                         Parameters["Scale Factors"] : array with (int/float) with Scale factor. For ["X", "Y" , "Z"] directions 
-                            For Example -> Parameters["Scale Factors"] = [1,2,3]     
-                    If Parameters["Translate Type"] = "Rotate"
-                        Parameters["Name Object"] : (str) Name of the Object that you want to rotate
-                        Parameters["Object to rotate"] : (str) The object you wanna rotate. If solid
-                            Parameters["Object to rotate"] = "Shape", if Curve Parameters["Object to rotate"] = "Curve"
-                        Parameters["Center Positions"] : array with (int/float) with Center position for scale operation. For ["X", "Y" , "Z"] directions 
-                            For Example -> Parameters["Center Positions"] = [1,2,3]
-                        Parameters["Angle Values"] : array with (int/float) with Scale factor. For ["X", "Y" , "Z"] directions 
-                            For Example -> Parameters["Angle Values"] = [1,2,3]
-
-            Returns:
-                str: String with VBA Code 
-        
         """
+        Translation function
+
+        Parameters
+        ----------
+        Parameters["Translate Type"] : str
+            Set the type of translation. Can be:
+                                            "Translate"
+                                            "Scale"
+                                            "Rotate".
+        If Parameters["Translate Type"] = "Translate"
+            Parameters["Name Object"] : str 
+                Set the name of the Object that you want to rotate.
+            Parameters["Object to rotate"] : str 
+                Set the object you wanna rotate. If Solid
+                                                Parameters["Object to rotate"] = "Shape", 
+                                                If Curve 
+                                                Parameters["Object to rotate"] = "Curve"
+            Parameters["Position"] : int/float array 
+                Set array with position parameters. For ["X", "Y" , "Z"] directions 
+                For Example -> Parameters["Position"] = [1,2,3]      
+        If Parameters["Translate Type"] = "Scale"
+             Parameters["Name Object"] : str
+                 Set the name of the Object that you want to rotate
+             Parameters["Center Positions"] : int/float array
+                 Set an array with Center position for scale operation. For ["X", "Y" , "Z"] directions 
+                 For Example -> Parameters["Center Positions"] = [1,2,3]     
+             Parameters["Scale Factors"] : int/float array 
+                 Set array with Scale factor. For ["X", "Y" , "Z"] directions 
+                 For Example -> Parameters["Scale Factors"] = [1,2,3]     
+        If Parameters["Translate Type"] = "Rotate"
+            Parameters["Name Object"] : str
+                Set the name of the Object that you want to rotate
+            Parameters["Object to rotate"] : str
+                Set the object you wanna rotate. If Solid
+                                                Parameters["Object to rotate"] = "Shape"
+                                                If Curve 
+                                                Parameters["Object to rotate"] = "Curve"
+            Parameters["Center Positions"] : int/float array 
+                Set the Center position for scale operation. For ["X", "Y" , "Z"] directions 
+                For Example -> Parameters["Center Positions"] = [1,2,3]
+            Parameters["Angle Values"] : int/float array 
+                Set the Scale factor. For ["X", "Y" , "Z"] directions 
+                For Example -> Parameters["Angle Values"] = [1,2,3]
+
+        Returns
+        -------
+        None.
+
+        """
+        
         Type = Parameters["Translate Type"]
         Type_list = ["Translate", "Scale", "Rotate"]
         
@@ -5052,23 +5631,36 @@ class CST_Commands:
         
     
     def Translation_Scale(self, Parameters):
-        """Scale tranlation function
-
-            Args: Parameters (dict): Dictionarty with Parameters
-                    Parameters["Name Object"] : (str) Name of the Object that you want to rotate
-                    Parameters["Center Positions"] : (dict) Center position for scale operation
-                        Parameters["Center Positions"]["X"] : (int/float) Center position X
-                        Parameters["Center Positions"]["Y"] : (int/float) Center position Y
-                        Parameters["Center Positions"]["Z"] : (int/float) Center position Z
-                    Parameters["Scale Factors"] : (dict) Scale factor
-                        Parameters["Scale Factors"]["X"] : (int/float) Scale factor X
-                        Parameters["Scale Factors"]["Y"] : (int/float) Scale factor Y
-                        Parameters["Scale Factors"]["Z"] : (int/float) Scale factor Z
-        
-            Returns:
-                str: String with VBA Code 
-        
         """
+        Scale tranlation function
+
+        Parameters
+        ----------
+        Parameters["Name Object"] : str
+            Set the name of the Object that you want to rotate
+        Parameters["Center Positions"] : dict
+            Set an dictionary with Center position for scale operation
+                Parameters["Center Positions"]["X"] : int/float 
+                    Set Center position X
+                Parameters["Center Positions"]["Y"] : int/float 
+                    Set Center position Y
+                Parameters["Center Positions"]["Z"] : int/float
+                Set the Center position Z
+        Parameters["Scale Factors"] : dict 
+            Set the scale factor S
+            Parameters["Scale Factors"]["X"] : int/float
+                Set the scale factor X
+            Parameters["Scale Factors"]["Y"] : int/float
+                Set the scale factor Y
+            Parameters["Scale Factors"]["Z"] : int/float
+                Set the scale factor Z
+
+        Returns
+        -------
+        None.
+
+        """
+        
 
         Name = Parameters["Name Object"]
         CenterPos = Parameters["Center Positions"]
@@ -5095,24 +5687,36 @@ class CST_Commands:
         
         
     def Translation_Rotation(self, Parameters):
-        """Rotation tranlation function
-
-            Args: Parameters (dict): Dictionarty with Parameters
-                    Parameters["Name Object"] : (str) Name of the Object that you want to rotate
-                    Parameters["Center Positions"] : (dict) Center position for scale operation
-                        Parameters["Center Positions"]["X"] : (int/float) Center position X
-                        Parameters["Center Positions"]["Y"] : (int/float) Center position Y
-                        Parameters["Center Positions"]["Z"] : (int/float) Center position Z
-                    Parameters["Angle Values"] : (dict) Scale factor
-                        Parameters["Angle Values"]["X"] : (int/float) Angle Value X
-                        Parameters["Angle Values"]["Y"] : (int/float) Angle Value Y
-                        Parameters["Angle Values"]["Z"] : (int/float) Angle Value Z
-                
-            Returns:
-                str: String with VBA Code 
-        
         """
+        Rotation tranlation function
 
+        Parameters
+        ----------
+        Parameters["Name Object"] : str
+            Set the name of the Object that you want to rotate
+        Parameters["Center Positions"] : dict
+            Set the Center position for scale operation
+                Parameters["Center Positions"]["X"] : int/float 
+                    Set the center position X
+                Parameters["Center Positions"]["Y"] : int/float 
+                    Set the center position Y
+                Parameters["Center Positions"]["Z"] : int/float 
+                    Set the center position Z
+        Parameters["Angle Values"] : dict
+            Set the scale factor
+                Parameters["Angle Values"]["X"] : int/float 
+                    Set the Angle Value X
+                Parameters["Angle Values"]["Y"] : int/float 
+                    Set the Angle Value Y
+                Parameters["Angle Values"]["Z"] : int/float 
+                    Set the Angle Value Z
+
+        Returns
+        -------
+        None.
+
+        """
+        
         Name = Parameters["Name Object"]
         CenterPos = Parameters["Center Positions"]
         Angle = Parameters["Angle Values"]
@@ -5139,16 +5743,22 @@ class CST_Commands:
 
 
     def Cut_structures(self, Parameters):
-        """Cut function
-
-            Args: Parameters (dict): Dictionarty with Parameters
-                    Parameters["Name Cut Structure"] : (str) Name of the structure to cut
-                    Parameters["Name Structure to Cut"] : (str) Name Structure to cut the Parameters["Name Cut Structure"] to.
-                
-            Returns:
-                str: String with VBA Code 
-        
         """
+        Cut function
+
+        Parameters
+        ----------
+        Parameters["Name Cut Structure"] : str
+            Set the name of the structure to cut.
+        Parameters["Name Structure to Cut"] : str
+            Set the name Structure to cut the Parameters["Name Cut Structure"] to.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         CutElement = Parameters["Name Cut Structure"]
         CutterElement = Parameters["Name Structure to Cut"]
         vba_code = f"""
@@ -5172,13 +5782,24 @@ class Curves:
     """
     
     def __init__(self, Span_X, Span_Y, NumberOfPoints):
-        """Initialize the Curves function
-
-        Args:
-            Span_X (int): Give an span of the X (Lenght) of the S-Curve
-            Span_Y (int): Give an span of the Y (Lenght) of the S-Curve
-            Number of Points (int): Lenght of the object also an random number can be given. 
         """
+        
+
+        Parameters
+        ----------
+        Span_X : int/float
+            Set the span of the X (Lenght) of the S-Curve
+        Span_Y : int/float
+            Set the span of the Y (Lenght) of the S-Curve
+        NumberOfPoints : int
+            Set the number of points. This will be the number of points of your curve.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         self.Span_X = Span_X
         self.Span_Y = Span_Y
         self.NumberOfPoints = NumberOfPoints
@@ -5198,6 +5819,7 @@ class Curves:
             curve[:,1] - Y Param of the Bezier Curve
 
         """
+        
         for i in range(len(self.t)):
             self.x_Points.append(float((1-self.t[i])**3*0 + 3*(1-self.t[i])**2*self.t[i]*self.Span_X/2 + 3*(1-self.t[i])*self.t[i]**2*self.Span_X/2 + self.t[i]**3*self.Span_X))
             self.y_Points.append(float(((1-self.t[i]**3)*0 + 3*(1-self.t[i])**2*self.t[i]*0 + 3*(1-self.t[i])*self.t[i]**2*self.Span_Y + self.t[i]**3*self.Span_Y)))
@@ -5211,16 +5833,17 @@ class Curves:
     
     
     def Cosinus_Curve(self):
-        '''
+        """
         The cosinus function is SpanY*(cos((pi/(2*SpanX))*t)^2)  ---->> t in the range of 0 to SpanY
 
         Returns
         -------
         curve : 2 dimentional np array
             curve[:,0] - X Param of the Bezier Curve
-            curve[:,1] - Y Param of the Bezier Curve
+            curve[:,1] - Y Param of the Bezier Curve.
 
-        '''
+        """
+        
         P = self.Span_Y
         L = self.Span_X
         stepSize = L/len(self.t)
@@ -5234,6 +5857,18 @@ class Curves:
     
     
     def Euler_Curve(self):
+        """
+        Construct an Euler S-bend from (0, 0) to (Span_X, Span_Y)
+        Using Fresnel integrals and linear curvature.
+
+        Returns
+        -------
+        curve : 2 dimentional np array
+            curve[:,0] - X Param of the Bezier Curve
+            curve[:,1] - Y Param of the Bezier Curve.
+
+
+        """
         """ 
         Returns a smooth, continuous-curvature Euler S-bend from (0, 0) to (Span_X, Span_Y)
         using Fresnel integrals and linear curvature.
@@ -5264,3 +5899,191 @@ class Curves:
     
         return curve
 
+
+
+#################################################################################
+# Post Process Class
+#################################################################################
+
+
+class PostProcess:
+    """
+    This class is used to export and also plot data that is generated with CST
+    """
+    
+    def __init__(self, CST_obj: CST_Commands):
+            """
+            Initialize PostProcess with a CST_Commands instance.
+
+            Parameters
+            ----------
+            CST_obj : CST_Commands
+                Instance of CST_Commands containing self.prj
+            """
+            # Store only the CST project, not the full CST object
+            self.prj = CST_obj.prj
+
+    
+    def Export_SParameters(self, Parameters):
+        """
+        
+
+        Parameters
+        ----------
+        Parameters["Name"] : str
+            Set the name of the S_parameter file. For example Parameters["Name"] = "Export_S_Params".
+        Parameters["Path"] : str
+            Set the path to where to save the file. For example Parameters["Path"] = "C:/../../CST_Files".
+        Parameters["Impedance"] : int/float
+            Set the impedance for the S-Parameters. Per defoult is set to 50 Ohms.
+        Parameters["Format"] : str
+            Set the format that the S-Parameters will be exportet. You can choose between: "MA", "DB" and "RI".
+       
+
+        Raises
+        ------
+        ValueError
+            Error choosing the wrong format.
+
+        Returns
+        -------
+        None.
+
+        """
+
+        name = Parameters["Name"]
+        path = Parameters["Path"]
+        impedance = Parameters["Impedance"]
+        format = Parameters["Format"]
+
+
+        # Add patha nd name
+        path_and_name = path + "/" + name
+        
+        # Check the format 
+        form_list = ["MA", "RI", "DB"]
+        if format not in form_list:
+            raise ValueError("Format is invalid. You can choose between 'MA', 'RI' or 'DB'")
+        else:
+            vba_code = f"""
+                            With TOUCHSTONE
+                                .Reset
+                                .FileName "{path_and_name}"
+                                .Impedance {impedance}
+                                .ExportType "S"
+                                .Format "{format}"
+                                .FrequencyRange "Full"
+                                .Renormalize True
+                                .UseARResults False
+                                .SetNSamples 100
+                                .Write
+                            End With
+            """
+            self.prj.model3d.add_to_history(f"Export S-Parameters", vba_code)
+
+
+
+    def read_snp(self, Parameters):
+        """
+        Reads an S-parameter Touchstone file (.s2p, .s3p, .s4p, etc.) and returns
+        frequency array and S-matrix array.
+
+        Parameters
+        ----------
+        Parameters["File Name"] : str
+            Set the name of the S_parameter file. For example an .s2p file Parameters["File Name"] = "Export_S_Params.s2p".
+        Parameters["Path"] : str
+            Set the path to where to save the file. For example Parameters["Path"] = "C:/../../CST_Files".
+
+        Returns
+        -------
+        freq : np.ndarray
+            Frequency points (Hz or as in file).
+        S_params : np.ndarray
+            Array of shape (num_points, N, N) containing complex S-matrices.
+        """
+        
+        name = Parameters["File Name"]
+        path = Parameters["Path"]
+        freq = []
+        S_params = []
+        
+        # Add patha nd name
+        filename = path + "/" + name
+
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+
+        # Remove comments and empty lines
+        data_lines = [line for line in lines if not line.startswith('!') and line.strip() != '']
+
+        # Detect number of ports from the first line starting with '#' (the format line)
+        header_line = next(line for line in data_lines if line.startswith('#'))
+        tokens = header_line.lower().split()
+        # Format line example: "# GHZ S MA R 50"
+        # tokens: ['#', 'ghz', 's', 'ma', 'r', '50']
+        # Number of ports = sqrt((len(data_values)/2))
+        # We'll deduce ports later from data
+
+        # Remove header line from data
+        data_lines = [line for line in data_lines if not line.startswith('#')]
+
+        # Flatten all numbers
+        all_numbers = []
+        for line in data_lines:
+            all_numbers.extend(list(map(float, line.strip().split())))
+
+        # Detect number of ports automatically
+        # Each frequency point has 1 frequency + 2 * N^2 numbers
+        total_numbers = len(all_numbers)
+        freq_guess = all_numbers[0]  # first number is frequency
+        # Solve N from total numbers: total_numbers / num_points = 1 + 2*N^2
+        # We first estimate number of points: consecutive freq differences are >0
+        # Simplest approach: assume last frequency = last block, or just compute sqrt
+        # Let's make it simple: user provides N or infer from length
+        # We'll infer N assuming uniform number of points:
+        # Count number of frequencies by detecting differences > 0 (simple)
+        freqs = []
+        i = 0
+        while i < len(all_numbers):
+            freqs.append(all_numbers[i])
+            i += 1
+            # Cannot infer N yet from single pass; we assume N=2 or N=4 user can change
+            break
+        # Instead, require user to provide ports or infer from filename
+        # We'll infer from filename extension: s2p -> N=2, s4p -> N=4, etc.
+        import re
+        match = re.search(r's(\d+)p', filename.lower())
+        if match:
+            N = int(match.group(1))
+        else:
+            raise ValueError("Cannot detect number of ports from filename. Use s2p, s3p, s4p format.")
+
+        # Compute number of points
+        block_size = 1 + 2 * N**2
+        num_points = len(all_numbers) // block_size
+
+        for i in range(num_points):
+            start = i * block_size
+            block = all_numbers[start:start + block_size]
+
+            freq.append(block[0])
+
+            # Build NxN S-matrix
+            S_matrix = np.zeros((N, N), dtype=complex)
+            for r in range(N):
+                for c in range(N):
+                    mag = block[1 + 2*(r*N + c)]
+                    angle = block[2 + 2*(r*N + c)]
+                    S_matrix[r, c] = mag * np.exp(1j * np.deg2rad(angle))
+            S_params.append(S_matrix)
+
+        return np.array(freq), np.array(S_params)
+        
+    
+
+
+            
+
+
+        

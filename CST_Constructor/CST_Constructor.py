@@ -127,32 +127,41 @@ class CST_Commands:
 
         Parameters
         ----------
-        Parameters : dict 
-            Dictionary with all needed parameters for this function.
-        Parameters["Type"] : str
-            Type of the Deleted objet. It can be:  
-                                                                'Folder'
-                                                                'Material'
-                                                                'Component'
-                                                                'Port'
-                                                                'Curve' 
-        Parameters["Name"] : str
-            Name of the object to delete. When 'Port' choosen you only need 
-            to give the number of the port , like Parameters["Name"] = "1"
-            
-            For example Parameters["Type"] = 'Component'
-            Parameters["Name"] = 'Box'
-            This will delte an component called box. 
-        
-                                                                    
+        parameters : dict
+            Dictionary containing all parameters required for this function.
+
+            **Required keys:**
+
+            - **Type** (str)
+                Type of the object to delete. Possible values:
+
+                - ``"Folder"``
+                - ``"Material"``
+                - ``"Component"``
+                - ``"Port"``
+                - ``"Curve"``
+
+            - **Name** (str)
+                Name of the object to delete.
+
+                If ``Type`` is ``"Port"``, only the port number is required.
+                Example: ``parameters["Name"] = "1"``
+
+                Example usage::
+
+                    parameters["Type"] = "Component"
+                    parameters["Name"] = "Box"
+
+                This deletes a component named ``Box``.
+
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            If the object type or name is invalid.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -212,20 +221,26 @@ class CST_Commands:
 
         Parameters
         ----------
-        Parameters : dict 
-            Dictionary with all needed parameters for this function.
-        Parameters["Unit Lenght"] : str
-            Measurement unit for lenght. For example "um"
-        Parameters["Unit Frequency"] : str
-            Measurement unit for frequency. For example "GHz"
-        Parameters["Unit Time"] : str
-            Measurement unit for time. For example "ns"
-        Parameters["Unit Temperature"] : str
-            Measurement unit for temperatur. For example "K"
+        parameters : dict
+            Dictionary containing all parameters required for this function.
+
+            **Required keys:**
+
+            - **Unit Length** (str)
+                Measurement unit for length. Example: ``"um"``.
+
+            - **Unit Frequency** (str)
+                Measurement unit for frequency. Example: ``"GHz"``.
+
+            - **Unit Time** (str)
+                Measurement unit for time. Example: ``"ns"``.
+
+            - **Unit Temperature** (str)
+                Measurement unit for temperature. Example: ``"K"``.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1096,33 +1111,46 @@ class CST_Commands:
 
         Parameters
         ----------
-        Parameters["Xmin Boundary"] : str
-            Type of the X-min Boundary
-        Parameters["Xmax Boundary"] : str
-            Type of the X-max Boundary
-        Parameters["Ymin Boundary"] : str
-            Type of the Y-min Boundary
-        Parameters["Ymax Boundary"] : str
-            Type of the Y-max Boundary
-        Parameters["Zmin Boundary"] : str
-            Type of the Z-min Boundary
-        Parameters["Zmax Boundary"] : str 
-            Type of the Z-max Boundary
-        Parameters["Xsymmetry Boundary"] : str
-            Type of the X Boundary Symmetry 
-        Parameters["Ysymmetry Boundary"] : str
-            Type of the Y Boundary Symmetry 
-        Parameters["Zsymmetry Boundary"] : str
-            Type of the Z Boundary Symmetry 
+        parameters : dict
+            Dictionary containing all boundary settings.
+
+            **Required keys:**
+
+            - **Xmin Boundary** (str)
+                Type of the X-min boundary.
+
+            - **Xmax Boundary** (str)
+                Type of the X-max boundary.
+
+            - **Ymin Boundary** (str)
+                Type of the Y-min boundary.
+
+            - **Ymax Boundary** (str)
+                Type of the Y-max boundary.
+
+            - **Zmin Boundary** (str)
+                Type of the Z-min boundary.
+
+            - **Zmax Boundary** (str)
+                Type of the Z-max boundary.
+
+            - **Xsymmetry Boundary** (str)
+                Type of X boundary symmetry.
+
+            - **Ysymmetry Boundary** (str)
+                Type of Y boundary symmetry.
+
+            - **Zsymmetry Boundary** (str)
+                Type of Z boundary symmetry.
 
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            If any of the boundary types or symmetries are invalid.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1184,14 +1212,20 @@ class CST_Commands:
 
         Parameters
         ----------
-        Parameters["Min Frequency"] : int/float
-            Min Frequency of Simulation
-        Parameters["Max Frequency"] : int/float
-            Max Frequency of Simulation
+        parameters : dict
+            Dictionary containing the simulation frequency settings.
+
+            **Required keys:**
+
+            - **Min Frequency** (int or float)
+                Minimum frequency of the simulation.
+
+            - **Max Frequency** (int or float)
+                Maximum frequency of the simulation.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1211,20 +1245,24 @@ class CST_Commands:
 
     def setSimWavelength(self, Parameters):
         """
-        Set Simulation Wavelength
+        Set the simulation wavelength range.
 
         Parameters
         ----------
-        Parameters["Min Wavelength"] : int/float
-            Min Wavelength
-        Parameters["Max Wavelength"] : int/float
-            Max Wavelength
-            
+        parameters : dict
+            Dictionary containing the simulation wavelength settings.
+
+            **Required keys:**
+
+            - **Min Wavelength** (int or float)
+                Minimum wavelength of the simulation.
+
+            - **Max Wavelength** (int or float)
+                Maximum wavelength of the simulation.
 
         Returns
         -------
-        None.
-
+        None
         """
        
         WavelengthMin = Parameters["Min Wavelength"]
@@ -1249,32 +1287,45 @@ class CST_Commands:
 
     def Brick(self, Parameters):
         """
-        Create an Brick object.
+        Create a Brick object.
 
         Parameters
         ----------
-        Parameters["Brick Lenght Min"] : int/float
-            Min Lenght. It will be center so the lenght that you give will be set to Lenght/2
-        Parameters["Brick Lenght Max"] : int/float
-            Max Lenght. It will be center so the lenght that you give will be set to Lenght/2
-        Parameters["Brick Width Min"] : int/float
-            Min Width. It will be center so the width that you give will be set to Width/2
-        Parameters["Brick Width Max"] : int/float
-            Max Width. It will be center so the width that you give will be set to Width/2
-        Parameters["Brick Hight Min"] : int/float
-            Min Hight. It will be center so the hight that you give will be set to Hight/2
-        Parameters["Brick Hight Max"] : int/float
-            Max Hight. It will be center so the hight that you give will be set to Hight/2
-        Parameters["Material"] : str
-            Set Material for the Brick object
-        Parameters["Brick Name"] : str
-            Set Brick Name
-        Parameters["Component Name"] : str
-            Set Component Name. The strcuture will be made as "Component Name:Brick Name"
+        parameters : dict
+            Dictionary containing all required settings for the Brick object.
+
+            **Required keys:**
+
+            - **Brick Length Min** (int or float)
+                Minimum length of the brick. The brick is centered, so the value will be set to Length / 2.
+
+            - **Brick Length Max** (int or float)
+                Maximum length of the brick. Centered; value will be set to Length / 2.
+
+            - **Brick Width Min** (int or float)
+                Minimum width of the brick. Centered; value will be set to Width / 2.
+
+            - **Brick Width Max** (int or float)
+                Maximum width of the brick. Centered; value will be set to Width / 2.
+
+            - **Brick Height Min** (int or float)
+                Minimum height of the brick. Centered; value will be set to Height / 2.
+
+            - **Brick Height Max** (int or float)
+                Maximum height of the brick. Centered; value will be set to Height / 2.
+
+            - **Material** (str)
+                Material of the brick.
+
+            - **Brick Name** (str)
+                Name of the brick.
+
+            - **Component Name** (str)
+                Name of the component. The structure will be created as `"Component Name:Brick Name"`.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1307,37 +1358,56 @@ class CST_Commands:
         
     def Sphere(self, Parameters):
         """
-        Create Sphere object.
+        Create a Sphere object.
 
         Parameters
         ----------
-        Parameters["Axis"] : str
-            Set an oriantation Axis. Can be "X", "Y" or "Z".
-        Parameters["Center Radius"] : int/float
-            Radius of the sphere
-        Parameters["Top Radius"] : int/float
-            Set sphere top radius
-        Parameters["Bottom Radius"] : int/float
-            Set sphere bottom radius
-        Parameters["Center Positions"] : dict
-            Dictionary with XCenter, YCenter and ZCenter. 
-                For example:
-                    Positions = {}
-                    Positions["X"] = 2
-                    Positions["Y"] = 2
-                    Positions["Z"] = 2
-                    Parameters["Center Positions"] = Positions
-        Parameters["Material"] : str
-            Set Materials for the Sphere object
-        Parameters["Name"] : str
-            Set Sphere Name.
-        Parameters["Component Name"] : str
-            Set Component Name. The strcuture will be made as "Component Name:Name".
-        
+        parameters : dict
+            Dictionary containing all required settings for the Sphere object.
+
+            **Required keys:**
+
+            - **Axis** (str)
+                Orientation axis of the sphere. Can be ``"X"``, ``"Y"``, or ``"Z"``.
+
+            - **Center Radius** (int or float)
+                Radius of the sphere at its center.
+
+            - **Top Radius** (int or float)
+                Radius of the sphere at the top.
+
+            - **Bottom Radius** (int or float)
+                Radius of the sphere at the bottom.
+
+            - **Center Positions** (dict)
+                Dictionary with the center coordinates of the sphere. Required keys:
+
+                - **X** (int or float)
+                - **Y** (int or float)
+                - **Z** (int or float)
+
+                Example:
+
+                ```python
+                positions = {}
+                positions["X"] = 2
+                positions["Y"] = 2
+                positions["Z"] = 2
+                parameters["Center Positions"] = positions
+                ```
+
+            - **Material** (str)
+                Material of the Sphere object.
+
+            - **Name** (str)
+                Name of the sphere.
+
+            - **Component Name** (str)
+                Name of the component. The structure will be created as `"Component Name:Name"`.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1383,28 +1453,41 @@ class CST_Commands:
 
     def Curve(self, Parameters):
         """
-        Create 2D Curve in the CST enviroment.
+        Create a 2D curve in the CST environment.
 
         Parameters
         ----------
-        Parameters["Curve Name"] : str
-            Set name of the Curves
-        Parameters["Points"] : dict
-            Dictionary of Curve Points. 
-                For example. 
-                    from CST_Constructor import Curves
-                     # Define Curves Parameters and Data
-                    Lenght = 100
-                    Offset = 40
-                    points = 100
-                    # Generate the Bezier and Cos points
-                    ObjCurves = Curves(Lenght, Offset, points)
-                    CosinusCurve = ObjCurves.Cosinus_Curve()
-                    Parameters["Points"] = CosinusCurve
-        
+        parameters : dict
+            Dictionary containing all required settings for the 2D curve.
+
+            **Required keys:**
+
+            - **Curve Name** (str)
+                Name of the curve.
+
+            - **Points** (dict)
+                Dictionary containing the curve points.
+
+                Example usage:
+
+                ```python
+                from CST_Constructor import Curves
+
+                # Define curve parameters
+                length = 100
+                offset = 40
+                points = 100
+
+                # Generate the Bezier and Cosine points
+                obj_curves = Curves(length, offset, points)
+                cosinus_curve = obj_curves.Cosinus_Curve()
+
+                parameters["Points"] = cosinus_curve
+                ```
+
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1439,26 +1522,36 @@ class CST_Commands:
     
     def Elipse(self, Parameters):
         """
-        Create Elipse object, in Z-orientation in the moment, in CST enviroment. 
+        Create an Ellipse object in Z-orientation in the CST environment.
 
         Parameters
         ----------
-        Parameters["Name"] : str
-            Set Name of the Elipse object.
-        Parameters["Curve Name"] : str
-            Set Component Name. The strcuture will be made as "Curve Name:Name".
-        Parameters["X Radius"] : int/float
-            Set radius in X-Direction of the elipse
-        Parameters["Y Radius"] : int/float
-            Set radius in Y-Direction of the elipse
-        Parameters["X Center"] : int/float
-            Set position of X-Center
-        Parameters["Y Center"] : int/float
-            Set position of Y-Center
+        parameters : dict
+            Dictionary containing all required settings for the Ellipse object.
+
+            **Required keys:**
+
+            - **Name** (str)
+                Name of the Ellipse object.
+
+            - **Curve Name** (str)
+                Name of the component. The structure will be created as `"Curve Name:Name"`.
+
+            - **X Radius** (int or float)
+                Radius of the ellipse in the X-direction.
+
+            - **Y Radius** (int or float)
+                Radius of the ellipse in the Y-direction.
+
+            - **X Center** (int or float)
+                X-coordinate of the ellipse center.
+
+            - **Y Center** (int or float)
+                Y-coordinate of the ellipse center.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1486,21 +1579,27 @@ class CST_Commands:
 
     def Poligon_2D(self, Parameters):
         """
-        Create the 2D poligon for tRib waveguide
+        Create a 2D polygon for a tRib waveguide.
 
         Parameters
         ----------
-        Parameters["Waveguide Name"] : str
-            Set name of the poligon.
-        Parameters["Points X"] : list of int/float
-            Set poligon dictionary wiht X Points
-         Parameters["Points Y"] : list of int/float
-             Set poligon dictionary wiht X Points
+        parameters : dict
+            Dictionary containing all required settings for the 2D polygon.
+
+            **Required keys:**
+
+            - **Waveguide Name** (str)
+                Name of the polygon.
+
+            - **Points X** (list of int or float)
+                X-coordinates of the polygon points.
+
+            - **Points Y** (list of int or float)
+                Y-coordinates of the polygon points.
 
         Returns
         -------
-        None.
-
+        None
         """
         
 
@@ -1538,20 +1637,34 @@ class CST_Commands:
 
     def Poligon_3D(self, Parameters):
         """
-        Create the 3D poligon for tRib waveguide
+        Create a 3D polygon for a tRib waveguide.
 
         Parameters
         ----------
-        Parameters["Name"] : str
-            Set name of the poligon.
-        Parameters["Curve Name"]  : str
-            Set Component Name. The strcuture will be made as "Curve Name:Name".
-        Parameters["Point"] : dict
-            Dictionary with 'X' and 'Y' points for the poligon. 
+        parameters : dict
+            Dictionary containing all required settings for the 3D polygon.
+
+            **Required keys:**
+
+            - **Name** (str)
+                Name of the polygon.
+
+            - **Curve Name** (str)
+                Name of the component. The structure will be created as `"Curve Name:Name"`.
+
+            - **Point** (dict)
+                Dictionary containing the X and Y coordinates of the polygon points.
+                Required keys:
+
+                - **X** (list of int or float)
+                    X-coordinates of the polygon points.
+
+                - **Y** (list of int or float)
+                    Y-coordinates of the polygon points.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -1584,37 +1697,53 @@ class CST_Commands:
     # MZM Design
     def MZM(self, Parameters):
         """
-        Create an MZM Modulator. Materials used:
-                                                Gold - For the electrodes
-                                                LiNbO3 - For Optical Waveguides
-                                                SiO2 - For Substrate
+        Create an MZM modulator.
+
+        Materials used:
+        - Gold: for the electrodes
+        - LiNbO3: for optical waveguides
+        - SiO2: for the substrate
 
         Parameters
         ----------
-        Parameters["Lenght_Electrodes"] : int/float
-            Set the length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
-        Parameters["Width GND"] : int/float
-            Set the width of the GND electrodes.
-        Parameters["Width Signal"] : int/float
-            Set the width of the Signal Electrode.
-        Parameters["Width WG"] : int/float
-            Set the top width of the optical waveguide. It is an Rib waveguide.
-        Parameters["Gap"] : int/float
-            Set the gap between Signal and optical Waveguide.
-        Parameters["angle"] : int/float
-            Set the angle of the side wall of the optical waveguide.
-        Parameters["High Electrodes"] : int/float
-            Set the hight of the Electodes.
-        Parameters["High WG"] : int/float
-            Set the hight of the optical Waveguide
-        Parameters["High Slab"] : int/float
-            Set the hight of the Slab. When choosen "0" no Slab will be implemented.
-        Parameters["High Substrate"] : int/float
-            Set the hight of the substrate.
+        parameters : dict
+            Dictionary containing all required settings for the MZM modulator.
+
+            **Required keys:**
+
+            - **Length_Electrodes** (int or float)
+                Length of the electrodes. The waveguides will be 2 units longer than the electrodes.
+
+            - **Width GND** (int or float)
+                Width of the GND electrodes.
+
+            - **Width Signal** (int or float)
+                Width of the signal electrode.
+
+            - **Width WG** (int or float)
+                Top width of the optical waveguide (Rib waveguide).
+
+            - **Gap** (int or float)
+                Gap between the signal electrode and the optical waveguide.
+
+            - **Angle** (int or float)
+                Angle of the side wall of the optical waveguide.
+
+            - **Height Electrodes** (int or float)
+                Height of the electrodes.
+
+            - **Height WG** (int or float)
+                Height of the optical waveguide.
+
+            - **Height Slab** (int or float)
+                Height of the slab. If set to ``0``, no slab will be implemented.
+
+            - **Height Substrate** (int or float)
+                Height of the substrate.
 
         Returns
         -------
-        None.
+        None
 
         """
        
@@ -1832,37 +1961,53 @@ class CST_Commands:
     # Phase Modulator Design
     def PhaseModulator(self, Parameters):
         """
-        Create an Phase Modulator. Materials used:
-                                                Gold - For the electrodes
-                                                LiNbO3 - For Optical Waveguides
-                                                SiO2 - For Substrate
+        Create a Phase Modulator.
+
+        Materials used:
+        - Gold: for the electrodes
+        - LiNbO3: for optical waveguides
+        - SiO2: for the substrate
 
         Parameters
         ----------
-        Parameters["Lenght_Electrodes"] : int/float
-            Set the length of the Electrodes. The Waveguides will be 2 (Units) longer then the electrodes.
-        Parameters["Width GND"] : int/float
-            Set the width of the GND electrodes.
-        Parameters["Width Signal"] : int/float
-            Set the width of the Signal Electrode.
-        Parameters["Width WG"] : int/float
-            Set the top wWidth of the optical waveguide. It is an Rib waveguide.
-        Parameters["Gap"] : int/float
-            Set the gap between Signal and optical Waveguide.
-        Parameters["angle"] : int/float
-            Set the angle of the side wall of the optical waveguide.
-        Parameters["High Electrodes"] : int/float
-            Set the hight of the Electodes.
-        Parameters["High WG"] : int/float
-            Set the hight of the optical Waveguide.
-        Parameters["High Slab"] : int/float
-            Set the hight of the Slab. When choosen "0" no Slab will be implemented.
-        Parameters["High Substrate"] : int/float
-            Set the hight of the substrate
+        parameters : dict
+            Dictionary containing all required settings for the Phase Modulator.
+
+            **Required keys:**
+
+            - **Length_Electrodes** (int or float)
+                Length of the electrodes. The waveguides will be 2 units longer than the electrodes.
+
+            - **Width GND** (int or float)
+                Width of the GND electrodes.
+
+            - **Width Signal** (int or float)
+                Width of the signal electrode.
+
+            - **Width WG** (int or float)
+                Top width of the optical waveguide (Rib waveguide).
+
+            - **Gap** (int or float)
+                Gap between the signal electrode and the optical waveguide.
+
+            - **Angle** (int or float)
+                Angle of the side wall of the optical waveguide.
+
+            - **Height Electrodes** (int or float)
+                Height of the electrodes.
+
+            - **Height WG** (int or float)
+                Height of the optical waveguide.
+
+            - **Height Slab** (int or float)
+                Height of the slab. If set to ``0``, no slab will be implemented.
+
+            - **Height Substrate** (int or float)
+                Height of the substrate.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -2025,27 +2170,38 @@ class CST_Commands:
 
     def Squere_Waveguide(self, Parameters):
         """
-        This function generate and simple straight waveguide. Materials used:
-                                                Gold - For the electrodes
-                                                LiNbO3 - For Optical Waveguides
-                                                SiO2 - For Substrate
+        Generate a simple straight waveguide.
+
+        Materials used:
+        - Gold: for the electrodes
+        - LiNbO3: for optical waveguides
+        - SiO2: for the substrate
 
         Parameters
         ----------
-        Parameters["Lenght WG"] : int/float
-            Set the length of the Waveguide.
-        Parameters["High_WG"] : int/float
-            Set the hight of the optical Waveguide.
-        Parameters["Width WG"] : int/float
-            Set the top width of the optical waveguide. It is an Rib waveguide.
-        Parameters["Substrate Height"] : int/float
-            Set the hight of the substrate..
-        Parameters["Slab Heigh"] : int/float
-            Set the hight of the slab. When choosen "0" no Slab will be implemented. .
+        parameters : dict
+            Dictionary containing all required settings for the waveguide.
+
+            **Required keys:**
+
+            - **Length WG** (int or float)
+                Length of the waveguide.
+
+            - **Height WG** (int or float)
+                Height of the optical waveguide.
+
+            - **Width WG** (int or float)
+                Top width of the optical waveguide (Rib waveguide).
+
+            - **Substrate Height** (int or float)
+                Height of the substrate.
+
+            - **Slab Height** (int or float)
+                Height of the slab. If set to ``0``, no slab will be implemented.
 
         Returns
         -------
-        None.
+        None
 
         """
        
@@ -2123,56 +2279,65 @@ class CST_Commands:
 
     def GSG_Bondwire_ChipToChip_connection(self, Parameters):
         """
-        This function generate and two Chips connected by bondwires setup
-        The Setup is taken from IHP the Bondpads are from Aluminiam the 
-        bondwires are also from Aluminium. The Glue and floating shield over the 
-        bondwires was taken from KIT Paper setup. This setup is for GSG Pads.
-        This Function have the Option to import the GGP GSg probes. 
+        Generate a setup with two chips connected by bondwires.
+
+        The setup is based on IHP: bondpads are made of Aluminium, and the bondwires are also Aluminium. 
+        The glue and floating shield over the bondwires are taken from a KIT paper setup. 
+        This setup is designed for GSG pads.  
+
+        This function has the option to import GSG probes.
+
         Materials:
-                    Gold - Floating Shield
-                    DAF Glue - For the glue between the bondwires
-                    Al - For bondwires and bondpads
-                    SiO2 - Layer under the bondpads on the boths chips
-                    Si - Substrate Layer below the SiO2
+        - Gold: Floating shield
+        - DAF Glue: Glue between the bondwires
+        - Al: Bondwires and bondpads
+        - SiO2: Layer under the bondpads on both chips
+        - Si: Substrate layer below the SiO2
 
         Parameters
         ----------
-        Parameters["PAD Width GND"] : int/float
-            Set the GND Bondpads width.
-        Parameters["PAD Width Signal"] : int/float
-            Set the signal bondpads width.
-        Parameters["PAD Length"] : int/float
-            Set the signal and GND bondpads lenght.
-        Parameters["PAD Thickness"] : int/float
-            Set the signal and GND bondpads thickness.
-        Parameters["PADs Distance"] : int/float
-            Set the distance from first chip bondpads to the secound chip bondpads.
-        Parameters["Bonwire height"] : int/float
-            Set the bondwire hight in the middle point.
-        Parameters["Bonwire radius"] : int/float
-            Set the bondwire ridius.
-        Parameters["Floating Shield"] : boolen
-            Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
-            If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
-        Parameters["Glue Thickness"] : int/float
-            Set the DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip.
-        Parameters["Floating Shield Thickness"] : int/float
-            Set the floating shield gold metal thickness.
-        Parameters["Accuracy"] : int/float
-            FDTD Solver Accuracy. Can be :
-                                    80 dB
-                                    60 dB
-                                    50 dB
-                                    40 dB
-                                    35 dB
-                                    30 dB
-                                    25 dB
-                                    20 dB
-                                    'no check'
+        parameters : dict
+            Dictionary containing all required settings for the bondwire setup.
+
+            **Required keys:**
+
+            - **PAD Width GND** (int or float)
+                Width of the GND bondpads.
+
+            - **PAD Width Signal** (int or float)
+                Width of the signal bondpads.
+
+            - **PAD Length** (int or float)
+                Length of both signal and GND bondpads.
+
+            - **PAD Thickness** (int or float)
+                Thickness of both signal and GND bondpads.
+
+            - **PADs Distance** (int or float)
+                Distance from the first chip's bondpads to the second chip's bondpads.
+
+            - **Bondwire Height** (int or float)
+                Height of the bondwire at its midpoint.
+
+            - **Bondwire Radius** (int or float)
+                Radius of the bondwire.
+
+            - **Floating Shield** (bool)
+                If True, a floating shield with glue as dielectric is added to improve the bandwidth of the bondwire connections.
+                Requires also setting **Floating Shield Thickness** and **Glue Thickness**.
+
+            - **Glue Thickness** (int or float)
+                Thickness of the DAF glue measured from the SiO2 layer of the first chip upward to the SiO2 layer of the second chip.
+
+            - **Floating Shield Thickness** (int or float)
+                Thickness of the floating shield gold metal layer.
+
+            - **Accuracy** (int or str)
+                FDTD solver accuracy. Can be one of: 80, 60, 50, 40, 35, 30, 25, 20 dB, or `'no check'`.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -2524,56 +2689,62 @@ class CST_Commands:
 
     def GSGSG_Bondwire_ChipToChip_connection(self, Parameters):
         """
-        This function generate and two Chips connected by bondwires setup
-        The Setup is taken from IHP the Bondpads are from Aluminiam the 
-        bondwires are also from Aluminium. The Glue and floating shield over the 
-        bondwires was taken from KIT Paper setup. This setup is for GSGSG Pads.
+        Generate a setup with two chips connected by bondwires for GSGSG pads.
+
+        The setup is based on IHP: bondpads are made of Aluminium, and the bondwires are also Aluminium. 
+        The glue and floating shield over the bondwires are taken from a KIT paper setup.  
+
         Materials:
-                    Gold - Floating Shield
-                    DAF Glue - For the glue between the bondwires
-                    Al - For bondwires and bondpads
-                    SiO2 - Layer under the bondpads on the boths chips
-                    Si - Substrate Layer below the SiO2
+        - Gold: floating shield
+        - DAF Glue: glue between the bondwires
+        - Al: bondwires and bondpads
+        - SiO2: layer under the bondpads on both chips
+        - Si: substrate layer below the SiO2
 
         Parameters
         ----------
-        Parameters["PAD Width GND"] : int/float
-            Set the GND Bondpads width.
-        Parameters["PAD Width Signal"] : int/float
-            Set the signal bondpads width.
-        Parameters["PAD Length"] : int/float
-            Set the signal and GND bondpads lenght.
-        Parameters["PAD Thickness"] : int/float
-            Set the signal and GND bondpads thickness.
-        Parameters["PADs Distance"] : int/float
-            Set the distance from first chip bondpads to the secound chip bondpads.
-        Parameters["Bonwire height"] : int/float
-            Set the bondwire hight in the middle point.
-        Parameters["Bonwire radius"] : int/float
-            Set the bondwire ridius.
-        Parameters["Floating Shield"] : boolen
-            Set an floating shield with glue as dielectricum to improve the Bandwidth of the Bondwires connections.
-            If set True you need to set Parameters["Floating Shield Thickness"] and Parameters["Glue Thickness"] too!
-        Parameters["Glue Thickness"] : int/float
-            Set the DAF glue thickness: measured from the SiO₂ layer of the first chip upward to the SiO₂ layer of the second chip.
-        Parameters["Floating Shield Thickness"] : int/float
-            Set the floating shield gold metal thickness.
-        Parameters["Accuracy"] : int/float
-            Set the FDTD Solver Accuracy. Can be :
-                                            80 dB
-                                            60 dB
-                                            50 dB
-                                            40 dB
-                                            35 dB
-                                            30 dB
-                                            25 dB
-                                            20 dB
-                                            'no check'
+        parameters : dict
+            Dictionary containing all required settings for the GSGSG bondwire setup.
+
+            **Required keys:**
+
+            - **PAD Width GND** (int or float)
+                Width of the GND bondpads.
+
+            - **PAD Width Signal** (int or float)
+                Width of the signal bondpads.
+
+            - **PAD Length** (int or float)
+                Length of both signal and GND bondpads.
+
+            - **PAD Thickness** (int or float)
+                Thickness of both signal and GND bondpads.
+
+            - **PADs Distance** (int or float)
+                Distance from the first chip's bondpads to the second chip's bondpads.
+
+            - **Bondwire Height** (int or float)
+                Height of the bondwire at its midpoint.
+
+            - **Bondwire Radius** (int or float)
+                Radius of the bondwire.
+
+            - **Floating Shield** (bool)
+                If True, a floating shield with glue as dielectric is added to improve bandwidth.
+                Requires also setting **Floating Shield Thickness** and **Glue Thickness**.
+
+            - **Glue Thickness** (int or float)
+                Thickness of the DAF glue measured from the SiO2 layer of the first chip to the SiO2 layer of the second chip.
+
+            - **Floating Shield Thickness** (int or float)
+                Thickness of the floating shield gold layer.
+
+            - **Accuracy** (int or str)
+                FDTD solver accuracy. Can be one of: 80, 60, 50, 40, 35, 30, 25, 20 dB, or `'no check'`.
 
         Returns
         -------
-        None.
-
+        None
         """
         
         # Define Curves Parameters and Data
@@ -2889,61 +3060,70 @@ class CST_Commands:
     # def BondWire(self, NameWire, Coordinates, Height, Radius, BondwireType = "Spline", CenterPosition = 0.5, alpha = None, beta = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None):
     def BondWire(self, Parameters):
         """
-        Create Bond Wire.
+        Create a bondwire.
 
         Parameters
         ----------
-        Parameters["Name Wire"] : str
-            Set the name of the Bondwire.
-        Parameters["Coordinates"] : dict of int/float 
-            Dictionary with Coordinates in X,Y,Z plane to create the Bondwire:  
-            For Example 
-                Points = {}
-                Points['X1'] = 0
-                Points['Y1'] = 0
-                Points['Z1'] = 0
-                Points['X2'] = 5
-                Points['Y2'] = 5
-                Points['Z2'] = 0
-                Parameters["Coordinates"] = Points
-        Parameters["Height"] : int/float
-            Set the hight of the middle point of the Bondwire.
-        Parameters["Radius"] : str
-            Set the radius of the bond wire. Bond wire is an cylinder type of object.
-        Parameters["Bondwire Type"] : str, optional
-            Set the type of bond wire. Defaults to "Spline". Other inputs are:
-                                                                                "Spline" 
-                                                                                "JEDEC4"
-                                                                                "JEDEC5".
-        Parameters["Center Position"] : int/float
-            The center Position of the Height. This can be moved to make 
-            an object that dont have the top height in the middle. Defaults to 0.5..
-        Parameters["alpha"] : int/float, optional
-            When using "JEDEC5" an alpha parameter need to be defined. See CST documentation!! Defaults to None..
-        Parameters["beta"] : int/float, optional
-            When using "JEDEC5" an betta parameter need to be defined. See CST documentation!!. Defaults to None..
-        Parameters["Material"] : str, optional 
-            Material for of the Bond wire. For now you need to load the material 
-            in your simulation and then use this function. Otherwise the material 
-            will not be found. Defaults to "PCE".
-        Parameters["SolidWireModel"] : boolen, optional
-            This option will turn the bondiwre into solid object. Defaults to True..
-        Parameters["Termination"] : str, optional
-            How the Bondwire will be temrinated. Defaults to None. Options are:
-                                                                            "natural" 
-                                                                            "rounded" 
-                                                                            "extended"
-        Parameters["NameFolder"] : str, optional
-            The name of the folder. Defaults to name of the wire.
+        parameters : dict
+            Dictionary containing all required settings for the bondwire.
+
+            **Required keys:**
+
+            - **Name Wire** (str)
+                Name of the bondwire.
+
+            - **Coordinates** (dict of int or float)
+                Dictionary with coordinates in the X, Y, Z plane to define the bondwire.  
+                Example:
+                    Points = {}
+                    Points['X1'] = 0
+                    Points['Y1'] = 0
+                    Points['Z1'] = 0
+                    Points['X2'] = 5
+                    Points['Y2'] = 5
+                    Points['Z2'] = 0
+                    parameters["Coordinates"] = Points
+
+            - **Height** (int or float)
+                Height of the bondwire at the middle point.
+
+            - **Radius** (int or float)
+                Radius of the bondwire. The bondwire is a cylindrical object.
+
+            **Optional keys:**
+
+            - **Bondwire Type** (str, default `"Spline"`)
+                Type of bondwire. Options are: `"Spline"`, `"JEDEC4"`, `"JEDEC5"`.
+
+            - **Center Position** (int or float, default `0.5`)
+                Center position of the height. Can be adjusted if the top height is not in the middle.
+
+            - **Alpha** (int or float, optional)
+                Required if using `"JEDEC5"`. See CST documentation. Defaults to `None`.
+
+            - **Beta** (int or float, optional)
+                Required if using `"JEDEC5"`. See CST documentation. Defaults to `None`.
+
+            - **Material** (str, optional, default `"PCE"`)
+                Material of the bondwire. Must be preloaded in the simulation.
+
+            - **SolidWireModel** (bool, optional, default `True`)
+                If True, bondwire will be modeled as a solid object.
+
+            - **Termination** (str, optional)
+                How the bondwire is terminated. Options: `"natural"`, `"rounded"`, `"extended"`. Defaults to `None`.
+
+            - **NameFolder** (str, optional)
+                Name of the folder to store the bondwire. Defaults to the wire name.
 
         Raises
         ------
         ValueError
-            Check if some parameters are set correctly.
+            If any parameters are set incorrectly.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -3045,31 +3225,54 @@ class CST_Commands:
 
     # def CurveWire(self, NameWire, Radius, Points = None, Material = None, SolidWireModel = True, Termination = None, NameFolder = None, CurveFolderName = None, CurveName = None):
     def CurveWire(self, Parameters):
-        """Create curve wire based coordinates parameters points 
+        """
+        Create a curve wire based on coordinate parameters.
 
-        Args: Parameters (dict) Dictionary with parameters needed for the function.
-                Parameters["Name Wire"] : (str) Name of the wire
-                Parameters["Radius"] : (int/float) Radius of the curve
-                Parameters["Points"] : (dict, optional) Dictionary of X and  Y points for the curve. Defaults to None.
-                Parameters["Material"] : (str, optional) Material for of the Bond wire. For now you need to load the material 
-                                    in your simulation and then use this function. Otherwise the material 
-                                    will not be found. Defaults to "PCE".
-                Parameters["SolidWireModel"] : (bool, optional) This option will turn the Curve Wire into solid object. Defaults to True.
-                Parameters["Termination"] : (str, optional) How the Bondwire will be temrinated. Defaults to None. Options are:
-                                            "natural" 
-                                            "rounded" 
-                                            "extended"
-                Parameters["NameFolder"] : (str, optional) The name of the bondwire folder. Defaults to name of the wire.
-                Parameters["CurveFolderName"] : (str, optional) Name of the Curve folder name. Defaults to None.
-                Parameters["CurveName"] : (str, optional) Curve name. Defaults to None.
+        Parameters
+        ----------
+        parameters : dict
+            Dictionary containing all required and optional settings for the curve wire.
 
-        Raises:
-            ValueError: Error massage
-            ValueError: Error massage
-            ValueError: Error massage
+            **Required keys:**
 
-        Returns:
-            str: String with VBA Code 
+            - **Name Wire** (str)
+                Name of the wire.
+
+            - **Radius** (int or float)
+                Radius of the curve.
+
+            **Optional keys:**
+
+            - **Points** (dict, optional, default `None`)
+                Dictionary of X and Y points defining the curve.
+
+            - **Material** (str, optional, default `"PCE"`)
+                Material of the bondwire. Must be preloaded in the simulation.
+
+            - **SolidWireModel** (bool, optional, default `True`)
+                If True, the curve wire will be modeled as a solid object.
+
+            - **Termination** (str, optional, default `None`)
+                How the bondwire is terminated. Options: `"natural"`, `"rounded"`, `"extended"`.
+
+            - **NameFolder** (str, optional)
+                Name of the bondwire folder. Defaults to the wire name.
+
+            - **CurveFolderName** (str, optional, default `None`)
+                Name of the curve folder.
+
+            - **CurveName** (str, optional, default `None`)
+                Name of the curve.
+
+        Raises
+        ------
+        ValueError
+            If any parameters are set incorrectly or required data is missing.
+
+        Returns
+        -------
+        str
+            String containing the generated VBA code for the curve wire.
 
         """
         # Set Parameters
@@ -3136,59 +3339,61 @@ class CST_Commands:
 
     def Cylinder(self, Parameters):
         """
-        Create Cylinder object in CST enviroment.
+        Create a cylinder object in the CST environment.
 
         Parameters
         ----------
-        Parameters["Cylinder Name"] : str
-            Set the name of the cylinder.
-        Parameters["Component Name"] : str
-            Set the Name of the cylinder component in the component tree.
-        Parameters["Material"] : str, optional
-            Material for of the Bond wire. For now you need to load the material 
-            in your simulation and then use this function.
-        Parameters["Outer Radius"] : int/float
-            Set the cylinder outer radius.
-        Parameters["Inner Radius"] : int/float
-            Set the cylinder inner radius
-        Parameters["Orentation Axis"] : str
-            Cylunder Orientation axis can be "X", "Y" or "Z".
-            If Parameters["Orentation Axis"] = "X" then the following parameters are needed :
-                Parameters["X min"] : int/float
-                    Set the X-min parameter
-                Parameters["X max"] : int/float
-                    Set the X_max parameter
-                Parameters["Z center"] : int/float
-                    Set the Z-center parameter
-                Parameters["Y center"] : int/float
-                    Set the Y_center parameter
-            If Parameters["Orentation Axis"] = "Y" then the following parameters are needed :
-                Parameters["Y min"] : int/float
-                    Set the Y-min parameter
-                Parameters["Y max"] : int/float
-                    Set the Y-max parameter
-                Parameters["Z center"] : int/float
-                    Set the Z-center parameter
-                Parameters["X center"] : int/float
-                    Set the X-center parameter
-            If Parameters["Orentation Axis"] = "Z" then the following parameters are needed :
-                Parameters["Z min"] : int/float
-                    Set the Z-min parameter
-                Parameters["Z max"] : int/float
-                    Set the Z-max parameter
-                Parameters["X center"] : int/float
-                    Set the X-center parameter
-                Parameters["Y center"] : int/float
-                    Set the Y-center parameter
+        parameters : dict
+            Dictionary containing all required and optional settings for the cylinder.
+
+            **Required keys:**
+
+            - **Cylinder Name** (str)
+                Name of the cylinder.
+
+            - **Component Name** (str)
+                Name of the cylinder component in the component tree.
+
+            - **Outer Radius** (int or float)
+                Outer radius of the cylinder.
+
+            - **Inner Radius** (int or float)
+                Inner radius of the cylinder.
+
+            - **Orientation Axis** (str)
+                Cylinder orientation axis. Can be `"X"`, `"Y"`, or `"Z"`. Depending on the axis, the following additional parameters are required:
+
+                **If `"X"` axis:**
+                - **X min** (int or float): X-min position.
+                - **X max** (int or float): X-max position.
+                - **Y center** (int or float): Y-center position.
+                - **Z center** (int or float): Z-center position.
+
+                **If `"Y"` axis:**
+                - **Y min** (int or float): Y-min position.
+                - **Y max** (int or float): Y-max position.
+                - **X center** (int or float): X-center position.
+                - **Z center** (int or float): Z-center position.
+
+                **If `"Z"` axis:**
+                - **Z min** (int or float): Z-min position.
+                - **Z max** (int or float): Z-max position.
+                - **X center** (int or float): X-center position.
+                - **Y center** (int or float): Y-center position.
+
+            **Optional keys:**
+
+            - **Material** (str, optional)
+                Material for the cylinder. Must be preloaded in the simulation.
 
         Raises
         ------
         ValueError
-            Values Errors.
+            If any parameter values are invalid.
 
         Returns
         -------
-        None.
+        None
 
         """
     
@@ -3265,53 +3470,54 @@ class CST_Commands:
 
     def Conus(self, Parameters):
         """
-        Create Conus object in CST enviroment.
+        Create a conus object in the CST environment.
 
         Parameters
         ----------
-        Parameters["Conus Name"] : str
-            Set the Name of the conus.
-        Parameters["Component Name"] : str
-            Set the  Name of the conus component in the component tree.
-        Parameters["Material"] : str
-            Set the material for of the Conus. 
-        Parameters["Top Radius"] : int/float
-            Set the conus top radius.
-        Parameters["Bottom Radius"] : int/float
-            Set the conus bottom radius.
-        Parameters["Orentation Axis"] : str
-            Set the conus Orientation axis can be "X", "Y" or "Z".
-            If Parameters["Orentation Axis"] = "X" then the following parameters are needed :
-                Parameters["X min"] : int/float 
-                    Set the X-min parameter
-                Parameters["X max"] : int/float
-                    Set the X-max parameter
-                Parameters["Z center"] : int/float
-                    Set the Z-center parameter
-                Parameters["Y center"] : int/float 
-                    Set the Y-center parameter
-            If Parameters["Orentation Axis"] = "Y" then the following parameters are needed :
-                Parameters["Y min"] : int/float
-                    Set the Y-min parameter
-                Parameters["Y max"] : int/float
-                    Set the Y-max parameter
-                Parameters["Z center"] : int/float
-                    Set the Z-center parameter
-                Parameters["X center"] : int/float
-                    Set the X-center parameter
-            If Parameters["Orentation Axis"] = "Z" then the following parameters are needed :
-                Parameters["Z min"] : int/float
-                    Set the Z-min parameter
-                Parameters["Z max"] : int/float
-                    Set the Z-max parameter
-                Parameters["X center"] : int/float 
-                    Set the X-center parameter
-                Parameters["Y center"] : int/float
-                    Set the Y-center parameter
+        parameters : dict
+            Dictionary containing all required settings for the conus.
+
+            **Required keys:**
+
+            - **Conus Name** (str)
+                Name of the conus.
+
+            - **Component Name** (str)
+                Name of the conus component in the component tree.
+
+            - **Material** (str)
+                Material of the conus. Must be preloaded in the simulation.
+
+            - **Top Radius** (int or float)
+                Top radius of the conus.
+
+            - **Bottom Radius** (int or float)
+                Bottom radius of the conus.
+
+            - **Orientation Axis** (str)
+                Orientation axis of the conus. Can be `"X"`, `"Y"`, or `"Z"`. Depending on the axis, additional parameters are required:
+
+                **If `"X"` axis:**
+                - **X min** (int or float): X-min position.
+                - **X max** (int or float): X-max position.
+                - **Y center** (int or float): Y-center position.
+                - **Z center** (int or float): Z-center position.
+
+                **If `"Y"` axis:**
+                - **Y min** (int or float): Y-min position.
+                - **Y max** (int or float): Y-max position.
+                - **X center** (int or float): X-center position.
+                - **Z center** (int or float): Z-center position.
+
+                **If `"Z"` axis:**
+                - **Z min** (int or float): Z-min position.
+                - **Z max** (int or float): Z-max position.
+                - **X center** (int or float): X-center position.
+                - **Y center** (int or float): Y-center position.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -3385,18 +3591,24 @@ class CST_Commands:
 
     def GGB_Probe(self, Parameters):
         """
-        Create GGB Probes in CSt enviroment.
+        Create GGB probes in the CST environment.
 
         Parameters
         ----------
-        Parameters["Component Name"] : str
-            Set the Name of the Component.
-        Parameters["Orientation Angle"] : int/float
-            Set the angle of tilting the GGB Probes
+        parameters : dict
+            Dictionary containing all required settings for the GGB probes.
+
+            **Required keys:**
+
+            - **Component Name** (str)
+                Name of the component in the CST project.
+
+            - **Orientation Angle** (int or float)
+                Angle to tilt the GGB probes.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -3878,24 +4090,30 @@ class CST_Commands:
     # def ToSolid(self, SolidName, CurveName = "Polygon", NameFolder = None, Material = None ):
     def ToSolid(self, Parameters):
         """
-        This function transfer an function or polynom to solid object.
+        Convert a function or polynomial curve into a solid object in CST.
 
         Parameters
         ----------
-        Parameters["Solid Name"] : str
-            Set the name of the solid object.
-        Parameters["Curve Name"] : str
-            Name of the curve. Defaults to "Polygon".
-        Parameters["Name Folder"] : str
-            Set the name of the folder. Defaults to Curve name.
-       Parameters["Material"] : str
-            Material for of the Bond wire. For now you need to load the material 
-            in your simulation and then use this function. Otherwise the material 
-            will not be found. Defaults to Aluminum.
+        parameters : dict
+            Dictionary containing all required and optional settings for the solid object.
+
+            **Required keys:**
+
+            - **Solid Name** (str)
+                Name of the solid object.
+
+            - **Curve Name** (str, optional, default `"Polygon"`)
+                Name of the source curve to convert.
+
+            - **Name Folder** (str, optional)
+                Name of the folder where the solid will be stored. Defaults to the curve name.
+
+            - **Material** (str, optional, default `"Aluminum"`)
+                Material of the solid object. Must be preloaded in the simulation.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -3940,28 +4158,39 @@ class CST_Commands:
     
     def CurveToSolid(self,  Parameters):
         """
-        This function transfer curve to solid object.
+        Convert a curve into a solid object in CST.
 
         Parameters
         ----------
-        Parameters["Name"] : str
-            Set the Name of the solid object.
-        Parameters["Component Name"] : str
-            Set the name of the component in the component tree.
-        Parameters["Material"] : str
-            Set the material for the solid.
-        Parameters["Thickness"] : int/float
-            Set the thickness of the solid curve.
-        Parameters["Angle"] : int/float
-            Set the angle.
-        Parameters["Curve Folder"] : str
-            Set the curve folder. First you need to crate curve and then give here the correct name of the curve folder.
-        Parameters["Curve Name"] : str
-            Set the curve folder. First you need to crate curve and then give here the correct name of the curve.
+        parameters : dict
+            Dictionary containing all required and optional settings for the solid object.
+
+            **Required keys:**
+
+            - **Name** (str)
+                Name of the solid object.
+
+            - **Component Name** (str)
+                Name of the component in the component tree.
+
+            - **Material** (str)
+                Material of the solid object. Must be preloaded in the simulation.
+
+            - **Thickness** (int or float)
+                Thickness of the solid curve.
+
+            - **Angle** (int or float)
+                Rotation angle of the solid curve.
+
+            - **Curve Folder** (str)
+                Name of the folder containing the source curve. The curve must be created beforehand.
+
+            - **Curve Name** (str)
+                Name of the curve to convert. The curve must be created beforehand.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -3999,36 +4228,45 @@ class CST_Commands:
     # def RibWaveguide_ToSolid(self, SolidName, WaveguideName = "Rib_Waveguide", WG_Hight = None, Angle = None, NameFolder = None, Material = None, WGFolderName = None, WGName = None ):
     def RibWaveguide_ToSolid(self, Parameters):
         """
-        This is ToSolid function that will allow the use to create the RibWaveguide. 
-        TODO: Murrge the TOSolid and RibWaveguideToSolid functions later on. 
+        Convert a Rib Waveguide into a solid object in CST.
+
+        TODO
+        ----
+        Merge the ToSolid and RibWaveguideToSolid functions later.
 
         Parameters
         ----------
-        Parameters["Waveguide Name"] : TYPE
-            Set the Waveguide Name. Defaults to "Rib_Waveguide".
-        Parameters["Wavaguide Hight"] : int/float
-            Set the hight of the waveguide. Defaults to None.
-        Parameters["Angle"] : int/float
-            Set the side angle of the waveguide. Defaults to None.
-        Parameters["Name Folder"] : str
-            Set the folder name. Defaults to None.
-        Parameters["Material"] : str
-            Material for of the Bond wire. For now you need to load the material 
-            in your simulation and then use this function. Otherwise the material 
-            will not be found. Defaults to None.
-        Parameters["Waveguide Folder Name"] : str
-            Set the name of the folder where the poligon 3D or 2D is created. Defaults to None.
-        Parameters["Waveguide Name"] : TYPE
-            DESCRIPTION.
+        parameters : dict
+            Dictionary containing all required and optional settings for the Rib Waveguide.
+
+            **Keys:**
+
+            - **Waveguide Name** (str, optional, default `"Rib_Waveguide"`)
+                Name of the waveguide.
+
+            - **Waveguide Height** (int or float, optional)
+                Height of the waveguide. Defaults to None.
+
+            - **Angle** (int or float, optional)
+                Side wall angle of the waveguide. Defaults to None.
+
+            - **Name Folder** (str, optional)
+                Name of the folder where the waveguide will be stored. Defaults to None.
+
+            - **Material** (str, optional)
+                Material of the waveguide. Must be preloaded in the simulation. Defaults to None.
+
+            - **Waveguide Folder Name** (str, optional)
+                Name of the folder where the 2D or 3D polygon of the waveguide was created. Defaults to None.
 
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            If required parameters are missing or set incorrectly.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -4098,29 +4336,36 @@ class CST_Commands:
 
     def WaveguidePort(self, Parameters):
         """
-        Set the Waveguide Port.
+        Set the waveguide port in CST.
 
         Parameters
         ----------
-        Parameters["Orientation"] : str
-            Set the Port Orientation it can be "Positive" or "Negative". For 
-            this function an 2 ports will be defined so please give an array with two Oriantations
-            like  Parameters["Orientation"] = ["Positive", "Positive"].
-        Parameters["Coordinates"] : str
-            Set the Coordinates type, "Picks" is the best one!. It can be on of:
-                                                                                "Free"
-                                                                                "Full"
-                                                                                "Picks"
-        Parameters["Span"] : int/float array
-            Set an array of port span [[Ymin, Ymax],[Zmin, Zmax]].
-        Parameters["Potential"] : int array
-            Set the potential of the ports. For example [1,2].
-        Parameters["Port Number"] : int array
-            Set the array with port numbers.
+        parameters : dict
+            Dictionary containing all required settings for the port.
+
+            **Keys:**
+
+            - **Orientation** (list of str)
+                Orientation of the ports. Can be `"Positive"` or `"Negative"`.  
+                For this function, two ports will be defined, so provide a list of two orientations, e.g.:  
+                `Parameters["Orientation"] = ["Positive", "Positive"]`.
+
+            - **Coordinates** (str)
+                Type of coordinate selection. Recommended: `"Picks"`. Options are:  
+                `"Free"`, `"Full"`, `"Picks"`.
+
+            - **Span** (list of list of int/float)
+                Array defining the port span: `[[Ymin, Ymax], [Zmin, Zmax]]`.
+
+            - **Potential** (list of int)
+                Array of port potentials, e.g.: `[1, 2]`.
+
+            - **Port Number** (list of int)
+                Array of port numbers corresponding to each port.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -4180,39 +4425,50 @@ class CST_Commands:
 
     def WaveguidePortWithPins(self, Parameters):
         """
-        Set the Waveguide Port for  
+        Set the waveguide port in CST for a given object.
 
         Parameters
         ----------
-        Parameters["Orientation"] : str
-            Set the port Orientation it can be "Positive" or "Negative". For 
-            this function an 2 ports will be defined so please give an array with two Oriantations
-            like  Parameters["Orientation"] = ["Positive", "Positive"].
-        Parameters["Coordinates"] : str
-            Set the Coordinates type, "Picks" is the best one!. It can be on of:
-                                                                                "Free"
-                                                                                "Full"
-                                                                                "Picks".
-        Parameters["Span"] :  int/float array
-            Set an array of port span [[Ymin, Ymax],[Zmin, Zmax]].
-        Parameters["Potential"] : int array
-            Set the potential of the ports. For example [1,2].
-        Parameters["Port Number"] : int array
-            Set the array with port numbers.
-        Parameters["Polarity"] : str array 
-            Set the Port Polarity it can be be "Positive" or "Negative". For 
-            this function an 2 ports will be defined so please give an 
-            array with two Polaritys. For example Parameters["Polarity"] = ["Positive", "Positive"]
-        Parameters["Solid Name"] : str
-            Set the name of the Object on witch the Waveguide port will be created. For example "WG:WG1".
-        Parameters["Face ID"] : int array
-            Set the ID of the two picked faces. For example Parameters["Face ID"] = [2,4]
-        PickParams["Face Number"] : int array
-            Set the number of the picked face of the structure
+        parameters : dict
+            Dictionary containing all required settings for the waveguide port.
+
+            **Keys:**
+
+            - **Orientation** (list of str)  
+                Orientation of the ports. Can be `"Positive"` or `"Negative"`.  
+                Two ports are defined, so provide a list of two orientations, e.g.:  
+                `Parameters["Orientation"] = ["Positive", "Positive"]`.
+
+            - **Coordinates** (str)  
+                Type of coordinate selection. Recommended: `"Picks"`. Options are:  
+                `"Free"`, `"Full"`, `"Picks"`.
+
+            - **Span** (list of list of int/float)  
+                Array defining the port span: `[[Ymin, Ymax], [Zmin, Zmax]]`.
+
+            - **Potential** (list of int)  
+                Array of port potentials, e.g., `[1, 2]`.
+
+            - **Port Number** (list of int)  
+                Array of port numbers corresponding to each port.
+
+            - **Polarity** (list of str)  
+                Port polarity. Can be `"Positive"` or `"Negative"`.  
+                Provide an array for two ports, e.g.:  
+                `Parameters["Polarity"] = ["Positive", "Positive"]`.
+
+            - **Solid Name** (str)  
+                Name of the object where the waveguide port will be created, e.g.: `"WG:WG1"`.
+
+            - **Face ID** (list of int)  
+                IDs of the two picked faces, e.g.: `[2, 4]`.
+
+            - **Face Number** (list of int)  
+                Numbers of the picked faces of the structure.
 
         Returns
         -------
-        None.
+        None
 
         """
        
@@ -4315,26 +4571,31 @@ class CST_Commands:
         
     def MoveWaveguidePorts(self, Parameters):
         """
-        Function to move the waveguide ports.
+        Move a waveguide port in the CST environment.
 
         Parameters
         ----------
-        Parameters["Port Number"] : int
-            Set the port number.
-        Parameters["Distance"] : int/float
-            Set the distance to move the waveguide.
-        Parameters["Span"] : dict
-            Set an Dictionary with array to set the range in "X", "Y" and "Z"
-                Parameters["Span"][0][0] - Yrange min
-                Parameters["Span"][0][1] - Yrange max
-                Parameters["Span"][1][0] - Zrange min
-                Parameters["Span"][1][1] - Zrange max.
-        
+        parameters : dict
+            Dictionary containing all required settings for moving the waveguide port.
+
+            **Keys:**
+
+            - **Port Number** (int)  
+                Number of the port to move.
+
+            - **Distance** (int or float)  
+                Distance to move the port.
+
+            - **Span** (list of list of int/float)  
+                Dictionary/array defining the port span in Y and Z directions:  
+                - `Parameters["Span"][0][0]` : Y range minimum  
+                - `Parameters["Span"][0][1]` : Y range maximum  
+                - `Parameters["Span"][1][0]` : Z range minimum  
+                - `Parameters["Span"][1][1]` : Z range maximum  
 
         Returns
         -------
-        None.
-
+        None
         """
         
         Distance = Parameters["Distance"]
@@ -4377,42 +4638,53 @@ class CST_Commands:
 
     def SetDiscretePort(self, Parameters):
         """
-        Function to set discrete port
+        Set a discrete port in the CST environment.
 
         Parameters
         ----------
-        Parameters["Discrete Port Number"] : int
-            Set the Port number.
-        Parameters["Discrete Port Type"] : str
-            Set the type of discrete port, can be:
-                                               "Voltage"
-                                               "S-Parameters"
-                                               "Current".
-        Parameters["Port Impedance"] : int float
-            Set the Impedance of the port.
-        Parameters["Port Voltage"] : int/float
-            Set Port voltage.
-        Parameters["Port Current"] : int/float
-            Set Port current.
-        Parameters["Port Radius"] : int/float
-            Set Port radius.
-        Parameters["Discrete Port Coordinates"] : dict
-            Set an dictionary with port coordiantes.
-                Parameters["Discrete Port Coordinates"]["X1"]
-                Parameters["Discrete Port Coordinates"]["Y1"]
-                Parameters["Discrete Port Coordinates"]["Z1"]
-                Parameters["Discrete Port Coordinates"]["X2"]
-                Parameters["Discrete Port Coordinates"]["Y2"]
-                Parameters["Discrete Port Coordinates"]["Z2"]
+        parameters : dict
+            Dictionary containing all required settings for the discrete port.
+
+            **Keys:**
+
+            - **Discrete Port Number** (int)  
+                Number of the discrete port.
+
+            - **Discrete Port Type** (str)  
+                Type of the discrete port. Can be one of:
+                - "Voltage"
+                - "S-Parameters"
+                - "Current"
+
+            - **Port Impedance** (int or float)  
+                Impedance of the port.
+
+            - **Port Voltage** (int or float)  
+                Voltage applied to the port.
+
+            - **Port Current** (int or float)  
+                Current applied to the port.
+
+            - **Port Radius** (int or float)  
+                Radius of the port.
+
+            - **Discrete Port Coordinates** (dict)  
+                Dictionary with coordinates for the port. Example keys:
+                - `Parameters["Discrete Port Coordinates"]["X1"]`
+                - `Parameters["Discrete Port Coordinates"]["Y1"]`
+                - `Parameters["Discrete Port Coordinates"]["Z1"]`
+                - `Parameters["Discrete Port Coordinates"]["X2"]`
+                - `Parameters["Discrete Port Coordinates"]["Y2"]`
+                - `Parameters["Discrete Port Coordinates"]["Z2"]`
 
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            Raised if any parameter is invalid or missing.
 
         Returns
         -------
-        None.
+        None
 
         """
 
@@ -4543,26 +4815,32 @@ class CST_Commands:
 
     def Pick(self, Parameters):
         """
-        Pick function
+        Pick function in CST environment.
 
         Parameters
         ----------
-        PicParams["Option"] : str
-            Set the Pcik option. For now only "Centerpoint" and "Face" can be choosen.
-        PicParams["Object"] : str
-            Set the name of the object on witch the pick will be executed..
-        PicParams["Face Number"] : int
-            Set the ID of the picked Face for example.
+        pick_params : dict
+            Dictionary containing all required settings for the pick operation.
+
+            **Keys:**
+
+            - **Option** (str)  
+                Pick option. Currently, only "Centerpoint" and "Face" are supported.
+
+            - **Object** (str)  
+                Name of the object on which the pick will be executed.
+
+            - **Face Number** (int)  
+                ID of the picked face (required if `Option` is "Face").
 
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            Raised if any parameter is invalid or missing.
 
         Returns
         -------
-        None.
-
+        None
         """
         
         obj_list = ["Centerpoint", "Face"]
@@ -4613,37 +4891,40 @@ class CST_Commands:
 
     def setTimeSolver(self, Parameters):
         """
-        Set Time solver Parameters
+        Set Time Solver Parameters in CST.
 
         Parameters
         ----------
-        Parameters["Accuracy"] : int
-            Set the accury of the solver. It can be 10
-                                                    15
-                                                    20
-                                                    25
-                                                    30
-                                                    35
-                                                    40
-        Parameters["Caclculate Modes Only"] : boolen
-            Set to True if you want to calculate the the Ports modes only.
-            False to calculate the hole structure.
-        Parameters["Auto Impedance"] : boolen
-            Set Port Impedance. True if you want to set manually
-            False otherwise.
-        Parameters["Impedance"] : int/float
-            Set the Port Impedance.
-        Parameters["Source Port"] : int
-            Set the Source Port. For example 1 or 2.
+        parameters : dict
+            Dictionary containing all required solver settings.
+
+            **Keys:**
+
+            - **Accuracy** (int)  
+                Accuracy of the solver. Possible values: 10, 15, 20, 25, 30, 35, 40.
+
+            - **Calculate Modes Only** (bool)  
+                Set to True to calculate only the port modes.  
+                Set to False to calculate the entire structure.
+
+            - **Auto Impedance** (bool)  
+                Set to True to automatically determine port impedance.  
+                Set to False to specify impedance manually.
+
+            - **Impedance** (int or float)  
+                Port impedance (used only if `Auto Impedance` is False).
+
+            - **Source Port** (int)  
+                Number of the source port (e.g., 1 or 2).
 
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            Raised if any parameter is invalid or missing.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -4702,7 +4983,11 @@ class CST_Commands:
     def setFreqSolver(self):
         """
         Set Frequency solver Parameters
-        TODO: This function is hard codet and need to be worked on. 
+
+        
+        TODO
+        ----
+        This function is hard codet and need to be worked on. 
         You cannot set parameters!
 
         Returns
@@ -4866,59 +5151,61 @@ class CST_Commands:
     # Set Optical Simulation Domain 
     def setOpticalSimulationProperties(self, Parameters):
         """
-        Function to set an Optical Simulation Properties. 
-        TODO : The function need to be expands so more parameters such as mesh properties can be added!
+        Set Optical Simulation Properties in CST.
+
+        TODO
+        ----
+        This function can be expanded to include additional parameters, such as mesh properties.
 
         Parameters
         ----------
-        Parameters['Dimensions'] : str
-            Set unit Leghts.
-        Parameters['Frequency'] : str
-            Set frequency Units.
-        Parameters['Time'] : str
-            Set the temperature Units.
-        Parameters['Temperature'] : str
-            Set the temperature Units.
-        Parameters["Type Background"]  : str
-            Set the background Type.
-        Parameters["Xmin Background"] : int/float
-            Set the backgroun X-min span.
-        Parameters["Xmax Background"] : int/float
-            Set the backgroun X-max span.
-        Parameters["Ymin Background"] : int/float
-            Set the backgroun Y-min span.
-        Parameters["Ymax Background"] : int/float
-            Set the backgroun Y-max span.
-        Parameters["Zmin Background"] : int/float
-            Set the backgroun Z-min span.
-        Parameters["Zmax Background"] : int/float
-            Set the backgroun Z-max span.
-        Parameters["Min Wavelength"] : int/float
-            Set the min wavelenght
-        Parameters["Max Wavelength"] : int/float
-            Set the max wavelenght
-        Parameters["Xmin Boundary"] : int/floar
-            Set the X-min boundary
-        Parameters["Xmax Boundary"] : int/floar
-            Set the X-max boundary
-        Parameters["Ymin Boundary"] : int/floar
-            Set the Y-min boundary
-        Parameters["Ymax Boundary"] : int/floar
-            Set the Y-max boundary
-        Parameters["Zmin Boundary"] : int/floar
-            Set the Z-min boundary
-        Parameters["Zmax Boundary"] : int/floar
-            Set the Z-max boundary
-        Parameters["Xsymmetry Boundary"] : int/float
-            Set symetrie to the X boundary
-        Parameters["Ysymmetry Boundary"] : int/float
-            Set symetrie to the Y boundary
-        Parameters["Zsymmetry Boundary"] : int/float 
-            Set symetrie to the Z boundary
-            
+        parameters : dict
+            Dictionary containing all required optical simulation settings.
+
+            **Keys:**
+
+            - **Dimensions** (str)  
+                Unit for lengths.
+
+            - **Frequency** (str)  
+                Unit for frequency.
+
+            - **Time** (str)  
+                Unit for time.
+
+            - **Temperature** (str)  
+                Unit for temperature.
+
+            - **Type Background** (str)  
+                Type of simulation background (e.g., "Normal", "PEC", "Anisotropic").
+
+            - **Xmin Background, Xmax Background** (int/float)  
+                Minimum and maximum X span of the background.
+
+            - **Ymin Background, Ymax Background** (int/float)  
+                Minimum and maximum Y span of the background.
+
+            - **Zmin Background, Zmax Background** (int/float)  
+                Minimum and maximum Z span of the background.
+
+            - **Min Wavelength, Max Wavelength** (int/float)  
+                Minimum and maximum simulation wavelengths.
+
+            - **Xmin Boundary, Xmax Boundary** (int/float)  
+                Minimum and maximum X boundary.
+
+            - **Ymin Boundary, Ymax Boundary** (int/float)  
+                Minimum and maximum Y boundary.
+
+            - **Zmin Boundary, Zmax Boundary** (int/float)  
+                Minimum and maximum Z boundary.
+
+            - **Xsymmetry Boundary, Ysymmetry Boundary, Zsymmetry Boundary** (int/float)  
+                Symmetry settings for the X, Y, and Z boundaries.
+
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -5052,59 +5339,61 @@ class CST_Commands:
     # Set Optical Simulation Domain 
     def setElectricalSimulationProperties(self, Parameters):
         """
-        Set electrical simulation properties
-        TODO : The function need to be expands so more parameters such as mesh properties can be added!
+        Set Electrical Simulation Properties in CST.
+
+        TODO
+        ----
+        This function can be expanded to include additional parameters, such as mesh properties.
 
         Parameters
         ----------
-        Parameters['Dimensions'] : str
-            Set unit Leghts.
-        Parameters['Frequency'] : str
-            Set frequency Units.
-        Parameters['Time'] : str
-            Set the temperature Units.
-        Parameters['Temperature'] : str
-            Set the temperature Units.
-        Parameters["Type Background"]  : str
-            Set the background Type.
-        Parameters["Xmin Background"] : int/float
-            Set the backgroun X-min span.
-        Parameters["Xmax Background"] : int/float
-            Set the backgroun X-max span.
-        Parameters["Ymin Background"] : int/float
-            Set the backgroun Y-min span.
-        Parameters["Ymax Background"] : int/float
-            Set the backgroun Y-max span.
-        Parameters["Zmin Background"] : int/float
-            Set the backgroun Z-min span.
-        Parameters["Zmax Background"] : int/float
-            Set the backgroun Z-max span.
-        Parameters["Min Frequency"] : int/float
-            Set the min frequency
-        Parameters["Max Frequency"] : int/float
-            Set the max frequency
-        Parameters["Xmin Boundary"] : int/floar
-            Set the X-min boundary
-        Parameters["Xmax Boundary"] : int/floar
-            Set the X-max boundary
-        Parameters["Ymin Boundary"] : int/floar
-            Set the Y-min boundary
-        Parameters["Ymax Boundary"] : int/floar
-            Set the Y-max boundary
-        Parameters["Zmin Boundary"] : int/floar
-            Set the Z-min boundary
-        Parameters["Zmax Boundary"] : int/floar
-            Set the Z-max boundary
-        Parameters["Xsymmetry Boundary"] : int/float
-            Set symetrie to the X boundary
-        Parameters["Ysymmetry Boundary"] : int/float
-            Set symetrie to the Y boundary
-        Parameters["Zsymmetry Boundary"] : int/float 
-            Set symetrie to the Z boundary
+        parameters : dict
+            Dictionary containing all required electrical simulation settings.
+
+            **Keys:**
+
+            - **Dimensions** (str)  
+                Unit for lengths.
+
+            - **Frequency** (str)  
+                Unit for frequency.
+
+            - **Time** (str)  
+                Unit for time.
+
+            - **Temperature** (str)  
+                Unit for temperature.
+
+            - **Type Background** (str)  
+                Type of simulation background (e.g., "Normal", "PEC", "Anisotropic").
+
+            - **Xmin Background, Xmax Background** (int/float)  
+                Minimum and maximum X span of the background.
+
+            - **Ymin Background, Ymax Background** (int/float)  
+                Minimum and maximum Y span of the background.
+
+            - **Zmin Background, Zmax Background** (int/float)  
+                Minimum and maximum Z span of the background.
+
+            - **Min Frequency, Max Frequency** (int/float)  
+                Minimum and maximum simulation frequencies.
+
+            - **Xmin Boundary, Xmax Boundary** (int/float)  
+                Minimum and maximum X boundary.
+
+            - **Ymin Boundary, Ymax Boundary** (int/float)  
+                Minimum and maximum Y boundary.
+
+            - **Zmin Boundary, Zmax Boundary** (int/float)  
+                Minimum and maximum Z boundary.
+
+            - **Xsymmetry Boundary, Ysymmetry Boundary, Zsymmetry Boundary** (int/float)  
+                Symmetry settings for the X, Y, and Z boundaries.
 
         Returns
         -------
-        None.
+        None
 
         """
        
@@ -5218,17 +5507,25 @@ class CST_Commands:
 
     def ChangeSolverType(self, Parameters):
         """
-        Change solver type
-        TODO: Include the rest of the solver types. For now only time is available!
+        Change Solver Type in CST.
+
+        TODO
+        ----
+        Include support for additional solver types. Currently, only the "Time" solver is available.
 
         Parameters
         ----------
-        Parameters['Type'] : str
-            Solver type. Can be Parameters['Type'] = "Time".
+        parameters : dict
+            Dictionary containing solver settings.
+
+            **Keys:**
+
+            - **Type** (str)  
+                Solver type. For example: `parameters['Type'] = "Time"`.
 
         Returns
         -------
-        None.
+        None
 
         """
        
@@ -5248,23 +5545,22 @@ class CST_Commands:
 
     def setDomainSolverType(self, Parameters):
         """
-        Set Domein solver type
-
+        Set Solver Domain in CST.
 
         Parameters
         ----------
-        Parameters['Domain'] : str
-            Set the solver domain. Can be:
-                                        "Time"
-                                        "Freq"
-                                        "EigenMode"
-                                        "Integral"
-                                        "Asymptotic"
-                                        "Multilayer".
+        parameters : dict
+            Dictionary containing solver settings.
+
+            **Keys:**
+
+            - **Domain** (str)  
+                Solver domain. Can be one of the following:  
+                `"Time"`, `"Freq"`, `"EigenMode"`, `"Integral"`, `"Asymptotic"`, `"Multilayer"`.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -5300,31 +5596,39 @@ class CST_Commands:
 
     def CreateEfieldMonitor(self, Parameters):
         """
-        Set Monitor
+        Set a monitor in the CST simulation.
 
         Parameters
         ----------
-        Parameters["Monitor Wavelength"] : int/float
-            Set the wavelength. For this function and only for this function you need to give the exact number. So 1.55 um will be Parameters["Wavelength"]  = 1.55e-6
-        Parameters["Monitor Frequency"] : int/float
-            Set Frequency of the Monitor.
-        Parameters["Domain"] : str
-            Set the domain can be "Frequency" or "Wavelength".
-        Parameters["Monitor Type"] : str
-            Set the monitor Type. Can be one of :
-            "Efield", "Hfield", "Surfacecurrent", "Powerflow", "Current",
-            "Powerloss", "Eenergy", "Elossdens", "Lossdens", "Henergy", 
-            "Farfield", "Fieldsource", "Spacecharge", "ParticleCurrentDensity", "Electrondensity" .
+        parameters : dict
+            Dictionary containing monitor settings.
+
+            **Keys:**
+
+            - **Monitor Wavelength** (float)  
+                Wavelength for the monitor. For this function, you must provide the exact value.  
+                For example, 1.55 μm is `parameters["Monitor Wavelength"] = 1.55e-6`.
+
+            - **Monitor Frequency** (float)  
+                Frequency for the monitor.
+
+            - **Domain** (str)  
+                Domain of the monitor. Can be `"Frequency"` or `"Wavelength"`.
+
+            - **Monitor Type** (str)  
+                Type of monitor. Can be one of:  
+                `"Efield"`, `"Hfield"`, `"Surfacecurrent"`, `"Powerflow"`, `"Current"`,  
+                `"Powerloss"`, `"Eenergy"`, `"Elossdens"`, `"Lossdens"`, `"Henergy"`,  
+                `"Farfield"`, `"Fieldsource"`, `"Spacecharge"`, `"ParticleCurrentDensity"`, `"Electrondensity"`.
 
         Raises
         ------
         ValueError
-            DESCRIPTION.
+            If any of the parameters are invalid or missing.
 
         Returns
         -------
-        None.
-
+        None
         """
         
         MonitorType = Parameters["Monitor Type"]
@@ -5384,30 +5688,36 @@ class CST_Commands:
 
     def SetMesh(self, Parameters):
         """
-        Sets the type of the mesh. The user can define the mesh cells per wavelength near and far
-        from the simulations object.
+        Set the type of the mesh in the CST simulation. The user can define the number of mesh cells per wavelength near and far from the simulation object.
 
         Parameters
         ----------
-        Parameters["Mesh Type"] : TYPE
-            Set the type of the Mesh. You can choose between:  
-                                    PBA - Hexahedral mesh with Perfect Boundary Approximation
-                                    HexahedralTLM
-                                    CFD
-                                    CFDNew
-                                    Staircase - Hexahedral mesh with staircase cells
-                                    Tetrahedral - Tetrahedral mesh
-                                    Surface - Surface mesh
-                                    SurfaceMLS - urface multi layer mesh
-                                    Planar - Planar 2D mesh.
-        Parameters["Mesh Cells Near Object"] : int
-            Set the cells per Wavelength near the simulation object.
-        Parameters["Mesh Cells far Object"] : int
-            Set the Cells per Wavelength far from the simulation object
+        parameters : dict
+            Dictionary containing mesh settings.
+
+            **Keys:**
+
+            - **Mesh Type** (str)  
+                Type of the mesh. Possible values:  
+                - `"PBA"` — Hexahedral mesh with Perfect Boundary Approximation  
+                - `"HexahedralTLM"`  
+                - `"CFD"`  
+                - `"CFDNew"`  
+                - `"Staircase"` — Hexahedral mesh with staircase cells  
+                - `"Tetrahedral"` — Tetrahedral mesh  
+                - `"Surface"` — Surface mesh  
+                - `"SurfaceMLS"` — Surface multi-layer mesh  
+                - `"Planar"` — Planar 2D mesh
+
+            - **Mesh Cells Near Object** (int)  
+                Number of mesh cells per wavelength near the simulation object.
+
+            - **Mesh Cells Far Object** (int)  
+                Number of mesh cells per wavelength far from the simulation object.
 
         Returns
         -------
-        None.
+        None
 
         """
        
@@ -5452,22 +5762,30 @@ class CST_Commands:
 
     def RotationTranslation(self, Parameters):
         """
-        Rotation Translation function
+        Rotate an object in the CST simulation environment.
 
         Parameters
         ----------
-        Parameters["Name Object"] : str
-            Set the name of the Object that you want to rotate.
-        Parameters["Angle X"] : int/float
-            Set the X Angle of rotation.
-        Parameters["Angle Y"] : int/float
-            Set the Y Angle of rotation.
-        Parameters["Angle Z"] : int/float
-            Set the Z Angle of rotation.
+        parameters : dict
+            Dictionary containing rotation settings.
+
+            **Keys:**
+
+            - **Name Object** (str)  
+                Name of the object to rotate.
+
+            - **Angle X** (int or float)  
+                Rotation angle around the X-axis in degrees.
+
+            - **Angle Y** (int or float)  
+                Rotation angle around the Y-axis in degrees.
+
+            - **Angle Z** (int or float)  
+                Rotation angle around the Z-axis in degrees.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -5498,53 +5816,53 @@ class CST_Commands:
 
     def Translation(self, Parameters):
         """
-        Translation function
+        Translate, scale, or rotate an object in the CST simulation environment.
 
         Parameters
         ----------
-        Parameters["Translate Type"] : str
-            Set the type of translation. Can be:
-                                            "Translate"
-                                            "Scale"
-                                            "Rotate".
-        If Parameters["Translate Type"] = "Translate"
-            Parameters["Name Object"] : str 
-                Set the name of the Object that you want to rotate.
-            Parameters["Object to rotate"] : str 
-                Set the object you wanna rotate. If Solid
-                                                Parameters["Object to rotate"] = "Shape", 
-                                                If Curve 
-                                                Parameters["Object to rotate"] = "Curve"
-            Parameters["Position"] : int/float array 
-                Set array with position parameters. For ["X", "Y" , "Z"] directions 
-                For Example -> Parameters["Position"] = [1,2,3]      
-        If Parameters["Translate Type"] = "Scale"
-             Parameters["Name Object"] : str
-                 Set the name of the Object that you want to rotate
-             Parameters["Center Positions"] : int/float array
-                 Set an array with Center position for scale operation. For ["X", "Y" , "Z"] directions 
-                 For Example -> Parameters["Center Positions"] = [1,2,3]     
-             Parameters["Scale Factors"] : int/float array 
-                 Set array with Scale factor. For ["X", "Y" , "Z"] directions 
-                 For Example -> Parameters["Scale Factors"] = [1,2,3]     
-        If Parameters["Translate Type"] = "Rotate"
-            Parameters["Name Object"] : str
-                Set the name of the Object that you want to rotate
-            Parameters["Object to rotate"] : str
-                Set the object you wanna rotate. If Solid
-                                                Parameters["Object to rotate"] = "Shape"
-                                                If Curve 
-                                                Parameters["Object to rotate"] = "Curve"
-            Parameters["Center Positions"] : int/float array 
-                Set the Center position for scale operation. For ["X", "Y" , "Z"] directions 
-                For Example -> Parameters["Center Positions"] = [1,2,3]
-            Parameters["Angle Values"] : int/float array 
-                Set the Scale factor. For ["X", "Y" , "Z"] directions 
-                For Example -> Parameters["Angle Values"] = [1,2,3]
+        parameters : dict
+            Dictionary containing the transformation settings.
+
+            **Common Keys:**
+            
+            - **Translate Type** (str)  
+                Type of transformation. Can be one of:
+                - "Translate"
+                - "Scale"
+                - "Rotate"
+
+            **If Translate Type == "Translate":**
+            
+            - **Name Object** (str)  
+                Name of the object to translate.
+            - **Object to translate** (str)  
+                Specify the type of object: "Shape" for solids, "Curve" for curves.
+            - **Position** (list of int/float)  
+                Translation vector in ["X", "Y", "Z"] directions. Example: `[1, 2, 3]`.
+
+            **If Translate Type == "Scale":**
+            
+            - **Name Object** (str)  
+                Name of the object to scale.
+            - **Center Positions** (list of int/float)  
+                Center coordinates for scaling in ["X", "Y", "Z"]. Example: `[1, 2, 3]`.
+            - **Scale Factors** (list of int/float)  
+                Scaling factors in ["X", "Y", "Z"]. Example: `[1, 2, 3]`.
+
+            **If Translate Type == "Rotate":**
+            
+            - **Name Object** (str)  
+                Name of the object to rotate.
+            - **Object to rotate** (str)  
+                Specify the type of object: "Shape" for solids, "Curve" for curves.
+            - **Center Positions** (list of int/float)  
+                Center coordinates for rotation in ["X", "Y", "Z"]. Example: `[1, 2, 3]`.
+            - **Angle Values** (list of int/float)  
+                Rotation angles in degrees for ["X", "Y", "Z"]. Example: `[10, 20, 30]`.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -5646,32 +5964,31 @@ class CST_Commands:
     
     def Translation_Scale(self, Parameters):
         """
-        Scale tranlation function
+        Scale an object in the CST simulation environment.
 
         Parameters
         ----------
-        Parameters["Name Object"] : str
-            Set the name of the Object that you want to rotate
-        Parameters["Center Positions"] : dict
-            Set an dictionary with Center position for scale operation
-                Parameters["Center Positions"]["X"] : int/float 
-                    Set Center position X
-                Parameters["Center Positions"]["Y"] : int/float 
-                    Set Center position Y
-                Parameters["Center Positions"]["Z"] : int/float
-                Set the Center position Z
-        Parameters["Scale Factors"] : dict 
-            Set the scale factor S
-            Parameters["Scale Factors"]["X"] : int/float
-                Set the scale factor X
-            Parameters["Scale Factors"]["Y"] : int/float
-                Set the scale factor Y
-            Parameters["Scale Factors"]["Z"] : int/float
-                Set the scale factor Z
+        parameters : dict
+            Dictionary containing the scaling settings.
+
+            - **Name Object** (str)  
+                Name of the object to scale.
+
+            - **Center Positions** (dict)  
+                Center coordinates for the scaling operation.
+                - **X** (int/float) : Center position in X direction.
+                - **Y** (int/float) : Center position in Y direction.
+                - **Z** (int/float) : Center position in Z direction.
+
+            - **Scale Factors** (dict)  
+                Scaling factors for each axis.
+                - **X** (int/float) : Scale factor in X direction.
+                - **Y** (int/float) : Scale factor in Y direction.
+                - **Z** (int/float) : Scale factor in Z direction.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -5702,33 +6019,31 @@ class CST_Commands:
         
     def Translation_Rotation(self, Parameters):
         """
-        Rotation tranlation function
+        Rotate an object in the CST simulation environment.
 
         Parameters
         ----------
-        Parameters["Name Object"] : str
-            Set the name of the Object that you want to rotate
-        Parameters["Center Positions"] : dict
-            Set the Center position for scale operation
-                Parameters["Center Positions"]["X"] : int/float 
-                    Set the center position X
-                Parameters["Center Positions"]["Y"] : int/float 
-                    Set the center position Y
-                Parameters["Center Positions"]["Z"] : int/float 
-                    Set the center position Z
-        Parameters["Angle Values"] : dict
-            Set the scale factor
-                Parameters["Angle Values"]["X"] : int/float 
-                    Set the Angle Value X
-                Parameters["Angle Values"]["Y"] : int/float 
-                    Set the Angle Value Y
-                Parameters["Angle Values"]["Z"] : int/float 
-                    Set the Angle Value Z
+        parameters : dict
+            Dictionary containing the rotation settings.
+
+            - **Name Object** (str)  
+                Name of the object to rotate.
+
+            - **Center Positions** (dict)  
+                Center coordinates for the rotation operation.
+                - **X** (int/float) : Center position in X direction.
+                - **Y** (int/float) : Center position in Y direction.
+                - **Z** (int/float) : Center position in Z direction.
+
+            - **Angle Values** (dict)  
+                Rotation angles for each axis.
+                - **X** (int/float) : Rotation angle around X axis.
+                - **Y** (int/float) : Rotation angle around Y axis.
+                - **Z** (int/float) : Rotation angle around Z axis.
 
         Returns
         -------
-        None.
-
+        None
         """
         
         Name = Parameters["Name Object"]
@@ -5758,18 +6073,22 @@ class CST_Commands:
 
     def Cut_structures(self, Parameters):
         """
-        Cut function
+        Cut one structure using another structure in the CST simulation environment.
 
         Parameters
         ----------
-        Parameters["Name Cut Structure"] : str
-            Set the name of the structure to cut.
-        Parameters["Name Structure to Cut"] : str
-            Set the name Structure to cut the Parameters["Name Cut Structure"] to.
+        parameters : dict
+            Dictionary containing the cut operation settings.
+
+            - **Name Cut Structure** (str)  
+                Name of the structure that will be cut.
+
+            - **Name Structure to Cut** (str)  
+                Name of the structure that will be used to cut the **Name Cut Structure**.
 
         Returns
         -------
-        None.
+        None
 
         """
         
@@ -5942,26 +6261,33 @@ class PostProcess:
         """
         
 
+        Export S-Parameters from the CST simulation.
+
         Parameters
         ----------
-        Parameters["Name"] : str
-            Set the name of the S_parameter file. For example Parameters["Name"] = "Export_S_Params".
-        Parameters["Path"] : str
-            Set the path to where to save the file. For example Parameters["Path"] = "C:/../../CST_Files".
-        Parameters["Impedance"] : int/float
-            Set the impedance for the S-Parameters. Per defoult is set to 50 Ohms.
-        Parameters["Format"] : str
-            Set the format that the S-Parameters will be exportet. You can choose between: "MA", "DB" and "RI".
-       
+        parameters : dict
+            Dictionary containing all settings for the S-Parameter export.
+
+            - **Name** (str)  
+                Name of the S-Parameter file. Example: `parameters["Name"] = "Export_S_Params"`.
+
+            - **Path** (str)  
+                Path where the file will be saved. Example: `parameters["Path"] = "C:/.../CST_Files"`.
+
+            - **Impedance** (int or float, optional)  
+                Impedance for the S-Parameters. Default is 50 Ohms.
+
+            - **Format** (str)  
+                Export format for the S-Parameters. Options: `"MA"`, `"DB"`, or `"RI"`.
 
         Raises
         ------
         ValueError
-            Error choosing the wrong format.
+            If an unsupported format is selected.
 
         Returns
         -------
-        None.
+        None
 
         """
 
@@ -5999,22 +6325,27 @@ class PostProcess:
 
     def read_snp(self, Parameters):
         """
-        Reads an S-parameter Touchstone file (.s2p, .s3p, .s4p, etc.) and returns
-        frequency array and S-matrix array.
+        Read a Touchstone S-parameter file (.s2p, .s3p, .s4p, etc.) and return 
+        the frequency array and S-matrix array.
 
         Parameters
         ----------
-        Parameters["File Name"] : str
-            Set the name of the S_parameter file. For example an .s2p file Parameters["File Name"] = "Export_S_Params.s2p".
-        Parameters["Path"] : str
-            Set the path to where to save the file. For example Parameters["Path"] = "C:/../../CST_Files".
+        Parameters : dict
+            Dictionary containing all settings for reading the file.
+
+            - **File Name** (str)  
+                Name of the S-parameter file. Example: `Parameters["File Name"] = "Export_S_Params.s2p"`.
+
+            - **Path** (str)  
+                Path to the directory where the file is located. Example: `Parameters["Path"] = "C:/.../CST_Files"`.
 
         Returns
         -------
         freq : np.ndarray
-            Frequency points (Hz or as in file).
+            Frequency points (Hz or as specified in the file).
+
         S_params : np.ndarray
-            Array of shape (num_points, N, N) containing complex S-matrices.
+            Array of shape `(num_points, N, N)` containing complex S-matrices.
         """
         
         name = Parameters["File Name"]

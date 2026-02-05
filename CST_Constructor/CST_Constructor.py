@@ -1014,27 +1014,37 @@ class CST_Commands:
 
         Parameters
         ----------
-        Parameters : dict 
-            Dictionary with all needed parameters for this function.
-            Parameters["Type Background"] : str
-                Type of the Background. Defoult is "Normal". It can be set to:
-                    "PEC"
-                    "Normal"
-                    "Anisotropic"
-                    "Anisotropic"     
-            Parameters["Xmax Background"] : int/float
+        parameters : dict
+            Dictionary with all parameters required for this function.
+
+            **Required keys:**
+
+            - **Type Background** (str)
+                Type of the background. Default is ``"Normal"``.
+                Possible values:
+
+                - ``"PEC"``
+                - ``"Normal"``
+                - ``"Anisotropic"``
+
+            - **Xmax Background** (float)
                 Background X-max value
-            Parameters["Xmin Background"] : int/float
+
+            - **Xmin Background** (float)
                 Background X-min value
-            Parameters["Ymax Background"] : int/float
+
+            - **Ymax Background** (float)
                 Background Y-max value
-            Parameters["Ymin Background"] : int/float
+
+            - **Ymin Background** (float)
                 Background Y-min value
-            Parameters["Zmax Background"] : int/float
+
+            - **Zmax Background** (float)
                 Background Z-max value
-            Parameters["Zmin Background"] : int/float
-                Background Z-max value
-        
+
+            - **Zmin Background** (float)
+                Background Z-min value
+
         Raises
         ------
         ValueError

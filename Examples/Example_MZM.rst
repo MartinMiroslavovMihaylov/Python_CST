@@ -1,8 +1,8 @@
 Example_MZM
 ===========
 
-This is an example of using the library to create an MZM in Lumerical CHARGE and set the CHARGE and FEEM Solvers.
+This is an example of how to set your CST simulation to create MZM
 
-.. literalinclude:: examples-src/Example_MZM.py
+.. literalinclude:: ../examples-src/Example_MZM.py
    :language: python
    :linenos:

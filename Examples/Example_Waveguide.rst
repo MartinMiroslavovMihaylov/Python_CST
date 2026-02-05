@@ -1,8 +1,8 @@
 Example_Waveguide
 =================
 
-This is an example of using the library to create an waveguide in Lumerical MODE and set the FDE Solver.
+This is an example of how to set your CST simulation to create Waveguide
 
-.. literalinclude:: examples-src/Example_Waveguide.py
+.. literalinclude:: ../examples-src/Example_Waveguide.py
    :language: python
    :linenos:

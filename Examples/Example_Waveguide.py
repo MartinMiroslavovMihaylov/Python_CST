@@ -27,17 +27,15 @@ obj.New_Project("MWS")
 # Set Optical or Electrical Temptlates for the project 
 # Units Properties
 Parameters = {}
-Parameters['Dimensions'] = "um"
+Parameters['Length'] = "um"
 Parameters['Frequency']  = "THz"
-# Parameters['Frequency']  = "GHz"
 Parameters['Time'] = "ns"
 Parameters['Temperature'] = "degC"
 
 # Set FreqeueWavelength Range 
 Parameters["Min Wavelength"] = 1.5
 Parameters["Max Wavelength"] = 1.6
-# Parameters["Min Frequency"] = 1
-# Parameters["Max Frequency"] = 150
+
 
 # Set Background
 Parameters["Type Background"] = "Normal"
@@ -71,11 +69,11 @@ obj.setOpticalSimulationProperties(Parameters)
 # Create Waveguide
 
 Parameters = {}
-Parameters["Lenght WG"] = 5
-Parameters["Hight WG"] = 0.3
+Parameters["Length WG"] = 5
+Parameters["Height WG"] = 0.3
 Parameters["Width WG"] = 1
 Parameters["Substrate Height"] = 1
-Parameters["Slab Heigh"] = 0.3
+Parameters["Slab Height"] = 0.3
 
 obj.Squere_Waveguide(Parameters)
 

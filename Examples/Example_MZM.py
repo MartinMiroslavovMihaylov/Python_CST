@@ -26,17 +26,15 @@ obj.New_Project("MWS")
 # Set Optical or Electrical Temptlates for the project 
 # Units Properties
 Parameters = {}
-Parameters['Dimensions'] = "um"
+Parameters['Length'] = "um"
 Parameters['Frequency']  = "THz"
-# Parameters['Frequency']  = "GHz"
 Parameters['Time'] = "ns"
 Parameters['Temperature'] = "degC"
 
 # Set FreqeueWavelength Range 
 Parameters["Min Wavelength"] = 1.5
 Parameters["Max Wavelength"] = 1.6
-# Parameters["Min Frequency"] = 1
-# Parameters["Max Frequency"] = 150
+
 
 # Set Background
 Parameters["Type Background"] = "Normal"
@@ -70,21 +68,20 @@ obj.setOpticalSimulationProperties(Parameters)
 
 # MZM Parameters
 Parameters = {}
-
-Parameters['Substrate Height'] = 1e-6
-Parameters["Optical"] = ["Au (Gold) - CRC", "SiO2 (Glass) - Palik"]
-Parameters["Electrical"] = ["Air", "Au (Gold) - CRC", "LiNbO3 semiconductor - X/Y cut (Lithium Niobate)", "SiO2 (Glass) - Sze"]
-Parameters['angle'] = 30
-Parameters['Slab Height'] = 0.3e-6
-Parameters['WG Height'] = 0.3e-6
-Parameters['WG Width'] = 1e-6
-Parameters['WG Length'] = 10e-6
-Parameters["GND Electrodes Width"] = 5e-6
-Parameters["Signal Electrodes Width"] = 3e-6
-Parameters["Electrodes Height"] = 0.8e-6
-Parameters["Gap"] = 1.4e-6
-Parameters["Wavelength"] = 1.55e-6
+Parameters["Electrodes Length"] = 50
+Parameters["Width GND"] = 40    
+Parameters["Width Signal"] = 10 
+Parameters["Width WG"] = 0.8
+Parameters["Gap"] = 1.565
+Parameters["Angle"] = 35
+Parameters["Height Electrodes"] = 0.8
+Parameters["Height WG"] = 0.4
+Parameters["Height Slab"] = 0.2 
+Parameters["Height Substrate"] = 1
+Parameters["Angle X"] = 0
+Parameters["Angle Y"] = 90
+Parameters["Angle Z"] = 0 
 
 
 # Create MZM
-obj.MZM(Parameters) 
+obj.MZM(Parameters)

@@ -24,7 +24,7 @@ obj.New_Project("MWS")
 
 # Set Units
 Parameters = {}
-Parameters["Unit Lenght"] = "um"
+Parameters["Unit Length"] = "um"
 Parameters["Unit Frequency"] = "GHz"
 Parameters["Unit Time"] = "ns"
 Parameters["Unit Temperature"] = "K"
@@ -85,8 +85,8 @@ Parameters["PAD Thickness"] = 2.8
 
 
 Parameters["PADs Distance"] = 219
-Parameters["Bonwire height"] = 20
-Parameters["Bonwire radius"] = 25/2
+Parameters["Bonwire Height"] = 20
+Parameters["Bonwire Radius"] = 25/2
 Parameters["Glue Thickness"] = 50
 Parameters["Floating Shield Thickness"]= 35
 

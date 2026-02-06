@@ -5163,7 +5163,7 @@ class CST_Commands:
 
             **Keys:**
 
-            - **Dimensions** (str)  
+            - **Length** (str)  
                 Unit for lengths.
 
             - **Frequency** (str)  
@@ -5209,7 +5209,7 @@ class CST_Commands:
         """
         
         # Units Properties
-        Length = Parameters['Dimensions'] 
+        Length = Parameters['Length'] 
         Frequency = Parameters['Frequency'] 
         Time = Parameters['Time'] 
         Temperature = Parameters['Temperature'] 

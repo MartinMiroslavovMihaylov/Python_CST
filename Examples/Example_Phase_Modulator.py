@@ -27,17 +27,15 @@ obj.New_Project("MWS")
 # Set Optical or Electrical Temptlates for the project 
 # Units Properties
 Parameters = {}
-Parameters['Dimensions'] = "um"
+Parameters['Length'] = "um"
 Parameters['Frequency']  = "THz"
-# Parameters['Frequency']  = "GHz"
 Parameters['Time'] = "ns"
 Parameters['Temperature'] = "degC"
 
 # Set FreqeueWavelength Range 
 Parameters["Min Wavelength"] = 1.5
 Parameters["Max Wavelength"] = 1.6
-# Parameters["Min Frequency"] = 1
-# Parameters["Max Frequency"] = 150
+
 
 # Set Background
 Parameters["Type Background"] = "Normal"
@@ -76,11 +74,11 @@ Parameters["Width GND"] = 40
 Parameters["Width Signal"] = 10 
 Parameters["Width WG"] = 0.8
 Parameters["Gap"] = 1.565
-Parameters["angle"] = 35
-Parameters["High Electrodes"] = 0.8
-Parameters["High WG"] = 0.4
-Parameters["High Slab"] = 0.2 
-Parameters["High Substrate"] = 2
+Parameters["Angle"] = 35
+Parameters["Height Electrodes"] = 0.8
+Parameters["Height WG"] = 0.4
+Parameters["Height Slab"] = 0.2 
+Parameters["Height Substrate"] = 2
 Parameters["Angle X"] = 0
 Parameters["Angle Y"] = 90
 Parameters["Angle Z"] = 0 

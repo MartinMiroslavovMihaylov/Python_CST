@@ -245,7 +245,7 @@ class CST_Commands:
         """
         
 
-        u_Lenght = Parameters["Unit Lenght"]
+        u_Length = Parameters["Unit Length"]
         u_Freq = Parameters["Unit Frequency"]
         u_Time = Parameters["Unit Time"]
         u_Temp = Parameters["Unit Temperature"]
@@ -253,7 +253,7 @@ class CST_Commands:
 
         unit_vba = f"""
                         With Units
-                            .SetUnit ("Length", "{u_Lenght}")
+                            .SetUnit ("Length", "{u_Length}")
                             .SetUnit ("Frequency","{u_Freq}")
                             .SetUnit ("Time", "{u_Time}")
                             .SetUnit ("Temperature", "{u_Temp}")
@@ -1330,12 +1330,12 @@ class CST_Commands:
         """
         
         
-        LenghtMin = Parameters["Brick Lenght Min"]
-        LenghtMax = Parameters["Brick Lenght Max"]
+        LengthMin = Parameters["Brick Length Min"]
+        LengthMax = Parameters["Brick Length Max"]
         WidthMin = Parameters["Brick Width Min"]
         WidthMax = Parameters["Brick Width Max"]
-        HightMin = Parameters["Brick Hight Min"]
-        HightMax = Parameters["Brick Hight Max"]
+        Height_Min = Parameters["Brick Height Min"]
+        Height_Max = Parameters["Brick Height Max"]
         Name = Parameters["Brick Name"]
         Component_name = Parameters["Component Name"]
 
@@ -1347,9 +1347,9 @@ class CST_Commands:
                         .Name "{Name}"
                         .Component "{Component_name}"
                         .Material "{Material}"
-                        .Xrange "{LenghtMin/2}", "{LenghtMax/2}"
+                        .Xrange "{LengthMin/2}", "{LengthMax/2}"
                         .Yrange "{WidthMin/2}", "{WidthMax/2}"
-                        .Zrange "{HightMin/2}", "{HightMax/2}"
+                        .Zrange "{Height_Min/2}", "{Height_Max/2}"
                         .Create
                     End With
                     """
@@ -1711,7 +1711,7 @@ class CST_Commands:
 
             **Required keys:**
 
-            - **Length_Electrodes** (int or float)
+            - **Length Electrodes** (int or float)
                 Length of the electrodes. The waveguides will be 2 units longer than the electrodes.
 
             - **Width GND** (int or float)
@@ -1747,17 +1747,16 @@ class CST_Commands:
 
         """
        
-        Length_MZM = Parameters["Electrodes Lenght"]
-        Length_WG = Parameters["Electrodes Lenght"] + 2
+        Length_WG = Parameters["Electrodes Length"] + 2
         Width_Electrodes = Parameters["Width GND"]
         Width_Signal = Parameters["Width Signal"]
         Width_WG = Parameters["Width WG"]
         Gap = Parameters["Gap"]
-        Angle = Parameters["angle"]
-        Height_Electrodes = Parameters["High Electrodes"]
-        Height_WG = Parameters["High WG"]
-        Heigh_Slab = Parameters["High Slab"]
-        Height_Substrate = Parameters["High Substrate"]
+        Angle = Parameters["Angle"]
+        Height_Electrodes = Parameters["Height Electrodes"]
+        Height_WG = Parameters["Height WG"]
+        Heigh_Slab = Parameters["Height Slab"]
+        Height_Substrate = Parameters["Height Substrate"]
 
     
 
@@ -1785,12 +1784,12 @@ class CST_Commands:
 
         # Substrate Definition 
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = -WidthObject/2 
         Parameters["Brick Width Max"] = WidthObject/2
-        Parameters["Brick Hight Min"] = -Height_Substrate/2
-        Parameters["Brick Hight Max"] = Height_Substrate/2
+        Parameters["Brick Height Min"] = -Height_Substrate/2
+        Parameters["Brick Height Max"] = Height_Substrate/2
         Parameters["Brick Name"] = "LNOI_Substrate"
         Parameters["Component Name"] = "LNOI_Substrate"
         Parameters["Material"] = "SiO2"
@@ -1804,12 +1803,12 @@ class CST_Commands:
             HeightZ = Height_Substrate/2
         else:
             Parameters = {}
-            Parameters["Brick Lenght Min"] = -Length_WG/2
-            Parameters["Brick Lenght Max"] = Length_WG/2
+            Parameters["Brick Length Min"] = -Length_WG/2
+            Parameters["Brick Length Max"] = Length_WG/2
             Parameters["Brick Width Min"] = -WidthObject/2 
             Parameters["Brick Width Max"] = WidthObject/2
-            Parameters["Brick Hight Min"] = Height_Substrate/2
-            Parameters["Brick Hight Max"] = Height_Substrate/2 + Heigh_Slab
+            Parameters["Brick Height Min"] = Height_Substrate/2
+            Parameters["Brick Height Max"] = Height_Substrate/2 + Heigh_Slab
             Parameters["Brick Name"] = "LNOI_Slab"
             Parameters["Component Name"] = "LNOI_Slab"
             Parameters["Material"] = "LiNbO3"
@@ -1827,12 +1826,12 @@ class CST_Commands:
 
         # Plase Electrodes
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = -WidthObject/2 + Width_Electrodes
         Parameters["Brick Width Max"] = -WidthObject/2
-        Parameters["Brick Hight Min"] = HeightZ
-        Parameters["Brick Hight Max"] = HeightZ + Height_Electrodes
+        Parameters["Brick Height Min"] = HeightZ
+        Parameters["Brick Height Max"] = HeightZ + Height_Electrodes
         Parameters["Brick Name"] = NamesElectrodes[0]
         Parameters["Component Name"] = NamesElectrodes[0]
         Parameters["Material"] = "Au"
@@ -1841,12 +1840,12 @@ class CST_Commands:
 
 
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = -WidthObject/2 + Width_Electrodes + Width_WG_New + Gap*2
         Parameters["Brick Width Max"] = -WidthObject/2 + Width_Electrodes + Width_WG_New + Gap*2 + Width_Signal
-        Parameters["Brick Hight Min"] = HeightZ
-        Parameters["Brick Hight Max"] = HeightZ + Height_Electrodes
+        Parameters["Brick Height Min"] = HeightZ
+        Parameters["Brick Height Max"] = HeightZ + Height_Electrodes
         Parameters["Brick Name"] = NamesElectrodes[2]
         Parameters["Component Name"] = NamesElectrodes[2]
         Parameters["Material"] = "Au"
@@ -1855,12 +1854,12 @@ class CST_Commands:
 
 
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = WidthObject/2 
         Parameters["Brick Width Max"] = WidthObject/2 - Width_Electrodes 
-        Parameters["Brick Hight Min"] = HeightZ
-        Parameters["Brick Hight Max"] = HeightZ + Height_Electrodes
+        Parameters["Brick Height Min"] = HeightZ
+        Parameters["Brick Height Max"] = HeightZ + Height_Electrodes
         Parameters["Brick Name"] = NamesElectrodes[1]
         Parameters["Component Name"] = NamesElectrodes[1]
         Parameters["Material"] = "Au"
@@ -1908,7 +1907,7 @@ class CST_Commands:
         self.Translation(Trans)
         Parameters_RibWaveguide_toSolid = {}
         Parameters_RibWaveguide_toSolid["Waveguide Name"] = "Waveguide_Left"
-        Parameters_RibWaveguide_toSolid["Waveguide Hight"] = Length_WG
+        Parameters_RibWaveguide_toSolid["Waveguide Height"] = Length_WG
         Parameters_RibWaveguide_toSolid["Angle"] = 0
         Parameters_RibWaveguide_toSolid["Name Folder"] = "Waveguide_Left"
         Parameters_RibWaveguide_toSolid["Material"]  ="LiNbO3"
@@ -1945,14 +1944,14 @@ class CST_Commands:
         self.Translation(Trans)
         Parameters_RibWaveguide_toSolid = {}
         Parameters_RibWaveguide_toSolid["Waveguide Name"] = "Waveguide_Right"
-        Parameters_RibWaveguide_toSolid["Waveguide Hight"] = -Length_WG
+        Parameters_RibWaveguide_toSolid["Waveguide Height"] = -Length_WG
         Parameters_RibWaveguide_toSolid["Angle"] = 0
         Parameters_RibWaveguide_toSolid["Name Folder"] = "Waveguide_Right"
         Parameters_RibWaveguide_toSolid["Material"]  ="LiNbO3"
         Parameters_RibWaveguide_toSolid["Waveguide Folder Name"] = "Waveguide_Right"
         Parameters_RibWaveguide_toSolid["Waveguide Name"] = "Waveguide_Right"
         self.RibWaveguide_ToSolid(Parameters_RibWaveguide_toSolid)
-        # self.RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Hight = -Length_WG, Angle = 0, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
+        # self.RibWaveguide_ToSolid("Waveguide_Right", WaveguideName = "Waveguide_Right", WG_Height  = -Length_WG, Angle = 0, WGFolderName = "Waveguide_Right", WGName = "Waveguide_Right", Material="LiNbO3")
 
 
 
@@ -1975,7 +1974,7 @@ class CST_Commands:
 
             **Required keys:**
 
-            - **Length_Electrodes** (int or float)
+            - **Length Electrodes** (int or float)
                 Length of the electrodes. The waveguides will be 2 units longer than the electrodes.
 
             - **Width GND** (int or float)
@@ -2012,17 +2011,17 @@ class CST_Commands:
         """
         
 
-        Length_MZM = Parameters["Electrodes Lenght"]
-        Length_WG = Parameters["Electrodes Lenght"] + 2
+        Length_MZM = Parameters["Electrodes Length"]
+        Length_WG = Parameters["Electrodes Length"] + 2
         Width_Electrodes = Parameters["Width GND"]
         Width_Signal = Parameters["Width Signal"]
         Width_WG = Parameters["Width WG"]
         Gap = Parameters["Gap"]
-        Angle = Parameters["angle"]
-        Height_Electrodes = Parameters["High Electrodes"]
-        Height_WG = Parameters["High WG"]
-        Heigh_Slab = Parameters["High Slab"]
-        Height_Substrate = Parameters["High Substrate"]
+        Angle = Parameters["Angle"]
+        Height_Electrodes = Parameters["Height Electrodes"]
+        Height_WG = Parameters["Height WG"]
+        Heigh_Slab = Parameters["Height Slab"]
+        Height_Substrate = Parameters["Height Substrate"]
 
 
         # Set optical Material Properties Eps X,Y,Z
@@ -2047,12 +2046,12 @@ class CST_Commands:
 
         # Substrate Definition 
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = -(WidthObject+2)/2
         Parameters["Brick Width Max"] = (WidthObject+2)/2
-        Parameters["Brick Hight Min"] = -Height_Substrate/2
-        Parameters["Brick Hight Max"] = Height_Substrate/2
+        Parameters["Brick Height Min"] = -Height_Substrate/2
+        Parameters["Brick Height Max"] = Height_Substrate/2
         Parameters["Brick Name"] = "LNOI_Substrate"
         Parameters["Component Name"] = "LNOI_Substrate"
         Parameters["Material"] = "SiO2"
@@ -2066,12 +2065,12 @@ class CST_Commands:
             HeightZ = Height_Substrate/2
         else:
             Parameters = {}
-            Parameters["Brick Lenght Min"] = -Length_WG/2
-            Parameters["Brick Lenght Max"] = Length_WG/2
+            Parameters["Brick Length Min"] = -Length_WG/2
+            Parameters["Brick Length Max"] = Length_WG/2
             Parameters["Brick Width Min"] = -(WidthObject+2)/2
             Parameters["Brick Width Max"] = (WidthObject+2)/2
-            Parameters["Brick Hight Min"] = Height_Substrate/2
-            Parameters["Brick Hight Max"] = Height_Substrate/2 + Heigh_Slab
+            Parameters["Brick Height Min"] = Height_Substrate/2
+            Parameters["Brick Height Max"] = Height_Substrate/2 + Heigh_Slab
             Parameters["Brick Name"] = "LNOI_Slab"
             Parameters["Component Name"] = "LNOI_Slab"
             Parameters["Material"] = "LiNbO3"
@@ -2089,12 +2088,12 @@ class CST_Commands:
 
         # Plase Electrodes
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_MZM/2
-        Parameters["Brick Lenght Max"] = Length_MZM/2
+        Parameters["Brick Length Min"] = -Length_MZM/2
+        Parameters["Brick Length Max"] = Length_MZM/2
         Parameters["Brick Width Min"] = -WidthObject/2 
         Parameters["Brick Width Max"] = -WidthObject/2 + Width_Electrodes
-        Parameters["Brick Hight Min"] = HeightZ
-        Parameters["Brick Hight Max"] = HeightZ + Height_Electrodes
+        Parameters["Brick Height Min"] = HeightZ
+        Parameters["Brick Height Max"] = HeightZ + Height_Electrodes
         Parameters["Brick Name"] = NamesElectrodes[0]
         Parameters["Component Name"] = NamesElectrodes[0]
         Parameters["Material"] = "Au"
@@ -2102,12 +2101,12 @@ class CST_Commands:
 
 
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_MZM/2
-        Parameters["Brick Lenght Max"] = Length_MZM/2
+        Parameters["Brick Length Min"] = -Length_MZM/2
+        Parameters["Brick Length Max"] = Length_MZM/2
         Parameters["Brick Width Min"] = -WidthObject/2 + Width_Electrodes + Width_WG_New + Gap*2
         Parameters["Brick Width Max"] = -WidthObject/2 + Width_Electrodes + Width_WG_New + Gap*2 + Width_Signal
-        Parameters["Brick Hight Min"] = HeightZ
-        Parameters["Brick Hight Max"] = HeightZ + Height_Electrodes
+        Parameters["Brick Height Min"] = HeightZ
+        Parameters["Brick Height Max"] = HeightZ + Height_Electrodes
         Parameters["Brick Name"] = NamesElectrodes[1]
         Parameters["Component Name"] = NamesElectrodes[1]
         Parameters["Material"] = "Au"
@@ -2158,7 +2157,7 @@ class CST_Commands:
         
         Parameters_RibWaveguide_toSolid = {}
         Parameters_RibWaveguide_toSolid["Waveguide Name"] = "Waveguide_Left"
-        Parameters_RibWaveguide_toSolid["Waveguide Hight"] = Length_WG
+        Parameters_RibWaveguide_toSolid["Waveguide Height"] = Length_WG
         Parameters_RibWaveguide_toSolid["Angle"] = 0
         Parameters_RibWaveguide_toSolid["Name Folder"] = "Waveguide_Left"
         Parameters_RibWaveguide_toSolid["Material"]  ="LiNbO3"
@@ -2205,11 +2204,11 @@ class CST_Commands:
 
         """
        
-        Length_WG = Parameters["Lenght WG"]
-        Hight_WG = Parameters["Hight WG"]
+        Length_WG = Parameters["Length WG"]
+        Height_WG = Parameters["Height WG"]
         Width_WG = Parameters["Width WG"]
         Height_Substrate = Parameters["Substrate Height"]
-        Heigh_Slab = Parameters["Slab Heigh"]
+        Heigh_Slab = Parameters["Slab Height"]
         # Material = Parameters["Materials"]
 
 
@@ -2232,12 +2231,12 @@ class CST_Commands:
 
         # Substrate Definition 
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = -WidthObject/2
         Parameters["Brick Width Max"] = WidthObject/2 
-        Parameters["Brick Hight Min"] = -Height_Substrate/2
-        Parameters["Brick Hight Max"] = Height_Substrate/2
+        Parameters["Brick Height Min"] = -Height_Substrate/2
+        Parameters["Brick Height Max"] = Height_Substrate/2
         Parameters["Brick Name"] = "LNOI_Substrate"
         Parameters["Component Name"] = "LNOI_Substrate"
         Parameters["Material"] = "SiO2"
@@ -2250,12 +2249,12 @@ class CST_Commands:
             HeightZ = Height_Substrate/2
         else:
             Parameters = {}
-            Parameters["Brick Lenght Min"] = -Length_WG/2
-            Parameters["Brick Lenght Max"] = Length_WG/2
+            Parameters["Brick Length Min"] = -Length_WG/2
+            Parameters["Brick Length Max"] = Length_WG/2
             Parameters["Brick Width Min"] = -WidthObject/2
             Parameters["Brick Width Max"] = WidthObject/2 
-            Parameters["Brick Hight Min"] = Height_Substrate/2
-            Parameters["Brick Hight Max"] = Height_Substrate/2 + Heigh_Slab
+            Parameters["Brick Height Min"] = Height_Substrate/2
+            Parameters["Brick Height Max"] = Height_Substrate/2 + Heigh_Slab
             Parameters["Brick Name"] = "LNOI_Slab"
             Parameters["Component Name"] = "LNOI_Slab"
             Parameters["Material"] = "LiNbO3"
@@ -2264,12 +2263,12 @@ class CST_Commands:
         
         # Create squere Waveguide
         Parameters = {}
-        Parameters["Brick Lenght Min"] = -Length_WG/2
-        Parameters["Brick Lenght Max"] = Length_WG/2
+        Parameters["Brick Length Min"] = -Length_WG/2
+        Parameters["Brick Length Max"] = Length_WG/2
         Parameters["Brick Width Min"] = -Width_WG/2 
         Parameters["Brick Width Max"] = Width_WG/2 
-        Parameters["Brick Hight Min"] = HeightZ
-        Parameters["Brick Hight Max"] = HeightZ + Hight_WG
+        Parameters["Brick Height Min"] = HeightZ
+        Parameters["Brick Height Max"] = HeightZ + Height_WG
         Parameters["Brick Name"] = "WG"
         Parameters["Component Name"] = "WG"
         Parameters["Material"] = "LiNbO3"
@@ -2343,11 +2342,11 @@ class CST_Commands:
         
 
         # Define Curves Parameters and Data
-        Lenght = 100
+        Length = 100
         Offset = 40
         points = 100
         # Generate the Bezier and Cos points
-        ObjCurves = Curves(Lenght, Offset, points)
+        ObjCurves = Curves(Length, Offset, points)
         CosinusCurve = ObjCurves.Cosinus_Curve()
  
 
@@ -2366,8 +2365,8 @@ class CST_Commands:
         Names_Chips = ["Chip_L", "Chip_R"]
         PAD_Dist_given = Parameters["PADs Distance"]
         PAD_Dist = [ -PAD_Dist_given - PAD_Length, PAD_Dist_given + PAD_Length]
-        Bondwire_Height = Parameters["Bonwire height"]
-        Bondwire_Radius = Parameters["Bonwire radius"]
+        Bondwire_Height = Parameters["Bonwire Height"]
+        Bondwire_Radius = Parameters["Bonwire Radius"]
         SpanY = Parameters["Port Y Span"]
         SpanZ = Parameters["Port Z Span"]
         Facet_Number = [4, 6]
@@ -2394,24 +2393,24 @@ class CST_Commands:
             for i in range(len(Name)):
                 if Name[i].split("_")[0] == "GND":
                     # Create squere Electrodes 
-                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
-                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Length Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Length Min"] = PAD_Dist[j] - PAD_Length
                     Brick_Parameters["Brick Width Max"] = Dist[i] + PAD_Width
                     Brick_Parameters["Brick Width Min"] = Dist[i] - PAD_Width
-                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
-                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Height Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Height Min"] = 0 
                     Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
                     Brick_Parameters["Component Name"] = Name[i] 
                     Brick_Parameters["Material"] = Material_Pads
                     self.Brick(Brick_Parameters)
                 else:
                     # Create squere Electrodes 
-                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
-                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Length Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Length Min"] = PAD_Dist[j] - PAD_Length
                     Brick_Parameters["Brick Width Max"] = Dist[i] + SIG_PAD_Width
                     Brick_Parameters["Brick Width Min"] = Dist[i] - SIG_PAD_Width
-                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
-                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Height Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Height Min"] = 0 
                     Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
                     Brick_Parameters["Component Name"] = Name[i] 
                     Brick_Parameters["Material"] = Material_Pads
@@ -2425,36 +2424,36 @@ class CST_Commands:
 
         for i in range(len(Names_Chips)):
             # Create SiO2 Layer
-            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
-            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+            # Parameters["Brick Length Max"] = PAD_Dist[1] + PAD_Length
+            # Parameters["Brick Length Min"] = PAD_Dist[0] - PAD_Length
             if PAD_Dist[i] > 0:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] - PAD_Length - 50
             else:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] + PAD_Length + 50
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
-            Brick_Parameters["Brick Hight Max"] = 0
-            Brick_Parameters["Brick Hight Min"] = -19.92
+            Brick_Parameters["Brick Height Max"] = 0
+            Brick_Parameters["Brick Height Min"] = -19.92
             Brick_Parameters["Brick Name"] = "SiO2_Layer" + Component_Name[i]
             Brick_Parameters["Component Name"] = Names_Chips[i]
             Brick_Parameters["Material"] = Material_iso
             self.Brick(Brick_Parameters)
 
             # Create Substrate
-            # Parameters["Brick Lenght Max"] = PAD_Dist[1] + PAD_Length
-            # Parameters["Brick Lenght Min"] = PAD_Dist[0] - PAD_Length
+            # Parameters["Brick Length Max"] = PAD_Dist[1] + PAD_Length
+            # Parameters["Brick Length Min"] = PAD_Dist[0] - PAD_Length
             if PAD_Dist[i] > 0:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] - PAD_Length - 50
             else:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] + PAD_Length + 50
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
-            Brick_Parameters["Brick Hight Max"] = -19.92
-            Brick_Parameters["Brick Hight Min"] = -298.86
+            Brick_Parameters["Brick Height Max"] = -19.92
+            Brick_Parameters["Brick Height Min"] = -298.86
             Brick_Parameters["Brick Name"] = "Substrate_Chip" + Component_Name[i]
             Brick_Parameters["Component Name"] = Names_Chips[i]
             Brick_Parameters["Material"] = Material_Substrate
@@ -2547,13 +2546,13 @@ class CST_Commands:
 
             # Create cladding
             Brick_Parameters = {}
-            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Length Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Length Min"] = PAD_Dist[1]/2 + PAD_Length
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-            Brick_Parameters["Brick Hight Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
-            Brick_Parameters["Brick Hight Min"] = 0
-            # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 
+            Brick_Parameters["Brick Height Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            Brick_Parameters["Brick Height Min"] = 0
+            # Brick_Parameters["Brick Height  Min"] = PAD_Thickness*2 
             Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
             Brick_Parameters["Component Name"] = Component_Name
             Brick_Parameters["Material"] = Material_Clad
@@ -2562,14 +2561,14 @@ class CST_Commands:
 
 
             # Create squere floating shield
-            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Length Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Length Min"] = PAD_Dist[1]/2 + PAD_Length
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-            Brick_Parameters["Brick Hight Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2 + FloatingShieldThickness*2
-            Brick_Parameters["Brick Hight Min"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
-            # Brick_Parameters["Brick Hight Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
-            # Brick_Parameters["Brick Hight Min"] = PAD_Thickness*2 + Glue_Thickness*2
+            Brick_Parameters["Brick Height Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2 + FloatingShieldThickness*2
+            Brick_Parameters["Brick Height Min"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            # Brick_Parameters["Brick Height  Max"] = PAD_Thickness*2 + Glue_Thickness*2 + FloatingShieldThickness*2
+            # Brick_Parameters["Brick Height  Min"] = PAD_Thickness*2 + Glue_Thickness*2
             Brick_Parameters["Brick Name"] = Name_Shield
             Brick_Parameters["Component Name"] = Component_Name
             Brick_Parameters["Material"] = Material
@@ -2748,11 +2747,11 @@ class CST_Commands:
         """
         
         # Define Curves Parameters and Data
-        Lenght = 100
+        Length = 100
         Offset = 40
         points = 100
         # Generate the Bezier and Cos points
-        ObjCurves = Curves(Lenght, Offset, points)
+        ObjCurves = Curves(Length, Offset, points)
         CosinusCurve = ObjCurves.Cosinus_Curve()
  
 
@@ -2771,8 +2770,8 @@ class CST_Commands:
         Names_Chips = ["Chip_L", "Chip_R"]
         PAD_Dist_given = Parameters["PADs Distance"]
         PAD_Dist = [ -PAD_Dist_given - PAD_Length, PAD_Dist_given + PAD_Length]
-        Bondwire_Height = Parameters["Bonwire height"]
-        Bondwire_Radius = Parameters["Bonwire radius"]
+        Bondwire_Height = Parameters["Bonwire Height"]
+        Bondwire_Radius = Parameters["Bonwire Radius"]
         
         SpanY = Parameters["Port Y Span"]
         SpanZ = Parameters["Port Z Span"]
@@ -2799,24 +2798,24 @@ class CST_Commands:
             for i in range(len(Name)):
                 if Name[i].split("_")[0] == "GND":
                     # Create squere Electrodes 
-                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
-                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Length Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Length Min"] = PAD_Dist[j] - PAD_Length
                     Brick_Parameters["Brick Width Max"] = Dist[i] + PAD_Width
                     Brick_Parameters["Brick Width Min"] = Dist[i] - PAD_Width
-                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
-                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Height Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Height Min"] = 0 
                     Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
                     Brick_Parameters["Component Name"] = Name[i] 
                     Brick_Parameters["Material"] = Material_Pads
                     self.Brick(Brick_Parameters)
                 else:
                     # Create squere Electrodes 
-                    Brick_Parameters["Brick Lenght Max"] = PAD_Dist[j] + PAD_Length
-                    Brick_Parameters["Brick Lenght Min"] = PAD_Dist[j] - PAD_Length
+                    Brick_Parameters["Brick Length Max"] = PAD_Dist[j] + PAD_Length
+                    Brick_Parameters["Brick Length Min"] = PAD_Dist[j] - PAD_Length
                     Brick_Parameters["Brick Width Max"] = Dist[i] + SIG_PAD_Width
                     Brick_Parameters["Brick Width Min"] = Dist[i] - SIG_PAD_Width
-                    Brick_Parameters["Brick Hight Max"] = PAD_Thickness * 2
-                    Brick_Parameters["Brick Hight Min"] = 0 
+                    Brick_Parameters["Brick Height Max"] = PAD_Thickness * 2
+                    Brick_Parameters["Brick Height Min"] = 0 
                     Brick_Parameters["Brick Name"] = Name[i] + Component_Name[j]
                     Brick_Parameters["Component Name"] = Name[i] 
                     Brick_Parameters["Material"] = Material_Pads
@@ -2833,15 +2832,15 @@ class CST_Commands:
         for i in range(len(Names_Chips)):
             # Create SiO2 Layer
             if PAD_Dist[i] > 0:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] - PAD_Length - 50
             else:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] + PAD_Length + 50
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
-            Brick_Parameters["Brick Hight Max"] = 0
-            Brick_Parameters["Brick Hight Min"] = -19.92
+            Brick_Parameters["Brick Height Max"] = 0
+            Brick_Parameters["Brick Height Min"] = -19.92
             Brick_Parameters["Brick Name"] = "SiO2_Layer" + Component_Name[i]
             Brick_Parameters["Component Name"] = Names_Chips[i]
             Brick_Parameters["Material"] = Material_iso
@@ -2849,15 +2848,15 @@ class CST_Commands:
 
             # Create Substrate
             if PAD_Dist[i] > 0:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] + PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] - PAD_Length - 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] + PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] - PAD_Length - 50
             else:
-                Brick_Parameters["Brick Lenght Max"] = PAD_Dist[i] - PAD_Length 
-                Brick_Parameters["Brick Lenght Min"] = PAD_Dist[i] + PAD_Length + 50
+                Brick_Parameters["Brick Length Max"] = PAD_Dist[i] - PAD_Length 
+                Brick_Parameters["Brick Length Min"] = PAD_Dist[i] + PAD_Length + 50
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*3
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*3
-            Brick_Parameters["Brick Hight Max"] = -19.92
-            Brick_Parameters["Brick Hight Min"] = -298.86
+            Brick_Parameters["Brick Height Max"] = -19.92
+            Brick_Parameters["Brick Height Min"] = -298.86
             Brick_Parameters["Brick Name"] = "Substrate_Chip" + Component_Name[i]
             Brick_Parameters["Component Name"] = Names_Chips[i]
             Brick_Parameters["Material"] = Material_Substrate
@@ -2957,12 +2956,12 @@ class CST_Commands:
 
             # Create cladding
             Brick_Parameters = {}
-            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Length Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Length Min"] = PAD_Dist[1]/2 + PAD_Length
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-            Brick_Parameters["Brick Hight Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
-            Brick_Parameters["Brick Hight Min"] = 0
+            Brick_Parameters["Brick Height Max"] = 2 * (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            Brick_Parameters["Brick Height Min"] = 0
             Brick_Parameters["Brick Name"] = "Floating_Shield_Clad"
             Brick_Parameters["Component Name"] = Component_Name
             Brick_Parameters["Material"] = Material_Clad
@@ -2971,12 +2970,12 @@ class CST_Commands:
 
 
             # Create squere floating shield
-            Brick_Parameters["Brick Lenght Max"] = PAD_Dist[0]/2 - PAD_Length
-            Brick_Parameters["Brick Lenght Min"] = PAD_Dist[1]/2 + PAD_Length
+            Brick_Parameters["Brick Length Max"] = PAD_Dist[0]/2 - PAD_Length
+            Brick_Parameters["Brick Length Min"] = PAD_Dist[1]/2 + PAD_Length
             Brick_Parameters["Brick Width Max"] = max(Dist) + PAD_Width*2
             Brick_Parameters["Brick Width Min"] = min(Dist) - PAD_Width*2
-            Brick_Parameters["Brick Hight Max"] = 2* (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2 + FloatingShieldThickness*2
-            Brick_Parameters["Brick Hight Min"] = 2* (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
+            Brick_Parameters["Brick Height Max"] = 2* (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2 + FloatingShieldThickness*2
+            Brick_Parameters["Brick Height Min"] = 2* (PAD_Thickness + Bondwire_Height + Bondwire_Radius*2) + Glue_Thickness*2
             Brick_Parameters["Brick Name"] = Name_Shield
             Brick_Parameters["Component Name"] = Component_Name
             Brick_Parameters["Material"] = Material
@@ -3615,7 +3614,7 @@ class CST_Commands:
         
         # Global Parameters
         ComponentName = Parameters["Component Name"]
-        angleOrientation = Parameters["Orientation Angle"]
+        AngleOrientation = Parameters["Orientation Angle"]
         self.add_GGB_Probe_Material()
        
         # Create GGB Probes Body Cylinder
@@ -3982,31 +3981,31 @@ class CST_Commands:
         # Pos["Y"] = 0
         # Pos["Z"] = 0
         DictComponent["Center Positions"] = [0, 0, 0]
-        # angle = {}
-        # angle["X"] = 0
-        # angle["Y"] = angleOrientation
-        # angle["Z"] = 0
-        DictComponent["Angle Values"] = [0, angleOrientation, 0 ]
+        # Angle = {}
+        # Angle["X"] = 0
+        # Angle["Y"] = AngleOrientation
+        # Angle["Z"] = 0
+        DictComponent["Angle Values"] = [0, AngleOrientation, 0 ]
         DictComponent["Object to rotate"] = "Shape"
         
         self.Translation(DictComponent)
         
         # Subtract
         ObjectsToCut = [f"{ComponentName}:Conus_Probe_Sig_Tip", f"{ComponentName}:Porbe_GND_L_Tip", f"{ComponentName}:Porbe_GND_R_Tip" , f"{ComponentName}:Elipse",  f"{ComponentName}:Body_Probe", f"{ComponentName}:Isolation_Probe"]
-        if angleOrientation<0:
-            angleCutPlate = 30
+        if AngleOrientation<0:
+            AngleCutPlate = 30
         else:
-            angleCutPlate = -30
+            AngleCutPlate = -30
             
         for i in range(len(ObjectsToCut)):
                 
             # 30 Degree Plate for the cut 
-            DictComponent["Brick Lenght Max"] = 1000 
-            DictComponent["Brick Lenght Min"] = -1000
+            DictComponent["Brick Length Max"] = 1000 
+            DictComponent["Brick Length Min"] = -1000
             DictComponent["Brick Width Max"] = 750 
             DictComponent["Brick Width Min"] = -750 
-            DictComponent["Brick Hight Max"] = 0
-            DictComponent["Brick Hight Min"] = -300
+            DictComponent["Brick Height Max"] = 0
+            DictComponent["Brick Height Min"] = -300
             DictComponent["Brick Name"] = "Cut_Plate"
             DictComponent["Component Name"] = ComponentName
             DictComponent["Material"] = "PEC"
@@ -4021,11 +4020,11 @@ class CST_Commands:
             # Pos["Y"] = 0
             # Pos["Z"] = 0
             DictComponent["Center Positions"] = [0, 0, 0]
-            # angle = {}
-            # angle["X"] = 0
-            # angle["Y"] = angleCutPlate
-            # angle["Z"] = 0
-            DictComponent["Angle Values"] = [0, angleCutPlate, 0]
+            # Angle = {}
+            # Angle["X"] = 0
+            # Angle["Y"] = AngleCutPlate
+            # Angle["Z"] = 0
+            DictComponent["Angle Values"] = [0, AngleCutPlate, 0]
             DictComponent["Object to rotate"] = "Shape"
             
             
@@ -4058,11 +4057,11 @@ class CST_Commands:
         # Pos["Y"] = 0
         # Pos["Z"] = 0
         DictComponent["Center Positions"] = [0, 0, 0]
-        # angle = {}
-        # angle["X"] = 0
-        # angle["Y"] = angleOrientation
-        # angle["Z"] = 0
-        DictComponent["Angle Values"] = [0, angleOrientation, 0]
+        # Angle = {}
+        # Angle["X"] = 0
+        # Angle["Y"] = AngleOrientation
+        # Angle["Z"] = 0
+        DictComponent["Angle Values"] = [0, AngleOrientation, 0]
         DictComponent["Object to rotate"] = "Shape"
         
         self.Translation(DictComponent)
@@ -4180,7 +4179,7 @@ class CST_Commands:
                 Thickness of the solid curve.
 
             - **Angle** (int or float)
-                Rotation angle of the solid curve.
+                Rotation Angle of the solid curve.
 
             - **Curve Folder** (str)
                 Name of the folder containing the source curve. The curve must be created beforehand.
@@ -4214,8 +4213,8 @@ class CST_Commands:
                     .Component "{Name}"
                     .Material "{Material}"
                     .Thickness "{Thickness}"
-                    .Twistangle "0"
-                    .Taperangle "{Angle}"
+                    .TwistAngle "0"
+                    .TaperAngle "{Angle}"
                     .Curve "{CurveFolder}:{CurveName}"
                     .Create
                     End With
@@ -4225,7 +4224,7 @@ class CST_Commands:
         
         
 
-    # def RibWaveguide_ToSolid(self, SolidName, WaveguideName = "Rib_Waveguide", WG_Hight = None, Angle = None, NameFolder = None, Material = None, WGFolderName = None, WGName = None ):
+    # def RibWaveguide_ToSolid(self, SolidName, WaveguideName = "Rib_Waveguide", WG_Height  = None, Angle = None, NameFolder = None, Material = None, WGFolderName = None, WGName = None ):
     def RibWaveguide_ToSolid(self, Parameters):
         """
         Convert a Rib Waveguide into a solid object in CST.
@@ -4248,7 +4247,7 @@ class CST_Commands:
                 Height of the waveguide. Defaults to None.
 
             - **Angle** (int or float, optional)
-                Side wall angle of the waveguide. Defaults to None.
+                Side wall Angle of the waveguide. Defaults to None.
 
             - **Name Folder** (str, optional)
                 Name of the folder where the waveguide will be stored. Defaults to None.
@@ -4272,7 +4271,7 @@ class CST_Commands:
         
         # Parameters set
         WaveguideName = Parameters["Waveguide Name"]
-        WG_Hight = Parameters["Waveguide Hight"]
+        WG_Height  = Parameters["Waveguide Height"]
         Angle = Parameters["Angle"]
         NameFolder = Parameters["Name Folder"]
         Material = Parameters["Material"]
@@ -4296,11 +4295,11 @@ class CST_Commands:
         else:
             Material = Material
 
-        # Angle and Height. Pre define Hight = 2 and Angle = 30
-        if WG_Hight == None:
-            WG_Hight = 2
+        # Angle and Height. Pre define Height  = 2 and Angle = 30
+        if WG_Height  == None:
+            WG_Height  = 2
         else:
-            WG_Hight = WG_Hight
+            WG_Height  = WG_Height 
 
         if Angle == None:
             Angle = 30
@@ -4318,9 +4317,9 @@ class CST_Commands:
                     .Name "{WaveguideName}"
                     .Component "{WaveguideName}"
                     .Material "{Material}"
-                    .Thickness "{WG_Hight}"
-                    .Twistangle "0"
-                    .Taperangle "{Angle}"
+                    .Thickness "{WG_Height }"
+                    .TwistAngle "0"
+                    .TaperAngle "{Angle}"
                     .Curve "{WGFolderName}:{WGName}"
                     .Create
                     End With
@@ -5775,13 +5774,13 @@ class CST_Commands:
                 Name of the object to rotate.
 
             - **Angle X** (int or float)  
-                Rotation angle around the X-axis in degrees.
+                Rotation Angle around the X-axis in degrees.
 
             - **Angle Y** (int or float)  
-                Rotation angle around the Y-axis in degrees.
+                Rotation Angle around the Y-axis in degrees.
 
             - **Angle Z** (int or float)  
-                Rotation angle around the Z-axis in degrees.
+                Rotation Angle around the Z-axis in degrees.
 
         Returns
         -------
@@ -5858,7 +5857,7 @@ class CST_Commands:
             - **Center Positions** (list of int/float)  
                 Center coordinates for rotation in ["X", "Y", "Z"]. Example: `[1, 2, 3]`.
             - **Angle Values** (list of int/float)  
-                Rotation angles in degrees for ["X", "Y", "Z"]. Example: `[10, 20, 30]`.
+                Rotation Angles in degrees for ["X", "Y", "Z"]. Example: `[10, 20, 30]`.
 
         Returns
         -------
@@ -6036,10 +6035,10 @@ class CST_Commands:
                 - **Z** (int/float) : Center position in Z direction.
 
             - **Angle Values** (dict)  
-                Rotation angles for each axis.
-                - **X** (int/float) : Rotation angle around X axis.
-                - **Y** (int/float) : Rotation angle around Y axis.
-                - **Z** (int/float) : Rotation angle around Z axis.
+                Rotation Angles for each axis.
+                - **X** (int/float) : Rotation Angle around X axis.
+                - **Y** (int/float) : Rotation Angle around Y axis.
+                - **Z** (int/float) : Rotation Angle around Z axis.
 
         Returns
         -------
@@ -6419,8 +6418,8 @@ class PostProcess:
             for r in range(N):
                 for c in range(N):
                     mag = block[1 + 2*(r*N + c)]
-                    angle = block[2 + 2*(r*N + c)]
-                    S_matrix[r, c] = mag * np.exp(1j * np.deg2rad(angle))
+                    Angle = block[2 + 2*(r*N + c)]
+                    S_matrix[r, c] = mag * np.exp(1j * np.deg2rad(Angle))
             S_params.append(S_matrix)
 
         return np.array(freq), np.array(S_params)
